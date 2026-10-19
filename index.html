@@ -19,7 +19,7 @@
             --bg-color: #0a0a0a;
             --card-bg: #141414;
             --text-color: #ffffff;
-            --accent-green: #a6f700; /* Verde brillante del logo */
+            --accent-green: #a6f700;
             --accent-green-hover: #8ce000;
             --border-color: #222222;
         }
@@ -45,10 +45,8 @@
             align-items: center;
             padding: 12px 5%;
             z-index: 1000;
-            animation: fadeInDown 0.8s ease-out;
         }
 
-        /* TASTO HOME STILIZZATO ZD */
         .nav-home-badge {
             text-decoration: none;
             display: inline-flex;
@@ -70,13 +68,8 @@
             box-shadow: 0 0 10px rgba(166, 247, 0, 0.3);
         }
 
-        .nav-home-badge .z-letter {
-            color: #ffffff;
-        }
-
-        .nav-home-badge .d-letter {
-            color: var(--accent-green);
-        }
+        .nav-home-badge .z-letter { color: #ffffff; }
+        .nav-home-badge .d-letter { color: var(--accent-green); }
 
         .nav-links {
             display: flex;
@@ -95,11 +88,9 @@
             transition: color 0.3s;
         }
 
-        .nav-links a:hover {
-            color: var(--accent-green);
-        }
+        .nav-links a:hover { color: var(--accent-green); }
 
-        /* HERO SECTION CON ANIMAZIONE LOGO ZOOM-OUT */
+        /* HERO SECTION CON ANIMAZIONE ZOOM LOGO */
         .hero {
             padding: 150px 20px 80px 20px;
             text-align: center;
@@ -114,7 +105,6 @@
             display: block;
             filter: drop-shadow(0px 0px 25px rgba(166, 247, 0, 0.3));
             animation: logoZoomOut 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            will-change: transform, opacity;
         }
 
         @keyframes logoZoomOut {
@@ -130,17 +120,11 @@
             }
         }
 
-        .hero-logo:hover {
-            transform: scale(1.04);
-            transition: transform 0.3s ease;
-        }
-
         .hero p {
             font-size: 1.2rem;
             color: #cccccc;
             max-width: 700px;
             margin: 0 auto 35px auto;
-            animation: fadeInUp 1s ease-out 0.4s both;
         }
 
         .btn-container {
@@ -148,7 +132,6 @@
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out 0.6s both;
         }
 
         .btn {
@@ -173,7 +156,6 @@
         .btn-whatsapp:hover {
             background-color: var(--accent-green-hover);
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(166, 247, 0, 0.4);
         }
 
         .btn-instagram {
@@ -186,7 +168,6 @@
             border-color: var(--accent-green);
             color: var(--accent-green);
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(166, 247, 0, 0.15);
         }
 
         /* CONTENITORE SEZIONI */
@@ -205,9 +186,7 @@
             position: relative;
         }
 
-        .section-title span {
-            color: var(--accent-green);
-        }
+        .section-title span { color: var(--accent-green); }
 
         .section-title::after {
             content: '';
@@ -218,7 +197,6 @@
             margin: 10px auto 0 auto;
         }
 
-        /* CHI SIAMO */
         .about-text {
             text-align: center;
             font-size: 1.1rem;
@@ -238,3 +216,239 @@
         .service-card {
             background-color: var(--card-bg);
             padding: 30px 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-6px);
+        }
+
+        .service-card h3 {
+            color: var(--accent-green);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .service-card p {
+            color: #aaaaaa;
+            font-size: 0.95rem;
+        }
+
+        /* DIMOSTRAZIONI VIDEO E LAVORI */
+        .video-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .video-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-6px);
+        }
+
+        .video-details { margin-top: 15px; }
+
+        .video-details h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .video-details p {
+            color: #cccccc;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .video-tags {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: rgba(166, 247, 0, 0.1);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* FOOTER E TASTO FLUTTUANTE */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 30px 20px;
+            text-align: center;
+            background-color: #050505;
+            color: #777777;
+            font-size: 0.9rem;
+        }
+
+        .social-footer {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-footer a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-footer a:hover { color: var(--accent-green); }
+
+        .float-whatsapp {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: #ffffff;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .float-whatsapp:hover { transform: scale(1.12); }
+
+        @media (max-width: 768px) {
+            .hero-logo { max-width: 260px; }
+            .nav-links { gap: 10px; font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGAZIONE -->
+    <nav>
+        <a href="#home" class="nav-home-badge" title="Torna alla Home">
+            <span class="z-letter">Z</span><span class="d-letter">D</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#chi-siamo">Chi Siamo</a></li>
+            <li><a href="#servizi">Servizi</a></li>
+            <li><a href="#dimostrazioni">I Nostri Lavori</a></li>
+            <li><a href="#contatti">Contatti</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero">
+        <img src="logo.png?v=2" alt="Zona Detailing Logo" class="hero-logo">
+        <p>Car Detailing professionale a domicilio a Roma e provincia. Cura e brillantezza direttamente a casa tua o in ufficio.</p>
+        <div class="btn-container">
+            <a href="https://wa.me/393519000774?text=Ciao!%20Vorrei%20informazioni%20sui%20vostri%20servizi%20di%20Car%20Detailing" class="btn btn-whatsapp" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="https://www.instagram.com/zonadetailing.rm/" class="btn btn-instagram" target="_blank">
+                <i class="fa-brands fa-instagram"></i> Instagram
+            </a>
+        </div>
+    </section>
+
+    <!-- CHI SIAMO -->
+    <section id="chi-siamo" class="container">
+        <h2 class="section-title">Chi <span>Siamo</span></h2>
+        <p class="about-text">
+            Zona Detailing nasce dalla passione maniacale per la cura dell'auto. Offriamo un servizio esclusivo di Car Detailing a domicilio su tutta Roma e provincia. Ci occupiamo di rigenerare, proteggere e valorizzare ogni superficie della tua auto utilizzando solo attrezzature professionali e prodotti top di gamma, senza che tu debba spostare il veicolo.
+        </p>
+    </section>
+
+    <!-- SERVIZI -->
+    <section id="servizi" class="container">
+        <h2 class="section-title">I Nostri <span>Servizi</span></h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Igienizzazione Interni</h3>
+                <p>Lavaggio a vapore profondo di sedili (pelle o tessuto), moquette, cielo e bagagliaio. Eliminazione completa di macchie, germi e cattivi odori.</p>
+            </div>
+            <div class="service-card">
+                <h3>Lucidatura Carrozzeria</h3>
+                <p>Rimozione di micro-graffi, aloni e difetti della vernice per restituire la lucentezza originale e profonda alla carrozzeria.</p>
+            </div>
+            <div class="service-card">
+                <h3>Protezione Ceramica</h3>
+                <p>Trattamenti nanotecnologici per proteggere la carrozzeria da agenti atmosferici, raggi UV, pioggia acida e smog romano.</p>
+            </div>
+            <div class="service-card">
+                <h3>Rigenerazione Fari</h3>
+                <p>Ripristino della trasparenza dei fari ingialliti o opacizzati, migliorando l'estetica e la sicurezza di guida notturna.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIMOSTRAZIONI VIDEO E LAVORI -->
+    <section id="dimostrazioni" class="container">
+        <h2 class="section-title">I Nostri <span>Lavori & Dimostrazioni</span></h2>
+        <div class="video-grid">
+            
+            <div class="video-card">
+                <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DdUYzFCxMq2/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                
+                <div class="video-details">
+                    <h3>Trattamento Detailing in Azione</h3>
+                    <p>Dimostrazione del nostro servizio a domicilio. Passione, cura e massima attenzione ad ogni dettaglio.</p>
+                    <div class="video-tags">
+                        <span class="tag">Car Detailing</span>
+                        <span class="tag">A Domicilio</span>
+                        <span class="tag">Roma</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER E CONTATTI -->
+    <footer id="contatti">
+        <div class="social-footer">
+            <a href="https://wa.me/393519000774" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/zonadetailing.rm/" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+        <p><strong>Zona Detailing</strong> — Servizio a domicilio a Roma e provincia</p>
+        <p>Telefono / WhatsApp: +39 351 900 0774</p>
+        <p style="margin-top: 15px; font-size: 0.8rem;">&copy; 2026 Zona Detailing. Tutti i diritti riservati.</p>
+    </footer>
+
+    <!-- TASTO WHATSAPP FLUTTUANTE -->
+    <a href="https://wa.me/393519000774?text=Ciao!%20Vorrei%20informazioni%20sui%20servizi%20di%20Car%20Detailing" class="float-whatsapp" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- SCRIPT INSTAGRAM CON CARICAMENTO SICURO -->
+    <script async src="https://www.instagram.com/embed.js"></script>
+
+</body>
+</html>
