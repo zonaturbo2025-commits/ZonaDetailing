@@ -104,11 +104,12 @@
         }
 
         .hero-logo {
-            max-width: 320px;
-            width: 80%;
+            max-width: 380px;
+            width: 85%;
             height: auto;
-            margin-bottom: 25px;
-            filter: drop-shadow(0px 0px 20px rgba(166, 247, 0, 0.2));
+            margin: 0 auto 25px auto;
+            display: block;
+            filter: drop-shadow(0px 0px 25px rgba(166, 247, 0, 0.25));
             transition: transform 0.3s ease;
         }
 
@@ -236,67 +237,67 @@
             font-size: 0.95rem;
         }
 
-        /* DIMOSTRAZIONI VIDEO (GOOGLE DRIVE EMBED) */
-        .video-container {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
+        /* DIMOSTRAZIONI VIDEO E LAVORI */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
         .video-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 15px;
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            transition: border-color 0.3s;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.3s;
         }
 
         .video-card:hover {
             border-color: var(--accent-green);
+            transform: translateY(-5px);
         }
 
-        .video-card iframe {
+        .video-card video {
             width: 100%;
-            height: 350px;
-            border: 0;
-            border-radius: 8px;
-            background-color: #000;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+            background-color: #000000;
         }
 
-        .video-card h3 {
+        .video-details {
+            padding: 20px;
+        }
+
+        .video-details h3 {
             color: var(--accent-green);
-            margin-top: 15px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
             text-transform: uppercase;
         }
 
-        .video-card p {
-            color: #aaaaaa;
-            font-size: 0.9rem;
-            margin-top: 5px;
+        .video-details p {
+            color: #cccccc;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
 
-        /* GALLERIA FOTO (PLACEHOLDER) */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .gallery-item {
-            background-color: var(--card-bg);
-            border: 1px dashed var(--border-color);
-            border-radius: 8px;
-            height: 220px;
+        .video-tags {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666666;
-            font-weight: 600;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: rgba(166, 247, 0, 0.1);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
         /* FOOTER E TASTO FLUTTUANTE */
@@ -351,9 +352,9 @@
         }
 
         @media (max-width: 768px) {
-            .hero-logo { max-width: 240px; }
+            .hero-logo { max-width: 260px; }
             .nav-links { gap: 10px; font-size: 0.75rem; }
-            .video-card iframe { height: 260px; }
+            .video-card video { height: 300px; }
         }
     </style>
 </head>
@@ -361,22 +362,19 @@
 
     <!-- NAVIGAZIONE -->
     <nav>
-        <!-- Tasto Home in alto a sinistra: Z bianca, D verde -->
         <a href="#home" class="nav-home-badge" title="Torna alla Home">
             <span class="z-letter">Z</span><span class="d-letter">D</span>
         </a>
         <ul class="nav-links">
             <li><a href="#chi-siamo">Chi Siamo</a></li>
             <li><a href="#servizi">Servizi</a></li>
-            <li><a href="#video">Video</a></li>
-            <li><a href="#foto">Foto</a></li>
+            <li><a href="#dimostrazioni">I Nostri Lavori</a></li>
             <li><a href="#contatti">Contatti</a></li>
         </ul>
     </nav>
 
     <!-- HERO SECTION CON LOGO CENTRALE -->
     <section id="home" class="hero">
-        <!-- Logo principale al centro della pagina -->
         <img src="logo.png" alt="Zona Detailing Logo" class="hero-logo">
         <p>Car Detailing professionale a domicilio a Roma e provincia. Cura e brillantezza direttamente a casa tua o in ufficio.</p>
         <div class="btn-container">
@@ -420,25 +418,44 @@
         </div>
     </section>
 
-    <!-- DIMOSTRAZIONI VIDEO (GOOGLE DRIVE EMBED) -->
-    <section id="video" class="container">
-        <h2 class="section-title">Dimostrazioni <span>Video</span></h2>
-        <div class="video-container">
+    <!-- DIMOSTRAZIONI VIDEO E LAVORI -->
+    <section id="dimostrazioni" class="container">
+        <h2 class="section-title">I Nostri <span>Lavori & Dimostrazioni</span></h2>
+        <div class="video-grid">
+            
+            <!-- VIDEO 1 -->
             <div class="video-card">
-                <iframe src="https://drive.google.com/file/d/1KTkCC8Dcb8Xs7ilIGfa0M3csjjIymUcc/preview" allow="autoplay"></iframe>
-                <h3>Trattamento in Azione</h3>
-                <p>Dimostrazione di un servizio a domicilio</p>
+                <video controls playsinline poster="logo.png">
+                    <source src="video1.mp4" type="video/mp4">
+                    Il tuo browser non supporta la riproduzione video.
+                </video>
+                <div class="video-details">
+                    <h3>Trattamento Detailing Completo</h3>
+                    <p>Dimostrazione pratica del servizio eseguito a domicilio. Cura approfondita di ogni dettaglio, igienizzazione e ripristino della brillantezza originale.</p>
+                    <div class="video-tags">
+                        <span class="tag">Lucidatura</span>
+                        <span class="tag">Interni</span>
+                        <span class="tag">A Domicilio</span>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
 
-    <!-- GALLERIA FOTO -->
-    <section id="foto" class="container">
-        <h2 class="section-title">I Nostri <span>Lavori</span></h2>
-        <div class="gallery-grid">
-            <div class="gallery-item">Foto Lavoro 1 (In arrivo)</div>
-            <div class="gallery-item">Foto Lavoro 2 (In arrivo)</div>
-            <div class="gallery-item">Foto Lavoro 3 (In arrivo)</div>
+            <!-- VIDEO 2 -->
+            <div class="video-card">
+                <video controls playsinline poster="logo.png">
+                    <source src="video2.mp4" type="video/mp4">
+                    Il tuo browser non supporta la riproduzione video.
+                </video>
+                <div class="video-details">
+                    <h3>Igienizzazione & Protezione</h3>
+                    <p>Fase di trattamento specifico e sanificazione profonda degli interni per eliminare ogni segno di usura e donare un aspetto pari al nuovo.</p>
+                    <div class="video-tags">
+                        <span class="tag">Sanificazione</span>
+                        <span class="tag">Cura Interni</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
