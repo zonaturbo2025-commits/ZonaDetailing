@@ -213,168 +213,20 @@
             font-size: 0.95rem;
         }
 
-        /* GALLERIA FOTO (PLACEHOLDER) */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+        /* DIMOSTRAZIONI VIDEO (INSTAGRAM EMBED) */
+        .video-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
         }
 
-        .gallery-item {
+        .instagram-card {
             background-color: var(--card-bg);
-            border: 1px dashed var(--border-color);
-            border-radius: 8px;
-            height: 220px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666666;
-            font-weight: 600;
-        }
-
-        /* FOOTER E TASTO FLUTTUANTE */
-        footer {
-            border-top: 1px solid var(--border-color);
-            padding: 30px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            max-width: 400px;
+            width: 100%;
             text-align: center;
-            background-color: #050505;
-            color: #777777;
-            font-size: 0.9rem;
-        }
-
-        .social-footer {
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .social-footer a {
-            color: var(--text-color);
-            font-size: 1.5rem;
-            transition: color 0.3s;
-        }
-
-        .social-footer a:hover {
-            color: var(--accent-green);
-        }
-
-        .float-whatsapp {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 25px;
-            right: 25px;
-            background-color: #25d366;
-            color: #ffffff;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: transform 0.3s;
-        }
-
-        .float-whatsapp:hover {
-            transform: scale(1.1);
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .nav-links { gap: 15px; font-size: 0.85rem; }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- NAVIGAZIONE -->
-    <nav>
-        <a href="#home" class="nav-logo">
-            <!-- Il tuo logo in alto a sinistra -->
-            <img src="logo.png" alt="Zona Detailing Logo">
-        </a>
-        <ul class="nav-links">
-            <li><a href="#chi-siamo">Chi Siamo</a></li>
-            <li><a href="#servizi">Servizi</a></li>
-            <li><a href="#foto">Foto</a></li>
-            <li><a href="#contatti">Contatti</a></li>
-        </ul>
-    </nav>
-
-    <!-- HERO SECTION -->
-    <section id="home" class="hero">
-        <h1>Zona <span>Detailing</span></h1>
-        <p>Car Detailing professionale a domicilio a Roma e provincia. Cura e brillantezza direttamente a casa tua o in ufficio.</p>
-        <div class="btn-container">
-            <a href="https://wa.me/393519000774?text=Ciao!%20Vorrei%20informazioni%20sui%20vostri%20servizi%20di%20Car%20Detailing" class="btn btn-whatsapp" target="_blank">
-                <i class="fa-brands fa-whatsapp"></i> WhatsApp
-            </a>
-            <a href="https://www.instagram.com/zonadetailing.rm/" class="btn btn-instagram" target="_blank">
-                <i class="fa-brands fa-instagram"></i> Instagram
-            </a>
-        </div>
-    </section>
-
-    <!-- CHI SIAMO -->
-    <section id="chi-siamo" class="container">
-        <h2 class="section-title">Chi Siamo</h2>
-        <p class="about-text">
-            Zona Detailing nasce dalla passione maniacale per la cura dell'auto. Offriamo un servizio esclusivo di Car Detailing a domicilio su tutta Roma e provincia. Ci occupiamo di rigenerare, proteggere e valorizzare ogni superficie della tua auto utilizzando solo attrezzature professionali e prodotti top di gamma, senza che tu debba spostare il veicolo.
-        </p>
-    </section>
-
-    <!-- SERVIZI -->
-    <section id="servizi" class="container">
-        <h2 class="section-title">I Nostri Servizi</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>Igienizzazione Interni</h3>
-                <p>Lavaggio a vapore profondo di sedili (pelle o tessuto), moquette, cielo e bagagliaio. Eliminazione completa di macchie, germi e cattivi odori.</p>
-            </div>
-            <div class="service-card">
-                <h3>Lucidatura Carrozzeria</h3>
-                <p>Rimozione di micro-graffi, aloni e difetti della vernice per restituire la lucentezza originale e profonda alla carrozzeria.</p>
-            </div>
-            <div class="service-card">
-                <h3>Protezione Ceramica</h3>
-                <p>Trattamenti nanotecnologici per proteggere la carrozzeria da agenti atmosferici, raggi UV, pioggia acida e smog romano.</p>
-            </div>
-            <div class="service-card">
-                <h3>Rigenerazione Fari</h3>
-                <p>Ripristino della trasparenza dei fari ingialliti o opacizzati, migliorando l'estetica e la sicurezza di guida notturna.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- GALLERIA FOTO -->
-    <section id="foto" class="container">
-        <h2 class="section-title">I Nostri Lavori</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item">Foto Lavoro 1 (In arrivo)</div>
-            <div class="gallery-item">Foto Lavoro 2 (In arrivo)</div>
-            <div class="gallery-item">Foto Lavoro 3 (In arrivo)</div>
-        </div>
-    </section>
-
-    <!-- CONTATTI & FOOTER -->
-    <footer id="contatti">
-        <div class="social-footer">
-            <a href="https://wa.me/393519000774" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-            <a href="https://www.instagram.com/zonadetailing.rm/" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        </div>
-        <p><strong>Zona Detailing</strong> — Servizio a domicilio a Roma e provincia</p>
-        <p>Telefono / WhatsApp: +39 351 900 0774</p>
-        <p style="margin-top: 15px; font-size: 0.8rem;">&copy; 2026 Zona Detailing. Tutti i diritti riservati.</p>
-    </footer>
-
-    <!-- TASTO WHATSAPP FLUTTUANTE -->
-    <a href="https://wa.me/393519000774?text=Ciao!%20Vorrei%20informazioni%20sui%20servizi%20di%20Car%20Detailing" class="float-whatsapp" target="_blank">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
-</body>
-</html>
+            transition: border-color
