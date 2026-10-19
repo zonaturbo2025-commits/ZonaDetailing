@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zona Detailing | Car Detailing a Domicilio Roma</title>
-    <!-- Font Google: Montserrat (Elegante & Moderno) -->
+    <!-- Font Google: Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap" rel="stylesheet">
-    <!-- Icone FontAwesome per WhatsApp e Instagram -->
+    <!-- Icone FontAwesome per Navbar, WhatsApp e Instagram -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -35,7 +35,7 @@
             overflow-x: hidden;
         }
 
-        /* BARRA DI NAVIGAZIONE */
+        /* BARRA DI NAVIGAZIONE OTTIMIZZATA MOBILE */
         nav {
             position: fixed;
             top: 0;
@@ -61,14 +61,15 @@
             border-radius: 8px;
             padding: 5px 12px;
             font-weight: 900;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             letter-spacing: -1px;
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
         .nav-home-badge:hover {
             border-color: var(--accent-green);
-            transform: scale(1.08);
+            transform: scale(1.05);
             box-shadow: 0 0 10px rgba(166, 247, 0, 0.3);
         }
 
@@ -78,7 +79,7 @@
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 22px;
+            gap: 20px;
             align-items: center;
         }
 
@@ -90,32 +91,48 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-links a i {
+            font-size: 1.1rem;
         }
 
         .nav-links a:hover { color: var(--accent-green); }
 
-        /* HERO SECTION CON LOGO E LUCE NEON SFARFALLANTE */
+        /* HERO SECTION CENTRATA PERFETTAMENTE */
         .hero {
-            padding: 150px 20px 80px 20px;
+            padding: 140px 20px 80px 20px;
             text-align: center;
             position: relative;
             background: radial-gradient(circle at center, #142000 0%, var(--bg-color) 75%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
         }
 
         .hero-logo-container {
             position: relative;
-            display: inline-block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin: 0 auto 25px auto;
+            width: 100%;
+            max-width: 380px;
         }
 
-        /* EFFETTO LUCE NEON DIETRO IL LOGO CON SFARFALLIO */
+        /* EFFETTO LUCE NEON SFARFALLANTE */
         .hero-glow {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 75%;
-            height: 75%;
+            width: 80%;
+            height: 80%;
             background: radial-gradient(circle, rgba(166, 247, 0, 0.45) 0%, rgba(166, 247, 0, 0) 70%);
             border-radius: 50%;
             filter: blur(35px);
@@ -125,45 +142,22 @@
         }
 
         @keyframes neonFlicker {
-            0%, 100% {
-                opacity: 0.9;
-                filter: blur(35px);
-            }
-            15% {
-                opacity: 0.4;
-                filter: blur(25px);
-            }
-            18% {
-                opacity: 0.95;
-                filter: blur(40px);
-            }
-            22% {
-                opacity: 0.3;
-                filter: blur(20px);
-            }
-            25% {
-                opacity: 0.85;
-                filter: blur(35px);
-            }
-            50% {
-                opacity: 0.9;
-                filter: blur(38px);
-            }
-            70% {
-                opacity: 0.5;
-                filter: blur(28px);
-            }
-            72% {
-                opacity: 0.9;
-                filter: blur(36px);
-            }
+            0%, 100% { opacity: 0.9; filter: blur(35px); }
+            15% { opacity: 0.4; filter: blur(25px); }
+            18% { opacity: 0.95; filter: blur(40px); }
+            22% { opacity: 0.3; filter: blur(20px); }
+            25% { opacity: 0.85; filter: blur(35px); }
+            50% { opacity: 0.9; filter: blur(38px); }
+            70% { opacity: 0.5; filter: blur(28px); }
+            72% { opacity: 0.9; filter: blur(36px); }
         }
 
         .hero-logo {
+            width: 100%;
             max-width: 380px;
-            width: 85%;
             height: auto;
             display: block;
+            margin: 0 auto;
             position: relative;
             z-index: 2;
             filter: drop-shadow(0px 0px 20px rgba(166, 247, 0, 0.4));
@@ -171,14 +165,8 @@
         }
 
         @keyframes logoZoomOut {
-            0% {
-                opacity: 0;
-                transform: scale(1.4);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+            0% { opacity: 0; transform: scale(1.4); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .hero-subtitle-main {
@@ -447,30 +435,60 @@
 
         .float-whatsapp:hover { transform: scale(1.12); }
 
+        /* REGOLAZIONI MOBILE (DISPOSITIVI PICCOLI / SMARTPHONE) */
         @media (max-width: 768px) {
-            .hero-logo { max-width: 260px; }
-            .hero-subtitle-main { font-size: 1.1rem; }
-            .hero-subtitle-sub { font-size: 1rem; }
-            .nav-links { gap: 10px; font-size: 0.75rem; }
+            nav {
+                padding: 10px 4%;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            /* MOSTRA LE ICONE E NASCONDE IL TESTO LUNGO PER EVITARE SOVRAPPOSIZIONI */
+            .nav-text {
+                display: none;
+            }
+
+            .nav-links a i {
+                font-size: 1.25rem;
+            }
+
+            .hero {
+                padding: 120px 15px 60px 15px;
+            }
+
+            .hero-logo-container {
+                max-width: 250px;
+            }
+
+            .hero-subtitle-main {
+                font-size: 1.05rem;
+                letter-spacing: 1px;
+            }
+
+            .hero-subtitle-sub {
+                font-size: 0.95rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVIGAZIONE -->
+    <!-- NAVIGAZIONE CON ICONE PER MOBILE -->
     <nav>
         <a href="#home" class="nav-home-badge" title="Torna alla Home">
             <span class="z-letter">Z</span><span class="d-letter">D</span>
         </a>
         <ul class="nav-links">
-            <li><a href="#chi-siamo">Chi Siamo</a></li>
-            <li><a href="#servizi">Servizi</a></li>
-            <li><a href="#dimostrazioni">I Nostri Lavori</a></li>
-            <li><a href="#contatti">Contatti</a></li>
+            <li><a href="#chi-siamo" title="Chi Siamo"><i class="fa-solid fa-user-group"></i><span class="nav-text">Chi Siamo</span></a></li>
+            <li><a href="#servizi" title="I Nostri Servizi"><i class="fa-solid fa-spray-can-sparkles"></i><span class="nav-text">Servizi</span></a></li>
+            <li><a href="#dimostrazioni" title="I Nostri Lavori"><i class="fa-solid fa-photo-film"></i><span class="nav-text">I Nostri Lavori</span></a></li>
+            <li><a href="#contatti" title="Contatti"><i class="fa-solid fa-envelope"></i><span class="nav-text">Contatti</span></a></li>
         </ul>
     </nav>
 
-    <!-- HERO SECTION CON LOGO E LUCE NEON SFARFALLANTE -->
+    <!-- HERO SECTION -->
     <section id="home" class="hero">
         <div class="hero-logo-container">
             <div class="hero-glow"></div>
@@ -511,7 +529,7 @@
             </div>
             <div class="service-card">
                 <h3>Protezione Ceramica</h3>
-                <p>Trattamento protettivo nanotecnologico ad altissimo effetto idrofobico e brillantezza profonda. Garantisce uno scudo protettivo contro agenti atmosferici e sporco resitente fino a 12 lavaggi.</p>
+                <p>Trattamento protettivo nanotecnologico ad altissimo effetto idrofobico e brillantezza profonda. Garantisce uno scudo protettivo contro agenti atmosferici e sporco resistente fino a 12 lavaggi.</p>
             </div>
             <div class="service-card">
                 <h3>Rigenerazione Fari</h3>
