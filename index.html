@@ -239,9 +239,10 @@
 
         /* DIMOSTRAZIONI VIDEO E LAVORI */
         .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            display: flex;
+            justify-content: center;
             gap: 30px;
+            flex-wrap: wrap;
         }
 
         .video-card {
@@ -249,6 +250,8 @@
             border: 1px solid var(--border-color);
             border-radius: 12px;
             overflow: hidden;
+            max-width: 450px;
+            width: 100%;
             transition: border-color 0.3s, transform 0.3s;
         }
 
@@ -354,7 +357,7 @@
         @media (max-width: 768px) {
             .hero-logo { max-width: 260px; }
             .nav-links { gap: 10px; font-size: 0.75rem; }
-            .video-card video { height: 300px; }
+            .video-card video { height: 320px; }
         }
     </style>
 </head>
@@ -423,35 +426,19 @@
         <h2 class="section-title">I Nostri <span>Lavori & Dimostrazioni</span></h2>
         <div class="video-grid">
             
-            <!-- VIDEO 1 -->
-            <div class="video-card">
-                <video controls playsinline poster="logo.png">
-                    <source src="video1.mp4" type="video/mp4">
-                    Il tuo browser non supporta la riproduzione video.
-                </video>
-                <div class="video-details">
-                    <h3>Trattamento Detailing Completo</h3>
-                    <p>Dimostrazione pratica del servizio eseguito a domicilio. Cura approfondita di ogni dettaglio, igienizzazione e ripristino della brillantezza originale.</p>
-                    <div class="video-tags">
-                        <span class="tag">Lucidatura</span>
-                        <span class="tag">Interni</span>
-                        <span class="tag">A Domicilio</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIDEO 2 -->
+            <!-- SCHEDA DEL VIDEO 2 (CARICATO) -->
             <div class="video-card">
                 <video controls playsinline poster="logo.png">
                     <source src="video2.mp4" type="video/mp4">
                     Il tuo browser non supporta la riproduzione video.
                 </video>
                 <div class="video-details">
-                    <h3>Igienizzazione & Protezione</h3>
-                    <p>Fase di trattamento specifico e sanificazione profonda degli interni per eliminare ogni segno di usura e donare un aspetto pari al nuovo.</p>
+                    <h3>Trattamento Detailing in Azione</h3>
+                    <p>Dimostrazione pratica del servizio eseguito a domicilio a Roma. Cura dei dettagli, pulizia profonda e valorizzazione delle superfici della vettura.</p>
                     <div class="video-tags">
-                        <span class="tag">Sanificazione</span>
-                        <span class="tag">Cura Interni</span>
+                        <span class="tag">Car Detailing</span>
+                        <span class="tag">A Domicilio</span>
+                        <span class="tag">Roma</span>
                     </div>
                 </div>
             </div>
