@@ -211,4 +211,364 @@
             content: '';
             display: block;
             width: 50px;
-            height:
+            height: 3px;
+            background-color: var(--accent-green);
+            margin: 10px auto 0 auto;
+        }
+
+        .about-text {
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: #bbbbbb;
+            max-width: 850px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* SERVIZI */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background-color: var(--card-bg);
+            padding: 30px 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-6px);
+        }
+
+        .service-card h3 {
+            color: var(--accent-green);
+            margin-bottom: 12px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .service-card p {
+            color: #aaaaaa;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        /* GRIGLIA VIDEO E RITAGLIO PULITO INSTAGRAM */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .video-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .instagram-embed-wrapper {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        .instagram-embed-wrapper iframe {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: calc(100% + 150px);
+        }
+
+        .video-details { margin-top: 15px; }
+
+        .video-details h3 {
+            color: var(--accent-green);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .video-details p {
+            color: #cccccc;
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .video-tags {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: rgba(166, 247, 0, 0.1);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* FOOTER E TASTO FLUTTUANTE */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 30px 20px;
+            text-align: center;
+            background-color: #050505;
+            color: #777777;
+            font-size: 0.85rem;
+        }
+
+        .social-footer {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-footer a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-footer a:hover { color: var(--accent-green); }
+
+        .float-whatsapp {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: #ffffff;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .float-whatsapp:hover { transform: scale(1.12); }
+
+        @media (max-width: 768px) {
+            .hero-logo { max-width: 260px; }
+            .hero-subtitle-main { font-size: 1.1rem; }
+            .hero-subtitle-sub { font-size: 1rem; }
+            .nav-links { gap: 10px; font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGAZIONE -->
+    <nav>
+        <a href="#home" class="nav-home-badge" title="Torna alla Home">
+            <span class="z-letter">Z</span><span class="d-letter">D</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#chi-siamo">Chi Siamo</a></li>
+            <li><a href="#servizi">Servizi</a></li>
+            <li><a href="#dimostrazioni">I Nostri Lavori</a></li>
+            <li><a href="#contatti">Contatti</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION CON NUOVE FRASI -->
+    <section id="home" class="hero">
+        <img src="logo.png?v=2" alt="Zona Detailing Logo" class="hero-logo">
+        <p class="hero-subtitle-main">Car Detailing a domicilio a Roma.</p>
+        <p class="hero-subtitle-sub">Prenditi cura della tua auto nel giusto modo</p>
+        <div class="btn-container">
+            <a href="https://wa.me/393519000774?text=Ciao!%20Vorrei%20informazioni%20sui%20vostri%20servizi%20di%20Car%20Detailing" class="btn btn-whatsapp" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="https://www.instagram.com/zonadetailing.rm/" class="btn btn-instagram" target="_blank">
+                <i class="fa-brands fa-instagram"></i> Instagram
+            </a>
+        </div>
+    </section>
+
+    <!-- CHI SIAMO -->
+    <section id="chi-siamo" class="container">
+        <h2 class="section-title">Chi <span>Siamo</span></h2>
+        <p class="about-text">
+            Zona Detailing nasce dalla passione maniacale per la cura dell'auto. Offriamo un servizio esclusivo di Car Detailing a domicilio su tutta Roma e provincia. Ci occupiamo di rigenerare, proteggere e valorizzare ogni superficie della tua auto utilizzando solo attrezzature professionali e prodotti top di gamma, senza che tu debba spostare il veicolo.
+        </p>
+    </section>
+
+    <!-- SERVIZI -->
+    <section id="servizi" class="container">
+        <h2 class="section-title">I Nostri <span>Servizi</span></h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Igienizzazione Interni</h3>
+                <p>Lavaggio a vapore profondo di sedili (pelle o tessuto), moquette, cielo e bagagliaio. Eliminazione completa di macchie, germi e cattivi odori.</p>
+            </div>
+            <div class="service-card">
+                <h3>Lucidatura Carrozzeria</h3>
+                <p>Rimozione di micro-graffi, aloni e difetti della vernice per restituire la lucentezza originale e profonda alla carrozzeria.</p>
+            </div>
+            <div class="service-card">
+                <h3>Protezione Ceramica</h3>
+                <p>Trattamenti nanotecnologici per proteggere la carrozzeria da agenti atmosferici, raggi UV, pioggia acida e smog romano.</p>
+            </div>
+            <div class="service-card">
+                <h3>Rigenerazione Fari</h3>
+                <p>Ripristino della trasparenza dei fari ingialliti o opacizzati, migliorando l'estetica e la sicurezza di guida notturna.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIMOSTRAZIONI VIDEO E LAVORI -->
+    <section id="dimostrazioni" class="container">
+        <h2 class="section-title">I Nostri <span>Lavori & Dimostrazioni</span></h2>
+        <div class="video-grid">
+            
+            <!-- REEL 1 -->
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdCD8mMAloT/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Igienizzazione Profonda</h3>
+                    <p>Pulizia e igienizzazione a vapore degli interni per risultati come nuovi.</p>
+                    <div class="video-tags">
+                        <span class="tag">Interni</span>
+                        <span class="tag">A Domicilio</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REEL 2 -->
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdmD2H5AZi4/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Cura dei Dettagli</h3>
+                    <p>Trattamento rigenerante per pelle, plastiche e finiture interne.</p>
+                    <div class="video-tags">
+                        <span class="tag">Detailing</span>
+                        <span class="tag">Roma</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REEL 3 -->
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/Ddy53gEA46F/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Lucidatura & Protezione</h3>
+                    <p>Eliminazione dei micro-graffi per un effetto specchio profondo.</p>
+                    <div class="video-tags">
+                        <span class="tag">Carrozzeria</span>
+                        <span class="tag">Shiny</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REEL 4 -->
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DemcIhlgX1s/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>BMW X1-M Detailing</h3>
+                    <p>Trattamento completo svolto direttamente a domicilio a Roma.</p>
+                    <div class="video-tags">
+                        <span class="tag">BMW</span>
+                        <span class="tag">A Domicilio</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REEL 5 -->
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdE_OYigTXR/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Passione & Precisione</h3>
+                    <p>Utilizzo di prodotti e attrezzature professionali top di gamma.</p>
+                    <div class="video-tags">
+                        <span class="tag">Professional</span>
+                        <span class="tag">Roma</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REEL 6 -->
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DcqmYqJA5gJ/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Protezione Plastiche</h3>
+                    <p>Trattamento protettivo rinnovatore per plastiche interne ed esterne.</p>
+                    <div class="video-tags">
+                        <span class="tag">Protezione</span>
+                        <span class="tag">Detailing</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER E CONTATTI -->
+    <footer id="contatti">
+        <div class="social-footer">
+            <a href="https://wa.me/393519000774" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/zonadetailing.rm/" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+        <p><strong>Zona Detailing</strong> — Servizio a domicilio a Roma e provincia</p>
+        <p>Telefono / WhatsApp: +39 351 900 0774</p>
+        <p style="margin-top: 15px; font-size: 0.8rem;">&copy; 2026 Zona Detailing. Tutti i diritti riservati.</p>
+    </footer>
+
+    <!-- TASTO WHATSAPP FLUTTUANTE -->
+    <a href="https://wa.me/393519000774?text=Ciao!%20Vorrei%20informazioni%20sui%20servizi%20di%20Car%20Detailing" class="float-whatsapp" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- SCRIPT INSTAGRAM -->
+    <script async src="https://www.instagram.com/embed.js"></script>
+
+</body>
+</html>
