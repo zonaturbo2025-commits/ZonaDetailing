@@ -238,12 +238,12 @@
             font-size: 0.95rem;
         }
 
-        /* DIMOSTRAZIONI VIDEO E LAVORI */
+        /* GRIGLIA VIDEO E RITAGLIO PULITO INSTAGRAM */
         .video-grid {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .video-card {
@@ -251,8 +251,6 @@
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 15px;
-            max-width: 450px;
-            width: 100%;
             text-align: center;
             transition: all 0.3s ease;
         }
@@ -260,6 +258,25 @@
         .video-card:hover {
             border-color: var(--accent-green);
             transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        /* MAGIA CSS: NASCONDE LIKE, COMMENTI E TESTI SOTTO IL VIDEO */
+        .instagram-embed-wrapper {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        .instagram-embed-wrapper iframe {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: calc(100% + 150px);
         }
 
         .video-details { margin-top: 15px; }
@@ -409,21 +426,67 @@
         </div>
     </section>
 
-    <!-- DIMOSTRAZIONI VIDEO E LAVORI -->
+    <!-- DIMOSTRAZIONI VIDEO E LAVORI (TUTTI E 4 I REEL PULITI) -->
     <section id="dimostrazioni" class="container">
         <h2 class="section-title">I Nostri <span>Lavori & Dimostrazioni</span></h2>
         <div class="video-grid">
             
+            <!-- REEL 1 -->
             <div class="video-card">
-                <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DdUYzFCxMq2/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
-                
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/Ddy53gEA46F/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
                 <div class="video-details">
-                    <h3>Trattamento Detailing in Azione</h3>
-                    <p>Dimostrazione del nostro servizio a domicilio. Passione, cura e massima attenzione ad ogni dettaglio.</p>
+                    <h3>Trattamento in Corso</h3>
+                    <p>Cura dei dettagli e trattamenti specifici eseguiti direttamente a domicilio.</p>
                     <div class="video-tags">
-                        <span class="tag">Car Detailing</span>
-                        <span class="tag">A Domicilio</span>
+                        <span class="tag">Detailing</span>
                         <span class="tag">Roma</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REEL 2 -->
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DemcIhlgX1s/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>BMW X1-M Detailing</h3>
+                    <p>Trattamento completo e finitura brillante eseguita sul posto.</p>
+                    <div class="video-tags">
+                        <span class="tag">BMW</span>
+                        <span class="tag">A Domicilio</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REEL 3 -->
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdE_OYigTXR/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Passione & Precisione</h3>
+                    <p>Utilizzo di attrezzature professionali per risultati impeccabili.</p>
+                    <div class="video-tags">
+                        <span class="tag">Professional</span>
+                        <span class="tag">Roma</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REEL 4 -->
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DcqmYqJA5gJ/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Protezione & Lucidatura</h3>
+                    <p>Valorizzazione delle superfici e protezione a lunga durata.</p>
+                    <div class="video-tags">
+                        <span class="tag">Protezione</span>
+                        <span class="tag">Detailing</span>
                     </div>
                 </div>
             </div>
@@ -447,7 +510,7 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- SCRIPT INSTAGRAM CON CARICAMENTO SICURO -->
+    <!-- SCRIPT INSTAGRAM -->
     <script async src="https://www.instagram.com/embed.js"></script>
 
 </body>
