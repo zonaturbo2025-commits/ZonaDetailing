@@ -130,27 +130,27 @@
         .instagram-embed-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 8px; background: #000; }
         .instagram-embed-wrapper iframe { position: absolute; top: -50px; left: 0; width: 100%; height: calc(100% + 150px); }
 
-        /* MODALI & OVERLAYS */
+        /* MODALI & OVERLAYS - COMPATTI E PULITI */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 15px; }
-        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 720px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
-        .modal-close { position: absolute; top: 12px; right: 15px; color: #aaa; font-size: 1.4rem; cursor: pointer; }
+        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 20px 18px; width: 100%; max-width: 400px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .modal-close { position: absolute; top: 10px; right: 12px; color: #aaa; font-size: 1.2rem; cursor: pointer; }
 
-        .form-group { display: flex; flex-direction: column; gap: 6px; text-align: left; margin-bottom: 15px; }
-        .form-group label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--accent-green); }
-        .form-control { background-color: #0d0d0d; border: 1px solid var(--border-color); color: #fff; padding: 12px; border-radius: 8px; font-size: 0.9rem; outline: none; width: 100%; }
+        .form-group { display: flex; flex-direction: column; gap: 4px; text-align: left; margin-bottom: 10px; }
+        .form-group label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--accent-green); }
+        .form-control { background-color: #0d0d0d; border: 1px solid var(--border-color); color: #fff; padding: 9px 10px; border-radius: 6px; font-size: 0.85rem; outline: none; width: 100%; }
 
-        .btn-app { width: 100%; padding: 12px; border-radius: 8px; font-weight: 800; text-transform: uppercase; font-size: 0.85rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-app { width: 100%; padding: 10px; border-radius: 6px; font-weight: 800; text-transform: uppercase; font-size: 0.8rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-primary-app { background: var(--accent-green); color: #000; }
-        .btn-google { background: #fff; color: #000; font-weight: 700; margin-bottom: 12px; }
+        .btn-google { background: #fff; color: #000; font-weight: 700; margin-bottom: 10px; }
         .btn-warning-app { background: #ffb700; color: #000; }
         .btn-danger-app { background: #ff4444; color: #fff; }
 
         .client-avatar-large { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent-green); object-fit: cover; background: #000; }
         .client-profile-box { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 
-        .photo-preview-wrapper { position: relative; display: inline-block; margin-top: 8px; }
-        .photo-preview-img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; border: 1px solid var(--accent-green); }
-        .btn-remove-photo { position: absolute; top: -6px; right: -6px; background: #ff4444; color: #fff; border: none; border-radius: 50%; width: 22px; height: 22px; font-weight: 900; font-size: 12px; cursor: pointer; }
+        .photo-preview-wrapper { position: relative; display: inline-block; margin-top: 6px; }
+        .photo-preview-img { width: 70px; height: 70px; border-radius: 6px; object-fit: cover; border: 1px solid var(--accent-green); }
+        .btn-remove-photo { position: absolute; top: -6px; right: -6px; background: #ff4444; color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; font-weight: 900; font-size: 11px; cursor: pointer; }
 
         footer { border-top: 1px solid var(--border-color); padding: 30px 15px; text-align: center; background-color: #050505; color: #777; font-size: 0.8rem; }
     </style>
@@ -168,7 +168,7 @@
             <li class="nav-link-item"><a href="#dimostrazioni">Lavori</a></li>
             <li class="nav-link-item"><a href="#ticket">Assistenza</a></li>
             
-            <!-- PULSANTE ADMIN DEDICATO (APPARE PER L'ADMIN) -->
+            <!-- PULSANTE ADMIN DEDICATO (BARRA IN ALTO) -->
             <li>
                 <button class="btn-admin-nav" id="btnOpenAdmin" onclick="openAdminModal()">
                     <i class="fa-solid fa-user-shield"></i> Pannello Admin
@@ -283,24 +283,24 @@
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeAuthModal()">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;">Area Riservata / Garage</h3>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; font-size: 1rem; margin-bottom:12px;">Area Riservata / Garage</h3>
             
             <div id="modalLoginForm">
                 <button class="btn-app btn-google" onclick="loginWithGoogle()">
                     <i class="fa-brands fa-google" style="color:#db4437;"></i> Accedi con Google
                 </button>
                 
-                <div style="margin: 15px 0; color: #777; font-size: 0.75rem; text-transform: uppercase;">oppure con email e password</div>
+                <div style="margin: 10px 0; color: #777; font-size: 0.7rem; text-transform: uppercase;">oppure con email e password</div>
 
                 <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control" placeholder="La tua email"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" placeholder="••••••••"></div>
                 
-                <button class="btn-app btn-primary-app" onclick="handleEmailLogin()" style="margin-bottom:10px;">Accedi</button>
+                <button class="btn-app btn-primary-app" onclick="handleEmailLogin()" style="margin-top:5px; margin-bottom:8px;">Accedi</button>
                 <button class="btn-app btn-warning-app" onclick="handleEmailSignup()">Registrati con Email</button>
             </div>
 
             <div id="modalLoggedInView" style="display:none; text-align:center;">
-                <p id="loggedInUserEmail" style="color:#ccc; margin-bottom:15px; font-size:0.9rem;"></p>
+                <p id="loggedInUserEmail" style="color:#ccc; margin-bottom:12px; font-size:0.85rem;"></p>
                 <button class="btn-app btn-danger-app" onclick="logoutUser()">Disconnetti</button>
             </div>
         </div>
@@ -310,13 +310,13 @@
     <div class="modal-overlay" id="adminModal">
         <div class="modal-box" style="max-width:720px; text-align:left;">
             <span class="modal-close" onclick="closeAdminModal()">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px; text-align:center;"><i class="fa-solid fa-user-shield"></i> Dashboard Gestionale Staff</h3>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:12px; text-align:center; font-size:1.1rem;"><i class="fa-solid fa-user-shield"></i> Dashboard Gestionale Staff</h3>
             
             <!-- RESOCONTO AGENDA MENSILE E ANNUALE -->
-            <div style="background:#0e110e; border:1px solid var(--accent-green); padding:15px; border-radius:10px; margin-bottom:20px;">
-                <h4 style="color:var(--accent-green); font-size:0.9rem; text-transform:uppercase; margin-bottom:10px;"><i class="fa-solid fa-calendar-days"></i> Resoconto Agenda & Lavori (Mensile / Annuale)</h4>
+            <div style="background:#0e110e; border:1px solid var(--accent-green); padding:12px; border-radius:8px; margin-bottom:15px;">
+                <h4 style="color:var(--accent-green); font-size:0.85rem; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-calendar-days"></i> Resoconto Agenda & Lavori (Mensile / Annuale)</h4>
                 
-                <div style="display:flex; gap:10px; margin-bottom:12px;">
+                <div style="display:flex; gap:8px; margin-bottom:10px;">
                     <div class="form-group" style="flex:1; margin-bottom:0;">
                         <label>Filtra Anno</label>
                         <select id="reportYear" class="form-control" onchange="loadAdminReport()">
@@ -345,7 +345,7 @@
                     </div>
                 </div>
 
-                <div id="adminReportResults" style="background:#080a08; border:1px solid #222; padding:10px; border-radius:8px; max-height:220px; overflow-y:auto; font-size:0.8rem; color:#ccc;">
+                <div id="adminReportResults" style="background:#080a08; border:1px solid #222; padding:8px; border-radius:6px; max-height:160px; overflow-y:auto; font-size:0.78rem; color:#ccc;">
                     Seleziona i filtri per visualizzare il resoconto dei lavori.
                 </div>
             </div>
@@ -357,15 +357,15 @@
                 </select>
             </div>
 
-            <!-- RIQUADRO 1: FOTO PROFILO, GARAGE & VEICOLI -->
-            <div style="background:#0e110e; border:1px solid #333; padding:15px; border-radius:10px; margin-bottom:15px;">
-                <h4 style="color:var(--accent-green); font-size:0.9rem; text-transform:uppercase;"><i class="fa-solid fa-car"></i> 1. Garage & Veicoli Cliente</h4>
-                <div id="adminClientGarageInfo" style="font-size:0.82rem; color:#aaa; margin-top:8px;">Seleziona un cliente.</div>
+            <!-- RIQUADRO 1: FOTO PROFILO, GARAGE, VEICOLI & GESTIONE INTERVENTI (POSTICIPA / ANNULLA) -->
+            <div style="background:#0e110e; border:1px solid #333; padding:12px; border-radius:8px; margin-bottom:12px;">
+                <h4 style="color:var(--accent-green); font-size:0.85rem; text-transform:uppercase;"><i class="fa-solid fa-car"></i> 1. Garage & Interventi Cliente</h4>
+                <div id="adminClientGarageInfo" style="font-size:0.8rem; color:#aaa; margin-top:6px;">Seleziona un cliente.</div>
             </div>
 
-            <!-- RIQUADRO 2: REGISTRA LAVORO, DATA, ORA, VIA, DOPPIA FOTO E STATO COMPLETATO -->
-            <div id="adminJobContainer" style="background:#0e110e; border:1px solid #333; padding:15px; border-radius:10px; margin-bottom:15px; opacity:0.5; pointer-events:none;">
-                <h4 style="color:var(--accent-green); font-size:0.9rem; text-transform:uppercase; margin-bottom:10px;"><i class="fa-solid fa-calendar-check"></i> 2. Assegna Lavoro & Appuntamento</h4>
+            <!-- RIQUADRO 2: REGISTRA NUOVO LAVORO, DATA, ORA, VIA, DOPPIA FOTO -->
+            <div id="adminJobContainer" style="background:#0e110e; border:1px solid #333; padding:12px; border-radius:8px; margin-bottom:12px; opacity:0.5; pointer-events:none;">
+                <h4 style="color:var(--accent-green); font-size:0.85rem; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-calendar-check"></i> 2. Assegna Nuovo Intervento</h4>
                 <div class="form-group"><label>Auto</label><select id="adminCarSelect" class="form-control"></select></div>
                 <div class="form-group">
                     <label>Stato Intervento</label>
@@ -377,7 +377,7 @@
                 </div>
                 <div class="form-group"><label>Servizio</label><input type="text" id="adminJobDesc" class="form-control" placeholder="Es. Igienizzazione Vapore + Ceramica"></div>
                 
-                <div style="display:flex; gap:10px;">
+                <div style="display:flex; gap:8px;">
                     <div class="form-group" style="flex:1;"><label>Data</label><input type="date" id="adminJobDate" class="form-control"></div>
                     <div class="form-group" style="flex:1;"><label>Ora</label><input type="time" id="adminJobTime" class="form-control"></div>
                 </div>
@@ -401,11 +401,11 @@
                     <div id="adminAfterPreview"></div>
                 </div>
 
-                <button class="btn-app btn-primary-app" onclick="saveAdminJob()">Salva Intervento</button>
+                <button class="btn-app btn-primary-app" style="margin-top:5px;" onclick="saveAdminJob()">Salva Intervento</button>
             </div>
 
             <!-- RIQUADRO 3: AZIONI & RESET ACCOUNT -->
-            <div id="adminAccountActions" style="background:#0e110e; border:1px solid #333; padding:15px; border-radius:10px; opacity:0.5; pointer-events:none; display:flex; gap:10px;">
+            <div id="adminAccountActions" style="background:#0e110e; border:1px solid #333; padding:12px; border-radius:8px; opacity:0.5; pointer-events:none; display:flex; gap:8px;">
                 <button class="btn-app btn-warning-app" style="font-size:0.75rem;" onclick="resetSelectedClientData()"><i class="fa-solid fa-rotate-left"></i> Azzera Punti</button>
                 <button class="btn-app btn-danger-app" style="font-size:0.75rem;" onclick="deleteSelectedClientAccount()"><i class="fa-solid fa-user-xmark"></i> Elimina Account</button>
             </div>
@@ -456,7 +456,7 @@
           if (user) {
               if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   btnAuthText.innerText = "Admin Staff";
-                  btnOpenAdmin.style.display = "flex"; // Mostra il pulsante admin nella barra in alto
+                  btnOpenAdmin.style.display = "flex";
               } else {
                   btnAuthText.innerText = "Mio Profilo";
                   btnOpenAdmin.style.display = "none";
@@ -561,7 +561,6 @@
           });
       }
 
-      /* ADMIN GESTIONALE & RESOCONTO AGENDA LOGIC */
       async function populateAdminClientDropdown() {
           const dropdown = document.getElementById('adminClientDropdown');
           dropdown.innerHTML = '<option value="">-- Scegli cliente dalla lista --</option>';
@@ -627,8 +626,8 @@
                   : '<span style="color:#ffb700; font-weight:bold;">[PROGRAMMATO]</span>';
 
               html += `
-                  <div style="border-bottom:1px solid #1a1a1a; padding:8px 0; display:flex; align-items:center; gap:10px;">
-                      <img src="${j.clientAvatar}" style="width:35px; height:35px; border-radius:50%; border:1px solid var(--accent-green); object-fit:cover;">
+                  <div style="border-bottom:1px solid #1a1a1a; padding:6px 0; display:flex; align-items:center; gap:8px;">
+                      <img src="${j.clientAvatar}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--accent-green); object-fit:cover;">
                       <div style="flex:1;">
                           <strong>${j.clientName}</strong> — 🚗 <em>${j.carName}</em><br>
                           📅 <strong>${j.date}</strong> ore ${j.time} | 📍 ${j.address}<br>
@@ -652,16 +651,31 @@
               <div class="client-profile-box">
                   <img src="${avatarSrc}" class="client-avatar-large">
                   <div>
-                      <strong style="font-size:0.95rem; color:#fff;">${selectedAdminUserDoc.name || 'Cliente'}</strong><br>
-                      <span style="font-size:0.75rem; color:#aaa;">${selectedAdminUserDoc.email}</span><br>
+                      <strong style="font-size:0.9rem; color:#fff;">${selectedAdminUserDoc.name || 'Cliente'}</strong><br>
+                      <span style="font-size:0.7rem; color:#aaa;">${selectedAdminUserDoc.email}</span><br>
                       Punti: <span style="color:#ffd700; font-weight:bold;">${selectedAdminUserDoc.points || 0}</span>
                   </div>
               </div>
-              <div style="border-top:1px solid #222; padding-top:8px; margin-top:8px;">
+              <div style="border-top:1px solid #222; padding-top:6px; margin-top:6px;">
           `;
 
           if(selectedAdminUserDoc.vehicles && selectedAdminUserDoc.vehicles.length > 0) {
-              vHtml += selectedAdminUserDoc.vehicles.map((v, idx) => `🚗 [Box ${idx+1}] <strong>${v.brand} ${v.model}</strong> (${v.plate || 'No Targa'})`).join('<br>');
+              selectedAdminUserDoc.vehicles.forEach((v, vIdx) => {
+                  vHtml += `🚗 [Veicolo ${vIdx+1}] <strong>${v.brand} ${v.model}</strong> (${v.plate || 'No Targa'})<br>`;
+                  if (v.jobs && v.jobs.length > 0) {
+                      v.jobs.forEach((j, jIdx) => {
+                          vHtml += `
+                              <div style="background:#080a08; border:1px solid #222; padding:6px; border-radius:6px; margin:4px 0; font-size:0.75rem;">
+                                  🔧 ${j.desc} — 📅 ${j.jobDate || 'Data non impostata'} ore ${j.jobTime || '--:--'} [${j.status}]<br>
+                                  <button onclick="rescheduleJob(${vIdx}, ${jIdx})" style="background:#ffb700; border:none; padding:3px 6px; border-radius:4px; font-weight:bold; cursor:pointer; margin-top:4px; font-size:0.7rem;"><i class="fa-solid fa-calendar-days"></i> Posticipa</button>
+                                  <button onclick="cancelJob(${vIdx}, ${jIdx})" style="background:#ff4444; color:#fff; border:none; padding:3px 6px; border-radius:4px; font-weight:bold; cursor:pointer; margin-top:4px; font-size:0.7rem;"><i class="fa-solid fa-trash"></i> Annulla</button>
+                              </div>
+                          `;
+                      });
+                  } else {
+                      vHtml += `<span style="color:#666; font-size:0.75rem;">Nessun intervento registrato per questo veicolo.</span><br>`;
+                  }
+              });
           } else {
               vHtml += "Nessuna vettura registrata nel garage.";
           }
@@ -679,6 +693,32 @@
           (selectedAdminUserDoc.vehicles || []).forEach((v, i) => {
               carSelect.innerHTML += `<option value="${i}">${v.brand} ${v.model} (${v.plate || 'No Targa'})</option>`;
           });
+      }
+
+      /* FUNZIONE POSTICIPA / CAMBIA DATA INTERVENTO */
+      async function rescheduleJob(vIdx, jIdx) {
+          const newDate = prompt("Inserisci la nuova data (Formato AAAA-MM-GG):", selectedAdminUserDoc.vehicles[vIdx].jobs[jIdx].jobDate || "");
+          if (!newDate) return;
+          const newTime = prompt("Inserisci il nuovo orario (Formato HH:MM):", selectedAdminUserDoc.vehicles[vIdx].jobs[jIdx].jobTime || "10:00");
+          
+          selectedAdminUserDoc.vehicles[vIdx].jobs[jIdx].jobDate = newDate;
+          selectedAdminUserDoc.vehicles[vIdx].jobs[jIdx].jobTime = newTime;
+
+          await db.collection('users').doc(selectedAdminUserDoc.id).update({ vehicles: selectedAdminUserDoc.vehicles });
+          alert("Intervento posticipato con successo!");
+          selectClientAdmin(selectedAdminUserDoc.id);
+          loadAdminReport();
+      }
+
+      /* FUNZIONE ANNULLA / ELIMINA INTERVENTO */
+      async function cancelJob(vIdx, jIdx) {
+          if (confirm("Sei sicuro di voler annullare ed eliminare questo intervento?")) {
+              selectedAdminUserDoc.vehicles[vIdx].jobs.splice(jIdx, 1);
+              await db.collection('users').doc(selectedAdminUserDoc.id).update({ vehicles: selectedAdminUserDoc.vehicles });
+              alert("Intervento annullato ed eliminato.");
+              selectClientAdmin(selectedAdminUserDoc.id);
+              loadAdminReport();
+          }
       }
 
       function handlePhotoUpload(event, type) {
