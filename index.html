@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap" rel="stylesheet">
     <!-- Icone FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Embed Instagram -->
     <script async src="https://www.instagram.com/embed.js"></script>
     
@@ -34,7 +35,10 @@
       const db = firebase.firestore();
       const auth = firebase.auth();
 
-      // Database Marchi e Modelli Auto Esteso
+      // Email Amministratore Riservata
+      const ADMIN_EMAIL = "info.zonadetailingrm@gmail.com";
+
+      // Database Marchi e Modelli Auto
       const carDatabase = {
         "Abarth": ["595", "695", "124 Spider", "Pulse"],
         "Alfa Romeo": ["Giulia", "Stelvio", "Tonale", "Mito", "Giulietta", "4C", "Junior"],
@@ -79,28 +83,26 @@
         "Volvo": ["XC40", "XC60", "XC90", "EX30", "C40", "S60", "V60"]
       };
 
-      // Mappatura Loghi Marchi (Vector / PNG Trasparenti)
+      // Loghi Vettoriali e ad Alta Definizione
       function getBrandLogoUrl(brand) {
-          const cleanBrand = brand.toLowerCase().replace(/[^a-z0-9]/g, '');
-          const logos = {
-              "abarth": "https://www.car-logos.org/wp-content/uploads/2011/09/abarth.png",
-              "alfaromeo": "https://www.car-logos.org/wp-content/uploads/2011/09/alfa_romeo.png",
-              "audi": "https://www.car-logos.org/wp-content/uploads/2011/09/audi.png",
-              "bmw": "https://www.car-logos.org/wp-content/uploads/2011/09/bmw.png",
-              "cupra": "https://www.car-logos.org/wp-content/uploads/2021/04/cupra-logo.png",
-              "ferrari": "https://www.car-logos.org/wp-content/uploads/2011/09/ferrari.png",
-              "fiat": "https://www.car-logos.org/wp-content/uploads/2011/09/fiat.png",
-              "ford": "https://www.car-logos.org/wp-content/uploads/2011/09/ford.png",
-              "lamborghini": "https://www.car-logos.org/wp-content/uploads/2011/09/lamborghini.png",
-              "lancia": "https://www.car-logos.org/wp-content/uploads/2011/09/lancia.png",
-              "maserati": "https://www.car-logos.org/wp-content/uploads/2011/09/maserati.png",
-              "mercedesbenz": "https://www.car-logos.org/wp-content/uploads/2011/09/mercedes.png",
-              "mini": "https://www.car-logos.org/wp-content/uploads/2011/09/mini.png",
-              "porsche": "https://www.car-logos.org/wp-content/uploads/2011/09/porsche.png",
-              "tesla": "https://www.car-logos.org/wp-content/uploads/2011/09/tesla.png",
-              "volkswagen": "https://www.car-logos.org/wp-content/uploads/2011/09/volkswagen.png"
-          };
-          return logos[cleanBrand] || `https://api.dicebear.com/7.x/identicon/svg?seed=${cleanBrand}`;
+          const b = brand.toLowerCase();
+          if (b.includes('ferrari')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/ferrari.svg';
+          if (b.includes('bmw')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/bmw.svg';
+          if (b.includes('audi')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/audi.svg';
+          if (b.includes('alfa')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/alfaromeo.svg';
+          if (b.includes('mercedes')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/mercedes.svg';
+          if (b.includes('porsche')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/porsche.svg';
+          if (b.includes('lamborghini')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/lamborghini.svg';
+          if (b.includes('fiat')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/fiat.svg';
+          if (b.includes('ford')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/ford.svg';
+          if (b.includes('tesla')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/tesla.svg';
+          if (b.includes('volkswagen')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/volkswagen.svg';
+          if (b.includes('mini')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/mini.svg';
+          if (b.includes('jeep')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/jeep.svg';
+          if (b.includes('cupra')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/cupra.svg';
+          if (b.includes('maserati')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/maserati.svg';
+          
+          return `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(brand)}`;
       }
 
       function getClientTier(totalPoints) {
@@ -184,23 +186,23 @@
         .spot-number-badge { position: absolute; top: 15px; left: 15px; background: #000; border: 1px solid var(--accent-green); color: var(--accent-green); font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; }
         .btn-delete-car { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: #ff5555; font-size: 1.1rem; cursor: pointer; }
 
-        /* PODIO LOGO MARCHIO */
-        .brand-podium { width: 100%; height: 120px; margin: 30px 0 15px 0; display: flex; align-items: center; justify-content: center; position: relative; background: radial-gradient(ellipse at bottom, rgba(166, 247, 0, 0.15) 0%, transparent 70%); }
-        .brand-logo-img { max-height: 85px; max-width: 140px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3)); }
+        /* PODIO LOGO MARCHIO SVG */
+        .brand-podium { width: 100%; height: 110px; margin: 30px 0 15px 0; display: flex; align-items: center; justify-content: center; position: relative; background: radial-gradient(ellipse at bottom, rgba(166, 247, 0, 0.15) 0%, transparent 70%); }
+        .brand-logo-img { max-height: 70px; max-width: 120px; object-fit: contain; filter: invert(1) drop-shadow(0 0 8px rgba(166,247,0,0.5)); }
 
         .car-neon-plate { background: #000; border: 1px solid #333; border-bottom: 3px solid var(--accent-green); border-radius: 8px; padding: 12px; width: 100%; text-align: center; }
 
         /* SEZIONE LAVORI DENTRO LA SCHEDA AUTO */
-        .car-jobs-section { margin-top: 15px; width: 100%; text-align: left; background: #141414; border-radius: 8px; padding: 10px; font-size: 0.8rem; }
-        .job-tag-prog { color: #ffb700; font-weight: bold; }
-        .job-tag-done { color: var(--accent-green); font-weight: bold; }
-        .job-photo-thumb { width: 50px; height: 50px; border-radius: 6px; object-fit: cover; margin-top: 5px; border: 1px solid var(--accent-green); }
+        .car-jobs-section { margin-top: 15px; width: 100%; text-align: left; background: #141414; border-radius: 8px; padding: 12px; font-size: 0.85rem; border: 1px solid #222; }
+        .job-tag-prog { color: #ffb700; font-weight: bold; background: rgba(255, 183, 0, 0.1); padding: 2px 6px; border-radius: 4px; }
+        .job-tag-done { color: var(--accent-green); font-weight: bold; background: rgba(166, 247, 0, 0.1); padding: 2px 6px; border-radius: 4px; }
+        .job-photo-thumb { width: 60px; height: 60px; border-radius: 6px; object-fit: cover; margin-top: 6px; border: 1px solid var(--accent-green); }
 
         .add-parking-spot { border: 2px dashed #333; border-radius: 15px; min-height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); }
         .add-parking-spot:hover { border-color: var(--accent-green); }
 
         /* AVATAR CHOOSER */
-        .avatar-picker { display: flex; gap: 10px; margin-top: 10px; }
+        .avatar-picker { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
         .avatar-option { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #333; cursor: pointer; }
         .avatar-option:hover { border-color: var(--accent-green); }
 
@@ -210,9 +212,7 @@
 
         .float-whatsapp { position: fixed; width: 60px; height: 60px; bottom: 25px; right: 25px; background-color: #25d366; color: #fff; border-radius: 50px; text-align: center; font-size: 30px; display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 1000; }
         
-        /* BOTTONE ACCESSO ADMIN IN FOOTER */
-        .admin-trigger { color: #333; font-size: 0.75rem; text-decoration: none; cursor: pointer; margin-top: 15px; display: inline-block; }
-        .admin-trigger:hover { color: var(--accent-green); }
+        .admin-link-btn { color: var(--accent-green); font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -234,6 +234,7 @@
 
                 <div class="user-dropdown" id="userDropdown">
                     <a href="javascript:void(0)" onclick="openProfileOverlay()"><i class="fa-solid fa-warehouse" style="color:var(--accent-green);"></i> Il Mio Garage</a>
+                    <a href="javascript:void(0)" id="adminDropdownLink" onclick="openAdminModal()" style="display:none; color: var(--accent-green);"><i class="fa-solid fa-user-shield"></i> Pannello Admin</a>
                     <a href="javascript:void(0)" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
                 </div>
             </li>
@@ -339,7 +340,7 @@
         <div class="garage-title-banner">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
                 <div style="display:flex; align-items:center; gap:15px; text-align:left;">
-                    <img id="profileUserAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" style="width:65px; height:65px; border-radius:50%; border:2px solid var(--accent-green); background:#000;" alt="Avatar">
+                    <img id="profileUserAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" style="width:65px; height:65px; border-radius:50%; border:2px solid var(--accent-green); background:#000; object-fit:cover;" alt="Avatar">
                     <div>
                         <h2 id="profileUserName" style="color: var(--accent-green); text-transform:uppercase;">Garage Showroom</h2>
                         <p id="tierTitle" style="color:#ffd700; font-weight:bold; font-size:0.9rem;">Bronze Detailer 🥉</p>
@@ -393,12 +394,20 @@
                 <label>Nickname / Nome</label>
                 <input type="text" id="editNicknameInput" class="form-control" placeholder="Il tuo nome">
             </div>
+            
+            <!-- CARICAMENTO FOTO DA DISPOSITIVO -->
             <div class="form-group">
-                <label>Link Foto Profilo (URL)</label>
+                <label>Carica Foto da Dispositivo (PC / Smartphone)</label>
+                <input type="file" id="editAvatarFileInput" class="form-control" accept="image/*" onchange="handleProfileImageUpload(event)">
+            </div>
+
+            <div class="form-group">
+                <label>Oppure inserisci URL immagine online</label>
                 <input type="url" id="editAvatarUrlInput" class="form-control" placeholder="https://sito.it/foto.jpg">
             </div>
+
             <div class="form-group">
-                <label>Oppure sceglila tra gli avatar:</label>
+                <label>Oppure sceglila tra gli avatar predefiniti:</label>
                 <div class="avatar-picker">
                     <img src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" class="avatar-option" onclick="setAvatarPreset(this.src)">
                     <img src="https://api.dicebear.com/7.x/bottts/svg?seed=racer" class="avatar-option" onclick="setAvatarPreset(this.src)">
@@ -409,30 +418,30 @@
         </div>
     </div>
 
-    <!-- 👑 PANNELLO AMMINISTRATORE (ADMIN) 👑 -->
+    <!-- 👑 PANNELLO AMMINISTRATORE (ADMIN) RISERVATO 👑 -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-box" style="max-width:650px;">
             <span class="modal-close" onclick="closeAdminModal()">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;"><i class="fa-solid fa-user-shield"></i> Pannello Gestione Admin</h3>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;"><i class="fa-solid fa-user-shield"></i> Pannello Gestione Staff Admin</h3>
             
             <div class="form-group">
                 <label>Cerca Cliente (Nome, Email o Targa)</label>
                 <input type="text" id="adminSearchInput" class="form-control" placeholder="Es. Mario o AA123BB" onkeyup="searchClientsAdmin()">
             </div>
 
-            <div id="adminSearchResults" style="max-height:200px; overflow-y:auto; margin-bottom:15px;"></div>
+            <div id="adminSearchResults" style="max-height:180px; overflow-y:auto; margin-bottom:15px;"></div>
 
             <div id="adminJobForm" style="display:none; border-top:1px solid #333; padding-top:15px;">
-                <h4 style="color:#fff; margin-bottom:10px;">Aggiungi Lavoro per <span id="adminSelectedClientName" style="color:var(--accent-green);"></span></h4>
+                <h4 style="color:#fff; margin-bottom:10px;">Aggiungi Intervento per <span id="adminSelectedClientName" style="color:var(--accent-green);"></span></h4>
                 <div class="form-group">
-                    <label>Seleziona Auto</label>
+                    <label>Seleziona Auto del Cliente</label>
                     <select id="adminCarSelect" class="form-control"></select>
                 </div>
                 <div class="form-group">
-                    <label>Tipo Intervento</label>
+                    <label>Stato del Lavoro</label>
                     <select id="adminJobStatus" class="form-control">
-                        <option value="prog">Lavoro Programmato</option>
-                        <option value="done">Lavoro Eseguito (Aggiunge Punti)</option>
+                        <option value="prog">⏳ Lavoro Programmato (In Attesa)</option>
+                        <option value="done">✅ Lavoro Eseguito (Aggiunge Punti)</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -444,10 +453,10 @@
                     <input type="number" id="adminJobPoints" class="form-control" value="100">
                 </div>
                 <div class="form-group">
-                    <label>Link Foto Lavoro (URL Foto Finito)</label>
+                    <label>Link Foto del Lavoro Finito (URL)</label>
                     <input type="url" id="adminJobPhotoUrl" class="form-control" placeholder="https://sito.it/foto-lavoro.jpg">
                 </div>
-                <button class="btn btn-whatsapp" onclick="saveAdminJob()" style="width:100%; justify-content:center; margin-top:10px;">Salva Lavoro su Firestore</button>
+                <button class="btn btn-whatsapp" onclick="saveAdminJob()" style="width:100%; justify-content:center; margin-top:10px;">Salva Intervento nel Garage Cliente</button>
             </div>
         </div>
     </div>
@@ -459,7 +468,9 @@
             <a href="https://wa.me/393519000774" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
         <p>&copy; 2026 Zona Detailing - Car Detailing a Domicilio Roma. Tutti i diritti riservati.</p>
-        <a class="admin-trigger" onclick="openAdminModal()"><i class="fa-solid fa-lock"></i> Area Riservata Staff / Admin</a>
+        <p id="adminFooterContainer" style="display:none; margin-top:10px;">
+            <span class="admin-link-btn" onclick="openAdminModal()"><i class="fa-solid fa-user-shield"></i> Accesso Pannello Staff Admin</span>
+        </p>
     </footer>
 
     <!-- TASTO FLOTTANTE WHATSAPP -->
@@ -521,13 +532,26 @@
       auth.onAuthStateChanged(async (user) => {
           currentUser = user;
           const btnText = document.getElementById('btnAuthText');
+          const adminLinkNav = document.getElementById('adminDropdownLink');
+          const adminFooterContainer = document.getElementById('adminFooterContainer');
+
           if (user) {
               const doc = await db.collection('users').doc(user.uid).get();
               userData = doc.exists ? doc.data() : { points: 0, vehicles: [] };
               btnText.innerText = (userData.name || "Cliente").split(' ')[0];
+
+              if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+                  if (adminLinkNav) adminLinkNav.style.display = 'flex';
+                  if (adminFooterContainer) adminFooterContainer.style.display = 'block';
+              } else {
+                  if (adminLinkNav) adminLinkNav.style.display = 'none';
+                  if (adminFooterContainer) adminFooterContainer.style.display = 'none';
+              }
           } else {
               btnText.innerText = "Accedi / Iscriviti";
               document.getElementById('userDropdown').style.display = 'none';
+              if (adminLinkNav) adminLinkNav.style.display = 'none';
+              if (adminFooterContainer) adminFooterContainer.style.display = 'none';
           }
       });
 
@@ -563,6 +587,18 @@
           document.getElementById('editAvatarUrlInput').value = url;
       }
 
+      // Converti foto caricata dal dispositivo in base64
+      function handleProfileImageUpload(event) {
+          const file = event.target.files[0];
+          if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                  document.getElementById('editAvatarUrlInput').value = e.target.result;
+              };
+              reader.readAsDataURL(file);
+          }
+      }
+
       async function saveProfileCustomization() {
           const newName = document.getElementById('editNicknameInput').value;
           const newAvatar = document.getElementById('editAvatarUrlInput').value;
@@ -572,7 +608,7 @@
           document.getElementById('profileUserName').innerText = newName;
           if(newAvatar) document.getElementById('profileUserAvatar').src = newAvatar;
           toggleCustomProfileModal(false);
-          alert("Profilo aggiornato!");
+          alert("Profilo aggiornato con successo!");
       }
 
       function populateBrands() {
@@ -637,9 +673,10 @@
               let jobsHtml = "";
               if (car.jobs && car.jobs.length > 0) {
                   car.jobs.forEach(job => {
-                      const tagClass = job.status === 'done' ? 'job-tag-done' : 'job-tag-prog';
-                      const tagText = job.status === 'done' ? 'Eseguito ✅' : 'In Programma ⏳';
-                      const photoHtml = job.photoUrl ? `<br><img src="${job.photoUrl}" class="job-photo-thumb" alt="Foto Lavoro">` : '';
+                      const isDone = job.status === 'done';
+                      const tagClass = isDone ? 'job-tag-done' : 'job-tag-prog';
+                      const tagText = isDone ? 'Eseguito ✅' : 'In Programma ⏳';
+                      const photoHtml = job.photoUrl ? `<br><a href="${job.photoUrl}" target="_blank"><img src="${job.photoUrl}" class="job-photo-thumb" alt="Foto Lavoro"></a>` : '';
                       jobsHtml += `<div style="margin-bottom:8px; border-bottom:1px solid #222; padding-bottom:5px;">
                           <span class="${tagClass}">[${tagText}]</span> <strong>${job.desc}</strong>${photoHtml}
                       </div>`;
@@ -653,7 +690,7 @@
                       <span class="spot-number-badge">BOX ${spotNumber}</span>
                       <button class="btn-delete-car" onclick="deleteCar(${idx})" title="Rimuovi"><i class="fa-solid fa-trash"></i></button>
                       
-                      <!-- Podio con Logo Ufficiale del Marchio -->
+                      <!-- Podio con Logo SVG -->
                       <div class="brand-podium">
                           <img src="${logoUrl}" class="brand-logo-img" alt="${car.brand}">
                       </div>
@@ -679,16 +716,14 @@
           `;
       }
 
-      /* 👑 GESTIONE PANNELLO ADMIN STAFF 👑 */
+      /* 👑 PANNELLO ADMIN STAFF 👑 */
       let selectedAdminUserDoc = null;
 
       function openAdminModal() {
-          const pass = prompt("Inserisci la password dello Staff Admin:");
-          if (pass === "zona2026") {
-              document.getElementById('adminModal').style.display = 'flex';
-          } else {
-              alert("Password errata!");
+          if (!currentUser || currentUser.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+              return alert("Accesso negato: Permessi riservati esclusivamente all'amministratore.");
           }
+          document.getElementById('adminModal').style.display = 'flex';
       }
 
       function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
