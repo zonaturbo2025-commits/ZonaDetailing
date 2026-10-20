@@ -199,6 +199,15 @@
         .instagram-embed-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 8px; background: #000; }
         .instagram-embed-wrapper iframe { position: absolute; top: -50px; left: 0; width: 100%; height: calc(100% + 150px); }
 
+        /* SEZIONE RECENSIONI NELLA HOME */
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .review-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
+        .review-stars { color: #ffd700; margin-bottom: 10px; font-size: 0.9rem; }
+        .review-text { font-size: 0.85rem; color: #ccc; margin-bottom: 15px; font-style: italic; }
+        .review-author { display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; padding-top: 12px; }
+        .review-author img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1px solid var(--accent-green); background: #000; }
+        .review-car-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; border: 1px solid #333; }
+
         /* MODALI & OVERLAY */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 15px; }
         .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 520px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
@@ -251,6 +260,10 @@
         .float-whatsapp { position: fixed; width: 55px; height: 55px; bottom: 20px; right: 20px; background-color: #25d366; color: #fff; border-radius: 50px; text-align: center; font-size: 26px; display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
         
         .admin-link-btn { color: var(--accent-green); font-weight: bold; cursor: pointer; }
+
+        /* EFFETTI SCHEDA ADMIN CLIENTE CON AVATAR */
+        .admin-client-avatar { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-green); background: #000; }
+        .admin-client-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
     </style>
 </head>
 <body>
@@ -264,6 +277,7 @@
             <li><a href="#chi-siamo">Chi Siamo</a></li>
             <li><a href="#servizi">Servizi</a></li>
             <li><a href="#dimostrazioni">Lavori</a></li>
+            <li><a href="#recensioni">Recensioni</a></li>
             
             <li class="auth-container">
                 <button class="btn-auth-nav" id="btnAuth" onclick="handleAuthButtonClick()">
@@ -349,6 +363,26 @@
         </div>
     </section>
 
+    <!-- SEZIONE RECENSIONI DEI CLIENTI -->
+    <section id="recensioni" class="container">
+        <h2 class="section-title">Dicono di <span>Noi</span></h2>
+        <div class="reviews-grid" id="publicReviewsGrid">
+            <div class="review-card">
+                <div>
+                    <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="review-text">"Servizio impeccabile a domicilio. Hanno riportato la mia auto a nuovo con una cura dei dettagli incredibile!"</p>
+                </div>
+                <div class="review-author">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" alt="Avatar">
+                    <div>
+                        <h4 style="font-size:0.85rem; color:#fff;">Marco R.</h4>
+                        <span style="font-size:0.75rem; color:var(--accent-green);">Audi RS3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- MODALE AUTH -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
@@ -402,6 +436,30 @@
         </h3>
 
         <div class="garage-bay-grid" id="vehiclesList"></div>
+
+        <!-- 🌟 SEZIONE LASCIA RECENSIONE NEL GARAGE 🌟 -->
+        <div style="background:#0e110e; border:1px solid var(--accent-green); padding:20px; border-radius:15px; max-width:600px; margin: 30px auto; text-align:left;">
+            <h4 style="color:var(--accent-green); margin-bottom:12px; text-transform:uppercase; font-size:0.95rem;"><i class="fa-solid fa-star"></i> Lascia una Recensione sul Lavoro Svolto</h4>
+            <div class="form-group">
+                <label>Valutazione (Stelle)</label>
+                <select id="reviewStarsInput" class="form-control">
+                    <option value="5">⭐⭐⭐⭐⭐ (5/5 - Eccezionale)</option>
+                    <option value="4">⭐⭐⭐⭐ (4/5 - Ottimo)</option>
+                    <option value="3">⭐⭐⭐ (3/5 - Buono)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>La tua recensione</label>
+                <textarea id="reviewTextInput" class="form-control" rows="3" placeholder="Racconta la tua esperienza con Zona Detailing..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Foto della tua Auto Trattata (Fotocamera o Galleria)</label>
+                <input type="file" id="reviewPhotoFile" class="form-control" accept="image/*" capture="environment" onchange="handleReviewPhotoUpload(event)">
+                <input type="hidden" id="reviewPhotoUrl">
+                <div id="reviewPhotoPreview" style="margin-top:8px;"></div>
+            </div>
+            <button class="btn btn-whatsapp" onclick="submitClientReview()" style="width:100%; justify-content:center; margin-top:10px; font-size:0.85rem;">Pubblica Recensione</button>
+        </div>
 
         <!-- FORM PARCHEGGIO NUOVA AUTO -->
         <div id="addCarSection" style="background:#0e110e; border:1px solid var(--accent-green); padding:20px; border-radius:15px; max-width:600px; margin: 0 auto; display:none;">
@@ -481,13 +539,17 @@
             <!-- RISULTATI RICERCA -->
             <div id="adminSearchResults" style="max-height:150px; overflow-y:auto; margin-bottom:15px;"></div>
 
-            <!-- SCHEDA COMPLETA CLIENTE SELEZIONATO -->
+            <!-- SCHEDA COMPLETA CLIENTE SELEZIONATO CON AVATAR -->
             <div id="adminClientCardDetails" style="display:none; background:#0e110e; border:1px solid var(--accent-green); padding:15px; border-radius:10px; margin-bottom:20px;">
-                <h4 style="color:var(--accent-green); margin-bottom:8px; font-size:0.95rem;"><i class="fa-solid fa-address-card"></i> Scheda Cliente</h4>
-                <p><strong>Nome:</strong> <span id="cardClientName">-</span></p>
-                <p><strong>Email:</strong> <span id="cardClientEmail">-</span></p>
-                <p><strong>Punti Detailing:</strong> <span id="cardClientPoints" style="color:#ffd700; font-weight:bold;">0</span></p>
-                <div id="cardClientVehiclesSummary" style="margin-top:10px; font-size:0.85rem; color:#ccc;"></div>
+                <div class="admin-client-header">
+                    <img id="cardClientAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" class="admin-client-avatar" alt="Avatar Cliente">
+                    <div>
+                        <h4 style="color:var(--accent-green); margin-bottom:4px; font-size:1.05rem;" id="cardClientName">-</h4>
+                        <p style="font-size:0.8rem; color:#aaa;" id="cardClientEmail">-</p>
+                        <p style="font-size:0.85rem;">Punti Detailing: <span id="cardClientPoints" style="color:#ffd700; font-weight:bold;">0</span></p>
+                    </div>
+                </div>
+                <div id="cardClientVehiclesSummary" style="margin-top:10px; font-size:0.85rem; color:#ccc; border-top:1px solid #222; padding-top:8px;"></div>
             </div>
 
             <!-- FORM AGGIUNGI LAVORI / INTERVENTI -->
@@ -514,7 +576,6 @@
                 </div>
                 <div class="form-group">
                     <label>Foto Lavoro (Scatta con Fotocamera o Carica da Galleria)</label>
-                    <!-- Modifica per permettere l'apertura diretta della fotocamera su mobile -->
                     <input type="file" id="adminJobPhotoFile" class="form-control" accept="image/*" capture="environment" onchange="handleAdminPhotoUpload(event)">
                     <input type="hidden" id="adminJobPhotoUrl">
                     <div id="adminPhotoPreview" style="margin-top:8px;"></div>
@@ -634,6 +695,8 @@
               `;
               if (adminFooterContainer) adminFooterContainer.style.display = 'none';
           }
+          
+          loadPublicReviews();
       });
 
       function logoutUser() { auth.signOut().then(() => window.location.reload()); }
@@ -696,6 +759,87 @@
           
           toggleCustomProfileModal(false);
           window.location.reload();
+      }
+
+      function handleReviewPhotoUpload(event) {
+          const file = event.target.files[0];
+          if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                  document.getElementById('reviewPhotoUrl').value = e.target.result;
+                  document.getElementById('reviewPhotoPreview').innerHTML = `<img src="${e.target.result}" style="width:70px; height:70px; object-fit:cover; border-radius:6px; border:1px solid var(--accent-green);">`;
+              };
+              reader.readAsDataURL(file);
+          }
+      }
+
+      async function submitClientReview() {
+          if (!currentUser) return alert("Devi effettuare l'accesso per lasciare una recensione!");
+          const stars = document.getElementById('reviewStarsInput').value;
+          const text = document.getElementById('reviewTextInput').value;
+          const photoUrl = document.getElementById('reviewPhotoUrl').value;
+
+          if (!text) return alert("Scrivi una breve recensione prima di pubblicare!");
+
+          const reviewData = {
+              name: userData.name || "Cliente",
+              avatar: userData.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=driver1",
+              car: (userData.vehicles && userData.vehicles.length > 0) ? `${userData.vehicles[0].brand} ${userData.vehicles[0].model}` : "Cliente Verificato",
+              stars: parseInt(stars),
+              text: text,
+              photoUrl: photoUrl,
+              date: new Date().toISOString()
+          };
+
+          try {
+              await db.collection('reviews').add(reviewData);
+              alert("Grazie! La tua recensione è stata pubblicata con successo.");
+              document.getElementById('reviewTextInput').value = "";
+              document.getElementById('reviewPhotoUrl').value = "";
+              document.getElementById('reviewPhotoPreview').innerHTML = "";
+              closeProfileOverlay();
+              loadPublicReviews();
+          } catch(e) {
+              alert("Errore durante la pubblicazione: " + e.message);
+          }
+      }
+
+      async function loadPublicReviews() {
+          const grid = document.getElementById('publicReviewsGrid');
+          if (!grid) return;
+
+          try {
+              const snapshot = await db.collection('reviews').orderBy('date', 'desc').get();
+              if (snapshot.empty) return;
+
+              grid.innerHTML = "";
+              snapshot.forEach(doc => {
+                  const r = doc.data();
+                  let starsHtml = "";
+                  for(let i=0; i<r.stars; i++) starsHtml += '<i class="fa-solid fa-star"></i>';
+
+                  const photoHtml = r.photoUrl ? `<img src="${r.photoUrl}" class="review-car-img" alt="Foto Auto">` : '';
+
+                  grid.innerHTML += `
+                      <div class="review-card">
+                          <div>
+                              ${photoHtml}
+                              <div class="review-stars">${starsHtml}</div>
+                              <p class="review-text">"${r.text}"</p>
+                          </div>
+                          <div class="review-author">
+                              <img src="${r.avatar}" alt="Avatar">
+                              <div>
+                                  <h4 style="font-size:0.85rem; color:#fff;">${r.name}</h4>
+                                  <span style="font-size:0.75rem; color:var(--accent-green);">${r.car}</span>
+                              </div>
+                          </div>
+                      </div>
+                  `;
+              });
+          } catch(e) {
+              console.error("Errore caricamento recensioni:", e);
+          }
       }
 
       function populateBrands() {
@@ -808,7 +952,7 @@
           `;
       }
 
-      /* 👑 SCHEDA COMPLETA PANNELLO ADMIN 👑 */
+      /* 👑 SCHEDA COMPLETA PANNELLO ADMIN CON AVATAR CLIENTE 👑 */
       let selectedAdminUserDoc = null;
 
       async function openAdminModal() {
@@ -821,7 +965,6 @@
 
       function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
-      // Popola il menu a tendina in ordine alfabetico dei clienti
       async function populateAdminClientDropdown() {
           const dropdown = document.getElementById('adminClientDropdown');
           dropdown.innerHTML = '<option value="">-- Seleziona un cliente dalla lista --</option>';
@@ -833,7 +976,6 @@
                   clients.push({ id: doc.id, ...doc.data() });
               });
 
-              // Ordina alfabeticamente per nome
               clients.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
               clients.forEach(client => {
@@ -862,9 +1004,11 @@
               const nameMatch = u.name && u.name.toLowerCase().includes(q);
               const emailMatch = u.email && u.email.toLowerCase().includes(q);
               if (nameMatch || emailMatch) {
+                  const userAvatar = u.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=driver1";
                   resultsDiv.innerHTML += `
-                      <div style="background:#1a1a1a; padding:10px; border-radius:6px; margin-bottom:6px; cursor:pointer; border:1px solid #333;" onclick="selectClientAdmin('${doc.id}')">
-                          <strong>${u.name}</strong> (${u.email})
+                      <div style="background:#1a1a1a; padding:10px; border-radius:6px; margin-bottom:6px; cursor:pointer; border:1px solid #333; display:flex; align-items:center; gap:10px;" onclick="selectClientAdmin('${doc.id}')">
+                          <img src="${userAvatar}" style="width:30px; height:30px; border-radius:50%; object-fit:cover; border:1px solid var(--accent-green);">
+                          <div><strong>${u.name}</strong> (${u.email})</div>
                       </div>
                   `;
               }
@@ -879,6 +1023,10 @@
           document.getElementById('cardClientName').innerText = selectedAdminUserDoc.name || 'N/D';
           document.getElementById('cardClientEmail').innerText = selectedAdminUserDoc.email || 'N/D';
           document.getElementById('cardClientPoints').innerText = selectedAdminUserDoc.points || 0;
+          
+          // Imposta l'immagine profilo dell'utente selezionato
+          const avatarUrl = selectedAdminUserDoc.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=driver1";
+          document.getElementById('cardClientAvatar').src = avatarUrl;
 
           let vSummary = "<strong>Auto nel Garage:</strong> ";
           if(selectedAdminUserDoc.vehicles && selectedAdminUserDoc.vehicles.length > 0) {
@@ -898,7 +1046,6 @@
           });
       }
 
-      // Gestione scatto foto con fotocamera o caricamento file
       function handleAdminPhotoUpload(event) {
           const file = event.target.files[0];
           if (file) {
@@ -934,7 +1081,6 @@
               points: newPoints
           });
 
-          // Invio email automatica tramite EmailJS
           emailjs.send("service_zonadetailing", "YOUR_TEMPLATE_ID", {
               to_email: selectedAdminUserDoc.email,
               to_name: selectedAdminUserDoc.name,
