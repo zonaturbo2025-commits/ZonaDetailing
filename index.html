@@ -116,36 +116,42 @@
         :root { --bg-color: #0a0a0a; --card-bg: #141414; --text-color: #ffffff; --accent-green: #a6f700; --accent-green-hover: #8ce000; --border-color: #222222; }
         body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
 
-        /* NAVBAR MOBILE RESPONSIVE FIX */
+        /* NAVBAR MOBILE RESPONSIVE FIX PERFETTO */
         nav { 
             position: fixed; top: 0; left: 0; width: 100%; 
             background-color: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); 
             border-bottom: 1px solid var(--border-color); 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 10px 4%; z-index: 1000; 
+            padding: 10px 15px; z-index: 1000; 
         }
-        .nav-home-badge { text-decoration: none; background-color: #000; border: 2px solid var(--border-color); border-radius: 8px; padding: 4px 10px; font-weight: 900; font-size: 1rem; }
+        .nav-home-badge { text-decoration: none; background-color: #000; border: 2px solid var(--border-color); border-radius: 8px; padding: 4px 10px; font-weight: 900; font-size: 1rem; flex-shrink: 0; }
         .nav-home-badge .z-letter { color: #fff; } .nav-home-badge .d-letter { color: var(--accent-green); }
         
-        .nav-links { display: flex; list-style: none; gap: 12px; align-items: center; }
-        .nav-links a { color: var(--text-color); text-decoration: none; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
+        .nav-links { display: flex; list-style: none; gap: 10px; align-items: center; overflow-x: auto; scrollbar-width: none; }
+        .nav-links::-webkit-scrollbar { display: none; }
+        .nav-links a { color: var(--text-color); text-decoration: none; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
         .nav-links a:hover { color: var(--accent-green); }
 
-        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 5px 12px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .auth-container { flex-shrink: 0; margin-left: 5px; }
+        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 5px 10px; border-radius: 20px; font-weight: 700; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
         
         /* Avatar Navigazione Dinamico */
-        .nav-avatar-btn { background: transparent; border: 2px solid var(--accent-green); border-radius: 50%; padding: 0; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .nav-avatar-btn { background: transparent; border: 2px solid var(--accent-green); border-radius: 50%; padding: 0; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
         .nav-avatar-img { width: 100%; height: 100%; object-fit: cover; }
 
         .user-dropdown { position: absolute; top: 50px; right: 15px; background-color: #141414; border: 1px solid var(--accent-green); border-radius: 8px; width: 210px; display: none; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.8); z-index: 1001; }
         .user-dropdown a { padding: 12px 16px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .user-dropdown a:hover { background-color: rgba(166, 247, 0, 0.15); color: var(--accent-green); }
 
-        /* HERO & LOGO PNG OTTIMIZZATO (PIÙ GRANDE E RESPONSIVE PER TELEFONI) */
+        /* NASCONDE I LINK DI TESTO SU SMARTPHONE PER DARE SPAZIO AL PULSANTE PROFILO */
+        @media (max-width: 600px) {
+            .nav-link-item { display: none; }
+        }
+
+        /* HERO & LOGO PNG OTTIMIZZATO */
         .hero { padding: 130px 15px 60px 15px; text-align: center; background: radial-gradient(circle at center, #0f170a 0%, var(--bg-color) 80%); display: flex; flex-direction: column; align-items: center; }
         .hero-logo-container { position: relative; margin: 0 auto 15px auto; width: 100%; max-width: 400px; padding: 10px; }
         
-        /* Effetto neon soffuso e pulsante sullo sfondo dietro il logo */
         .hero-glow { 
             position: absolute; 
             top: 50%; 
@@ -171,7 +177,6 @@
             filter: drop-shadow(0 4px 15px rgba(0,0,0,0.7));
         }
 
-        /* Adattamento perfetto e sicuro per smartphone */
         @media (max-width: 480px) {
             .hero-logo-container { max-width: 300px; }
             .hero-logo { max-width: 270px; }
@@ -231,7 +236,7 @@
         .auth-switch { font-size: 0.85rem; color: #aaa; margin-top: 15px; }
         .auth-switch span { color: var(--accent-green); cursor: pointer; font-weight: 700; text-decoration: underline; }
 
-        /* 🏎️ SHOWROOM VIRTUAL GARAGE OVERLAY 🏎️ */
+        /* SHOWROOM VIRTUAL GARAGE OVERLAY */
         .profile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050705; z-index: 3000; display: none; overflow-y: auto; padding: 20px 4%; }
         .garage-title-banner { text-align: center; margin-bottom: 25px; padding: 15px; background: rgba(20, 20, 20, 0.8); border: 1px solid var(--accent-green); border-radius: 12px; }
 
@@ -268,7 +273,6 @@
         
         .admin-link-btn { color: var(--accent-green); font-weight: bold; cursor: pointer; }
 
-        /* EFFETTI SCHEDA ADMIN CLIENTE CON AVATAR */
         .admin-client-avatar { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-green); background: #000; }
         .admin-client-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
     </style>
@@ -281,10 +285,10 @@
             <span class="z-letter">Z</span><span class="d-letter">D</span>
         </a>
         <ul class="nav-links">
-            <li><a href="#chi-siamo">Chi Siamo</a></li>
-            <li><a href="#servizi">Servizi</a></li>
-            <li><a href="#dimostrazioni">Lavori</a></li>
-            <li><a href="#recensioni">Recensioni</a></li>
+            <li class="nav-link-item"><a href="#chi-siamo">Chi Siamo</a></li>
+            <li class="nav-link-item"><a href="#servizi">Servizi</a></li>
+            <li class="nav-link-item"><a href="#dimostrazioni">Lavori</a></li>
+            <li class="nav-link-item"><a href="#recensioni">Recensioni</a></li>
             
             <li class="auth-container">
                 <button class="btn-auth-nav" id="btnAuth" onclick="handleAuthButtonClick()">
@@ -303,9 +307,7 @@
     <!-- HERO SECTION -->
     <section id="home" class="hero">
         <div class="hero-logo-container">
-            <!-- Effetto neon soffuso e pulsante sullo sfondo dietro il logo -->
             <div class="hero-glow"></div>
-            <!-- Logo PNG originale ingrandito e ottimizzato per tutti i telefoni -->
             <img src="logo.png" alt="Zona Detailing Logo" class="hero-logo">
         </div>
         
@@ -420,7 +422,7 @@
         </div>
     </div>
 
-    <!-- 🏎️ SHOWROOM VIRTUAL GARAGE OVERLAY 🏎️ -->
+    <!-- SHOWROOM VIRTUAL GARAGE OVERLAY -->
     <div class="profile-overlay" id="profileOverlay">
         <div class="garage-title-banner">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
@@ -444,7 +446,7 @@
 
         <div class="garage-bay-grid" id="vehiclesList"></div>
 
-        <!-- 🌟 SEZIONE LASCIA RECENSIONE NEL GARAGE 🌟 -->
+        <!-- SEZIONE LASCIA RECENSIONE NEL GARAGE -->
         <div style="background:#0e110e; border:1px solid var(--accent-green); padding:20px; border-radius:15px; max-width:600px; margin: 30px auto; text-align:left;">
             <h4 style="color:var(--accent-green); margin-bottom:12px; text-transform:uppercase; font-size:0.95rem;"><i class="fa-solid fa-star"></i> Lascia una Recensione sul Lavoro Svolto</h4>
             <div class="form-group">
@@ -522,13 +524,12 @@
         </div>
     </div>
 
-    <!-- 👑 SCHEDA COMPLETA PANNELLO ADMIN STAFF 👑 -->
+    <!-- SCHEDA COMPLETA PANNELLO ADMIN STAFF -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-box" style="max-width:700px; text-align:left;">
             <span class="modal-close" onclick="closeAdminModal()">&times;</span>
             <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px; font-size:1.1rem; text-align:center;"><i class="fa-solid fa-user-shield"></i> Pannello Gestione Admin Staff</h3>
             
-            <!-- MENU A TENDINA ALFABETICO CLIENTI -->
             <div class="form-group">
                 <label>Seleziona Cliente in Ordine Alfabetico</label>
                 <select id="adminClientDropdown" class="form-control" onchange="selectClientFromDropdown(this.value)">
@@ -543,10 +544,8 @@
                 <input type="text" id="adminSearchInput" class="form-control" placeholder="Es. Mario o AA123BB" onkeyup="searchClientsAdmin()">
             </div>
 
-            <!-- RISULTATI RICERCA -->
             <div id="adminSearchResults" style="max-height:150px; overflow-y:auto; margin-bottom:15px;"></div>
 
-            <!-- SCHEDA COMPLETA CLIENTE SELEZIONATO CON AVATAR -->
             <div id="adminClientCardDetails" style="display:none; background:#0e110e; border:1px solid var(--accent-green); padding:15px; border-radius:10px; margin-bottom:20px;">
                 <div class="admin-client-header">
                     <img id="cardClientAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" class="admin-client-avatar" alt="Avatar Cliente">
@@ -559,7 +558,6 @@
                 <div id="cardClientVehiclesSummary" style="margin-top:10px; font-size:0.85rem; color:#ccc; border-top:1px solid #222; padding-top:8px;"></div>
             </div>
 
-            <!-- FORM AGGIUNGI LAVORI / INTERVENTI -->
             <div id="adminJobForm" style="display:none; border-top:1px solid #333; padding-top:15px;">
                 <h4 style="color:#fff; margin-bottom:10px; font-size:0.95rem;">Aggiungi Intervento per <span id="adminSelectedClientName" style="color:var(--accent-green);"></span></h4>
                 <div class="form-group">
@@ -959,7 +957,7 @@
           `;
       }
 
-      /* 👑 SCHEDA COMPLETA PANNELLO ADMIN CON AVATAR CLIENTE 👑 */
+      /* SCHEDA COMPLETA PANNELLO ADMIN CON AVATAR CLIENTE */
       let selectedAdminUserDoc = null;
 
       async function openAdminModal() {
@@ -1031,7 +1029,6 @@
           document.getElementById('cardClientEmail').innerText = selectedAdminUserDoc.email || 'N/D';
           document.getElementById('cardClientPoints').innerText = selectedAdminUserDoc.points || 0;
           
-          // Imposta l'immagine profilo dell'utente selezionato
           const avatarUrl = selectedAdminUserDoc.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=driver1";
           document.getElementById('cardClientAvatar').src = avatarUrl;
 
