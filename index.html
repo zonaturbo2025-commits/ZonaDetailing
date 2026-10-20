@@ -149,11 +149,25 @@
         .user-dropdown a { padding: 12px 16px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .user-dropdown a:hover { background-color: rgba(166, 247, 0, 0.15); color: var(--accent-green); }
 
-        /* HERO & ANIMAZIONI LOGO */
+        /* HERO & ANIMAZIONI LOGO IN ALTA DEFINIZIONE */
         .hero { padding: 120px 15px 60px 15px; text-align: center; background: radial-gradient(circle at center, #142000 0%, var(--bg-color) 75%); display: flex; flex-direction: column; align-items: center; }
         .hero-logo-container { position: relative; margin: 0 auto 20px auto; width: 100%; max-width: 320px; }
         .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background: radial-gradient(circle, rgba(166, 247, 0, 0.45) 0%, rgba(166, 247, 0, 0) 70%); border-radius: 50%; filter: blur(30px); animation: pulseGlow 4s infinite alternate; }
-        .hero-logo { width: 100%; max-width: 300px; height: auto; position: relative; z-index: 2; animation: floatLogo 3s ease-in-out infinite; }
+        
+        /* Regole per la massima qualità e nitidezza del logo (HiDPI / Retina ready) */
+        .hero-logo { 
+            width: 100%; 
+            max-width: 300px; 
+            height: auto; 
+            position: relative; 
+            z-index: 2; 
+            animation: floatLogo 3s ease-in-out infinite; 
+            image-rendering: -webkit-optimize-contrast; 
+            image-rendering: crisp-edges;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
         
         @keyframes floatLogo {
             0% { transform: translateY(0px); }
@@ -597,14 +611,12 @@
       auth.onAuthStateChanged(async (user) => {
           currentUser = user;
           const authContainer = document.querySelector('.auth-container');
-          const adminLinkNav = document.getElementById('adminDropdownLink');
           const adminFooterContainer = document.getElementById('adminFooterContainer');
 
           if (user) {
               const doc = await db.collection('users').doc(user.uid).get();
               userData = doc.exists ? doc.data() : { points: 0, vehicles: [] };
               
-              // Mostra l'immagine del profilo in alto a destra se impostata, altrimenti un avatar di default
               const userAvatarImg = userData.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=driver1";
 
               authContainer.innerHTML = `
