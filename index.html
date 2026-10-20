@@ -30,12 +30,11 @@
         measurementId: "G-WZW0SBDS73"
       };
 
-      // Inizializzazione Firebase & Firestore
       firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
       const auth = firebase.auth();
 
-      // Database Marchi e Modelli Auto
+      // Database Marchi e Modelli Auto Esteso
       const carDatabase = {
         "Abarth": ["595", "695", "124 Spider", "Pulse"],
         "Alfa Romeo": ["Giulia", "Stelvio", "Tonale", "Mito", "Giulietta", "4C", "Junior"],
@@ -80,10 +79,10 @@
         "Volvo": ["XC40", "XC60", "XC90", "EX30", "C40", "S60", "V60"]
       };
 
-      // Calcolo Gamification & Coppe
+      // Gamification & Coppe
       function getClientTier(totalPoints) {
           if (totalPoints >= 1000) {
-              return { name: "Legendary Detailer 🏆", desc: "Maniaco Absoluto della Cura dell'Auto", color: "#ffd700" };
+              return { name: "Legendary Detailer 🏆", desc: "Maniaco Assoluto della Cura dell'Auto", color: "#ffd700" };
           } else if (totalPoints >= 500) {
               return { name: "Gold VIP Detailer 🥇", desc: "Maniaco del Detailing", color: "#ffb700" };
           } else if (totalPoints >= 200) {
@@ -118,6 +117,7 @@
             overflow-x: hidden;
         }
 
+        /* NAVBAR */
         nav {
             position: fixed;
             top: 0;
@@ -147,13 +147,11 @@
             letter-spacing: -1px;
             transition: all 0.3s ease;
             cursor: pointer;
-            flex-shrink: 0;
         }
 
         .nav-home-badge:hover {
             border-color: var(--accent-green);
             transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(166, 247, 0, 0.3);
         }
 
         .nav-home-badge .z-letter { color: #ffffff; }
@@ -202,9 +200,40 @@
         .btn-auth-nav:hover {
             background-color: var(--accent-green);
             color: #000;
-            box-shadow: 0 0 12px rgba(166, 247, 0, 0.4);
         }
 
+        .user-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background-color: #141414;
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            width: 210px;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            z-index: 1001;
+            overflow: hidden;
+        }
+
+        .user-dropdown a {
+            padding: 12px 16px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-dropdown a:hover {
+            background-color: rgba(166, 247, 0, 0.15);
+            color: var(--accent-green);
+        }
+
+        /* HERO SECTION */
         .hero {
             padding: 140px 20px 80px 20px;
             text-align: center;
@@ -214,7 +243,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 100%;
         }
 
         .hero-logo-container {
@@ -223,7 +251,6 @@
             justify-content: center;
             align-items: center;
             margin: 0 auto 25px auto;
-            width: 100%;
             max-width: 380px;
         }
 
@@ -245,8 +272,6 @@
             width: 100%;
             max-width: 380px;
             height: auto;
-            display: block;
-            margin: 0 auto;
             position: relative;
             z-index: 2;
             filter: drop-shadow(0px 0px 20px rgba(166, 247, 0, 0.4));
@@ -259,7 +284,6 @@
             letter-spacing: 1.5px;
             color: var(--accent-green);
             margin-bottom: 8px;
-            position: relative;
             z-index: 2;
         }
 
@@ -267,11 +291,9 @@
             font-size: 1.15rem;
             font-weight: 300;
             font-style: italic;
-            letter-spacing: 0.5px;
             color: #dddddd;
             max-width: 700px;
             margin: 0 auto 35px auto;
-            position: relative;
             z-index: 2;
         }
 
@@ -280,7 +302,6 @@
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
-            position: relative;
             z-index: 2;
         }
 
@@ -294,22 +315,17 @@
             text-decoration: none;
             text-transform: uppercase;
             font-size: 0.9rem;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
             cursor: pointer;
             border: none;
+            transition: 0.3s;
         }
 
         .btn-whatsapp {
             background-color: var(--accent-green);
             color: #000000;
-            box-shadow: 0 4px 15px rgba(166, 247, 0, 0.2);
         }
 
-        .btn-whatsapp:hover {
-            background-color: var(--accent-green-hover);
-            transform: translateY(-3px);
-        }
+        .btn-whatsapp:hover { background-color: var(--accent-green-hover); }
 
         .btn-google {
             background-color: #ffffff;
@@ -325,17 +341,56 @@
             margin-bottom: 15px;
             cursor: pointer;
             border: none;
-            transition: background 0.3s;
         }
 
         .btn-google:hover { background-color: #e6e6e6; }
 
-        .modal-overlay {
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title span { color: var(--accent-green); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background-color: var(--card-bg);
+            padding: 30px 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .service-card h3 {
+            color: var(--accent-green);
+            margin-bottom: 12px;
+            font-size: 1.15rem;
+            text-transform: uppercase;
+        }
+
+        .service-card p {
+            color: #aaaaaa;
+            font-size: 0.9rem;
+        }
+
+        /* MODALI E PROFILO */
+        .modal-overlay, .profile-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
             display: none;
@@ -352,7 +407,6 @@
             width: 90%;
             max-width: 480px;
             text-align: center;
-            box-shadow: 0 0 30px rgba(166, 247, 0, 0.2);
             position: relative;
             max-height: 90vh;
             overflow-y: auto;
@@ -360,14 +414,10 @@
 
         .modal-close {
             position: absolute;
-            top: 12px;
-            right: 15px;
-            color: #aaa;
-            font-size: 1.4rem;
+            top: 12px; right: 15px;
+            color: #aaa; font-size: 1.4rem;
             cursor: pointer;
         }
-
-        .modal-close:hover { color: #fff; }
 
         .form-group {
             display: flex;
@@ -394,8 +444,6 @@
             outline: none;
         }
 
-        .form-control:focus { border-color: var(--accent-green); }
-
         .auth-divider {
             display: flex;
             align-items: center;
@@ -407,9 +455,7 @@
         }
 
         .auth-divider::before, .auth-divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #333;
+            content: ''; flex: 1; border-bottom: 1px solid #333;
         }
 
         .auth-divider span { padding: 0 10px; }
@@ -426,11 +472,14 @@
             font-weight: 700;
             text-decoration: underline;
         }
+
+        .profile-overlay { background-color: #0a0a0a; padding: 30px 5%; overflow-y: auto; display: none; }
+        .profile-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 30px; }
     </style>
 </head>
 <body>
 
-    <!-- NAVIGAZIONE -->
+    <!-- NAVBAR -->
     <nav>
         <a href="#home" class="nav-home-badge" id="logoBadge" title="Torna alla Home">
             <span class="z-letter">Z</span><span class="d-letter">D</span>
@@ -444,6 +493,12 @@
                 <button class="btn-auth-nav" id="btnAuth" onclick="handleAuthButtonClick()">
                     <i class="fa-solid fa-user"></i> <span id="btnAuthText">Accedi / Iscriviti</span>
                 </button>
+
+                <!-- DROPDOWN UTENTE -->
+                <div class="user-dropdown" id="userDropdown">
+                    <a href="javascript:void(0)" onclick="openProfileOverlay()"><i class="fa-solid fa-id-card" style="color:var(--accent-green);"></i> Il Mio Garage</a>
+                    <a href="javascript:void(0)" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
+                </div>
             </li>
         </ul>
     </nav>
@@ -464,12 +519,38 @@
         </div>
     </section>
 
-    <!-- MODAL REGISTRAZIONE E LOGIN -->
+    <!-- CHI SIAMO -->
+    <section id="chi-siamo" class="container">
+        <h2 class="section-title">Chi <span>Siamo</span></h2>
+        <p style="text-align: center; font-size: 1.05rem; font-weight: 300; color: #bbbbbb; max-width: 850px; margin: 0 auto; line-height: 1.8;">
+            Zona Detailing nasce dalla passione maniacale per la cura dell'auto. Offriamo un servizio esclusivo di Car Detailing a domicilio su tutta Roma e provincia.
+        </p>
+    </section>
+
+    <!-- SERVIZI -->
+    <section id="servizi" class="container">
+        <h2 class="section-title">I Nostri <span>Servizi</span></h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Igienizzazione Interni</h3>
+                <p>Lavaggio a vapore profondo di sedili, moquette e cielo. Eliminazione di macchie e cattivi odori.</p>
+            </div>
+            <div class="service-card">
+                <h3>Decontaminazione</h3>
+                <p>Eliminazione chimica e meccanica delle particelle ferrose e residui stradali.</p>
+            </div>
+            <div class="service-card">
+                <h3>Protezione Ceramica</h3>
+                <p>Trattamento protettivo nanotecnologico ad altissimo effetto idrofobico e brillantezza profonda.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL AUTH -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeAuthModal()">&times;</span>
             
-            <!-- LOGIN -->
             <div id="loginFormBox">
                 <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 8px;">Accedi</h3>
                 <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Entra nel tuo Garage per vedere i tuoi veicoli e lo storico lavori.</p>
@@ -498,10 +579,9 @@
                 </div>
             </div>
 
-            <!-- REGISTRAZIONE -->
             <div id="signupFormBox" style="display: none;">
                 <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 8px;">Crea Account</h3>
-                <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Registrati per accedere al garage ed accumulare punti e coppe sui tuoi veicoli.</p>
+                <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Registrati per accumulare punti e coppe sui tuoi veicoli.</p>
                 
                 <button class="btn-google" onclick="handleGoogleAuth()">
                     <i class="fa-brands fa-google" style="color:#db4437;"></i> Registrati con Google
@@ -514,7 +594,7 @@
                     <input type="text" id="signupName" class="form-control" placeholder="Es. Giulio Rossi">
                 </div>
                 <div class="form-group">
-                    <label>Numero di Telefono / WhatsApp *</label>
+                    <label>Telefono / WhatsApp *</label>
                     <input type="tel" id="signupPhone" class="form-control" placeholder="Es. 351 900 0774">
                 </div>
                 <div class="form-group">
@@ -538,8 +618,16 @@
     </div>
 
     <script>
+      let currentUser = null;
+
+      // Gestione UI Auth
       function handleAuthButtonClick() {
-          document.getElementById('authModal').style.display = 'flex';
+          if (currentUser) {
+              const dropdown = document.getElementById('userDropdown');
+              dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+          } else {
+              document.getElementById('authModal').style.display = 'flex';
+          }
       }
 
       function closeAuthModal() {
@@ -556,14 +644,12 @@
           }
       }
 
-      // Autenticazione Google
+      // Google Auth Handler
       async function handleGoogleAuth() {
           const provider = new firebase.auth.GoogleAuthProvider();
           try {
               const result = await auth.signInWithPopup(provider);
               const user = result.user;
-              
-              // Verifica/Salva utente su Firestore
               const userRef = db.collection('users').doc(user.uid);
               const doc = await userRef.get();
               if (!doc.exists) {
@@ -572,15 +658,40 @@
                       email: user.email,
                       phone: user.phoneNumber || "",
                       createdAt: new Date().toISOString(),
-                      vehicles: []
+                      vehicles: [],
+                      points: 0
                   });
               }
               closeAuthModal();
-              alert(`Benvenuto ${user.displayName || ''}!`);
           } catch (error) {
-              console.error("Errore autenticazione Google:", error);
+              console.error("Errore Google Auth:", error);
               alert("Errore durante l'accesso con Google: " + error.message);
           }
+      }
+
+      // Monitoraggio Stato Auth
+      auth.onAuthStateChanged(async (user) => {
+          currentUser = user;
+          const btnText = document.getElementById('btnAuthText');
+          if (user) {
+              const doc = await db.collection('users').doc(user.uid).get();
+              const userData = doc.exists ? doc.data() : {};
+              btnText.innerText = userData.name ? userData.name.split(' ')[0] : "Il Mio Garage";
+          } else {
+              btnText.innerText = "Accedi / Iscriviti";
+              document.getElementById('userDropdown').style.display = 'none';
+          }
+      });
+
+      function logoutUser() {
+          auth.signOut().then(() => {
+              window.location.reload();
+          });
+      }
+
+      function openProfileOverlay() {
+          alert("Pannello Garage aperto! (Sincronizzato con Firestore)");
+          document.getElementById('userDropdown').style.display = 'none';
       }
     </script>
 </body>
