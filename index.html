@@ -76,7 +76,7 @@
         :root { --bg-color: #0a0a0a; --card-bg: #141414; --text-color: #ffffff; --accent-green: #a6f700; --accent-green-hover: #8ce000; --border-color: #222222; }
         body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
 
-        /* NAVIGAZIONE DESKTOP E MOBILE RESPONSIVE */
+        /* NAVIGAZIONE */
         nav { 
             position: fixed; top: 0; left: 0; width: 100%; 
             background-color: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); 
@@ -97,7 +97,7 @@
             .nav-link-item { display: none; }
         }
 
-        /* HERO SECTION CON LOGO E CALL-TO-ACTION GARAGE */
+        /* HERO SECTION */
         .hero { padding: 120px 15px 60px 15px; text-align: center; background: radial-gradient(circle at center, #0f170a 0%, var(--bg-color) 80%); display: flex; flex-direction: column; align-items: center; }
         .hero-logo-container { position: relative; margin: 0 auto 15px auto; width: 100%; max-width: 380px; padding: 10px; }
         .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 75%; height: 75%; background: radial-gradient(circle, rgba(166, 247, 0, 0.35) 0%, rgba(166, 247, 0, 0) 70%); border-radius: 50%; filter: blur(35px); z-index: 1; }
@@ -106,7 +106,6 @@
         .hero-subtitle-main { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; color: var(--accent-green); margin-bottom: 6px; z-index: 2; }
         .hero-subtitle-sub { font-size: 0.95rem; font-weight: 300; font-style: italic; color: #dddddd; margin-bottom: 25px; z-index: 2; }
 
-        /* PULSANTE CTA CREA GARAGE */
         .btn-cta-garage { background: var(--accent-green); color: #000; padding: 15px 28px; border-radius: 10px; font-weight: 900; text-transform: uppercase; font-size: 0.9rem; border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 20px rgba(166, 247, 0, 0.35); transition: transform 0.2s ease; z-index: 2; margin-bottom: 20px; }
         .btn-cta-garage:hover { transform: scale(1.03); background-color: var(--accent-green-hover); }
 
@@ -146,7 +145,6 @@
         .client-avatar-large { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent-green); object-fit: cover; background: #000; }
         .client-profile-box { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 
-        /* PREVIEW FOTO ADMIN CON TASTO ELIMINA */
         .photo-preview-wrapper { position: relative; display: inline-block; margin-top: 8px; }
         .photo-preview-img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; border: 1px solid var(--accent-green); }
         .btn-remove-photo { position: absolute; top: -6px; right: -6px; background: #ff4444; color: #fff; border: none; border-radius: 50%; width: 22px; height: 22px; font-weight: 900; font-size: 12px; cursor: pointer; }
@@ -169,13 +167,13 @@
             
             <li>
                 <button class="btn-auth-nav" id="btnAuth" onclick="openAuthModal()">
-                    <i class="fa-solid fa-user"></i> <span id="btnAuthText">Profilo</span>
+                    <i class="fa-solid fa-user"></i> <span id="btnAuthText">Accedi / Profilo</span>
                 </button>
             </li>
         </ul>
     </nav>
 
-    <!-- HERO SECTION VETRINA CON PULSANTE CREA GARAGE -->
+    <!-- HERO SECTION -->
     <section id="home" class="hero">
         <div class="hero-logo-container">
             <div class="hero-glow"></div>
@@ -185,7 +183,6 @@
         <p class="hero-subtitle-main">Car Detailing a Domicilio a Roma</p>
         <p class="hero-subtitle-sub">Prenditi cura della tua auto nel giusto modo</p>
 
-        <!-- PULSANTE CALL-TO-ACTION PER INVOGLIARE ALL'ISCRIZIONE -->
         <button class="btn-cta-garage" onclick="handleGarageCTA()">
             <i class="fa-solid fa-car-tunnel"></i> Configura o Crea il Tuo Garage
         </button>
@@ -244,7 +241,7 @@
         </div>
     </section>
 
-    <!-- 📩 SEZIONE ASSISTENZA & TICKET IN FONDO AL SITO -->
+    <!-- 📩 SEZIONE ASSISTENZA & TICKET -->
     <section id="ticket" class="container">
         <div style="background:#121212; border:1px solid var(--accent-green); padding:30px 20px; border-radius:15px; max-width:650px; margin:0 auto; text-align:left;">
             <h2 class="section-title" style="margin-bottom:10px; font-size:1.4rem;"><i class="fa-solid fa-headset"></i> Assistenza & <span>Ticket Info</span></h2>
@@ -271,26 +268,34 @@
         <p>&copy; 2026 Zona Detailing - Car Detailing a Domicilio Roma. Tutti i diritti riservati.</p>
     </footer>
 
-    <!-- MODALE AUTH / ACCESSO -->
+    <!-- MODALE AUTH / ACCESSO O REGISTRAZIONE -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeAuthModal()">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;">Accedi al Tuo Garage</h3>
-            <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control"></div>
-            <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control"></div>
-            <button class="btn-app btn-primary-app" onclick="handleEmailLogin()" style="margin-bottom:10px;">Accedi</button>
-            <button class="btn-app btn-warning-app" onclick="handleEmailSignup()">Registrati</button>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;">Area Riservata / Garage</h3>
+            
+            <div id="modalLoginForm">
+                <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control" placeholder="La tua email"></div>
+                <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" placeholder="••••••••"></div>
+                <button class="btn-app btn-primary-app" onclick="handleEmailLogin()" style="margin-bottom:10px;">Accedi</button>
+                <button class="btn-app btn-warning-app" onclick="handleEmailSignup()">Crea Nuovo Account / Garage</button>
+            </div>
+
+            <div id="modalLoggedInView" style="display:none; text-align:center;">
+                <p id="loggedInUserEmail" style="color:#ccc; margin-bottom:15px; font-size:0.9rem;"></p>
+                <button class="btn-app btn-danger-app" onclick="logoutUser()">Disconnetti</button>
+            </div>
         </div>
     </div>
 
-    <!-- MODALE PANNELLO GESTIONALE ADMIN STAFF (3 RIQUADRI CON DATA, ORA, VIA, DOPPIA FOTO E STATO COMPLETATO) -->
+    <!-- MODALE PANNELLO GESTIONALE ADMIN STAFF (3 RIQUADRI) -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-box" style="max-width:700px; text-align:left;">
             <span class="modal-close" onclick="closeAdminModal()">&times;</span>
             <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px; text-align:center;"><i class="fa-solid fa-user-shield"></i> Dashboard Gestionale Staff</h3>
             
             <div class="form-group">
-                <label>Seleziona Cliente Attivo</label>
+                <label style="color:var(--accent-green);">Seleziona Cliente Attivo</label>
                 <select id="adminClientDropdown" class="form-control" onchange="selectClientAdmin(this.value)">
                     <option value="">-- Scegli cliente dalla lista --</option>
                 </select>
@@ -352,18 +357,30 @@
     </div>
 
     <script>
-      let currentUser = null, userData = null, selectedAdminUserDoc = null;
+      let currentUser = null, selectedAdminUserDoc = null;
 
-      function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
+      function openAuthModal() { 
+          document.getElementById('authModal').style.display = 'flex'; 
+          if(currentUser) {
+              document.getElementById('modalLoginForm').style.display = 'none';
+              document.getElementById('modalLoggedInView').style.display = 'block';
+              document.getElementById('loggedInUserEmail').innerText = "Connesso come: " + currentUser.email;
+          } else {
+              document.getElementById('modalLoginForm').style.display = 'block';
+              document.getElementById('modalLoggedInView').style.display = 'none';
+          }
+      }
+
       function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
       function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
       function handleGarageCTA() {
           if (currentUser) {
-              if(currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+              if (currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   document.getElementById('adminModal').style.display = 'flex';
+                  populateAdminClientDropdown();
               } else {
-                  alert("Sei già connesso al tuo account!");
+                  alert("Benvenuto nel tuo account Zona Detailing!");
               }
           } else {
               openAuthModal();
@@ -375,23 +392,28 @@
           const btnAuthText = document.getElementById('btnAuthText');
 
           if (user) {
-              btnAuthText.innerText = user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase() ? "Admin Staff" : "Mio Garage";
               if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-                  populateAdminClientDropdown();
+                  btnAuthText.innerText = "Admin Staff";
+              } else {
+                  btnAuthText.innerText = "Mio Profilo";
               }
           } else {
-              btnAuthText.innerText = "Profilo";
+              btnAuthText.innerText = "Accedi / Profilo";
           }
       });
 
       async function handleEmailLogin() {
           const email = document.getElementById('loginEmail').value;
           const pass = document.getElementById('loginPassword').value;
+          if(!email || !pass) return alert("Inserisci email e password!");
           try {
-              await auth.signInWithEmailAndPassword(email, pass);
+              const res = await auth.signInWithEmailAndPassword(email, pass);
               closeAuthModal();
-              if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+              if (res.user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   document.getElementById('adminModal').style.display = 'flex';
+                  populateAdminClientDropdown();
+              } else {
+                  alert("Accesso effettuato con successo!");
               }
           } catch(e) { alert("Errore login: " + e.message); }
       }
@@ -399,12 +421,21 @@
       async function handleEmailSignup() {
           const email = document.getElementById('loginEmail').value;
           const pass = document.getElementById('loginPassword').value;
+          if(!email || !pass) return alert("Inserisci email e password!");
           try {
               const res = await auth.createUserWithEmailAndPassword(email, pass);
               await db.collection('users').doc(res.user.uid).set({ name: email.split('@')[0], email: email, points: 0, vehicles: [] });
               closeAuthModal();
-              alert("Account creato con successo! Ora puoi registrare la tua auto.");
+              alert("Account e Garage creati con successo!");
           } catch(e) { alert("Errore registrazione: " + e.message); }
+      }
+
+      function logoutUser() {
+          auth.signOut().then(() => {
+              closeAuthModal();
+              alert("Disconnesso con successo.");
+              window.location.reload();
+          });
       }
 
       async function sendSupportTicket() {
