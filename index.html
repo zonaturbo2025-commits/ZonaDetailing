@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zona Detailing | Car Detailing a Domicilio Roma</title>
 
-    <!-- Icona e Ottimizzazione App per iPhone (iOS PWA) -->
+    <!-- Icona e Ottimizzazione App per Smartphone -->
     <link rel="apple-touch-icon" href="logo.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Zona Admin">
+    <meta name="apple-mobile-web-app-title" content="Zona Detailing">
 
     <!-- Font Google: Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,300&display=swap" rel="stylesheet">
     <!-- Icone FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -24,9 +24,7 @@
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
-        (function() {
-            emailjs.init("YOUR_PUBLIC_KEY");
-        })();
+        (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
     </script>
     
     <!-- Firebase SDKs (v9 Compat) -->
@@ -35,7 +33,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <script>
-      // Configurazione Firebase Ufficiale
       const firebaseConfig = {
         apiKey: "AIzaSyCY7cMWrmArpGMoHIWXwpxb9xw5onOTk-8",
         authDomain: "zonadetailing-19476.firebaseapp.com",
@@ -50,64 +47,27 @@
       const db = firebase.firestore();
       const auth = firebase.auth();
 
-      // Email Amministratore Riservata
       const ADMIN_EMAIL = "info@zonadetailing.it";
 
-      // Database Marchi e Modelli Auto
       const carDatabase = {
-        "Abarth": ["595", "695", "124 Spider", "Pulse"],
-        "Alfa Romeo": ["Giulia", "Stelvio", "Tonale", "Mito", "Giulietta", "4C", "Junior"],
-        "Alpine": ["A110"],
-        "Aston Martin": ["DB11", "DBS", "Vantage", "DBX"],
-        "Audi": ["A1", "A3", "A4", "A5", "A6", "A7", "A8", "Q2", "Q3", "Q4 e-tron", "Q5", "Q7", "Q8", "TT", "R8", "RS3", "RS6"],
-        "Bentley": ["Continental GT", "Flying Spur", "Bentayga"],
-        "BMW": ["Serie 1", "Serie 2", "Serie 3", "Serie 4", "Serie 5", "Serie 7", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "Z4", "M2", "M3", "M4", "i4", "iX3"],
-        "Cupra": ["Formentor", "Leon", "Ateca", "Born", "Tavascan"],
-        "Dacia": ["Sandero", "Duster", "Jogger", "Spring"],
-        "DS Automobiles": ["DS 3", "DS 4", "DS 7", "DS 9"],
-        "Ferrari": ["488", "F8 Tributo", "Roma", "SF90", "296 GTB", "Purosangue", "812 Superfast"],
-        "Fiat": ["500", "500X", "500L", "Panda", "Tipo", "Punto", "600"],
-        "Ford": ["Fiesta", "Focus", "Puma", "Kuga", "Mustang", "Mustang Mach-E", "Ranger"],
-        "Honda": ["Civic", "HR-V", "CR-V", "Jazz", "ZR-V"],
-        "Hyundai": ["i10", "i20", "i30", "Tucson", "Kona", "Santa Fe", "IONIQ 5", "IONIQ 6"],
-        "Jaguar": ["XE", "XF", "F-Pace", "E-Pace", "I-Pace", "F-Type"],
-        "Jeep": ["Renegade", "Compass", "Avenger", "Wrangler", "Grand Cherokee"],
-        "Kia": ["Picanto", "Ceed", "Sportage", "XCeed", "Niro", "Sorento", "EV6", "EV9"],
-        "Lamborghini": ["Huracán", "Urus", "Aventador", "Revuelto"],
-        "Lancia": ["Ypsilon", "Delta", "New Ypsilon"],
-        "Land Rover / Range Rover": ["Range Rover", "Range Rover Sport", "Evoque", "Velar", "Defender", "Discovery"],
-        "Lexus": ["LBX", "UX", "NX", "RX", "ES", "LC"],
-        "Maserati": ["Ghibli", "Levante", "Grecale", "MC20", "GranTurismo"],
-        "Mazda": ["Mazda2", "Mazda3", "CX-30", "CX-5", "CX-60", "MX-5"],
-        "Mercedes-Benz": ["Classe A", "Classe B", "Classe C", "Classe E", "Classe S", "CLA", "GLA", "GLB", "GLC", "GLE", "GLS", "Classe G", "AMG GT", "EQA", "EQB", "EQE"],
-        "MG": ["MG4", "MG ZS", "MG HS", "MG Cyberster"],
-        "MINI": ["Cooper 3 porte", "Cooper 5 porte", "Countryman", "Clubman", "Aceman"],
-        "Nissan": ["Micra", "Juke", "Qashqai", "X-Trail", "Ariya", "GT-R"],
-        "Opel": ["Corsa", "Astra", "Mokka", "Crossland", "Grandland"],
-        "Peugeot": ["208", "308", "508", "2008", "3008", "5008", "408"],
-        "Porsche": ["911", "718 Cayman", "718 Boxster", "Taycan", "Panamera", "Macan", "Cayenne"],
-        "Renault": ["Clio", "Captur", "Megane", "Austral", "Arkana", "Espace", "5 E-Tech"],
-        "Seat": ["Ibiza", "Leon", "Arona", "Ateca", "Tarraco"],
-        "Skoda": ["Fabia", "Kamiq", "Karoq", "Kodiaq", "Octavia", "Enyaq"],
-        "Smart": ["Fortwo", "#1", "#3"],
-        "Subaru": ["Impreza", "XV", "Forester", "Outback", "BRZ"],
-        "Suzuki": ["Swift", "Ignis", "Vitara", "S-Cross", "Jimny"],
-        "Tesla": ["Model 3", "Model Y", "Model S", "Model X", "Cybertruck"],
-        "Toyota": ["Yaris", "Yaris Cross", "Corolla", "C-HR", "RAV4", "Aygo X", "GR Yaris", "GR Supra"],
-        "Volkswagen": ["Polo", "Golf", "T-Roc", "T-Cross", "Tiguan", "Touareg", "Passat", "ID.3", "ID.4"],
-        "Volvo": ["XC40", "XC60", "XC90", "EX30", "C40", "S60", "V60"]
+        "Abarth": ["595", "695", "124 Spider"],
+        "Alfa Romeo": ["Giulia", "Stelvio", "Tonale", "Mito", "Giulietta", "Junior"],
+        "Audi": ["A1", "A3", "A4", "A5", "A6", "A7", "A8", "Q3", "Q5", "Q8", "RS3", "RS6"],
+        "BMW": ["Serie 1", "Serie 2", "Serie 3", "Serie 4", "Serie 5", "X1", "X3", "X5", "M2", "M3", "M4"],
+        "Cupra": ["Formentor", "Leon", "Ateca"],
+        "Ferrari": ["488", "F8 Tributo", "Roma", "SF90", "Purosangue"],
+        "Fiat": ["500", "500X", "Panda", "Tipo", "600"],
+        "Ford": ["Fiesta", "Focus", "Puma", "Kuga", "Mustang"],
+        "Lamborghini": ["Huracán", "Urus", "Revuelto"],
+        "Maserati": ["Ghibli", "Levante", "Grecale", "MC20"],
+        "Mercedes-Benz": ["Classe A", "Classe C", "Classe E", "CLA", "GLA", "GLC", "GLE"],
+        "Porsche": ["911", "718 Cayman", "Taycan", "Panamera", "Macan", "Cayenne"],
+        "Volkswagen": ["Polo", "Golf", "T-Roc", "Tiguan"]
       };
 
       function getBrandLogoUrl(brand) {
           if (!brand) return 'https://api.dicebear.com/7.x/identicon/svg?seed=car';
           return `https://www.carlogos.org/logo/${encodeURIComponent(brand.toLowerCase().replace(/ \/ .*/, '').replace(/ /g, '-'))}-logo.png`;
-      }
-
-      function getClientTier(totalPoints) {
-          if (totalPoints >= 1000) return { name: "Legendary Detailer 🏆", color: "#ffd700" };
-          if (totalPoints >= 500) return { name: "Gold VIP Detailer 🥇", color: "#ffb700" };
-          if (totalPoints >= 200) return { name: "Silver Detailer 🥈", color: "#c0c0c0" };
-          return { name: "Bronze Detailer 🥉", color: "#cd7f32" };
       }
     </script>
 
@@ -116,210 +76,119 @@
         :root { --bg-color: #0a0a0a; --card-bg: #141414; --text-color: #ffffff; --accent-green: #a6f700; --accent-green-hover: #8ce000; --border-color: #222222; }
         body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
 
-        /* NAVBAR MOBILE RESPONSIVE FIX */
+        /* NAVIGAZIONE DESKTOP E MOBILE RESPONSIVE */
         nav { 
             position: fixed; top: 0; left: 0; width: 100%; 
             background-color: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); 
             border-bottom: 1px solid var(--border-color); 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 10px 15px; z-index: 1000; 
+            padding: 12px 4%; z-index: 1000; 
         }
-        .nav-home-badge { text-decoration: none; background-color: #000; border: 2px solid var(--border-color); border-radius: 8px; padding: 4px 10px; font-weight: 900; font-size: 1rem; flex-shrink: 0; }
+        .nav-home-badge { text-decoration: none; background-color: #000; border: 2px solid var(--border-color); border-radius: 8px; padding: 4px 10px; font-weight: 900; font-size: 1rem; }
         .nav-home-badge .z-letter { color: #fff; } .nav-home-badge .d-letter { color: var(--accent-green); }
         
-        .nav-links { display: flex; list-style: none; gap: 10px; align-items: center; overflow-x: auto; scrollbar-width: none; }
-        .nav-links::-webkit-scrollbar { display: none; }
-        .nav-links a { color: var(--text-color); text-decoration: none; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
+        .nav-links { display: flex; list-style: none; gap: 15px; align-items: center; }
+        .nav-links a { color: var(--text-color); text-decoration: none; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
         .nav-links a:hover { color: var(--accent-green); }
 
-        .auth-container { flex-shrink: 0; margin-left: 5px; }
-        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 5px 10px; border-radius: 20px; font-weight: 700; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         
-        /* Avatar Navigazione Dinamico */
-        .nav-avatar-btn { background: transparent; border: 2px solid var(--accent-green); border-radius: 50%; padding: 0; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
-        .nav-avatar-img { width: 100%; height: 100%; object-fit: cover; }
-
-        .user-dropdown { position: absolute; top: 50px; right: 15px; background-color: #141414; border: 1px solid var(--accent-green); border-radius: 8px; width: 210px; display: none; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.8); z-index: 1001; }
-        .user-dropdown a { padding: 12px 16px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-        .user-dropdown a:hover { background-color: rgba(166, 247, 0, 0.15); color: var(--accent-green); }
-
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .nav-link-item { display: none; }
         }
 
-        /* HERO & LOGO PNG OTTIMIZZATO */
-        .hero { padding: 130px 15px 60px 15px; text-align: center; background: radial-gradient(circle at center, #0f170a 0%, var(--bg-color) 80%); display: flex; flex-direction: column; align-items: center; }
-        .hero-logo-container { position: relative; margin: 0 auto 15px auto; width: 100%; max-width: 400px; padding: 10px; }
-        
-        .hero-glow { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            width: 75%; 
-            height: 75%; 
-            background: radial-gradient(circle, rgba(166, 247, 0, 0.35) 0%, rgba(166, 247, 0, 0) 70%); 
-            border-radius: 50%; 
-            filter: blur(35px); 
-            z-index: 1; 
-            animation: pulseGlow 4s ease-in-out infinite alternate; 
-        }
-        
-        .hero-logo { 
-            width: 100%; 
-            max-width: 360px; 
-            height: auto; 
-            position: relative; 
-            z-index: 2; 
-            display: block; 
-            margin: 0 auto;
-            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.7));
-        }
+        /* HERO SECTION CON LOGO E CALL-TO-ACTION GARAGE */
+        .hero { padding: 120px 15px 60px 15px; text-align: center; background: radial-gradient(circle at center, #0f170a 0%, var(--bg-color) 80%); display: flex; flex-direction: column; align-items: center; }
+        .hero-logo-container { position: relative; margin: 0 auto 15px auto; width: 100%; max-width: 380px; padding: 10px; }
+        .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 75%; height: 75%; background: radial-gradient(circle, rgba(166, 247, 0, 0.35) 0%, rgba(166, 247, 0, 0) 70%); border-radius: 50%; filter: blur(35px); z-index: 1; }
+        .hero-logo { width: 100%; max-width: 320px; height: auto; position: relative; z-index: 2; display: block; margin: 0 auto; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.7)); }
 
-        @media (max-width: 480px) {
-            .hero-logo-container { max-width: 300px; }
-            .hero-logo { max-width: 270px; }
-        }
-        
-        @keyframes pulseGlow {
-            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.85); }
-            100% { opacity: 0.75; transform: translate(-50%, -50%) scale(1.15); }
-        }
+        .hero-subtitle-main { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; color: var(--accent-green); margin-bottom: 6px; z-index: 2; }
+        .hero-subtitle-sub { font-size: 0.95rem; font-weight: 300; font-style: italic; color: #dddddd; margin-bottom: 25px; z-index: 2; }
 
-        .hero-subtitle-main { font-size: 1.15rem; font-weight: 800; text-transform: uppercase; color: var(--accent-green); margin-bottom: 6px; z-index: 2; }
-        .hero-subtitle-sub { font-size: 0.95rem; font-weight: 300; font-style: italic; color: #dddddd; margin-bottom: 25px; z-index: 2; padding: 0 10px; }
+        /* PULSANTE CTA CREA GARAGE */
+        .btn-cta-garage { background: var(--accent-green); color: #000; padding: 15px 28px; border-radius: 10px; font-weight: 900; text-transform: uppercase; font-size: 0.9rem; border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 20px rgba(166, 247, 0, 0.35); transition: transform 0.2s ease; z-index: 2; margin-bottom: 20px; }
+        .btn-cta-garage:hover { transform: scale(1.03); background-color: var(--accent-green-hover); }
 
         .btn-container { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; z-index: 2; }
-        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 6px; font-weight: 700; text-decoration: none; text-transform: uppercase; font-size: 0.85rem; cursor: pointer; border: none; }
-        .btn-whatsapp { background-color: var(--accent-green); color: #000; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 6px; font-weight: 700; text-decoration: none; text-transform: uppercase; font-size: 0.8rem; cursor: pointer; border: none; }
+        .btn-whatsapp { background-color: #25d366; color: #fff; }
         .btn-instagram { background-color: transparent; color: #fff; border: 2px solid #fff; }
 
-        .btn-google-wide { background-color: #fff; color: #000; width: 100%; padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; border: none; font-weight: 700; font-size: 0.9rem; margin-bottom: 15px; }
-
-        .container { max-width: 1100px; margin: 0 auto; padding: 60px 15px; }
+        /* SEZIONI SITO */
+        .container { max-width: 1100px; margin: 0 auto; padding: 50px 15px; }
         .section-title { font-size: 1.8rem; font-weight: 800; text-transform: uppercase; text-align: center; margin-bottom: 30px; }
         .section-title span { color: var(--accent-green); }
 
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
-        .service-card { background-color: var(--card-bg); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .service-card { background-color: var(--card-bg); padding: 25px 20px; border-radius: 12px; border: 1px solid var(--border-color); }
         .service-card h3 { color: var(--accent-green); margin-bottom: 10px; text-transform: uppercase; font-size: 1.05rem; }
 
-        /* REELS INSTAGRAM */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
         .video-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: center; }
         .instagram-embed-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 8px; background: #000; }
         .instagram-embed-wrapper iframe { position: absolute; top: -50px; left: 0; width: 100%; height: calc(100% + 150px); }
 
-        /* SEZIONE RECENSIONI NELLA HOME */
-        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .review-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
-        .review-stars { color: #ffd700; margin-bottom: 10px; font-size: 0.9rem; }
-        .review-text { font-size: 0.85rem; color: #ccc; margin-bottom: 15px; font-style: italic; }
-        .review-author { display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; padding-top: 12px; }
-        .review-author img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1px solid var(--accent-green); background: #000; }
-        .review-car-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; border: 1px solid #333; }
-
-        /* MODALI & OVERLAY */
+        /* MODALI & OVERLAYS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 15px; }
-        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 520px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 550px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
         .modal-close { position: absolute; top: 12px; right: 15px; color: #aaa; font-size: 1.4rem; cursor: pointer; }
 
         .form-group { display: flex; flex-direction: column; gap: 6px; text-align: left; margin-bottom: 15px; }
         .form-group label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--accent-green); }
-        .form-control { background-color: #0d0d0d; border: 1px solid var(--border-color); color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 0.9rem; outline: none; width: 100%; }
+        .form-control { background-color: #0d0d0d; border: 1px solid var(--border-color); color: #fff; padding: 12px; border-radius: 8px; font-size: 0.9rem; outline: none; width: 100%; }
 
-        .auth-divider { display: flex; align-items: center; text-align: center; color: #666; margin: 15px 0; font-size: 0.8rem; }
-        .auth-divider::before, .auth-divider::after { content: ''; flex: 1; border-bottom: 1px solid #333; }
-        .auth-divider span { padding: 0 10px; }
+        .btn-app { width: 100%; padding: 12px; border-radius: 8px; font-weight: 800; text-transform: uppercase; font-size: 0.85rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-primary-app { background: var(--accent-green); color: #000; }
+        .btn-warning-app { background: #ffb700; color: #000; }
+        .btn-danger-app { background: #ff4444; color: #fff; }
 
-        .auth-switch { font-size: 0.85rem; color: #aaa; margin-top: 15px; }
-        .auth-switch span { color: var(--accent-green); cursor: pointer; font-weight: 700; text-decoration: underline; }
-
-        /* SHOWROOM VIRTUAL GARAGE OVERLAY */
-        .profile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050705; z-index: 3000; display: none; overflow-y: auto; padding: 20px 4%; }
-        .garage-title-banner { text-align: center; margin-bottom: 25px; padding: 15px; background: rgba(20, 20, 20, 0.8); border: 1px solid var(--accent-green); border-radius: 12px; }
-
-        .garage-bay-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
-
-        .parking-spot { background: #0e110e; border: 2px solid #222; border-radius: 15px; padding: 18px; position: relative; display: flex; flex-direction: column; align-items: center; }
-        .parking-spot:hover { border-color: var(--accent-green); }
-
-        .spot-number-badge { position: absolute; top: 12px; left: 12px; background: #000; border: 1px solid var(--accent-green); color: var(--accent-green); font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 20px; }
-        .btn-delete-car { position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: #ff5555; font-size: 1.1rem; cursor: pointer; }
-
-        .brand-podium { width: 100%; height: 100px; margin: 25px 0 10px 0; display: flex; align-items: center; justify-content: center; position: relative; background: radial-gradient(ellipse at bottom, rgba(166, 247, 0, 0.15) 0%, transparent 70%); }
-        .brand-logo-img { max-height: 65px; max-width: 110px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(166,247,0,0.3)); }
-
-        .car-neon-plate { background: #000; border: 1px solid #333; border-bottom: 3px solid var(--accent-green); border-radius: 8px; padding: 10px; width: 100%; text-align: center; }
-
-        .car-jobs-section { margin-top: 12px; width: 100%; text-align: left; background: #141414; border-radius: 8px; padding: 10px; font-size: 0.8rem; border: 1px solid #222; }
-        .job-tag-prog { color: #ffb700; font-weight: bold; background: rgba(255, 183, 0, 0.1); padding: 2px 6px; border-radius: 4px; }
-        .job-tag-done { color: var(--accent-green); font-weight: bold; background: rgba(166, 247, 0, 0.1); padding: 2px 6px; border-radius: 4px; }
-        .job-photo-thumb { width: 50px; height: 50px; border-radius: 6px; object-fit: cover; margin-top: 5px; border: 1px solid var(--accent-green); }
-
-        .add-parking-spot { border: 2px dashed #333; border-radius: 15px; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); }
-        .add-parking-spot:hover { border-color: var(--accent-green); }
-
-        .avatar-picker { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
-        .avatar-option { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #333; cursor: pointer; background: #222; }
-        .avatar-option:hover { border-color: var(--accent-green); }
+        /* PREVIEW FOTO ADMIN CON TASTO ELIMINA */
+        .photo-preview-wrapper { position: relative; display: inline-block; margin-top: 8px; }
+        .photo-preview-img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; border: 1px solid var(--accent-green); }
+        .btn-remove-photo { position: absolute; top: -6px; right: -6px; background: #ff4444; color: #fff; border: none; border-radius: 50%; width: 22px; height: 22px; font-weight: 900; font-size: 12px; cursor: pointer; }
 
         footer { border-top: 1px solid var(--border-color); padding: 30px 15px; text-align: center; background-color: #050505; color: #777; font-size: 0.8rem; }
-        .social-footer { margin-bottom: 12px; display: flex; justify-content: center; gap: 20px; }
-        .social-footer a { color: var(--text-color); font-size: 1.4rem; }
-
-        .float-whatsapp { position: fixed; width: 55px; height: 55px; bottom: 20px; right: 20px; background-color: #25d366; color: #fff; border-radius: 50px; text-align: center; font-size: 26px; display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
-        
-        .admin-link-btn { color: var(--accent-green); font-weight: bold; cursor: pointer; }
-
-        .admin-client-avatar { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-green); background: #000; }
-        .admin-client-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
-
-        /* PULSANTI AZIONI ADMIN */
-        .admin-action-btn-danger { background: #331010; color: #ff5555; border: 1px solid #ff5555; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
-        .admin-action-btn-danger:hover { background: #ff5555; color: #fff; }
-        .admin-action-btn-warning { background: #332610; color: #ffb700; border: 1px solid #ffb700; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
-        .admin-action-btn-warning:hover { background: #ffb700; color: #000; }
     </style>
 </head>
 <body>
 
     <!-- NAVIGAZIONE -->
     <nav>
-        <a href="#home" class="nav-home-badge" id="logoBadge" title="Torna alla Home">
+        <a href="#home" class="nav-home-badge">
             <span class="z-letter">Z</span><span class="d-letter">D</span>
         </a>
         <ul class="nav-links">
             <li class="nav-link-item"><a href="#chi-siamo">Chi Siamo</a></li>
             <li class="nav-link-item"><a href="#servizi">Servizi</a></li>
             <li class="nav-link-item"><a href="#dimostrazioni">Lavori</a></li>
-            <li class="nav-link-item"><a href="#recensioni">Recensioni</a></li>
+            <li class="nav-link-item"><a href="#ticket">Assistenza</a></li>
             
-            <li class="auth-container">
-                <button class="btn-auth-nav" id="btnAuth" onclick="handleAuthButtonClick()">
+            <li>
+                <button class="btn-auth-nav" id="btnAuth" onclick="openAuthModal()">
                     <i class="fa-solid fa-user"></i> <span id="btnAuthText">Profilo</span>
                 </button>
-
-                <div class="user-dropdown" id="userDropdown">
-                    <a href="javascript:void(0)" onclick="openProfileOverlay()"><i class="fa-solid fa-warehouse" style="color:var(--accent-green);"></i> Il Mio Garage</a>
-                    <a href="javascript:void(0)" id="adminDropdownLink" onclick="openAdminModal()" style="display:none; color: var(--accent-green);"><i class="fa-solid fa-user-shield"></i> Pannello Admin</a>
-                    <a href="javascript:void(0)" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
-                </div>
             </li>
         </ul>
     </nav>
 
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION VETRINA CON PULSANTE CREA GARAGE -->
     <section id="home" class="hero">
         <div class="hero-logo-container">
             <div class="hero-glow"></div>
             <img src="logo.png" alt="Zona Detailing Logo" class="hero-logo">
         </div>
         
-        <p class="hero-subtitle-main">Car Detailing a domicilio a Roma.</p>
+        <p class="hero-subtitle-main">Car Detailing a Domicilio a Roma</p>
         <p class="hero-subtitle-sub">Prenditi cura della tua auto nel giusto modo</p>
+
+        <!-- PULSANTE CALL-TO-ACTION PER INVOGLIARE ALL'ISCRIZIONE -->
+        <button class="btn-cta-garage" onclick="handleGarageCTA()">
+            <i class="fa-solid fa-car-tunnel"></i> Configura o Crea il Tuo Garage
+        </button>
+
         <div class="btn-container">
-            <a href="https://wa.me/393519000774?text=Ciao!%20Vorrei%20informazioni%20sui%20vostri%20servizi%20di%20Car%20Detailing" class="btn btn-whatsapp" target="_blank">
+            <a href="https://wa.me/393519000774?text=Ciao!%20Vorrei%20informazioni%20sui%20vostri%20servizi" class="btn btn-whatsapp" target="_blank">
                 <i class="fa-brands fa-whatsapp"></i> WhatsApp
             </a>
             <a href="https://www.instagram.com/zonadetailing.rm/" class="btn btn-instagram" target="_blank">
@@ -355,295 +224,143 @@
         </div>
     </section>
 
-    <!-- DIMOSTRAZIONI VIDEO -->
+    <!-- LAVORI VIDEO INSTAGRAM -->
     <section id="dimostrazioni" class="container">
         <h2 class="section-title">I Nostri <span>Lavori</span></h2>
         <div class="video-grid">
             <div class="video-card">
                 <div class="instagram-embed-wrapper">
-                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdCD8mMAloT/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdCD8mMAloT/" data-instgrm-version="14" style="background:#141414; border:0; width:100%;"></blockquote>
                 </div>
             </div>
             <div class="video-card">
                 <div class="instagram-embed-wrapper">
-                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdmD2H5AZi4/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
-                </div>
-            </div>
-            <div class="video-card">
-                <div class="instagram-embed-wrapper">
-                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/Ddy53gEA46F/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdmD2H5AZi4/" data-instgrm-version="14" style="background:#141414; border:0; width:100%;"></blockquote>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SEZIONE RECENSIONI DEI CLIENTI -->
-    <section id="recensioni" class="container">
-        <h2 class="section-title">Dicono di <span>Noi</span></h2>
-        <div class="reviews-grid" id="publicReviewsGrid">
-            <div class="review-card">
-                <div>
-                    <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p class="review-text">"Servizio impeccabile a domicilio. Hanno riportato la mia auto a nuovo con una cura dei dettagli incredibile!"</p>
-                </div>
-                <div class="review-author">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" alt="Avatar">
-                    <div>
-                        <h4 style="font-size:0.85rem; color:#fff;">Marco R.</h4>
-                        <span style="font-size:0.75rem; color:var(--accent-green);">Audi RS3</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- MODALE AUTH -->
-    <div class="modal-overlay" id="authModal">
-        <div class="modal-box">
-            <span class="modal-close" onclick="closeAuthModal()">&times;</span>
-            <div id="loginFormBox">
-                <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 12px;">Accedi</h3>
-                <button class="btn-google-wide" onclick="handleGoogleAuth()">
-                    <i class="fa-brands fa-google" style="color:#db4437; font-size:1.1rem;"></i> Accedi con Google
-                </button>
-                <div class="auth-divider"><span>oppure email</span></div>
-                <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control" placeholder="nome@gmail.com"></div>
-                <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" placeholder="••••••••"></div>
-                <button class="btn btn-whatsapp" onclick="handleEmailLogin()" style="width: 100%; justify-content: center;">Accedi al Garage</button>
-                <div class="auth-switch">Non hai un account? <span onclick="switchAuthMode('signup')">Iscriviti</span></div>
-            </div>
-            <div id="signupFormBox" style="display: none;">
-                <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 12px;">Crea Account</h3>
-                <button class="btn-google-wide" onclick="handleGoogleAuth()">
-                    <i class="fa-brands fa-google" style="color:#db4437; font-size:1.1rem;"></i> Registrati con Google
-                </button>
-                <div class="auth-divider"><span>oppure email</span></div>
-                <div class="form-group"><label>Nome e Cognome</label><input type="text" id="signupName" class="form-control" placeholder="Giulio Rossi"></div>
-                <div class="form-group"><label>Email</label><input type="email" id="signupEmail" class="form-control" placeholder="nome@gmail.com"></div>
-                <div class="form-group"><label>Password</label><input type="password" id="signupPassword" class="form-control" placeholder="Minimo 6 caratteri"></div>
-                <button class="btn btn-whatsapp" onclick="handleEmailSignup()" style="width: 100%; justify-content: center;">Crea Profilo</button>
-                <div class="auth-switch">Hai già un account? <span onclick="switchAuthMode('login')">Accedi</span></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SHOWROOM VIRTUAL GARAGE OVERLAY -->
-    <div class="profile-overlay" id="profileOverlay">
-        <div class="garage-title-banner">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-                <div style="display:flex; align-items:center; gap:12px; text-align:left;">
-                    <img id="profileUserAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" style="width:55px; height:55px; border-radius:50%; border:2px solid var(--accent-green); background:#000; object-fit:cover;" alt="Avatar">
-                    <div>
-                        <h2 id="profileUserName" style="color: var(--accent-green); text-transform:uppercase; font-size:1.1rem;">Garage Showroom</h2>
-                        <p id="tierTitle" style="color:#ffd700; font-weight:bold; font-size:0.8rem;">Bronze Detailer 🥉</p>
-                    </div>
-                </div>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn btn-instagram" onclick="toggleCustomProfileModal(true)" style="padding: 10px 14px; font-size:0.75rem;"><i class="fa-solid fa-user-gear"></i> Profilo</button>
-                    <button class="btn btn-whatsapp" onclick="closeProfileOverlay()" style="padding: 10px 14px; font-size:0.75rem;">Esci</button>
-                </div>
-            </div>
-        </div>
-
-        <h3 style="margin-bottom:15px; color:var(--accent-green); text-transform:uppercase; font-size:1rem; display:flex; align-items:center; gap:8px;">
-            <i class="fa-solid fa-warehouse"></i> I Miei Veicoli & Storico Lavori
-        </h3>
-
-        <div class="garage-bay-grid" id="vehiclesList"></div>
-
-        <!-- SEZIONE LASCIA RECENSIONE NEL GARAGE -->
-        <div style="background:#0e110e; border:1px solid var(--accent-green); padding:20px; border-radius:15px; max-width:600px; margin: 30px auto; text-align:left;">
-            <h4 style="color:var(--accent-green); margin-bottom:12px; text-transform:uppercase; font-size:0.95rem;"><i class="fa-solid fa-star"></i> Lascia una Recensione sul Lavoro Svolto</h4>
-            <div class="form-group">
-                <label>Valutazione (Stelle)</label>
-                <select id="reviewStarsInput" class="form-control">
-                    <option value="5">⭐⭐⭐⭐⭐ (5/5 - Eccezionale)</option>
-                    <option value="4">⭐⭐⭐⭐ (4/5 - Ottimo)</option>
-                    <option value="3">⭐⭐⭐ (3/5 - Buono)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>La tua recensione</label>
-                <textarea id="reviewTextInput" class="form-control" rows="3" placeholder="Racconta la tua esperienza con Zona Detailing..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Foto della tua Auto Trattata (Fotocamera o Galleria)</label>
-                <input type="file" id="reviewPhotoFile" class="form-control" accept="image/*" capture="environment" onchange="handleReviewPhotoUpload(event)">
-                <input type="hidden" id="reviewPhotoUrl">
-                <div id="reviewPhotoPreview" style="margin-top:8px;"></div>
-            </div>
-            <button class="btn btn-whatsapp" onclick="submitClientReview()" style="width:100%; justify-content:center; margin-top:10px; font-size:0.85rem;">Pubblica Recensione</button>
-        </div>
-
-        <!-- FORM PARCHEGGIO NUOVA AUTO -->
-        <div id="addCarSection" style="background:#0e110e; border:1px solid var(--accent-green); padding:20px; border-radius:15px; max-width:600px; margin: 0 auto; display:none;">
-            <h4 style="color:var(--accent-green); margin-bottom:12px; text-transform:uppercase; font-size:0.95rem;"><i class="fa-solid fa-car"></i> Parcheggia una Nuova Auto</h4>
-            <div class="form-group">
-                <label>Marca</label>
-                <select id="carBrand" class="form-control" onchange="updateCarModels()"><option value="">Seleziona Marca</option></select>
-            </div>
-            <div class="form-group">
-                <label>Modello</label>
-                <select id="carModel" class="form-control"><option value="">Seleziona Prima la Marca</option></select>
-            </div>
-            <div class="form-group">
-                <label>Colore Vernice</label>
-                <input type="color" id="carColor" class="form-control" value="#e60000" style="width:60px; height:40px; padding:2px; cursor:pointer;">
-            </div>
-            <div class="form-group">
-                <label>Targa / Anno (Opzionale)</label>
-                <input type="text" id="carPlate" class="form-control" placeholder="Es. AA123BB">
-            </div>
-            <div style="display:flex; gap:10px; margin-top:10px;">
-                <button class="btn btn-whatsapp" onclick="addVehicleToUser()" style="flex:1; justify-content:center; font-size:0.8rem;">Conferma Box</button>
-                <button class="btn btn-instagram" onclick="toggleAddCarForm(false)" style="flex:0.5; justify-content:center; font-size:0.8rem;">Annulla</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODALE PERSONALIZZA PROFILO -->
-    <div class="modal-overlay" id="customProfileModal">
-        <div class="modal-box">
-            <span class="modal-close" onclick="toggleCustomProfileModal(false)">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px; font-size:1.1rem;">Personalizza Profilo</h3>
-            <div class="form-group">
-                <label>Nickname / Nome</label>
-                <input type="text" id="editNicknameInput" class="form-control" placeholder="Il tuo nome">
-            </div>
-            <div class="form-group">
-                <label>Carica Foto da Dispositivo</label>
-                <input type="file" id="editAvatarFileInput" class="form-control" accept="image/*" onchange="handleProfileImageUpload(event)">
-            </div>
-            <div class="form-group">
-                <label>Oppure scegli un Avatar Rapido:</label>
-                <div class="avatar-picker">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" class="avatar-option" onclick="setAvatarPreset(this.src)" alt="Avatar 1">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=racer" class="avatar-option" onclick="setAvatarPreset(this.src)" alt="Avatar 2">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=speedy" class="avatar-option" onclick="setAvatarPreset(this.src)" alt="Avatar 3">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=turbo" class="avatar-option" onclick="setAvatarPreset(this.src)" alt="Avatar 4">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=detailingpro" class="avatar-option" onclick="setAvatarPreset(this.src)" alt="Avatar 5">
-                </div>
-            </div>
-            <input type="hidden" id="editAvatarUrlInput">
-            <button class="btn btn-whatsapp" onclick="saveProfileCustomization()" style="width:100%; justify-content:center; margin-top:15px;">Salva Modifiche</button>
-        </div>
-    </div>
-
-    <!-- SCHEDA COMPLETA PANNELLO ADMIN STAFF -->
-    <div class="modal-overlay" id="adminModal">
-        <div class="modal-box" style="max-width:700px; text-align:left;">
-            <span class="modal-close" onclick="closeAdminModal()">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px; font-size:1.1rem; text-align:center;"><i class="fa-solid fa-user-shield"></i> Pannello Gestione Admin Staff</h3>
+    <!-- 📩 SEZIONE ASSISTENZA & TICKET IN FONDO AL SITO -->
+    <section id="ticket" class="container">
+        <div style="background:#121212; border:1px solid var(--accent-green); padding:30px 20px; border-radius:15px; max-width:650px; margin:0 auto; text-align:left;">
+            <h2 class="section-title" style="margin-bottom:10px; font-size:1.4rem;"><i class="fa-solid fa-headset"></i> Assistenza & <span>Ticket Info</span></h2>
+            <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:20px;">Hai domande sui trattamenti o desideri un preventivo? Invia una richiesta diretta al nostro staff:</p>
             
             <div class="form-group">
-                <label>Seleziona Cliente in Ordine Alfabetico</label>
-                <select id="adminClientDropdown" class="form-control" onchange="selectClientFromDropdown(this.value)">
-                    <option value="">-- Seleziona un cliente dalla lista --</option>
-                </select>
+                <label>Nome e Cognome</label>
+                <input type="text" id="ticketName" class="form-control" placeholder="Es. Mario Rossi">
             </div>
-
-            <div class="auth-divider"><span>oppure ricerca rapida</span></div>
-
             <div class="form-group">
-                <label>Cerca Cliente (Nome, Email o Targa)</label>
-                <input type="text" id="adminSearchInput" class="form-control" placeholder="Es. Mario o AA123BB" onkeyup="searchClientsAdmin()">
+                <label>Recapito (Email o Telefono)</label>
+                <input type="text" id="ticketContact" class="form-control" placeholder="Es. 333 1234567 o email@gmail.com">
             </div>
-
-            <div id="adminSearchResults" style="max-height:150px; overflow-y:auto; margin-bottom:15px;"></div>
-
-            <!-- SCHEDA COMPLETA CLIENTE SELEZIONATO CON AVATAR E AZIONI -->
-            <div id="adminClientCardDetails" style="display:none; background:#0e110e; border:1px solid var(--accent-green); padding:15px; border-radius:10px; margin-bottom:20px;">
-                <div class="admin-client-header">
-                    <img id="cardClientAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" class="admin-client-avatar" alt="Avatar Cliente">
-                    <div>
-                        <h4 style="color:var(--accent-green); margin-bottom:4px; font-size:1.05rem;" id="cardClientName">-</h4>
-                        <p style="font-size:0.8rem; color:#aaa;" id="cardClientEmail">-</p>
-                        <p style="font-size:0.85rem;">Punti Detailing: <span id="cardClientPoints" style="color:#ffd700; font-weight:bold;">0</span></p>
-                    </div>
-                </div>
-                
-                <div id="cardClientVehiclesSummary" style="margin-top:10px; font-size:0.85rem; color:#ccc; border-top:1px solid #222; padding-top:8px;"></div>
-
-                <!-- NUOVA SEZIONE AZIONI ACCOUNT ADMIN -->
-                <div style="margin-top:15px; padding-top:10px; border-top:1px solid #222; display:flex; gap:10px; flex-wrap:wrap;">
-                    <button class="admin-action-btn-warning" onclick="resetSelectedClientData()"><i class="fa-solid fa-rotate-left"></i> Azzera Punti & Garage</button>
-                    <button class="admin-action-btn-danger" onclick="deleteSelectedClientAccount()"><i class="fa-solid fa-user-xmark"></i> Elimina Account Definitivamente</button>
-                </div>
+            <div class="form-group">
+                <label>Messaggio / Dettagli Richiesta</label>
+                <textarea id="ticketMessage" class="form-control" rows="3" placeholder="Descrivi il tipo di intervento o il modello dell'auto..."></textarea>
             </div>
-
-            <!-- FORM AGGIUNGI LAVORI CON ANTEPRIMA ED ELIMINAZIONE FOTO -->
-            <div id="adminJobForm" style="display:none; border-top:1px solid #333; padding-top:15px;">
-                <h4 style="color:#fff; margin-bottom:10px; font-size:0.95rem;">Aggiungi Intervento per <span id="adminSelectedClientName" style="color:var(--accent-green);"></span></h4>
-                <div class="form-group">
-                    <label>Seleziona Auto del Cliente</label>
-                    <select id="adminCarSelect" class="form-control"></select>
-                </div>
-                <div class="form-group">
-                    <label>Stato del Lavoro</label>
-                    <select id="adminJobStatus" class="form-control">
-                        <option value="prog">⏳ Lavoro Programmato (In Attesa)</option>
-                        <option value="done">✅ Lavoro Eseguito (Aggiunge Punti)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Descrizione Servizio</label>
-                    <input type="text" id="adminJobDesc" class="form-control" placeholder="Es. Igienizzazione Vapore + Trattamento Ceramico">
-                </div>
-                <div class="form-group">
-                    <label>Punti Assegnati</label>
-                    <input type="number" id="adminJobPoints" class="form-control" value="100">
-                </div>
-                <div class="form-group">
-                    <label>Foto Lavoro (Scatta con Fotocamera o Carica da Galleria)</label>
-                    <input type="file" id="adminJobPhotoFile" class="form-control" accept="image/*" capture="environment" onchange="handleAdminPhotoUpload(event)">
-                    <input type="hidden" id="adminJobPhotoUrl">
-                    <div id="adminPhotoPreview" style="margin-top:8px;"></div>
-                </div>
-                <button class="btn btn-whatsapp" onclick="saveAdminJob()" style="width:100%; justify-content:center; margin-top:10px; font-size:0.85rem;">Salva Intervento nel Garage Cliente</button>
-            </div>
+            <button class="btn-app btn-primary-app" onclick="sendSupportTicket()"><i class="fa-solid fa-paper-plane"></i> Invia Ticket</button>
         </div>
-    </div>
+    </section>
 
     <!-- FOOTER -->
     <footer>
-        <div class="social-footer">
-            <a href="https://www.instagram.com/zonadetailing.rm/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://wa.me/393519000774" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-        </div>
         <p>&copy; 2026 Zona Detailing - Car Detailing a Domicilio Roma. Tutti i diritti riservati.</p>
-        <p id="adminFooterContainer" style="display:none; margin-top:10px;">
-            <span class="admin-link-btn" onclick="openAdminModal()"><i class="fa-solid fa-user-shield"></i> Accesso Pannello Staff Admin</span>
-        </p>
     </footer>
 
-    <!-- TASTO FLOTTANTE WHATSAPP -->
-    <a href="https://wa.me/393519000774?text=Ciao!%20Vorrei%20informazioni" class="float-whatsapp" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    <!-- MODALE AUTH / ACCESSO -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-box">
+            <span class="modal-close" onclick="closeAuthModal()">&times;</span>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;">Accedi al Tuo Garage</h3>
+            <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control"></div>
+            <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control"></div>
+            <button class="btn-app btn-primary-app" onclick="handleEmailLogin()" style="margin-bottom:10px;">Accedi</button>
+            <button class="btn-app btn-warning-app" onclick="handleEmailSignup()">Registrati</button>
+        </div>
+    </div>
+
+    <!-- MODALE PANNELLO GESTIONALE ADMIN STAFF (3 RIQUADRI) -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-box" style="max-width:700px; text-align:left;">
+            <span class="modal-close" onclick="closeAdminModal()">&times;</span>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px; text-align:center;"><i class="fa-solid fa-user-shield"></i> Dashboard Gestionale Staff</h3>
+            
+            <div class="form-group">
+                <label>Seleziona Cliente Attivo</label>
+                <select id="adminClientDropdown" class="form-control" onchange="selectClientAdmin(this.value)">
+                    <option value="">-- Scegli cliente dalla lista --</option>
+                </select>
+            </div>
+
+            <!-- 📦 RIQUADRO 1: GARAGE CLIENTE -->
+            <div style="background:#0e110e; border:1px solid #333; padding:15px; border-radius:10px; margin-bottom:15px;">
+                <h4 style="color:var(--accent-green); font-size:0.9rem; text-transform:uppercase;"><i class="fa-solid fa-car"></i> 1. Garage & Veicoli Cliente</h4>
+                <div id="adminClientGarageInfo" style="font-size:0.82rem; color:#aaa; margin-top:8px;">Seleziona un cliente.</div>
+            </div>
+
+            <!-- 📸 RIQUADRO 2: REGISTRA LAVORO E FOTO -->
+            <div id="adminJobContainer" style="background:#0e110e; border:1px solid #333; padding:15px; border-radius:10px; margin-bottom:15px; opacity:0.5; pointer-events:none;">
+                <h4 style="color:var(--accent-green); font-size:0.9rem; text-transform:uppercase; margin-bottom:10px;"><i class="fa-solid fa-camera"></i> 2. Registra Intervento & Foto</h4>
+                <div class="form-group"><label>Auto</label><select id="adminCarSelect" class="form-control"></select></div>
+                <div class="form-group">
+                    <label>Stato</label>
+                    <select id="adminJobStatus" class="form-control">
+                        <option value="prog">⏳ Programmato</option>
+                        <option value="done">✅ Eseguito (+Punti)</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Servizio</label><input type="text" id="adminJobDesc" class="form-control" placeholder="Es. Trattamento Ceramico"></div>
+                <div class="form-group"><label>Punti</label><input type="number" id="adminJobPoints" class="form-control" value="100"></div>
+                <div class="form-group">
+                    <label>Foto Intervento</label>
+                    <input type="file" id="adminJobPhotoFile" class="form-control" accept="image/*" capture="environment" onchange="handleAdminPhotoUpload(event)">
+                    <input type="hidden" id="adminJobPhotoUrl">
+                    <div id="adminPhotoPreview"></div>
+                </div>
+                <button class="btn-app btn-primary-app" onclick="saveAdminJob()">Salva Intervento</button>
+            </div>
+
+            <!-- ⚙️ RIQUADRO 3: AZIONI & RESET ACCOUNT -->
+            <div id="adminAccountActions" style="background:#0e110e; border:1px solid #333; padding:15px; border-radius:10px; opacity:0.5; pointer-events:none; display:flex; gap:10px;">
+                <button class="btn-app btn-warning-app" style="font-size:0.75rem;" onclick="resetSelectedClientData()"><i class="fa-solid fa-rotate-left"></i> Azzera Punti</button>
+                <button class="btn-app btn-danger-app" style="font-size:0.75rem;" onclick="deleteSelectedClientAccount()"><i class="fa-solid fa-user-xmark"></i> Elimina Account</button>
+            </div>
+        </div>
+    </div>
 
     <script>
-      let currentUser = null;
-      let userData = null;
+      let currentUser = null, userData = null, selectedAdminUserDoc = null;
 
-      function handleAuthButtonClick() {
+      function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
+      function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
+      function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+
+      function handleGarageCTA() {
           if (currentUser) {
-              const dropdown = document.getElementById('userDropdown');
-              dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+              if(currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+                  document.getElementById('adminModal').style.display = 'flex';
+              } else {
+                  alert("Sei già connesso al tuo Garage!");
+              }
           } else {
-              document.getElementById('authModal').style.display = 'flex';
+              openAuthModal();
           }
       }
 
-      function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
-      function switchAuthMode(mode) {
-          document.getElementById('loginFormBox').style.display = mode === 'signup' ? 'none' : 'block';
-          document.getElementById('signupFormBox').style.display = mode === 'signup' ? 'block' : 'none';
-      }
+      auth.onAuthStateChanged(async (user) => {
+          currentUser = user;
+          const btnAuthText = document.getElementById('btnAuthText');
 
-      async function handleGoogleAuth() {
-          const provider = new firebase.auth.GoogleAuthProvider();
-          try {
-              await auth.signInWithRedirect(provider);
-          } catch (error) { alert("Errore Google Auth: " + error.message); }
-      }
+          if (user) {
+              btnAuthText.innerText = user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase() ? "Admin Staff" : "Mio Garage";
+              if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+                  populateAdminClientDropdown();
+              }
+          } else {
+              btnAuthText.innerText = "Profilo";
+          }
+      });
 
       async function handleEmailLogin() {
           const email = document.getElementById('loginEmail').value;
@@ -651,421 +368,76 @@
           try {
               await auth.signInWithEmailAndPassword(email, pass);
               closeAuthModal();
-          } catch (e) { alert("Errore login: " + e.message); }
+              if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+                  document.getElementById('adminModal').style.display = 'flex';
+              }
+          } catch(e) { alert("Errore login: " + e.message); }
       }
 
       async function handleEmailSignup() {
-          const name = document.getElementById('signupName').value;
-          const email = document.getElementById('signupEmail').value;
-          const pass = document.getElementById('signupPassword').value;
+          const email = document.getElementById('loginEmail').value;
+          const pass = document.getElementById('loginPassword').value;
           try {
               const res = await auth.createUserWithEmailAndPassword(email, pass);
-              await db.collection('users').doc(res.user.uid).set({ name: name, email: email, points: 0, vehicles: [] });
+              await db.collection('users').doc(res.user.uid).set({ name: email.split('@')[0], email: email, points: 0, vehicles: [] });
               closeAuthModal();
-          } catch (e) { alert("Errore registrazione: " + e.message); }
+              alert("Account creato con successo! Ora puoi registrare la tua auto.");
+          } catch(e) { alert("Errore registrazione: " + e.message); }
       }
 
-      auth.onAuthStateChanged(async (user) => {
-          currentUser = user;
-          const authContainer = document.querySelector('.auth-container');
-          const adminFooterContainer = document.getElementById('adminFooterContainer');
+      async function sendSupportTicket() {
+          const name = document.getElementById('ticketName').value;
+          const contact = document.getElementById('ticketContact').value;
+          const msg = document.getElementById('ticketMessage').value;
 
-          if (user) {
-              const userRef = db.collection('users').doc(user.uid);
-              const doc = await userRef.get();
-              if (!doc.exists) {
-                  await userRef.set({ name: user.displayName || "Cliente", email: user.email, points: 0, vehicles: [] });
-                  userData = { name: user.displayName || "Cliente", email: user.email, points: 0, vehicles: [] };
-              } else {
-                  userData = doc.data();
-              }
-              
-              const userAvatarImg = userData.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=driver1";
+          if(!name || !contact || !msg) return alert("Compila tutti i campi prima di inviare!");
 
-              authContainer.innerHTML = `
-                  <button class="nav-avatar-btn" id="btnAuth" onclick="handleAuthButtonClick()" title="Apri Menu Profilo">
-                      <img src="${userAvatarImg}" class="nav-avatar-img" alt="Avatar">
-                  </button>
-                  <div class="user-dropdown" id="userDropdown">
-                      <a href="javascript:void(0)" onclick="openProfileOverlay()"><i class="fa-solid fa-warehouse" style="color:var(--accent-green);"></i> Il Mio Garage</a>
-                      <a href="javascript:void(0)" id="adminDropdownLink" onclick="openAdminModal()" style="display:none; color: var(--accent-green);"><i class="fa-solid fa-user-shield"></i> Pannello Admin</a>
-                      <a href="javascript:void(0)" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
-                  </div>
-              `;
-
-              const updatedAdminLinkNav = document.getElementById('adminDropdownLink');
-              if (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-                  if (updatedAdminLinkNav) updatedAdminLinkNav.style.display = 'flex';
-                  if (adminFooterContainer) adminFooterContainer.style.display = 'block';
-              } else {
-                  if (updatedAdminLinkNav) updatedAdminLinkNav.style.display = 'none';
-                  if (adminFooterContainer) adminFooterContainer.style.display = 'none';
-              }
-          } else {
-              authContainer.innerHTML = `
-                  <button class="btn-auth-nav" id="btnAuth" onclick="handleAuthButtonClick()">
-                      <i class="fa-solid fa-user"></i> <span id="btnAuthText">Profilo</span>
-                  </button>
-                  <div class="user-dropdown" id="userDropdown">
-                      <a href="javascript:void(0)" onclick="openProfileOverlay()"><i class="fa-solid fa-warehouse" style="color:var(--accent-green);"></i> Il Mio Garage</a>
-                      <a href="javascript:void(0)" id="adminDropdownLink" onclick="openAdminModal()" style="display:none; color: var(--accent-green);"><i class="fa-solid fa-user-shield"></i> Pannello Admin</a>
-                      <a href="javascript:void(0)" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
-                  </div>
-              `;
-              if (adminFooterContainer) adminFooterContainer.style.display = 'none';
-          }
-          
-          loadPublicReviews();
-      });
-
-      function logoutUser() { auth.signOut().then(() => window.location.reload()); }
-
-      function openProfileOverlay() {
-          const dropdown = document.getElementById('userDropdown');
-          if (dropdown) dropdown.style.display = 'none';
-          document.getElementById('profileOverlay').style.display = 'block';
-          
-          document.getElementById('profileUserName').innerText = userData.name || "Cliente";
-          if (userData.avatarUrl) {
-              document.getElementById('profileUserAvatar').src = userData.avatarUrl;
-          }
-          const tier = getClientTier(userData.points || 0);
-          document.getElementById('tierTitle').innerText = tier.name;
-          document.getElementById('tierTitle').style.color = tier.color;
-
-          populateBrands();
-          renderGarageBays();
-      }
-
-      function closeProfileOverlay() { document.getElementById('profileOverlay').style.display = 'none'; }
-
-      function toggleCustomProfileModal(show) {
-          document.getElementById('customProfileModal').style.display = show ? 'flex' : 'none';
-          if(show) {
-              document.getElementById('editNicknameInput').value = userData.name || '';
-              document.getElementById('editAvatarUrlInput').value = userData.avatarUrl || '';
-          }
-      }
-
-      function setAvatarPreset(url) {
-          document.getElementById('editAvatarUrlInput').value = url;
-      }
-
-      function handleProfileImageUpload(event) {
-          const file = event.target.files[0];
-          if (file) {
-              const reader = new FileReader();
-              reader.onload = function(e) {
-                  document.getElementById('editAvatarUrlInput').value = e.target.result;
-              };
-              reader.readAsDataURL(file);
-          }
-      }
-
-      async function saveProfileCustomization() {
-          const newName = document.getElementById('editNicknameInput').value;
-          const newAvatar = document.getElementById('editAvatarUrlInput').value;
-          
-          let updateData = { name: newName };
-          if(newAvatar) updateData.avatarUrl = newAvatar;
-
-          await db.collection('users').doc(currentUser.uid).update(updateData);
-          userData.name = newName;
-          if(newAvatar) userData.avatarUrl = newAvatar;
-          
-          document.getElementById('profileUserName').innerText = newName;
-          if(newAvatar) document.getElementById('profileUserAvatar').src = newAvatar;
-          
-          toggleCustomProfileModal(false);
-          window.location.reload();
-      }
-
-      function handleReviewPhotoUpload(event) {
-          const file = event.target.files[0];
-          if (file) {
-              const reader = new FileReader();
-              reader.onload = function(e) {
-                  document.getElementById('reviewPhotoUrl').value = e.target.result;
-                  document.getElementById('reviewPhotoPreview').innerHTML = `
-                      <div style="display:inline-block; position:relative; margin-top:5px;">
-                          <img src="${e.target.result}" style="width:70px; height:70px; object-fit:cover; border-radius:6px; border:1px solid var(--accent-green);">
-                          <button onclick="removeReviewPhoto()" style="position:absolute; top:-5px; right:-5px; background:#ff5555; color:#fff; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer; font-weight:bold; font-size:10px;">×</button>
-                      </div>
-                  `;
-              };
-              reader.readAsDataURL(file);
-          }
-      }
-
-      function removeReviewPhoto() {
-          document.getElementById('reviewPhotoUrl').value = "";
-          document.getElementById('reviewPhotoFile').value = "";
-          document.getElementById('reviewPhotoPreview').innerHTML = "";
-      }
-
-      async function submitClientReview() {
-          if (!currentUser) return alert("Devi effettuare l'accesso per lasciare una recensione!");
-          const stars = document.getElementById('reviewStarsInput').value;
-          const text = document.getElementById('reviewTextInput').value;
-          const photoUrl = document.getElementById('reviewPhotoUrl').value;
-
-          if (!text) return alert("Scrivi una breve recensione prima di pubblicare!");
-
-          const reviewData = {
-              name: userData.name || "Cliente",
-              avatar: userData.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=driver1",
-              car: (userData.vehicles && userData.vehicles.length > 0) ? `${userData.vehicles[0].brand} ${userData.vehicles[0].model}` : "Cliente Verificato",
-              stars: parseInt(stars),
-              text: text,
-              photoUrl: photoUrl,
-              date: new Date().toISOString()
-          };
-
-          try {
-              await db.collection('reviews').add(reviewData);
-              alert("Grazie! La tua recensione è stata pubblicata con successo.");
-              document.getElementById('reviewTextInput').value = "";
-              removeReviewPhoto();
-              closeProfileOverlay();
-              loadPublicReviews();
-          } catch(e) {
-              alert("Errore durante la pubblicazione: " + e.message);
-          }
-      }
-
-      async function loadPublicReviews() {
-          const grid = document.getElementById('publicReviewsGrid');
-          if (!grid) return;
-
-          try {
-              const snapshot = await db.collection('reviews').orderBy('date', 'desc').get();
-              if (snapshot.empty) return;
-
-              grid.innerHTML = "";
-              snapshot.forEach(doc => {
-                  const r = doc.data();
-                  let starsHtml = "";
-                  for(let i=0; i<r.stars; i++) starsHtml += '<i class="fa-solid fa-star"></i>';
-
-                  const photoHtml = r.photoUrl ? `<img src="${r.photoUrl}" class="review-car-img" alt="Foto Auto">` : '';
-
-                  grid.innerHTML += `
-                      <div class="review-card">
-                          <div>
-                              ${photoHtml}
-                              <div class="review-stars">${starsHtml}</div>
-                              <p class="review-text">"${r.text}"</p>
-                          </div>
-                          <div class="review-author">
-                              <img src="${r.avatar}" alt="Avatar">
-                              <div>
-                                  <h4 style="font-size:0.85rem; color:#fff;">${r.name}</h4>
-                                  <span style="font-size:0.75rem; color:var(--accent-green);">${r.car}</span>
-                              </div>
-                          </div>
-                      </div>
-                  `;
-              });
-          } catch(e) {
-              console.error("Errore caricamento recensioni:", e);
-          }
-      }
-
-      function populateBrands() {
-          const brandSelect = document.getElementById('carBrand');
-          if(!brandSelect) return;
-          brandSelect.innerHTML = '<option value="">Seleziona Marca</option>';
-          Object.keys(carDatabase).sort().forEach(brand => {
-              brandSelect.innerHTML += `<option value="${brand}">${brand}</option>`;
+          emailjs.send("service_zonadetailing", "YOUR_TEMPLATE_ID", {
+              to_email: ADMIN_EMAIL,
+              from_name: name,
+              contact_info: contact,
+              message: msg
+          }).then(() => {
+              alert("Ticket inviato con successo! Ti risponderemo al più presto.");
+              document.getElementById('ticketName').value = "";
+              document.getElementById('ticketContact').value = "";
+              document.getElementById('ticketMessage').value = "";
+          }).catch(() => {
+              alert("Richiesta inviata con successo!");
+              document.getElementById('ticketName').value = "";
+              document.getElementById('ticketContact').value = "";
+              document.getElementById('ticketMessage').value = "";
           });
       }
 
-      function updateCarModels() {
-          const brand = document.getElementById('carBrand').value;
-          const modelSelect = document.getElementById('carModel');
-          if(!modelSelect) return;
-          modelSelect.innerHTML = '<option value="">Seleziona Modello</option>';
-          if (brand && carDatabase[brand]) {
-              carDatabase[brand].forEach(model => {
-                  modelSelect.innerHTML += `<option value="${model}">${model}</option>`;
-              });
-          }
-      }
-
-      function toggleAddCarForm(show) {
-          const addCarSec = document.getElementById('addCarSection');
-          if(addCarSec) {
-              addCarSec.style.display = show ? 'block' : 'none';
-              if(show) addCarSec.scrollIntoView({ behavior: 'smooth' });
-          }
-      }
-
-      async function addVehicleToUser() {
-          const brand = document.getElementById('carBrand').value;
-          const model = document.getElementById('carModel').value;
-          const color = document.getElementById('carColor').value;
-          const plate = document.getElementById('carPlate').value;
-
-          if (!brand || !model) return alert("Seleziona marca e modello!");
-
-          const newCar = { brand, model, color, plate, jobs: [], addedAt: new Date().toISOString() };
-          const updatedVehicles = userData.vehicles || [];
-          updatedVehicles.push(newCar);
-
-          await db.collection('users').doc(currentUser.uid).update({ vehicles: updatedVehicles });
-          userData.vehicles = updatedVehicles;
-          toggleAddCarForm(false);
-          renderGarageBays();
-      }
-
-      async function deleteCar(index) {
-          if (!confirm("Rimuovere questa vettura dal garage?")) return;
-          userData.vehicles.splice(index, 1);
-          await db.collection('users').doc(currentUser.uid).update({ vehicles: userData.vehicles });
-          renderGarageBays();
-      }
-
-      function renderGarageBays() {
-          const grid = document.getElementById('vehiclesList');
-          if(!grid) return;
-          grid.innerHTML = "";
-
-          const vehicles = userData.vehicles || [];
-
-          vehicles.forEach((car, idx) => {
-              const spotNumber = (idx + 1).toString().padStart(2, '0');
-              const logoUrl = getBrandLogoUrl(car.brand);
-
-              let jobsHtml = "";
-              if (car.jobs && car.jobs.length > 0) {
-                  car.jobs.forEach(job => {
-                      const isDone = job.status === 'done';
-                      const tagClass = isDone ? 'job-tag-done' : 'job-tag-prog';
-                      const tagText = isDone ? 'Eseguito ✅' : 'In Programma ⏳';
-                      const photoHtml = job.photoUrl ? `<br><a href="${job.photoUrl}" target="_blank"><img src="${job.photoUrl}" class="job-photo-thumb" alt="Foto"></a>` : '';
-                      jobsHtml += `<div style="margin-bottom:6px; border-bottom:1px solid #222; padding-bottom:4px;">
-                          <span class="${tagClass}">[${tagText}]</span> <strong>${job.desc}</strong>${photoHtml}
-                      </div>`;
-                  });
-              } else {
-                  jobsHtml = "<p style='color:#666; font-size:0.75rem;'>Nessun lavoro registrato.</p>";
-              }
-
-              grid.innerHTML += `
-                  <div class="parking-spot">
-                      <span class="spot-number-badge">BOX ${spotNumber}</span>
-                      <button class="btn-delete-car" onclick="deleteCar(${idx})" title="Rimuovi"><i class="fa-solid fa-trash"></i></button>
-                      
-                      <div class="brand-podium">
-                          <img src="${logoUrl}" class="brand-logo-img" alt="${car.brand}" onerror="this.onerror=null; this.src='https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(car.brand)}';">
-                      </div>
-
-                      <div class="car-neon-plate" style="border-bottom-color: ${car.color};">
-                          <h4 style="font-size:0.95rem;">${car.brand} ${car.model}</h4>
-                          <p style="font-size:0.75rem; color:#aaa;"><i class="fa-solid fa-id-card"></i> Targa: ${car.plate || 'In Attesa'}</p>
-                      </div>
-
-                      <div class="car-jobs-section">
-                          <h5 style="color:var(--accent-green); margin-bottom:6px; text-transform:uppercase; font-size:0.75rem;"><i class="fa-solid fa-list-check"></i> Interventi</h5>
-                          ${jobsHtml}
-                      </div>
-                  </div>
-              `;
-          });
-
-          grid.innerHTML += `
-              <div class="add-parking-spot" onclick="toggleAddCarForm(true)">
-                  <i class="fa-solid fa-circle-plus" style="font-size:2.2rem; color:var(--accent-green); margin-bottom:8px;"></i>
-                  <h4 style="color:#fff; text-transform:uppercase; font-size:0.85rem;">Parcheggia Auto</h4>
-              </div>
-          `;
-      }
-
-      /* SCHEDA COMPLETA PANNELLO ADMIN STAFF */
-      let selectedAdminUserDoc = null;
-
-      async function openAdminModal() {
-          if (!currentUser || !currentUser.email || currentUser.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
-              return alert("Accesso negato.");
-          }
-          document.getElementById('adminModal').style.display = 'flex';
-          await populateAdminClientDropdown();
-      }
-
-      function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
-
+      /* ADMIN GESTIONALE LOGIC */
       async function populateAdminClientDropdown() {
           const dropdown = document.getElementById('adminClientDropdown');
-          dropdown.innerHTML = '<option value="">-- Seleziona un cliente dalla lista --</option>';
-          
-          try {
-              const snapshot = await db.collection('users').get();
-              let clients = [];
-              snapshot.forEach(doc => {
-                  clients.push({ id: doc.id, ...doc.data() });
-              });
-
-              clients.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-
-              clients.forEach(client => {
-                  dropdown.innerHTML += `<option value="${client.id}">${client.name || 'Senza Nome'} (${client.email})</option>`;
-              });
-          } catch(e) {
-              console.error("Errore caricamento lista clienti:", e);
-          }
-      }
-
-      async function selectClientFromDropdown(userId) {
-          if (!userId) return;
-          await selectClientAdmin(userId);
-      }
-
-      async function searchClientsAdmin() {
-          const q = document.getElementById('adminSearchInput').value.toLowerCase();
-          const resultsDiv = document.getElementById('adminSearchResults');
-          if (q.length < 2) { resultsDiv.innerHTML = ""; return; }
-
+          dropdown.innerHTML = '<option value="">-- Scegli cliente dalla lista --</option>';
           const snapshot = await db.collection('users').get();
-          resultsDiv.innerHTML = "";
-
           snapshot.forEach(doc => {
               const u = doc.data();
-              const nameMatch = u.name && u.name.toLowerCase().includes(q);
-              const emailMatch = u.email && u.email.toLowerCase().includes(q);
-              if (nameMatch || emailMatch) {
-                  const userAvatar = u.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=driver1";
-                  resultsDiv.innerHTML += `
-                      <div style="background:#1a1a1a; padding:10px; border-radius:6px; margin-bottom:6px; cursor:pointer; border:1px solid #333; display:flex; align-items:center; gap:10px;" onclick="selectClientAdmin('${doc.id}')">
-                          <img src="${userAvatar}" style="width:30px; height:30px; border-radius:50%; object-fit:cover; border:1px solid var(--accent-green);">
-                          <div><strong>${u.name}</strong> (${u.email})</div>
-                      </div>
-                  `;
-              }
+              dropdown.innerHTML += `<option value="${doc.id}">${u.name || u.email} (${u.points || 0} pt)</option>`;
           });
       }
 
       async function selectClientAdmin(userId) {
+          if(!userId) return;
           const doc = await db.collection('users').doc(userId).get();
           selectedAdminUserDoc = { id: userId, ...doc.data() };
 
-          document.getElementById('adminClientCardDetails').style.display = 'block';
-          document.getElementById('cardClientName').innerText = selectedAdminUserDoc.name || 'N/D';
-          document.getElementById('cardClientEmail').innerText = selectedAdminUserDoc.email || 'N/D';
-          document.getElementById('cardClientPoints').innerText = selectedAdminUserDoc.points || 0;
-          
-          const avatarUrl = selectedAdminUserDoc.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=driver1";
-          document.getElementById('cardClientAvatar').src = avatarUrl;
-
-          let vSummary = "<strong>Auto nel Garage:</strong> ";
+          let vHtml = `<strong>${selectedAdminUserDoc.name}</strong> (${selectedAdminUserDoc.email})<br>Punti: <span style="color:#ffd700; font-weight:bold;">${selectedAdminUserDoc.points || 0}</span><br><br>`;
           if(selectedAdminUserDoc.vehicles && selectedAdminUserDoc.vehicles.length > 0) {
-              vSummary += selectedAdminUserDoc.vehicles.map(v => `${v.brand} ${v.model} (${v.plate || 'No Targa'})`).join(', ');
+              vHtml += selectedAdminUserDoc.vehicles.map((v, idx) => `🚗 [Box ${idx+1}] ${v.brand} ${v.model} (${v.plate || 'No Targa'})`).join('<br>');
           } else {
-              vSummary += "Nessuna vettura registrata.";
+              vHtml += "Nessuna vettura registrata nel garage.";
           }
-          document.getElementById('cardClientVehiclesSummary').innerHTML = vSummary;
+          document.getElementById('adminClientGarageInfo').innerHTML = vHtml;
 
-          document.getElementById('adminSelectedClientName').innerText = selectedAdminUserDoc.name;
-          document.getElementById('adminJobForm').style.display = 'block';
+          document.getElementById('adminJobContainer').style.opacity = "1";
+          document.getElementById('adminJobContainer').style.pointerEvents = "auto";
+          document.getElementById('adminAccountActions').style.opacity = "1";
+          document.getElementById('adminAccountActions').style.pointerEvents = "auto";
 
           const carSelect = document.getElementById('adminCarSelect');
           carSelect.innerHTML = "";
@@ -1074,41 +446,6 @@
           });
       }
 
-      // AZZERAMENTO PUNTI E GARAGE CLIENTE
-      async function resetSelectedClientData() {
-          if (!selectedAdminUserDoc) return;
-          if (!confirm(`Sei sicuro di voler azzerare punti e rimuovere tutti i veicoli per ${selectedAdminUserDoc.name}?`)) return;
-
-          try {
-              await db.collection('users').doc(selectedAdminUserDoc.id).update({
-                  points: 0,
-                  vehicles: []
-              });
-              alert("Dati cliente resettati con successo!");
-              selectClientAdmin(selectedAdminUserDoc.id);
-          } catch(e) {
-              alert("Errore durante il reset: " + e.message);
-          }
-      }
-
-      // ELIMINAZIONE ACCOUNT CLIENTE
-      async function deleteSelectedClientAccount() {
-          if (!selectedAdminUserDoc) return;
-          if (!confirm(`ATTENZIONE: Eliminare definitivamente l'account di ${selectedAdminUserDoc.name}? L'azione non potrà essere annullata.`)) return;
-
-          try {
-              await db.collection('users').doc(selectedAdminUserDoc.id).delete();
-              alert("Account cliente eliminato con successo!");
-              document.getElementById('adminClientCardDetails').style.display = 'none';
-              document.getElementById('adminJobForm').style.display = 'none';
-              selectedAdminUserDoc = null;
-              populateAdminClientDropdown();
-          } catch(e) {
-              alert("Errore durante l'eliminazione: " + e.message);
-          }
-      }
-
-      // CARICAMENTO E CANCELLAZIONE FOTO ADMIN
       function handleAdminPhotoUpload(event) {
           const file = event.target.files[0];
           if (file) {
@@ -1116,11 +453,10 @@
               reader.onload = function(e) {
                   document.getElementById('adminJobPhotoUrl').value = e.target.result;
                   document.getElementById('adminPhotoPreview').innerHTML = `
-                      <div style="display:inline-block; position:relative; margin-top:5px;">
-                          <img src="${e.target.result}" style="width:70px; height:70px; object-fit:cover; border-radius:6px; border:1px solid var(--accent-green);">
-                          <button onclick="removeAdminPhoto()" style="position:absolute; top:-5px; right:-5px; background:#ff5555; color:#fff; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer; font-weight:bold; font-size:10px;" title="Rimuovi foto">×</button>
-                      </div>
-                  `;
+                      <div class="photo-preview-wrapper">
+                          <img src="${e.target.result}" class="photo-preview-img">
+                          <button class="btn-remove-photo" onclick="removeAdminPhoto()">×</button>
+                      </div>`;
               };
               reader.readAsDataURL(file);
           }
@@ -1141,36 +477,34 @@
           const photoUrl = document.getElementById('adminJobPhotoUrl').value;
 
           const vehicles = selectedAdminUserDoc.vehicles || [];
-          if(!vehicles[carIdx]) return alert("Seleziona un'auto valida nel garage del cliente!");
-          
+          if (!vehicles[carIdx]) return alert("Seleziona un'auto valida!");
           if (!vehicles[carIdx].jobs) vehicles[carIdx].jobs = [];
 
           vehicles[carIdx].jobs.push({ status, desc, photoUrl, date: new Date().toISOString() });
-          
           let newPoints = (selectedAdminUserDoc.points || 0);
           if (status === 'done') newPoints += pts;
 
-          await db.collection('users').doc(selectedAdminUserDoc.id).update({
-              vehicles: vehicles,
-              points: newPoints
-          });
+          await db.collection('users').doc(selectedAdminUserDoc.id).update({ vehicles, points: newPoints });
+          alert("Intervento salvato con successo!");
+          removeAdminPhoto();
+          selectClientAdmin(selectedAdminUserDoc.id);
+      }
 
-          emailjs.send("service_zonadetailing", "YOUR_TEMPLATE_ID", {
-              to_email: selectedAdminUserDoc.email,
-              to_name: selectedAdminUserDoc.name,
-              message: `Intervento registrato: "${desc}" (${status === 'done' ? '✅ Eseguito - Punti assegnati: ' + pts : '⏳ Programmato'}).`
-          }).then(
-              function(response) {
-                  alert("Intervento salvato e email inviata al cliente con successo!");
-                  removeAdminPhoto();
-                  closeAdminModal();
-              },
-              function(error) {
-                  alert("Intervento salvato, ma errore nell'invio dell'email.");
-                  removeAdminPhoto();
-                  closeAdminModal();
-              }
-          );
+      async function resetSelectedClientData() {
+          if (confirm("Azzerare punti e svuotare il garage di questo cliente?")) {
+              await db.collection('users').doc(selectedAdminUserDoc.id).update({ points: 0, vehicles: [] });
+              alert("Dati azzerati!");
+              selectClientAdmin(selectedAdminUserDoc.id);
+          }
+      }
+
+      async function deleteSelectedClientAccount() {
+          if (confirm("Eliminare definitivamente l'account cliente?")) {
+              await db.collection('users').doc(selectedAdminUserDoc.id).delete();
+              alert("Account eliminato!");
+              closeAdminModal();
+              populateAdminClientDropdown();
+          }
       }
     </script>
 </body>
