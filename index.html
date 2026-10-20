@@ -8,8 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap" rel="stylesheet">
-    <!-- Icone FontAwesome per Navbar, WhatsApp e Instagram -->
+    <!-- Icone FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * {
             margin: 0;
@@ -35,7 +36,7 @@
             overflow-x: hidden;
         }
 
-        /* BARRA DI NAVIGAZIONE OTTIMIZZATA MOBILE */
+        /* BARRA DI NAVIGAZIONE */
         nav {
             position: fixed;
             top: 0;
@@ -65,6 +66,8 @@
             letter-spacing: -1px;
             transition: all 0.3s ease;
             flex-shrink: 0;
+            cursor: pointer;
+            user-select: none;
         }
 
         .nav-home-badge:hover {
@@ -96,13 +99,56 @@
             gap: 6px;
         }
 
-        .nav-links a i {
-            font-size: 1.1rem;
-        }
-
         .nav-links a:hover { color: var(--accent-green); }
 
-        /* HERO SECTION CENTRATA PERFETTAMENTE */
+        /* PULSANTE NAV LOGIN / ACCEDI */
+        .btn-nav-login {
+            background-color: var(--accent-green);
+            color: #000000;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-nav-login:hover {
+            background-color: var(--accent-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 0 12px rgba(166, 247, 0, 0.4);
+        }
+
+        .user-nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #141414;
+            border: 1px solid var(--accent-green);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .user-nav-avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background-color: var(--accent-green);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.75rem;
+        }
+
+        /* HERO SECTION */
         .hero {
             padding: 140px 20px 80px 20px;
             text-align: center;
@@ -125,7 +171,6 @@
             max-width: 380px;
         }
 
-        /* EFFETTO LUCE NEON SFARFALLANTE */
         .hero-glow {
             position: absolute;
             top: 50%;
@@ -213,6 +258,8 @@
             font-size: 0.9rem;
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
         }
 
         .btn-whatsapp {
@@ -238,7 +285,6 @@
             transform: translateY(-3px);
         }
 
-        /* CONTENITORE SEZIONI */
         .container {
             max-width: 1100px;
             margin: 0 auto;
@@ -266,23 +312,231 @@
             margin: 10px auto 0 auto;
         }
 
-        .about-text {
-            text-align: center;
-            font-size: 1.05rem;
-            font-weight: 300;
-            color: #bbbbbb;
-            max-width: 850px;
-            margin: 0 auto;
-            line-height: 1.8;
+        /* GARAGE UTENTE */
+        .garage-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* SERVIZI */
-        .services-grid {
+        .config-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent-green);
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            background-color: #0d0d0d;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-green);
+        }
+
+        /* SCHEDA AUTO CLIENTE */
+        .profile-display-badge {
+            background: linear-gradient(145deg, #181818 0%, #0e0e0e 100%);
+            border: 1px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 25px;
+            box-shadow: 0 0 20px rgba(166, 247, 0, 0.15);
+        }
+
+        .vehicle-identity {
+            display: flex;
+            align-items: center;
             gap: 20px;
         }
 
+        .color-preview-circle {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 15px rgba(255,255,255,0.2);
+            flex-shrink: 0;
+        }
+
+        .vehicle-info h3 {
+            font-size: 1.5rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .vehicle-info p {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .client-name-tag {
+            background-color: rgba(166, 247, 0, 0.1);
+            border: 1px solid var(--accent-green);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: var(--text-color);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* TIMELINE SERVIZI (SOLO LETTURA CLIENTE) */
+        .timeline-container {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .timeline-box {
+            background-color: #0d0d0d;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .timeline-box h4 {
+            color: var(--accent-green);
+            text-transform: uppercase;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 15px;
+            border-left: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .timeline-item.done { border-left-color: var(--accent-green); }
+        .timeline-item.scheduled { border-left-color: #3897f0; }
+
+        .timeline-item .date {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #888;
+            display: block;
+        }
+
+        .timeline-item .title {
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.95rem;
+            margin: 2px 0;
+        }
+
+        .timeline-item .desc {
+            font-size: 0.85rem;
+            color: #aaa;
+            font-weight: 300;
+        }
+
+        .btn-delete-job {
+            background: none;
+            border: none;
+            color: #ff4444;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 2px 6px;
+            transition: color 0.2s;
+        }
+
+        .btn-delete-job:hover { color: #ff8888; }
+
+        /* FLOATING ADMIN DASHBOARD TRIGGER & PANEL */
+        .admin-floating-btn {
+            position: fixed;
+            bottom: 95px;
+            right: 25px;
+            background-color: #000;
+            color: var(--accent-green);
+            border: 2px solid var(--accent-green);
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(166, 247, 0, 0.3);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .admin-floating-btn:hover {
+            transform: scale(1.08);
+            background-color: var(--accent-green);
+            color: #000;
+        }
+
+        .admin-modal-drawer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-drawer-content {
+            background-color: var(--card-bg);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 30px rgba(166, 247, 0, 0.25);
+        }
+
+        /* SERVIZI */
         .service-card {
             background-color: var(--card-bg);
             padding: 30px 25px;
@@ -302,7 +556,6 @@
             font-size: 1.15rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .service-card p {
@@ -312,7 +565,13 @@
             line-height: 1.6;
         }
 
-        /* GRIGLIA VIDEO E RITAGLIO PULITO INSTAGRAM */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* REELS INSTAGRAM */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -388,7 +647,6 @@
             text-transform: uppercase;
         }
 
-        /* FOOTER E TASTO FLUTTUANTE */
         footer {
             border-top: 1px solid var(--border-color);
             padding: 30px 20px;
@@ -435,56 +693,91 @@
 
         .float-whatsapp:hover { transform: scale(1.12); }
 
-        /* REGOLAZIONI MOBILE (DISPOSITIVI PICCOLI / SMARTPHONE) */
+        /* MODALE UTILITY CUSTOM */
+        .custom-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            z-index: 2500;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .custom-modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-green);
+            padding: 25px;
+            border-radius: 12px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(166, 247, 0, 0.2);
+        }
+
+        .custom-modal-content h3 {
+            color: var(--accent-green);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .btn-google {
+            background-color: #ffffff;
+            color: #333333;
+            border: 1px solid #ddd;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .btn-google:hover { background-color: #f1f1f1; }
+
+        .btn-apple {
+            background-color: #000000;
+            color: #ffffff;
+            border: 1px solid #444;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-apple:hover { border-color: var(--accent-green); }
+
         @media (max-width: 768px) {
-            nav {
-                padding: 10px 4%;
-            }
-
-            .nav-links {
-                gap: 15px;
-            }
-
-            /* MOSTRA LE ICONE E NASCONDE IL TESTO LUNGO PER EVITARE SOVRAPPOSIZIONI */
-            .nav-text {
-                display: none;
-            }
-
-            .nav-links a i {
-                font-size: 1.25rem;
-            }
-
-            .hero {
-                padding: 120px 15px 60px 15px;
-            }
-
-            .hero-logo-container {
-                max-width: 250px;
-            }
-
-            .hero-subtitle-main {
-                font-size: 1.05rem;
-                letter-spacing: 1px;
-            }
-
-            .hero-subtitle-sub {
-                font-size: 0.95rem;
-            }
+            nav { padding: 10px 4%; }
+            .nav-links { gap: 12px; }
+            .nav-text { display: none; }
+            .hero { padding: 120px 15px 60px 15px; }
+            .hero-logo-container { max-width: 250px; }
+            .hero-subtitle-main { font-size: 1.05rem; }
+            .hero-subtitle-sub { font-size: 0.95rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVIGAZIONE CON ICONE PER MOBILE -->
+    <!-- NAVIGAZIONE -->
     <nav>
-        <a href="#home" class="nav-home-badge" title="Torna alla Home">
+        <!-- LOGO ZD CON TRIGGER TRIPLO CLICK PER ADMIN PIN -->
+        <a id="navLogoBadge" class="nav-home-badge" title="Zona Detailing" onclick="handleLogoClick()">
             <span class="z-letter">Z</span><span class="d-letter">D</span>
         </a>
+
         <ul class="nav-links">
-            <li><a href="#chi-siamo" title="Chi Siamo"><i class="fa-solid fa-user-group"></i><span class="nav-text">Chi Siamo</span></a></li>
+            <li><a href="#garage" title="Area Garage"><i class="fa-solid fa-car"></i><span class="nav-text">Garage</span></a></li>
             <li><a href="#servizi" title="I Nostri Servizi"><i class="fa-solid fa-spray-can-sparkles"></i><span class="nav-text">Servizi</span></a></li>
-            <li><a href="#dimostrazioni" title="I Nostri Lavori"><i class="fa-solid fa-photo-film"></i><span class="nav-text">I Nostri Lavori</span></a></li>
+            <li><a href="#dimostrazioni" title="I Nostri Lavori"><i class="fa-solid fa-photo-film"></i><span class="nav-text">Lavori</span></a></li>
             <li><a href="#contatti" title="Contatti"><i class="fa-solid fa-envelope"></i><span class="nav-text">Contatti</span></a></li>
+            
+            <!-- PULSANTE ACCEDI / ISCRIVITI IN ALTO A DESTRA -->
+            <li id="navAuthSlot">
+                <button class="btn-nav-login" onclick="openLoginModal()">
+                    <i class="fa-solid fa-user"></i> Accedi / Iscriviti
+                </button>
+            </li>
         </ul>
     </nav>
 
@@ -492,7 +785,7 @@
     <section id="home" class="hero">
         <div class="hero-logo-container">
             <div class="hero-glow"></div>
-            <img src="logo.png?v=2" alt="Zona Detailing Logo" class="hero-logo">
+            <img src="logo.png?v=2" alt="Zona Detailing Logo" class="hero-logo" onerror="this.src='https://placehold.co/380x180/141414/a6f700?text=ZONA+DETAILING'">
         </div>
         
         <p class="hero-subtitle-main">Car Detailing a domicilio a Roma.</p>
@@ -507,10 +800,84 @@
         </div>
     </section>
 
+    <!-- AREA GARAGE CLIENTE -->
+    <section id="garage" class="container">
+        <h2 class="section-title">Garage <span>Virtuale</span></h2>
+
+        <!-- SCHEDA GARAGE UTENTE -->
+        <div class="garage-card">
+            <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 20px;">
+                <i class="fa-solid fa-sliders"></i> Personalizza il Tuo Veicolo
+            </h3>
+            
+            <div class="config-grid">
+                <div class="form-group">
+                    <label>Marca Veicolo</label>
+                    <select id="carMake" class="form-control" onchange="updateModels()">
+                        <option value="Kia">Kia</option>
+                        <option value="BMW">BMW</option>
+                        <option value="Audi">Audi</option>
+                        <option value="Mercedes-Benz">Mercedes-Benz</option>
+                        <option value="Volkswagen">Volkswagen</option>
+                        <option value="Alfa Romeo">Alfa Romeo</option>
+                        <option value="Porsche">Porsche</option>
+                        <option value="Fiat">Fiat</option>
+                        <option value="Ford">Ford</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Modello specifico</label>
+                    <select id="carModel" class="form-control" onchange="saveProfile()"></select>
+                </div>
+
+                <div class="form-group">
+                    <label>Colore Vettura</label>
+                    <select id="carColor" class="form-control" onchange="saveProfile()">
+                        <option value="#ffffff|Bianco Ghiaccio">Bianco Ghiaccio</option>
+                        <option value="#0d0d0d|Nero Profondo">Nero Profondo</option>
+                        <option value="#7f8c8d|Grigio Nardo">Grigio Nardo</option>
+                        <option value="#154360|Blu Notte">Blu Notte</option>
+                        <option value="#78281f|Rosso Corsa">Rosso Corsa</option>
+                        <option value="#1e8449|Verde Corsa">Verde Corsa</option>
+                        <option value="#d4ac0d|Giallo Modena">Giallo Modena</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- SCHEDA AUTO BADGE -->
+            <div class="profile-display-badge">
+                <div class="vehicle-identity">
+                    <div id="colorSwatch" class="color-preview-circle"></div>
+                    <div class="vehicle-info">
+                        <h3 id="displayCarTitle">KIA PICANTO JA</h3>
+                        <p id="displayCarColorName">Bianco Ghiaccio</p>
+                    </div>
+                </div>
+                <div class="client-name-tag">
+                    Cliente: <span id="displayNameTag">Ospite</span>
+                </div>
+            </div>
+
+            <!-- STORICO E PROGRAMMAZIONE INTERVENTI (SOLO LETTURA) -->
+            <div class="timeline-container">
+                <div class="timeline-box">
+                    <h4><i class="fa-solid fa-circle-check"></i> Lavori Eseguiti</h4>
+                    <div id="doneServicesList"></div>
+                </div>
+
+                <div class="timeline-box">
+                    <h4><i class="fa-solid fa-calendar-days"></i> Lavori Programmati</h4>
+                    <div id="scheduledServicesList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CHI SIAMO -->
     <section id="chi-siamo" class="container">
         <h2 class="section-title">Chi <span>Siamo</span></h2>
-        <p class="about-text">
+        <p style="text-align: center; font-size: 1.05rem; font-weight: 300; color: #bbbbbb; max-width: 850px; margin: 0 auto; line-height: 1.8;">
             Zona Detailing nasce dalla passione maniacale per la cura dell'auto. Offriamo un servizio esclusivo di Car Detailing a domicilio su tutta Roma e provincia. Ci occupiamo di rigenerare, proteggere e valorizzare ogni superficie della tua auto utilizzando solo attrezzature professionali e prodotti top di gamma, senza che tu debba spostare il veicolo.
         </p>
     </section>
@@ -528,7 +895,7 @@
                 <p>Eliminazione chimica e meccanica delle particelle ferrose dei freni, catrame e residui stradali ancorati. Restituisce una superficie liscia come il vetro e cerchi perfettamente brillanti.</p>
             </div>
             <div class="service-card">
-                <h3>Protezione Ceramica</h3>
+                <h3>Protezione Ceramica (12 Lavaggi)</h3>
                 <p>Trattamento protettivo nanotecnologico ad altissimo effetto idrofobico e brillantezza profonda. Garantisce uno scudo protettivo contro agenti atmosferici e sporco resistente fino a 12 lavaggi.</p>
             </div>
             <div class="service-card">
@@ -538,12 +905,10 @@
         </div>
     </section>
 
-    <!-- DIMOSTRAZIONI VIDEO E LAVORI -->
+    <!-- DIMOSTRAZIONI VIDEO (6 REELS INSTAGRAM) -->
     <section id="dimostrazioni" class="container">
         <h2 class="section-title">I Nostri <span>Lavori & Dimostrazioni</span></h2>
         <div class="video-grid">
-            
-            <!-- REEL 1 -->
             <div class="video-card">
                 <div class="instagram-embed-wrapper">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdCD8mMAloT/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
@@ -551,14 +916,10 @@
                 <div class="video-details">
                     <h3>Igienizzazione Profonda</h3>
                     <p>Pulizia e igienizzazione a vapore degli interni per risultati come nuovi.</p>
-                    <div class="video-tags">
-                        <span class="tag">Interni</span>
-                        <span class="tag">A Domicilio</span>
-                    </div>
+                    <div class="video-tags"><span class="tag">Interni</span><span class="tag">A Domicilio</span></div>
                 </div>
             </div>
 
-            <!-- REEL 2 -->
             <div class="video-card">
                 <div class="instagram-embed-wrapper">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdmD2H5AZi4/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
@@ -566,14 +927,10 @@
                 <div class="video-details">
                     <h3>Cura dei Dettagli</h3>
                     <p>Trattamento rigenerante per pelle, plastiche e finiture interne.</p>
-                    <div class="video-tags">
-                        <span class="tag">Detailing</span>
-                        <span class="tag">Roma</span>
-                    </div>
+                    <div class="video-tags"><span class="tag">Detailing</span><span class="tag">Roma</span></div>
                 </div>
             </div>
 
-            <!-- REEL 3 -->
             <div class="video-card">
                 <div class="instagram-embed-wrapper">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/Ddy53gEA46F/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
@@ -581,14 +938,10 @@
                 <div class="video-details">
                     <h3>Lucidatura & Protezione</h3>
                     <p>Eliminazione dei micro-graffi per un effetto specchio profondo.</p>
-                    <div class="video-tags">
-                        <span class="tag">Carrozzeria</span>
-                        <span class="tag">Shiny</span>
-                    </div>
+                    <div class="video-tags"><span class="tag">Carrozzeria</span><span class="tag">Shiny</span></div>
                 </div>
             </div>
 
-            <!-- REEL 4 -->
             <div class="video-card">
                 <div class="instagram-embed-wrapper">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DemcIhlgX1s/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
@@ -596,14 +949,10 @@
                 <div class="video-details">
                     <h3>BMW X1-M Detailing</h3>
                     <p>Trattamento completo svolto direttamente a domicilio a Roma.</p>
-                    <div class="video-tags">
-                        <span class="tag">BMW</span>
-                        <span class="tag">A Domicilio</span>
-                    </div>
+                    <div class="video-tags"><span class="tag">BMW</span><span class="tag">A Domicilio</span></div>
                 </div>
             </div>
 
-            <!-- REEL 5 -->
             <div class="video-card">
                 <div class="instagram-embed-wrapper">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdE_OYigTXR/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
@@ -611,14 +960,10 @@
                 <div class="video-details">
                     <h3>Passione & Precisione</h3>
                     <p>Utilizzo di prodotti e attrezzature professionali top di gamma.</p>
-                    <div class="video-tags">
-                        <span class="tag">Professional</span>
-                        <span class="tag">Roma</span>
-                    </div>
+                    <div class="video-tags"><span class="tag">Professional</span><span class="tag">Roma</span></div>
                 </div>
             </div>
 
-            <!-- REEL 6 -->
             <div class="video-card">
                 <div class="instagram-embed-wrapper">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DcqmYqJA5gJ/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
@@ -626,13 +971,9 @@
                 <div class="video-details">
                     <h3>Protezione Plastiche</h3>
                     <p>Trattamento protettivo rinnovatore per plastiche interne ed esterne.</p>
-                    <div class="video-tags">
-                        <span class="tag">Protezione</span>
-                        <span class="tag">Detailing</span>
-                    </div>
+                    <div class="video-tags"><span class="tag">Protezione</span><span class="tag">Detailing</span></div>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -652,7 +993,541 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- SCRIPT INSTAGRAM -->
+    <!-- FLOATING ADMIN DASHBOARD BUTTON (DISPONIBILE SOLO AD ADMIN) -->
+    <button id="adminFloatingBtn" class="admin-floating-btn" onclick="openAdminDrawer()">
+        <i class="fa-solid fa-user-gear"></i> Gestione Lavori
+    </button>
+
+    <!-- DRAWER AMMINISTRATORE PER ASSEGNAZIONE/ELIMINAZIONE LAVORI -->
+    <div id="adminDrawer" class="admin-modal-drawer">
+        <div class="admin-drawer-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="color: var(--accent-green); text-transform: uppercase;"><i class="fa-solid fa-user-shield"></i> Pannello Gestione Admin</h3>
+                <button onclick="closeAdminDrawer()" style="background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">&times;</button>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label>Seleziona Cliente da Gestire</label>
+                <select id="adminClientSelect" class="form-control" onchange="changeAdminSelectedClient()">
+                    <!-- Popolato dinamicamente dai clienti registrati -->
+                </select>
+            </div>
+
+            <p style="font-size: 0.85rem; color: #888; margin-bottom: 15px;">Aggiungi o programma un intervento per il cliente selezionato:</p>
+            <div class="config-grid">
+                <div class="form-group">
+                    <label>Data Intervento</label>
+                    <input type="date" id="adminDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Tipologia Servizio</label>
+                    <input type="text" id="adminTitle" class="form-control" placeholder="Es. Protezione Ceramica">
+                </div>
+                <div class="form-group">
+                    <label>Stato Servizio</label>
+                    <select id="adminStatus" class="form-control">
+                        <option value="done">Completato (Eseguito)</option>
+                        <option value="scheduled">In Programmazione (Futuro)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Note / Dettagli</label>
+                    <input type="text" id="adminDesc" class="form-control" placeholder="Es. Eseguito a domicilio">
+                </div>
+            </div>
+
+            <button class="btn btn-whatsapp" onclick="addServiceFromAdmin()" style="width: 100%; justify-content: center; margin-top: 15px;">
+                <i class="fa-solid fa-plus"></i> Assegna Lavoro al Cliente
+            </button>
+        </div>
+    </div>
+
+    <!-- MODALE LOGIN (ACCEDI / ISCRIVITI) -->
+    <div id="loginModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="margin:0;"><i class="fa-solid fa-right-to-bracket"></i> Accedi / Iscriviti</h3>
+                <button onclick="closeLoginModal()" style="background:none; border:none; color:#fff; font-size:1.4rem; cursor:pointer;">&times;</button>
+            </div>
+            <p style="color: #bbb; font-size: 0.9rem; margin-bottom: 20px;">
+                Accedi per sincronizzare il tuo veicolo e consultare lo storico dei tuoi interventi.
+            </p>
+            <button class="btn btn-google" onclick="handleLogin('Google')">
+                <i class="fa-brands fa-google"></i> Continua con Google
+            </button>
+            <button class="btn btn-apple" onclick="handleLogin('Apple')">
+                <i class="fa-brands fa-apple"></i> Continua con Apple ID
+            </button>
+        </div>
+    </div>
+
+    <!-- MODALE UTILITY NOTIFICHE -->
+    <div id="customModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <h3 id="modalTitle">Notifica</h3>
+            <p id="modalMessage">Messaggio...</p>
+            <button class="btn btn-whatsapp" style="width: 100%; justify-content: center;" onclick="closeModal()">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!-- MODALE PIN ADMIN SEGRETO (051205) -->
+    <div id="pinModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <h3><i class="fa-solid fa-key"></i> PIN Amministratore</h3>
+            <p>Inserisci il PIN per sbloccare la modalità Admin:</p>
+            <input type="password" id="adminPinInput" class="form-control" style="text-align: center; font-size: 1.2rem; letter-spacing: 5px; margin-bottom: 20px;" placeholder="******" maxlength="6">
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-instagram" style="flex: 1; justify-content: center;" onclick="closePinModal()">Annulla</button>
+                <button class="btn btn-whatsapp" style="flex: 1; justify-content: center;" onclick="verifyAdminPin()">Conferma</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT FIREBASE & LOGICA APPLICAZIONE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, signOut, GoogleAuthProvider, AppleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // EMAIL AMMINISTRATORE UFFICIALE ZONA DETAILING
+        const ADMIN_EMAIL = "zonadetailing.rm@gmail.com";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'zona-detailing-app';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "AIzaSyDummyKeyForDemoPurposesOnly",
+            authDomain: "zona-detailing.firebaseapp.com",
+            projectId: "zona-detailing",
+            storageBucket: "zona-detailing.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // MODELLI AUTO
+        const modelsData = {
+            "Kia": ["Picanto JA", "Rio", "Ceed", "Sportage", "Stonic", "EV6"],
+            "BMW": ["Serie 1", "Serie 3", "Serie 5", "X1", "X3", "X5", "M3", "M4"],
+            "Audi": ["A1", "A3", "A4", "A6", "Q3", "Q5", "RS3", "RS6"],
+            "Mercedes-Benz": ["Classe A", "Classe C", "Classe E", "GLA", "GLC", "A45 AMG"],
+            "Volkswagen": ["Golf VIII", "Polo", "T-Roc", "Tiguan", "Passat"],
+            "Alfa Romeo": ["Giulia", "Stelvio", "Tonale", "Giulietta"],
+            "Porsche": ["911", "718 Cayman", "Macan", "Cayenne", "Taycan"],
+            "Fiat": ["500", "500X", "Panda", "Tipo"],
+            "Ford": ["Fiesta", "Focus", "Puma", "Kuga", "Mustang"]
+        };
+
+        let currentUser = null;
+        let isAdminLoggedIn = false;
+        let currentSelectedAdminClientId = null;
+        let clientServices = [];
+        let allRegisteredUsers = {};
+        let logoClickCount = 0;
+        let logoClickTimer = null;
+
+        async function initAuth() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (e) {
+                console.log("Auth fallback initialized:", e.message);
+            }
+        }
+        initAuth();
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                const savedSim = localStorage.getItem('zd_simulated_user');
+                let userEmail = user.email || "";
+
+                if (savedSim) {
+                    const parsed = JSON.parse(savedSim);
+                    updateUserNavbarUI(parsed.name, parsed.avatar);
+                    if (parsed.email) userEmail = parsed.email;
+                } else if (!user.isAnonymous) {
+                    const name = user.displayName || user.email?.split('@')[0] || "Cliente Zona";
+                    updateUserNavbarUI(name, name.charAt(0).toUpperCase());
+                } else {
+                    updateGuestNavbarUI();
+                }
+
+                // VERIFICA SE È L'EMAIL ADMIN
+                if (userEmail.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+                    enableAdminMode(false);
+                }
+
+                loadUserProfile();
+                listenToUserServices();
+                listenToAllUsersForAdmin();
+            }
+        });
+
+        // GESTIONE ACCESSI / NAVBAR UI
+        window.openLoginModal = function() {
+            document.getElementById("loginModal").style.display = "flex";
+        };
+
+        window.closeLoginModal = function() {
+            document.getElementById("loginModal").style.display = "none";
+        };
+
+        function updateUserNavbarUI(name, avatarChar) {
+            const slot = document.getElementById("navAuthSlot");
+            slot.innerHTML = `
+                <div class="user-nav-profile">
+                    <div class="user-nav-avatar">${avatarChar || 'U'}</div>
+                    <span style="font-size:0.8rem; font-weight:700;">${name}</span>
+                    <button onclick="handleLogout()" style="background:none; border:none; color:#ff5555; cursor:pointer; font-size:0.85rem; margin-left:5px;" title="Esci">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            `;
+            document.getElementById("displayNameTag").textContent = name;
+        }
+
+        function updateGuestNavbarUI() {
+            const slot = document.getElementById("navAuthSlot");
+            slot.innerHTML = `
+                <button class="btn-nav-login" onclick="openLoginModal()">
+                    <i class="fa-solid fa-user"></i> Accedi / Iscriviti
+                </button>
+            `;
+            document.getElementById("displayNameTag").textContent = "Ospite";
+        }
+
+        // LOGIN GOOGLE / APPLE
+        window.handleLogin = async function(providerName) {
+            window.closeLoginModal();
+            try {
+                let provider;
+                if (providerName === 'Google') provider = new GoogleAuthProvider();
+                if (providerName === 'Apple') provider = new AppleAuthProvider();
+
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                const name = user.displayName || "Cliente Zona";
+                
+                updateUserNavbarUI(name, name.charAt(0));
+                saveSimulatedSession(name, providerName, user.email);
+
+                if (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+                    enableAdminMode(true);
+                } else {
+                    showCustomModal("Benvenuto!", `Accesso effettuato con successo.`);
+                }
+            } catch (err) {
+                // FALLBACK PER AMBIENTI LOCALI / DEMO
+                let simName = providerName === 'Google' ? "Giulio Rossi" : "Marco Bianchi";
+                let simEmail = "cliente@zonadetailing.it";
+
+                // SE SI SCEGLIE SIMULAZIONE GOOGLE E SI VUOLE TESTARE ADMIN
+                if (providerName === 'Google' && confirm("Vuoi accedere come Admin ufficiale (zonadetailing.rm@gmail.com)?")) {
+                    simEmail = ADMIN_EMAIL;
+                    simName = "Zona Detailing Admin";
+                }
+
+                updateUserNavbarUI(simName, simName.charAt(0));
+                saveSimulatedSession(simName, providerName, simEmail);
+
+                if (simEmail.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+                    enableAdminMode(true);
+                } else {
+                    showCustomModal("Accesso Effettuato", `Connesso come ${simName}`);
+                }
+            }
+            window.saveProfile();
+        };
+
+        function saveSimulatedSession(name, provider, email) {
+            localStorage.setItem('zd_simulated_user', JSON.stringify({
+                name: name,
+                provider: provider,
+                email: email || "",
+                avatar: name.charAt(0)
+            }));
+        }
+
+        window.handleLogout = async function() {
+            localStorage.removeItem('zd_simulated_user');
+            await signOut(auth);
+            isAdminLoggedIn = false;
+            document.getElementById("adminFloatingBtn").style.display = "none";
+            updateGuestNavbarUI();
+            showCustomModal("Disconnessione", "Hai effettuato il logout dal tuo Garage.");
+        };
+
+        // TRIGGER NASCOSTO TRIPLE-CLICK LOGO ZD PER PIN ADMIN (051205)
+        window.handleLogoClick = function() {
+            logoClickCount++;
+            clearTimeout(logoClickTimer);
+            
+            if (logoClickCount === 3) {
+                logoClickCount = 0;
+                openAdminPinModal();
+            } else {
+                logoClickTimer = setTimeout(() => {
+                    logoClickCount = 0;
+                }, 800);
+            }
+        };
+
+        function openAdminPinModal() {
+            document.getElementById("pinModal").style.display = "flex";
+            document.getElementById("adminPinInput").value = "";
+            document.getElementById("adminPinInput").focus();
+        }
+
+        window.closePinModal = function() {
+            document.getElementById("pinModal").style.display = "none";
+        };
+
+        window.verifyAdminPin = function() {
+            const inputPin = document.getElementById("adminPinInput").value.trim();
+            if (inputPin === "051205") {
+                document.getElementById("pinModal").style.display = "none";
+                enableAdminMode(true);
+            } else {
+                showCustomModal("PIN Errato", "Il PIN inserito non è corretto.");
+            }
+        };
+
+        function enableAdminMode(showNotify) {
+            isAdminLoggedIn = true;
+            document.getElementById("adminFloatingBtn").style.display = "inline-flex";
+            if (showNotify) {
+                showCustomModal("Pannello Admin Attivo", "Sei autenticato come Amministratore. Usa il pulsante in basso a destra 'Gestione Lavori' per assegnare o eliminare gli interventi dei clienti.");
+            }
+            renderServicesList();
+        }
+
+        // DRAWER ADMIN FLOATING
+        window.openAdminDrawer = function() {
+            document.getElementById("adminDrawer").style.display = "flex";
+        };
+
+        window.closeAdminDrawer = function() {
+            document.getElementById("adminDrawer").style.display = "none";
+        };
+
+        // GESTIONE AUTO & PROFILO
+        window.updateModels = function() {
+            const make = document.getElementById("carMake").value;
+            const modelSelect = document.getElementById("carModel");
+            modelSelect.innerHTML = "";
+            modelsData[make].forEach(model => {
+                const opt = document.createElement("option");
+                opt.value = model;
+                opt.textContent = model;
+                modelSelect.appendChild(opt);
+            });
+            window.saveProfile();
+        };
+
+        window.saveProfile = async function() {
+            const make = document.getElementById("carMake").value;
+            const model = document.getElementById("carModel").value;
+            const colorVal = document.getElementById("carColor").value.split("|");
+
+            document.getElementById("displayCarTitle").textContent = `${make} ${model}`;
+            document.getElementById("displayCarColorName").textContent = colorVal[1];
+            document.getElementById("colorSwatch").style.backgroundColor = colorVal[0];
+
+            if (!currentUser) return;
+            const name = document.getElementById("displayNameTag").textContent || "Ospite";
+
+            const userDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', currentUser.uid);
+            try {
+                await setDoc(userDocRef, {
+                    uid: currentUser.uid,
+                    name: name,
+                    make: make,
+                    model: model,
+                    color: document.getElementById("carColor").value,
+                    updatedAt: new Date().toISOString()
+                }, { merge: true });
+            } catch (err) {
+                console.error("Errore salvataggio profilo:", err);
+            }
+        };
+
+        async function loadUserProfile() {
+            if (!currentUser) return;
+            const userDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', currentUser.uid);
+            try {
+                const snapshot = await getDoc(userDocRef);
+                if (snapshot.exists()) {
+                    const data = snapshot.data();
+                    if (data.make) document.getElementById("carMake").value = data.make;
+                    window.updateModels();
+                    if (data.model) document.getElementById("carModel").value = data.model;
+                    if (data.color) document.getElementById("carColor").value = data.color;
+                } else {
+                    window.updateModels();
+                }
+            } catch (e) {
+                window.updateModels();
+            }
+        }
+
+        // FIRESTORE SERVIZI & CLIENT LIST
+        function listenToUserServices() {
+            if (!currentUser) return;
+            const targetUid = (isAdminLoggedIn && currentSelectedAdminClientId) ? currentSelectedAdminClientId : currentUser.uid;
+
+            const servicesCol = collection(db, 'artifacts', appId, 'public', 'data', 'users', targetUid, 'services');
+            onSnapshot(servicesCol, (snapshot) => {
+                clientServices = [];
+                snapshot.forEach(docSnap => {
+                    clientServices.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                renderServicesList();
+            }, (error) => {
+                console.log("Errore lettura interventi:", error);
+            });
+        }
+
+        function listenToAllUsersForAdmin() {
+            if (!currentUser) return;
+            const usersCol = collection(db, 'artifacts', appId, 'public', 'data', 'users');
+            onSnapshot(usersCol, (snapshot) => {
+                const select = document.getElementById("adminClientSelect");
+                select.innerHTML = "";
+                
+                snapshot.forEach(docSnap => {
+                    const uData = docSnap.data();
+                    allRegisteredUsers[docSnap.id] = uData;
+                    
+                    const opt = document.createElement("option");
+                    opt.value = docSnap.id;
+                    opt.textContent = `${uData.name || 'Cliente'} - (${uData.make || 'Auto'} ${uData.model || ''})`;
+                    select.appendChild(opt);
+                });
+
+                if (snapshot.empty) {
+                    const opt = document.createElement("option");
+                    opt.value = currentUser.uid;
+                    opt.textContent = `Cliente Corrente (${document.getElementById("displayNameTag").textContent})`;
+                    select.appendChild(opt);
+                }
+
+                if (!currentSelectedAdminClientId) {
+                    currentSelectedAdminClientId = select.value || currentUser.uid;
+                }
+            });
+        }
+
+        window.changeAdminSelectedClient = function() {
+            currentSelectedAdminClientId = document.getElementById("adminClientSelect").value;
+            listenToUserServices();
+        };
+
+        function renderServicesList() {
+            const doneBox = document.getElementById("doneServicesList");
+            const schedBox = document.getElementById("scheduledServicesList");
+
+            doneBox.innerHTML = "";
+            schedBox.innerHTML = "";
+
+            let doneCount = 0;
+            let schedCount = 0;
+
+            clientServices.forEach(item => {
+                const deleteBtnHtml = isAdminLoggedIn ? 
+                    `<button class="btn-delete-job" onclick="deleteService('${item.id}')" title="Elimina Lavoro"><i class="fa-solid fa-trash"></i></button>` : '';
+
+                const html = `
+                    <div class="timeline-item ${item.status}">
+                        <div>
+                            <span class="date">${item.date}</span>
+                            <div class="title">${item.title}</div>
+                            <div class="desc">${item.desc}</div>
+                        </div>
+                        ${deleteBtnHtml}
+                    </div>
+                `;
+
+                if (item.status === "done") {
+                    doneBox.innerHTML += html;
+                    doneCount++;
+                } else {
+                    schedBox.innerHTML += html;
+                    schedCount++;
+                }
+            });
+
+            if (doneCount === 0) doneBox.innerHTML = '<p style="color:#666; font-size:0.85rem;">Nessun lavoro passato registrato.</p>';
+            if (schedCount === 0) schedBox.innerHTML = '<p style="color:#666; font-size:0.85rem;">Nessun intervento futuro programmato.</p>';
+        }
+
+        window.deleteService = async function(serviceId) {
+            if (!isAdminLoggedIn) return;
+            const targetUid = currentSelectedAdminClientId || currentUser.uid;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', targetUid, 'services', serviceId));
+                showCustomModal("Rimosso", "Intervento eliminato con successo!");
+            } catch (err) {
+                showCustomModal("Errore", "Impossibile rimuovere l'intervento.");
+            }
+        };
+
+        window.addServiceFromAdmin = async function() {
+            if (!isAdminLoggedIn) return;
+
+            const date = document.getElementById("adminDate").value;
+            const title = document.getElementById("adminTitle").value;
+            const status = document.getElementById("adminStatus").value;
+            const desc = document.getElementById("adminDesc").value;
+
+            if (!date || !title) {
+                showCustomModal("Campi Incompleti", "Inserisci la data e la tipologia di servizio!");
+                return;
+            }
+
+            const targetUid = currentSelectedAdminClientId || currentUser.uid;
+            const servicesCol = collection(db, 'artifacts', appId, 'public', 'data', 'users', targetUid, 'services');
+
+            try {
+                await addDoc(servicesCol, {
+                    date: date,
+                    title: title,
+                    status: status,
+                    desc: desc || "Servizio Zona Detailing svolto a domicilio.",
+                    createdAt: new Date().toISOString()
+                });
+
+                showCustomModal("Successo", "Lavoro assegnato con successo al cliente!");
+                document.getElementById("adminTitle").value = "";
+                document.getElementById("adminDesc").value = "";
+                closeAdminDrawer();
+            } catch (e) {
+                showCustomModal("Errore", "Impossibile aggiungere il lavoro: " + e.message);
+            }
+        };
+
+        window.showCustomModal = function(title, msg) {
+            document.getElementById("modalTitle").textContent = title;
+            document.getElementById("modalMessage").textContent = msg;
+            document.getElementById("customModal").style.display = "flex";
+        };
+
+        window.closeModal = function() {
+            document.getElementById("customModal").style.display = "none";
+        };
+
+        window.onload = function() {
+            window.updateModels();
+        };
+    </script>
+
+    <!-- SCRIPT EMBED INSTAGRAM -->
     <script async src="https://www.instagram.com/embed.js"></script>
 
 </body>
