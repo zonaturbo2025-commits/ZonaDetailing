@@ -141,15 +141,30 @@
 
         .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 5px 12px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         
-        .user-dropdown { position: absolute; top: 45px; right: 10px; background-color: #141414; border: 1px solid var(--accent-green); border-radius: 8px; width: 210px; display: none; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.8); z-index: 1001; }
+        /* Avatar Navigazione Dinamico */
+        .nav-avatar-btn { background: transparent; border: 2px solid var(--accent-green); border-radius: 50%; padding: 0; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .nav-avatar-img { width: 100%; height: 100%; object-fit: cover; }
+
+        .user-dropdown { position: absolute; top: 50px; right: 15px; background-color: #141414; border: 1px solid var(--accent-green); border-radius: 8px; width: 210px; display: none; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.8); z-index: 1001; }
         .user-dropdown a { padding: 12px 16px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .user-dropdown a:hover { background-color: rgba(166, 247, 0, 0.15); color: var(--accent-green); }
 
-        /* HERO MOBILE FIX */
+        /* HERO & ANIMAZIONI LOGO */
         .hero { padding: 120px 15px 60px 15px; text-align: center; background: radial-gradient(circle at center, #142000 0%, var(--bg-color) 75%); display: flex; flex-direction: column; align-items: center; }
         .hero-logo-container { position: relative; margin: 0 auto 20px auto; width: 100%; max-width: 320px; }
-        .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background: radial-gradient(circle, rgba(166, 247, 0, 0.45) 0%, rgba(166, 247, 0, 0) 70%); border-radius: 50%; filter: blur(30px); }
-        .hero-logo { width: 100%; max-width: 300px; height: auto; position: relative; z-index: 2; }
+        .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background: radial-gradient(circle, rgba(166, 247, 0, 0.45) 0%, rgba(166, 247, 0, 0) 70%); border-radius: 50%; filter: blur(30px); animation: pulseGlow 4s infinite alternate; }
+        .hero-logo { width: 100%; max-width: 300px; height: auto; position: relative; z-index: 2; animation: floatLogo 3s ease-in-out infinite; }
+        
+        @keyframes floatLogo {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes pulseGlow {
+            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
         .hero-subtitle-main { font-size: 1.15rem; font-weight: 800; text-transform: uppercase; color: var(--accent-green); margin-bottom: 6px; z-index: 2; }
         .hero-subtitle-sub { font-size: 0.95rem; font-weight: 300; font-style: italic; color: #dddddd; margin-bottom: 25px; z-index: 2; padding: 0 10px; }
 
@@ -581,26 +596,47 @@
 
       auth.onAuthStateChanged(async (user) => {
           currentUser = user;
-          const btnText = document.getElementById('btnAuthText');
+          const authContainer = document.querySelector('.auth-container');
           const adminLinkNav = document.getElementById('adminDropdownLink');
           const adminFooterContainer = document.getElementById('adminFooterContainer');
 
           if (user) {
               const doc = await db.collection('users').doc(user.uid).get();
               userData = doc.exists ? doc.data() : { points: 0, vehicles: [] };
-              btnText.innerText = (userData.name || "Cliente").split(' ')[0];
+              
+              // Mostra l'immagine del profilo in alto a destra se impostata, altrimenti un avatar di default
+              const userAvatarImg = userData.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=driver1";
 
+              authContainer.innerHTML = `
+                  <button class="nav-avatar-btn" id="btnAuth" onclick="handleAuthButtonClick()" title="Apri Menu Profilo">
+                      <img src="${userAvatarImg}" class="nav-avatar-img" alt="Avatar">
+                  </button>
+                  <div class="user-dropdown" id="userDropdown">
+                      <a href="javascript:void(0)" onclick="openProfileOverlay()"><i class="fa-solid fa-warehouse" style="color:var(--accent-green);"></i> Il Mio Garage</a>
+                      <a href="javascript:void(0)" id="adminDropdownLink" onclick="openAdminModal()" style="display:none; color: var(--accent-green);"><i class="fa-solid fa-user-shield"></i> Pannello Admin</a>
+                      <a href="javascript:void(0)" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
+                  </div>
+              `;
+
+              const updatedAdminLinkNav = document.getElementById('adminDropdownLink');
               if (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-                  if (adminLinkNav) adminLinkNav.style.display = 'flex';
+                  if (updatedAdminLinkNav) updatedAdminLinkNav.style.display = 'flex';
                   if (adminFooterContainer) adminFooterContainer.style.display = 'block';
               } else {
-                  if (adminLinkNav) adminLinkNav.style.display = 'none';
+                  if (updatedAdminLinkNav) updatedAdminLinkNav.style.display = 'none';
                   if (adminFooterContainer) adminFooterContainer.style.display = 'none';
               }
           } else {
-              btnText.innerText = "Profilo";
-              document.getElementById('userDropdown').style.display = 'none';
-              if (adminLinkNav) adminLinkNav.style.display = 'none';
+              authContainer.innerHTML = `
+                  <button class="btn-auth-nav" id="btnAuth" onclick="handleAuthButtonClick()">
+                      <i class="fa-solid fa-user"></i> <span id="btnAuthText">Profilo</span>
+                  </button>
+                  <div class="user-dropdown" id="userDropdown">
+                      <a href="javascript:void(0)" onclick="openProfileOverlay()"><i class="fa-solid fa-warehouse" style="color:var(--accent-green);"></i> Il Mio Garage</a>
+                      <a href="javascript:void(0)" id="adminDropdownLink" onclick="openAdminModal()" style="display:none; color: var(--accent-green);"><i class="fa-solid fa-user-shield"></i> Pannello Admin</a>
+                      <a href="javascript:void(0)" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
+                  </div>
+              `;
               if (adminFooterContainer) adminFooterContainer.style.display = 'none';
           }
       });
@@ -608,7 +644,8 @@
       function logoutUser() { auth.signOut().then(() => window.location.reload()); }
 
       function openProfileOverlay() {
-          document.getElementById('userDropdown').style.display = 'none';
+          const dropdown = document.getElementById('userDropdown');
+          if (dropdown) dropdown.style.display = 'none';
           document.getElementById('profileOverlay').style.display = 'block';
           
           document.getElementById('profileUserName').innerText = userData.name || "Cliente";
@@ -657,7 +694,7 @@
           document.getElementById('profileUserName').innerText = newName;
           if(newAvatar) document.getElementById('profileUserAvatar').src = newAvatar;
           toggleCustomProfileModal(false);
-          alert("Profilo aggiornato!");
+          window.location.reload();
       }
 
       function populateBrands() {
