@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- Script Embed Instagram -->
+    <script async src="https://www.instagram.com/embed.js"></script>
     
     <!-- Firebase SDKs (v9 Compat) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -79,7 +81,6 @@
         "Volvo": ["XC40", "XC60", "XC90", "EX30", "C40", "S60", "V60"]
       };
 
-      // Gamification & Coppe
       function getClientTier(totalPoints) {
           if (totalPoints >= 1000) {
               return { name: "Legendary Detailer 🏆", desc: "Maniaco Assoluto della Cura dell'Auto", color: "#ffd700" };
@@ -117,7 +118,7 @@
             overflow-x: hidden;
         }
 
-        /* NAVBAR */
+        /* BARRA DI NAVIGAZIONE */
         nav {
             position: fixed;
             top: 0;
@@ -147,11 +148,13 @@
             letter-spacing: -1px;
             transition: all 0.3s ease;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .nav-home-badge:hover {
             border-color: var(--accent-green);
             transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(166, 247, 0, 0.3);
         }
 
         .nav-home-badge .z-letter { color: #ffffff; }
@@ -200,6 +203,7 @@
         .btn-auth-nav:hover {
             background-color: var(--accent-green);
             color: #000;
+            box-shadow: 0 0 12px rgba(166, 247, 0, 0.4);
         }
 
         .user-dropdown {
@@ -226,6 +230,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: background 0.2s;
         }
 
         .user-dropdown a:hover {
@@ -243,6 +248,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            width: 100%;
         }
 
         .hero-logo-container {
@@ -251,6 +257,7 @@
             justify-content: center;
             align-items: center;
             margin: 0 auto 25px auto;
+            width: 100%;
             max-width: 380px;
         }
 
@@ -272,6 +279,8 @@
             width: 100%;
             max-width: 380px;
             height: auto;
+            display: block;
+            margin: 0 auto;
             position: relative;
             z-index: 2;
             filter: drop-shadow(0px 0px 20px rgba(166, 247, 0, 0.4));
@@ -284,6 +293,7 @@
             letter-spacing: 1.5px;
             color: var(--accent-green);
             margin-bottom: 8px;
+            position: relative;
             z-index: 2;
         }
 
@@ -291,9 +301,11 @@
             font-size: 1.15rem;
             font-weight: 300;
             font-style: italic;
+            letter-spacing: 0.5px;
             color: #dddddd;
             max-width: 700px;
             margin: 0 auto 35px auto;
+            position: relative;
             z-index: 2;
         }
 
@@ -302,6 +314,7 @@
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
+            position: relative;
             z-index: 2;
         }
 
@@ -315,35 +328,58 @@
             text-decoration: none;
             text-transform: uppercase;
             font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
             cursor: pointer;
             border: none;
-            transition: 0.3s;
         }
 
         .btn-whatsapp {
             background-color: var(--accent-green);
             color: #000000;
+            box-shadow: 0 4px 15px rgba(166, 247, 0, 0.2);
         }
 
-        .btn-whatsapp:hover { background-color: var(--accent-green-hover); }
+        .btn-whatsapp:hover {
+            background-color: var(--accent-green-hover);
+            transform: translateY(-3px);
+        }
 
-        .btn-google {
+        .btn-instagram {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--text-color);
+        }
+
+        .btn-instagram:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            transform: translateY(-3px);
+        }
+
+        /* PULSANTE SOLA ICONA GOOGLE */
+        .btn-google-icon-only {
             background-color: #ffffff;
             color: #000000;
-            font-weight: 700;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 15px;
+            margin: 0 auto 15px auto;
             cursor: pointer;
-            border: none;
+            border: 2px solid #ffffff;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
         }
 
-        .btn-google:hover { background-color: #e6e6e6; }
+        .btn-google-icon-only:hover {
+            transform: scale(1.1);
+            background-color: #f1f1f1;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
 
         .container {
             max-width: 1100px;
@@ -357,10 +393,22 @@
             text-transform: uppercase;
             text-align: center;
             margin-bottom: 40px;
+            letter-spacing: 1px;
+            position: relative;
         }
 
         .section-title span { color: var(--accent-green); }
 
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-green);
+            margin: 10px auto 0 auto;
+        }
+
+        /* SERVIZI GRID */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -372,25 +420,112 @@
             padding: 30px 25px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-6px);
         }
 
         .service-card h3 {
             color: var(--accent-green);
             margin-bottom: 12px;
             font-size: 1.15rem;
+            font-weight: 700;
             text-transform: uppercase;
         }
 
         .service-card p {
             color: #aaaaaa;
             font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.6;
         }
 
-        /* MODALI E PROFILO */
-        .modal-overlay, .profile-overlay {
+        /* REELS INSTAGRAM */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .video-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .instagram-embed-wrapper {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        .instagram-embed-wrapper iframe {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: calc(100% + 150px);
+        }
+
+        .video-details { margin-top: 15px; }
+
+        .video-details h3 {
+            color: var(--accent-green);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .video-details p {
+            color: #cccccc;
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .video-tags {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: rgba(166, 247, 0, 0.1);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* MODALI & OVERLAY */
+        .modal-overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
             display: none;
@@ -407,6 +542,7 @@
             width: 90%;
             max-width: 480px;
             text-align: center;
+            box-shadow: 0 0 30px rgba(166, 247, 0, 0.2);
             position: relative;
             max-height: 90vh;
             overflow-y: auto;
@@ -414,10 +550,14 @@
 
         .modal-close {
             position: absolute;
-            top: 12px; right: 15px;
-            color: #aaa; font-size: 1.4rem;
+            top: 12px;
+            right: 15px;
+            color: #aaa;
+            font-size: 1.4rem;
             cursor: pointer;
         }
+
+        .modal-close:hover { color: #fff; }
 
         .form-group {
             display: flex;
@@ -444,6 +584,8 @@
             outline: none;
         }
 
+        .form-control:focus { border-color: var(--accent-green); }
+
         .auth-divider {
             display: flex;
             align-items: center;
@@ -455,7 +597,9 @@
         }
 
         .auth-divider::before, .auth-divider::after {
-            content: ''; flex: 1; border-bottom: 1px solid #333;
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #333;
         }
 
         .auth-divider span { padding: 0 10px; }
@@ -473,13 +617,100 @@
             text-decoration: underline;
         }
 
-        .profile-overlay { background-color: #0a0a0a; padding: 30px 5%; overflow-y: auto; display: none; }
-        .profile-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 30px; }
+        /* DASHBOARD PROFILO GARAGE OVERLAY */
+        .profile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0a0a0a;
+            z-index: 3000;
+            display: none;
+            overflow-y: auto;
+            padding: 30px 5%;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .badge-box {
+            background-color: #141414;
+            border: 1px solid var(--accent-green);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(166, 247, 0, 0.15);
+        }
+
+        .badge-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .badge-desc {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 30px 20px;
+            text-align: center;
+            background-color: #050505;
+            color: #777777;
+            font-size: 0.85rem;
+        }
+
+        .social-footer {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-footer a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-footer a:hover { color: var(--accent-green); }
+
+        .float-whatsapp {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: #ffffff;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .float-whatsapp:hover { transform: scale(1.12); }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- NAVIGAZIONE -->
     <nav>
         <a href="#home" class="nav-home-badge" id="logoBadge" title="Torna alla Home">
             <span class="z-letter">Z</span><span class="d-letter">D</span>
@@ -487,16 +718,16 @@
         <ul class="nav-links">
             <li><a href="#chi-siamo"><i class="fa-solid fa-user-group"></i><span class="nav-text">Chi Siamo</span></a></li>
             <li><a href="#servizi"><i class="fa-solid fa-spray-can-sparkles"></i><span class="nav-text">Servizi</span></a></li>
-            <li><a href="#contatti"><i class="fa-solid fa-envelope"></i><span class="nav-text">Contatti</span></a></li>
+            <li><a href="#dimostrazioni"><i class="fa-solid fa-photo-film"></i><span class="nav-text">I Nostri Lavori</span></a></li>
             
             <li class="auth-container">
                 <button class="btn-auth-nav" id="btnAuth" onclick="handleAuthButtonClick()">
                     <i class="fa-solid fa-user"></i> <span id="btnAuthText">Accedi / Iscriviti</span>
                 </button>
 
-                <!-- DROPDOWN UTENTE -->
+                <!-- MENU TENDINA UTENTE -->
                 <div class="user-dropdown" id="userDropdown">
-                    <a href="javascript:void(0)" onclick="openProfileOverlay()"><i class="fa-solid fa-id-card" style="color:var(--accent-green);"></i> Il Mio Garage</a>
+                    <a href="javascript:void(0)" onclick="openProfileOverlay()"><i class="fa-solid fa-car" style="color:var(--accent-green);"></i> Il Mio Garage</a>
                     <a href="javascript:void(0)" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
                 </div>
             </li>
@@ -516,6 +747,9 @@
             <a href="https://wa.me/393519000774?text=Ciao!%20Vorrei%20informazioni%20sui%20vostri%20servizi%20di%20Car%20Detailing" class="btn btn-whatsapp" target="_blank">
                 <i class="fa-brands fa-whatsapp"></i> WhatsApp
             </a>
+            <a href="https://www.instagram.com/zonadetailing.rm/" class="btn btn-instagram" target="_blank">
+                <i class="fa-brands fa-instagram"></i> Instagram
+            </a>
         </div>
     </section>
 
@@ -523,7 +757,7 @@
     <section id="chi-siamo" class="container">
         <h2 class="section-title">Chi <span>Siamo</span></h2>
         <p style="text-align: center; font-size: 1.05rem; font-weight: 300; color: #bbbbbb; max-width: 850px; margin: 0 auto; line-height: 1.8;">
-            Zona Detailing nasce dalla passione maniacale per la cura dell'auto. Offriamo un servizio esclusivo di Car Detailing a domicilio su tutta Roma e provincia.
+            Zona Detailing nasce dalla passione maniacale per la cura dell'auto. Offriamo un servizio esclusivo di Car Detailing a domicilio su tutta Roma e provincia. Ci occupiamo di rigenerare, proteggere e valorizzare ogni superficie della tua auto utilizzando solo attrezzature professionali e prodotti top di gamma, senza che tu debba spostare il veicolo.
         </p>
     </section>
 
@@ -533,30 +767,126 @@
         <div class="services-grid">
             <div class="service-card">
                 <h3>Igienizzazione Interni</h3>
-                <p>Lavaggio a vapore profondo di sedili, moquette e cielo. Eliminazione di macchie e cattivi odori.</p>
+                <p>Lavaggio a vapore profondo di sedili (pelle o tessuto), moquette, cielo e bagagliaio. Eliminazione completa di macchie, germi e cattivi odori.</p>
             </div>
             <div class="service-card">
-                <h3>Decontaminazione</h3>
-                <p>Eliminazione chimica e meccanica delle particelle ferrose e residui stradali.</p>
+                <h3>Decontaminazione Cerchi & Carrozzeria</h3>
+                <p>Eliminazione chimica e meccanica delle particelle ferrose dei freni, catrame e residui stradali ancorati. Restituisce una superficie liscia come il vetro.</p>
             </div>
             <div class="service-card">
                 <h3>Protezione Ceramica</h3>
-                <p>Trattamento protettivo nanotecnologico ad altissimo effetto idrofobico e brillantezza profonda.</p>
+                <p>Trattamento protettivo nanotecnologico ad altissimo effetto idrofobico e brillantezza profonda. Scudo protettivo contro agenti atmosferici.</p>
+            </div>
+            <div class="service-card">
+                <h3>Rigenerazione Fari</h3>
+                <p>Ripristino della trasparenza dei fari ingialliti o opacizzati, migliorando l'estetica e la sicurezza di guida notturna.</p>
             </div>
         </div>
     </section>
 
-    <!-- MODAL AUTH -->
+    <!-- DIMOSTRAZIONI VIDEO E LAVORI -->
+    <section id="dimostrazioni" class="container">
+        <h2 class="section-title">I Nostri <span>Lavori & Dimostrazioni</span></h2>
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdCD8mMAloT/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Igienizzazione Profonda</h3>
+                    <p>Pulizia e igienizzazione a vapore degli interni per risultati come nuovi.</p>
+                    <div class="video-tags">
+                        <span class="tag">Interni</span>
+                        <span class="tag">A Domicilio</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdmD2H5AZi4/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Cura dei Dettagli</h3>
+                    <p>Trattamento rigenerante per pelle, plastiche e finiture interne.</p>
+                    <div class="video-tags">
+                        <span class="tag">Detailing</span>
+                        <span class="tag">Roma</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/Ddy53gEA46F/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Lucidatura & Protezione</h3>
+                    <p>Eliminazione dei micro-graffi per un effetto specchio profondo.</p>
+                    <div class="video-tags">
+                        <span class="tag">Carrozzeria</span>
+                        <span class="tag">Shiny</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DemcIhlgX1s/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>BMW X1-M Detailing</h3>
+                    <p>Trattamento completo svolto direttamente a domicilio a Roma.</p>
+                    <div class="video-tags">
+                        <span class="tag">BMW</span>
+                        <span class="tag">A Domicilio</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdE_OYigTXR/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Passione & Precisione</h3>
+                    <p>Utilizzo di prodotti e attrezzature professionali top di gamma.</p>
+                    <div class="video-tags">
+                        <span class="tag">Professional</span>
+                        <span class="tag">Roma</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="instagram-embed-wrapper">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DcqmYqJA5gJ/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                </div>
+                <div class="video-details">
+                    <h3>Protezione Plastiche</h3>
+                    <p>Trattamento protettivo rinnovatore per plastiche interne ed esterne.</p>
+                    <div class="video-tags">
+                        <span class="tag">Protezione</span>
+                        <span class="tag">Detailing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODALE REGISTRAZIONE E LOGIN -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeAuthModal()">&times;</span>
             
+            <!-- LOGIN -->
             <div id="loginFormBox">
                 <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 8px;">Accedi</h3>
-                <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Entra nel tuo Garage per vedere i tuoi veicoli e lo storico lavori.</p>
+                <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Entra nel tuo Garage per vedere i tuoi veicoli ed i tuoi punti.</p>
                 
-                <button class="btn-google" onclick="handleGoogleAuth()">
-                    <i class="fa-brands fa-google" style="color:#db4437;"></i> Continua con Google
+                <!-- PULSANTE SOLA ICONA GOOGLE -->
+                <button class="btn-google-icon-only" onclick="handleGoogleAuth()" title="Accedi con Google">
+                    <i class="fa-brands fa-google" style="color:#db4437;"></i>
                 </button>
 
                 <div class="auth-divider"><span>oppure con email</span></div>
@@ -570,7 +900,7 @@
                     <input type="password" id="loginPassword" class="form-control" placeholder="••••••••">
                 </div>
 
-                <button class="btn btn-whatsapp" onclick="handleLogin()" style="width: 100%; justify-content: center; margin-top: 10px;">
+                <button class="btn btn-whatsapp" onclick="handleEmailLogin()" style="width: 100%; justify-content: center; margin-top: 10px;">
                     Accedi al Garage
                 </button>
 
@@ -579,12 +909,14 @@
                 </div>
             </div>
 
+            <!-- REGISTRAZIONE -->
             <div id="signupFormBox" style="display: none;">
                 <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 8px;">Crea Account</h3>
                 <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Registrati per accumulare punti e coppe sui tuoi veicoli.</p>
                 
-                <button class="btn-google" onclick="handleGoogleAuth()">
-                    <i class="fa-brands fa-google" style="color:#db4437;"></i> Registrati con Google
+                <!-- PULSANTE SOLA ICONA GOOGLE -->
+                <button class="btn-google-icon-only" onclick="handleGoogleAuth()" title="Registrati con Google">
+                    <i class="fa-brands fa-google" style="color:#db4437;"></i>
                 </button>
 
                 <div class="auth-divider"><span>oppure con email</span></div>
@@ -592,10 +924,6 @@
                 <div class="form-group">
                     <label>Nome e Cognome *</label>
                     <input type="text" id="signupName" class="form-control" placeholder="Es. Giulio Rossi">
-                </div>
-                <div class="form-group">
-                    <label>Telefono / WhatsApp *</label>
-                    <input type="tel" id="signupPhone" class="form-control" placeholder="Es. 351 900 0774">
                 </div>
                 <div class="form-group">
                     <label>Email *</label>
@@ -606,7 +934,7 @@
                     <input type="password" id="signupPassword" class="form-control" placeholder="Minimo 6 caratteri">
                 </div>
 
-                <button class="btn btn-whatsapp" onclick="handleSignup()" style="width: 100%; justify-content: center; margin-top: 10px;">
+                <button class="btn btn-whatsapp" onclick="handleEmailSignup()" style="width: 100%; justify-content: center; margin-top: 10px;">
                     Crea il Mio Profilo
                 </button>
 
@@ -617,10 +945,68 @@
         </div>
     </div>
 
+    <!-- OVERLAY PROFILO GARAGE -->
+    <div class="profile-overlay" id="profileOverlay">
+        <div class="profile-header">
+            <div>
+                <h2 id="profileUserName" style="color: var(--accent-green);">Il Mio Garage</h2>
+                <p id="profileUserEmail" style="color:#aaa; font-size:0.9rem;"></p>
+            </div>
+            <button class="btn btn-whatsapp" onclick="closeProfileOverlay()">Chiudi</button>
+        </div>
+
+        <div class="badge-box">
+            <div class="badge-title" id="tierTitle">Bronze Detailer 🥉</div>
+            <div class="badge-desc" id="tierDesc">Amante della Pulizia</div>
+            <div style="margin-top:10px; font-weight:bold; color:var(--accent-green);" id="tierPoints">Punti Accumulati: 0</div>
+        </div>
+
+        <h3 style="margin-bottom:15px; color:var(--accent-green); text-transform:uppercase;">I Miei Veicoli</h3>
+        <div id="vehiclesList" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:15px; margin-bottom:30px;">
+            <!-- Veicoli caricati dinamicamente -->
+        </div>
+
+        <div style="background:#141414; border:1px solid var(--border-color); padding:25px; border-radius:10px; max-width:500px;">
+            <h4 style="color:var(--accent-green); margin-bottom:15px; text-transform:uppercase;">Aggiungi Auto al Garage</h4>
+            <div class="form-group">
+                <label>Marca</label>
+                <select id="carBrand" class="form-control" onchange="updateCarModels()">
+                    <option value="">Seleziona Marca</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Modello</label>
+                <select id="carModel" class="form-control">
+                    <option value="">Seleziona Prima la Marca</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Targa / Anno (Opzionale)</label>
+                <input type="text" id="carPlate" class="form-control" placeholder="Es. AA123BB">
+            </div>
+            <button class="btn btn-whatsapp" onclick="addVehicleToUser()" style="width:100%; justify-content:center;">Salva Veicolo</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="social-footer">
+            <a href="https://www.instagram.com/zonadetailing.rm/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://wa.me/393519000774" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+        <p>&copy; 2026 Zona Detailing - Car Detailing a Domicilio Roma. Tutti i diritti riservati.</p>
+    </footer>
+
+    <!-- TASTO FLOTTANTE WHATSAPP -->
+    <a href="https://wa.me/393519000774?text=Ciao!%20Vorrei%20informazioni%20sui%20vostri%20servizi%20di%20Car%20Detailing" class="float-whatsapp" target="_blank" title="Contattaci su WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
     <script>
       let currentUser = null;
+      let userData = null;
 
-      // Gestione UI Auth
+      // Gestione UI Modali & Dropdown
       function handleAuthButtonClick() {
           if (currentUser) {
               const dropdown = document.getElementById('userDropdown');
@@ -635,16 +1021,11 @@
       }
 
       function switchAuthMode(mode) {
-          if (mode === 'signup') {
-              document.getElementById('loginFormBox').style.display = 'none';
-              document.getElementById('signupFormBox').style.display = 'block';
-          } else {
-              document.getElementById('signupFormBox').style.display = 'none';
-              document.getElementById('loginFormBox').style.display = 'block';
-          }
+          document.getElementById('loginFormBox').style.display = mode === 'signup' ? 'none' : 'block';
+          document.getElementById('signupFormBox').style.display = mode === 'signup' ? 'block' : 'none';
       }
 
-      // Google Auth Handler
+      // Autenticazione Google
       async function handleGoogleAuth() {
           const provider = new firebase.auth.GoogleAuthProvider();
           try {
@@ -656,10 +1037,8 @@
                   await userRef.set({
                       name: user.displayName || "Cliente",
                       email: user.email,
-                      phone: user.phoneNumber || "",
-                      createdAt: new Date().toISOString(),
-                      vehicles: [],
-                      points: 0
+                      points: 0,
+                      vehicles: []
                   });
               }
               closeAuthModal();
@@ -669,14 +1048,44 @@
           }
       }
 
-      // Monitoraggio Stato Auth
+      // Autenticazione Email
+      async function handleEmailLogin() {
+          const email = document.getElementById('loginEmail').value;
+          const pass = document.getElementById('loginPassword').value;
+          try {
+              await auth.signInWithEmailAndPassword(email, pass);
+              closeAuthModal();
+          } catch (e) {
+              alert("Errore durante il login: " + e.message);
+          }
+      }
+
+      async function handleEmailSignup() {
+          const name = document.getElementById('signupName').value;
+          const email = document.getElementById('signupEmail').value;
+          const pass = document.getElementById('signupPassword').value;
+          try {
+              const res = await auth.createUserWithEmailAndPassword(email, pass);
+              await db.collection('users').doc(res.user.uid).set({
+                  name: name,
+                  email: email,
+                  points: 0,
+                  vehicles: []
+              });
+              closeAuthModal();
+          } catch (e) {
+              alert("Errore durante la registrazione: " + e.message);
+          }
+      }
+
+      // Monitoraggio Stato Utente
       auth.onAuthStateChanged(async (user) => {
           currentUser = user;
           const btnText = document.getElementById('btnAuthText');
           if (user) {
               const doc = await db.collection('users').doc(user.uid).get();
-              const userData = doc.exists ? doc.data() : {};
-              btnText.innerText = userData.name ? userData.name.split(' ')[0] : "Il Mio Garage";
+              userData = doc.exists ? doc.data() : { points: 0, vehicles: [] };
+              btnText.innerText = (userData.name || "Cliente").split(' ')[0];
           } else {
               btnText.innerText = "Accedi / Iscriviti";
               document.getElementById('userDropdown').style.display = 'none';
@@ -684,14 +1093,82 @@
       });
 
       function logoutUser() {
-          auth.signOut().then(() => {
-              window.location.reload();
+          auth.signOut().then(() => window.location.reload());
+      }
+
+      // Gestione Dashboard Garage
+      function openProfileOverlay() {
+          document.getElementById('userDropdown').style.display = 'none';
+          document.getElementById('profileOverlay').style.display = 'block';
+          
+          document.getElementById('profileUserName').innerText = userData.name || "Cliente";
+          document.getElementById('profileUserEmail').innerText = currentUser.email;
+          
+          const tier = getClientTier(userData.points || 0);
+          document.getElementById('tierTitle').innerText = tier.name;
+          document.getElementById('tierTitle').style.color = tier.color;
+          document.getElementById('tierDesc').innerText = tier.desc;
+          document.getElementById('tierPoints').innerText = `Punti Accumulati: ${userData.points || 0}`;
+
+          populateBrands();
+          renderVehicles();
+      }
+
+      function closeProfileOverlay() {
+          document.getElementById('profileOverlay').style.display = 'none';
+      }
+
+      function populateBrands() {
+          const brandSelect = document.getElementById('carBrand');
+          brandSelect.innerHTML = '<option value="">Seleziona Marca</option>';
+          Object.keys(carDatabase).sort().forEach(brand => {
+              brandSelect.innerHTML += `<option value="${brand}">${brand}</option>`;
           });
       }
 
-      function openProfileOverlay() {
-          alert("Pannello Garage aperto! (Sincronizzato con Firestore)");
-          document.getElementById('userDropdown').style.display = 'none';
+      function updateCarModels() {
+          const brand = document.getElementById('carBrand').value;
+          const modelSelect = document.getElementById('carModel');
+          modelSelect.innerHTML = '<option value="">Seleziona Modello</option>';
+          if (brand && carDatabase[brand]) {
+              carDatabase[brand].forEach(model => {
+                  modelSelect.innerHTML += `<option value="${model}">${model}</option>`;
+              });
+          }
+      }
+
+      async function addVehicleToUser() {
+          const brand = document.getElementById('carBrand').value;
+          const model = document.getElementById('carModel').value;
+          const plate = document.getElementById('carPlate').value;
+
+          if (!brand || !model) return alert("Seleziona marca e modello!");
+
+          const newCar = { brand, model, plate, addedAt: new Date().toISOString() };
+          const updatedVehicles = userData.vehicles || [];
+          updatedVehicles.push(newCar);
+
+          await db.collection('users').doc(currentUser.uid).update({ vehicles: updatedVehicles });
+          userData.vehicles = updatedVehicles;
+          renderVehicles();
+          alert("Auto aggiunta al tuo garage con successo!");
+      }
+
+      function renderVehicles() {
+          const list = document.getElementById('vehiclesList');
+          list.innerHTML = "";
+          if (!userData.vehicles || userData.vehicles.length === 0) {
+              list.innerHTML = "<p style='color:#aaa;'>Nessuna auto presente nel tuo garage.</p>";
+              return;
+          }
+          userData.vehicles.forEach(car => {
+              list.innerHTML += `
+                  <div style="background:#141414; border:1px solid var(--accent-green); padding:15px; border-radius:8px;">
+                      <h4 style="color:#fff;">${car.brand} ${car.model}</h4>
+                      <p style="color:#aaa; font-size:0.85rem;">Targa/Info: ${car.plate || 'N/D'}</p>
+                  </div>
+              `;
+          });
       }
     </script>
 </body>
