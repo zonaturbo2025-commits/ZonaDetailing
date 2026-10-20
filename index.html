@@ -256,7 +256,7 @@
         .add-parking-spot:hover { border-color: var(--accent-green); }
 
         .avatar-picker { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
-        .avatar-option { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #333; cursor: pointer; }
+        .avatar-option { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #333; cursor: pointer; background: #222; }
         .avatar-option:hover { border-color: var(--accent-green); }
 
         footer { border-top: 1px solid var(--border-color); padding: 30px 15px; text-align: center; background-color: #050505; color: #777; font-size: 0.8rem; }
@@ -458,17 +458,16 @@
                 <input type="file" id="editAvatarFileInput" class="form-control" accept="image/*" onchange="handleProfileImageUpload(event)">
             </div>
             <div class="form-group">
-                <label>Oppure inserisci URL immagine</label>
-                <input type="url" id="editAvatarUrlInput" class="form-control" placeholder="https://sito.it/foto.jpg">
-            </div>
-            <div class="form-group">
-                <label>Oppure scegli un avatar:</label>
+                <label>Oppure scegli un Avatar Rapido:</label>
                 <div class="avatar-picker">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" class="avatar-option" onclick="setAvatarPreset(this.src)">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=racer" class="avatar-option" onclick="setAvatarPreset(this.src)">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=speedy" class="avatar-option" onclick="setAvatarPreset(this.src)">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" class="avatar-option" onclick="setAvatarPreset(this.src)" alt="Avatar 1">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=racer" class="avatar-option" onclick="setAvatarPreset(this.src)" alt="Avatar 2">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=speedy" class="avatar-option" onclick="setAvatarPreset(this.src)" alt="Avatar 3">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=turbo" class="avatar-option" onclick="setAvatarPreset(this.src)" alt="Avatar 4">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=detailingpro" class="avatar-option" onclick="setAvatarPreset(this.src)" alt="Avatar 5">
                 </div>
             </div>
+            <input type="hidden" id="editAvatarUrlInput">
             <button class="btn btn-whatsapp" onclick="saveProfileCustomization()" style="width:100%; justify-content:center; margin-top:15px;">Salva Modifiche</button>
         </div>
     </div>
@@ -686,17 +685,24 @@
       async function saveProfileCustomization() {
           const newName = document.getElementById('editNicknameInput').value;
           const newAvatar = document.getElementById('editAvatarUrlInput').value;
-          await db.collection('users').doc(currentUser.uid).update({ name: newName, avatarUrl: newAvatar });
+          
+          let updateData = { name: newName };
+          if(newAvatar) updateData.avatarUrl = newAvatar;
+
+          await db.collection('users').doc(currentUser.uid).update(updateData);
           userData.name = newName;
-          userData.avatarUrl = newAvatar;
+          if(newAvatar) userData.avatarUrl = newAvatar;
+          
           document.getElementById('profileUserName').innerText = newName;
           if(newAvatar) document.getElementById('profileUserAvatar').src = newAvatar;
+          
           toggleCustomProfileModal(false);
           window.location.reload();
       }
 
       function populateBrands() {
           const brandSelect = document.getElementById('carBrand');
+          if(!brandSelect) return;
           brandSelect.innerHTML = '<option value="">Seleziona Marca</option>';
           Object.keys(carDatabase).sort().forEach(brand => {
               brandSelect.innerHTML += `<option value="${brand}">${brand}</option>`;
@@ -706,6 +712,7 @@
       function updateCarModels() {
           const brand = document.getElementById('carBrand').value;
           const modelSelect = document.getElementById('carModel');
+          if(!modelSelect) return;
           modelSelect.innerHTML = '<option value="">Seleziona Modello</option>';
           if (brand && carDatabase[brand]) {
               carDatabase[brand].forEach(model => {
@@ -715,8 +722,11 @@
       }
 
       function toggleAddCarForm(show) {
-          document.getElementById('addCarSection').style.display = show ? 'block' : 'none';
-          if(show) document.getElementById('addCarSection').scrollIntoView({ behavior: 'smooth' });
+          const addCarSec = document.getElementById('addCarSection');
+          if(addCarSec) {
+              addCarSec.style.display = show ? 'block' : 'none';
+              if(show) addCarSec.scrollIntoView({ behavior: 'smooth' });
+          }
       }
 
       async function addVehicleToUser() {
@@ -746,6 +756,7 @@
 
       function renderGarageBays() {
           const grid = document.getElementById('vehiclesList');
+          if(!grid) return;
           grid.innerHTML = "";
 
           const vehicles = userData.vehicles || [];
