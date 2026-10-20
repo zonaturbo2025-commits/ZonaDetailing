@@ -14,6 +14,14 @@
     <!-- Embed Instagram -->
     <script async src="https://www.instagram.com/embed.js"></script>
     
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("YOUR_PUBLIC_KEY"); // Sostituisci con la tua Public Key di EmailJS se non l'hai già fatto
+        })();
+    </script>
+    
     <!-- Firebase SDKs (v9 Compat) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -36,7 +44,7 @@
       const auth = firebase.auth();
 
       // Email Amministratore Riservata
-      const ADMIN_EMAIL = "info.zonadetailingrm@gmail.com";
+      const ADMIN_EMAIL = "info@zonadetailing.it";
 
       // Database Marchi e Modelli Auto
       const carDatabase = {
@@ -764,7 +772,6 @@
           const doc = await db.collection('users').doc(userId).get();
           selectedAdminUserDoc = { id: userId, ...doc.data() };
 
-          // Mostra Scheda Cliente Completa
           document.getElementById('adminClientCardDetails').style.display = 'block';
           document.getElementById('cardClientName').innerText = selectedAdminUserDoc.name || 'N/D';
           document.getElementById('cardClientEmail').innerText = selectedAdminUserDoc.email || 'N/D';
@@ -778,7 +785,6 @@
           }
           document.getElementById('cardClientVehiclesSummary').innerHTML = vSummary;
 
-          // Prepara Form Inserimento Lavoro
           document.getElementById('adminSelectedClientName').innerText = selectedAdminUserDoc.name;
           document.getElementById('adminJobForm').style.display = 'block';
 
@@ -810,7 +816,14 @@
               points: newPoints
           });
 
-          alert("Intervento salvato con successo per il cliente!");
+          // Invio email automatica tramite EmailJS con il servizio Aruba
+          emailjs.send("service_zonadetailing", "YOUR_TEMPLATE_ID", {
+              to_name: selectedAdminUserDoc.name,
+              to_email: selectedAdminUserDoc.email,
+              message: `Il tuo intervento "${desc} (${status === 'done' ? 'Eseguito' : 'Programmato'})" è stato aggiornato nel tuo garage!`
+          }).catch(err => console.log("Errore invio email:", err));
+
+          alert("Intervento salvato e notifica inviata con successo!");
           closeAdminModal();
       }
     </script>
