@@ -10,8 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap" rel="stylesheet">
     <!-- Icone FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- EmailJS SDK per invio automatico email -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -1039,14 +1037,8 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- LOGICA JAVASCRIPT & EMAIL AUTOMATICHE -->
+    <!-- LOGICA JAVASCRIPT & INVIO EMAIL DIRETTO -->
     <script>
-        // Inizializzazione EmailJS
-        (function(){
-            emailjs.init("YOUR_PUBLIC_KEY");
-        })();
-
-        // INDIRIZZO ADMIN UFFICIALE
         const ADMIN_EMAIL = "info.zonadetailingrm@gmail.com";
         let currentUser = null;
         let selectedVehicleIndex = 0;
@@ -1092,6 +1084,38 @@
             localStorage.setItem("zd_users_db", JSON.stringify(db));
         }
 
+        /* FUNZIONE INVIO EMAIL REALE VIA WEB API */
+        function sendRealEmail(toEmail, subject, messageText) {
+            fetch("https://formsubmit.co/ajax/" + encodeURIComponent(toEmail), {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    _subject: subject,
+                    _replyto: ADMIN_EMAIL,
+                    mittente: "Zona Detailing Roma",
+                    messaggio: messageText
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log("Email inviata con successo:", data))
+            .catch(error => console.error("Errore invio email:", error));
+        }
+
+        function sendWelcomeEmail(user) {
+            const subject = "Benvenuto in Zona Detailing - Garage Attivato!";
+            const text = `Ciao ${user.name},\n\nBenvenuto nel Garage Virtuale di Zona Detailing!\n\nDa questo momento puoi registrare i tuoi veicoli e consultare gli interventi di detailing eseguiti o programmati per la tua auto.\n\nPer qualsiasi informazione o prenotazione puoi contattarci direttamente su WhatsApp o via telefono al 351 900 0774.\n\nUn cordiale saluto,\nTeam Zona Detailing Roma`;
+            sendRealEmail(user.email, subject, text);
+        }
+
+        function sendJobNotificationEmail(clientEmail, clientName, jobDate, jobTitle, jobDesc) {
+            const subject = "Zona Detailing - Nuovo Intervento Assegnato";
+            const text = `Ciao ${clientName},\n\nTi confermiamo che è stato registrato un nuovo intervento per il tuo veicolo:\n\nServizio: ${jobTitle}\nData: ${jobDate}\nDettagli: ${jobDesc}\n\nPuoi verificare lo stato dell'intervento accedendo al tuo Garage su Zona Detailing.\n\nUn cordiale saluto,\nTeam Zona Detailing Roma`;
+            sendRealEmail(clientEmail, subject, text);
+        }
+
         function handleAuthButtonClick() {
             if (currentUser) {
                 const dropdown = document.getElementById("userDropdown");
@@ -1118,14 +1142,6 @@
                 document.getElementById("loginFormBox").style.display = "none";
                 document.getElementById("signupFormBox").style.display = "block";
             }
-        }
-
-        function sendWelcomeEmail(user) {
-            console.log(`[EMAIL BENVENUTO - info.zonadetailingrm@gmail.com] Inviata a ${user.email} per ${user.name}`);
-        }
-
-        function sendJobNotificationEmail(clientEmail, clientName, jobDate, jobTitle, jobDesc) {
-            console.log(`[NOTIFICA LAVORO - info.zonadetailingrm@gmail.com] Inviata a ${clientEmail} per il lavoro: ${jobTitle} il ${jobDate}`);
         }
 
         function handleSignup() {
@@ -1157,12 +1173,14 @@
 
             saveUsersDB(db);
             currentUser = db[email];
+            
+            // Invio email reale di benvenuto
             sendWelcomeEmail(currentUser);
 
             closeAuthModal();
             updateUIState();
             openProfileOverlay();
-            alert(`Registrazione completata! Inviata email di benvenuto da info.zonadetailingrm@gmail.com a ${email}`);
+            alert(`Registrazione completata! Un'email di benvenuto è stata inviata a: ${email}`);
         }
 
         function handleLogin() {
@@ -1440,7 +1458,7 @@
 
             saveUsersDB(db);
             
-            // Invia notifica Email
+            // Invio notifica Email reale
             sendJobNotificationEmail(clientEmail, client.name, date, title, desc);
 
             if (currentUser.email === clientEmail) {
@@ -1448,7 +1466,7 @@
                 renderUserVehicles();
             }
 
-            alert(`Intervento salvato da info.zonadetailingrm@gmail.com! Inviata email a ${clientEmail}`);
+            alert(`Intervento registrato! Email di notifica inviata a: ${clientEmail}`);
         }
 
         // TRIPLE CLICK BACKUP ADMIN ACCESS
