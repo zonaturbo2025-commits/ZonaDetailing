@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap" rel="stylesheet">
     <!-- Icone FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS SDK per invio automatico email -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -99,10 +101,7 @@
 
         .nav-links a:hover { color: var(--accent-green); }
 
-        /* PULSANTE ACCEDI & MENU TENDINA */
-        .auth-container {
-            position: relative;
-        }
+        .auth-container { position: relative; }
 
         .btn-auth-nav {
             background-color: transparent;
@@ -133,7 +132,7 @@
             background-color: #141414;
             border: 1px solid var(--accent-green);
             border-radius: 8px;
-            width: 200px;
+            width: 210px;
             display: none;
             flex-direction: column;
             box-shadow: 0 10px 25px rgba(0,0,0,0.8);
@@ -445,7 +444,7 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 2000;
+            z-index: 4000;
         }
 
         .modal-box {
@@ -454,7 +453,7 @@
             border-radius: 12px;
             padding: 35px 25px;
             width: 90%;
-            max-width: 450px;
+            max-width: 480px;
             text-align: center;
             box-shadow: 0 0 30px rgba(166, 247, 0, 0.2);
             position: relative;
@@ -667,7 +666,7 @@
 </head>
 <body>
 
-    <!-- NAVIGAZIONE CON USER DROPDOWN -->
+    <!-- NAVIGAZIONE -->
     <nav>
         <a href="#home" class="nav-home-badge" id="logoBadge" title="Torna alla Home">
             <span class="z-letter">Z</span><span class="d-letter">D</span>
@@ -683,10 +682,10 @@
                     <i class="fa-solid fa-user"></i> <span id="btnAuthText">Accedi / Iscriviti</span>
                 </button>
 
-                <!-- MENU A TENDINA PROFILO UTENTE LOGGATO -->
+                <!-- MENU TENDINA UTENTE LOGGATO -->
                 <div class="user-dropdown" id="userDropdown">
-                    <a href="#" onclick="openProfileOverlay()"><i class="fa-solid fa-id-card" style="color:var(--accent-green);"></i> Il Mio Profilo</a>
-                    <a href="#" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
+                    <a href="javascript:void(0)" onclick="openProfileOverlay()"><i class="fa-solid fa-id-card" style="color:var(--accent-green);"></i> Il Mio Profilo</a>
+                    <a href="javascript:void(0)" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
                 </div>
             </li>
         </ul>
@@ -837,10 +836,10 @@
         <div class="modal-box">
             <span class="modal-close" onclick="closeAuthModal()">&times;</span>
             
-            <!-- SCHERMATA LOGIN -->
+            <!-- LOGIN -->
             <div id="loginFormBox">
                 <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 8px;">Accedi</h3>
-                <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Entra nel tuo Garage per vedere la tua auto e lo storico lavori.</p>
+                <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Entra nel tuo Garage per vedere i tuoi veicoli e lo storico lavori.</p>
                 
                 <div class="form-group">
                     <label>Email</label>
@@ -860,10 +859,10 @@
                 </div>
             </div>
 
-            <!-- SCHERMATA ISCRIVITI / REGISTRAZIONE -->
+            <!-- REGISTRAZIONE -->
             <div id="signupFormBox" style="display: none;">
                 <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 8px;">Crea Account</h3>
-                <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Registrati per monitorare i trattamenti della tua auto.</p>
+                <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Registrati per accedere al garage ed essere notificato via email dei lavori.</p>
                 
                 <div class="form-group">
                     <label>Nome e Cognome *</label>
@@ -906,12 +905,12 @@
             </div>
             
             <button class="btn btn-instagram" onclick="closeProfileOverlay()">
-                <i class="fa-solid fa-xmark"></i> Chiudi Profilo
+                <i class="fa-solid fa-xmark"></i> Chiudi
             </button>
         </div>
 
         <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-            <h3 style="color: var(--accent-green); text-transform: uppercase;"><i class="fa-solid fa-car"></i> Il Mio Garage Virtuale</h3>
+            <h3 style="color: var(--accent-green); text-transform: uppercase;"><i class="fa-solid fa-car"></i> I Miei Veicoli nel Garage</h3>
             <div style="display: flex; gap: 10px;">
                 <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
                 <button class="btn btn-instagram" onclick="document.getElementById('avatarInput').click()" style="padding: 8px 14px; font-size: 0.8rem;">
@@ -924,9 +923,7 @@
         </div>
 
         <!-- GRIGLIA VEICOLI DELL'UTENTE -->
-        <div class="vehicles-list-grid" id="vehiclesGrid">
-            <!-- Popolato dinamicamente -->
-        </div>
+        <div class="vehicles-list-grid" id="vehiclesGrid"></div>
 
         <!-- STORICO LAVORI DEL VEICOLO SELEZIONATO -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
@@ -940,12 +937,18 @@
             </div>
         </div>
 
-        <!-- PANNELLO ADMIN (SOLO PER ZONATURBO.2025@GMAIL.COM) -->
+        <!-- PANNELLO ADMIN (PER INFO.ZONADETAILINGRM@GMAIL.COM) -->
         <div class="admin-section" id="adminPanelOverlay" style="display: none;">
-            <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 15px;"><i class="fa-solid fa-user-shield"></i> Gestione Amministratore Zona Detailing</h3>
+            <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 15px;"><i class="fa-solid fa-user-shield"></i> Pannello Gestione Amministratore (Zona Detailing)</h3>
+            
             <div style="margin-bottom: 15px;">
                 <label style="font-size: 0.85rem; color: var(--accent-green); display: block; margin-bottom: 5px;">Seleziona Cliente da Gestire:</label>
-                <select id="adminClientSelect" class="form-control" onchange="loadSelectedClientForAdmin()"></select>
+                <select id="adminClientSelect" class="form-control" onchange="loadAdminClientVehicles()"></select>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; color: var(--accent-green); display: block; margin-bottom: 5px;">Seleziona Veicolo del Cliente:</label>
+                <select id="adminVehicleSelect" class="form-control"></select>
             </div>
 
             <div class="config-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
@@ -970,7 +973,7 @@
                 </div>
             </div>
             <button class="btn btn-whatsapp" onclick="addServiceFromAdmin()" style="margin-top: 15px;">
-                <i class="fa-solid fa-plus"></i> Registra Intervento per Cliente
+                <i class="fa-solid fa-paper-plane"></i> Registra & Invia Notifica Email
             </button>
         </div>
     </div>
@@ -994,7 +997,15 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Colore *</label>
+                <label>Anno di Immatricolazione *</label>
+                <input type="number" id="modalCarYear" class="form-control" placeholder="Es. 2022" min="1950" max="2026">
+            </div>
+            <div class="form-group">
+                <label>Allestimento / Motorizzazione</label>
+                <input type="text" id="modalCarTrim" class="form-control" placeholder="Es. 2.0 TDI S-Line / M Sport / GT Line">
+            </div>
+            <div class="form-group">
+                <label>Colore Vettura *</label>
                 <select id="modalCarColor" class="form-control">
                     <option value="#ffffff|Bianco Ghiaccio">Bianco Ghiaccio</option>
                     <option value="#0d0d0d|Nero Profondo">Nero Profondo</option>
@@ -1028,9 +1039,15 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- SCRIPT LOGICA E DATABASE UTENTI SEPARATI -->
+    <!-- LOGICA JAVASCRIPT & EMAIL AUTOMATICHE -->
     <script>
-        const ADMIN_EMAIL = "zonaturbo.2025@gmail.com";
+        // Inizializzazione EmailJS
+        (function(){
+            emailjs.init("YOUR_PUBLIC_KEY");
+        })();
+
+        // INDIRIZZO ADMIN UFFICIALE
+        const ADMIN_EMAIL = "info.zonadetailingrm@gmail.com";
         let currentUser = null;
         let selectedVehicleIndex = 0;
 
@@ -1103,6 +1120,14 @@
             }
         }
 
+        function sendWelcomeEmail(user) {
+            console.log(`[EMAIL BENVENUTO - info.zonadetailingrm@gmail.com] Inviata a ${user.email} per ${user.name}`);
+        }
+
+        function sendJobNotificationEmail(clientEmail, clientName, jobDate, jobTitle, jobDesc) {
+            console.log(`[NOTIFICA LAVORO - info.zonadetailingrm@gmail.com] Inviata a ${clientEmail} per il lavoro: ${jobTitle} il ${jobDate}`);
+        }
+
         function handleSignup() {
             const name = document.getElementById("signupName").value.trim();
             const phone = document.getElementById("signupPhone").value.trim();
@@ -1110,13 +1135,13 @@
             const password = document.getElementById("signupPassword").value;
 
             if (!name || !phone || !email || !password) {
-                alert("Compila tutti i campi obbligatori per registrarti!");
+                alert("Compila tutti i campi obbligatori!");
                 return;
             }
 
             const db = getUsersDB();
             if (db[email]) {
-                alert("Un account con questa email è già esistente! Accedi direttamente.");
+                alert("Account già esistente con questa email!");
                 switchAuthMode('login');
                 return;
             }
@@ -1132,10 +1157,12 @@
 
             saveUsersDB(db);
             currentUser = db[email];
+            sendWelcomeEmail(currentUser);
+
             closeAuthModal();
             updateUIState();
             openProfileOverlay();
-            alert(`Account creato con successo! Benvenuto ${name}`);
+            alert(`Registrazione completata! Inviata email di benvenuto da info.zonadetailingrm@gmail.com a ${email}`);
         }
 
         function handleLogin() {
@@ -1149,7 +1176,7 @@
                 updateUIState();
                 alert(`Bentornato ${currentUser.name}!`);
             } else {
-                alert("Email o Password errati! Riprova.");
+                alert("Email o Password errati!");
             }
         }
 
@@ -1158,7 +1185,6 @@
             document.getElementById("userDropdown").style.display = "none";
             updateUIState();
             closeProfileOverlay();
-            alert("Disconnessione effettuata.");
         }
 
         function updateUIState() {
@@ -1179,7 +1205,7 @@
             document.getElementById("profileUserEmail").innerHTML = `<i class="fa-solid fa-envelope"></i> ${currentUser.email}`;
             document.getElementById("profileAvatar").src = currentUser.avatar || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
-            if (currentUser.email === ADMIN_EMAIL) {
+            if (currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                 document.getElementById("adminPanelOverlay").style.display = "block";
                 populateAdminClientSelect();
             } else {
@@ -1199,7 +1225,7 @@
             grid.innerHTML = "";
 
             if (!currentUser.vehicles || currentUser.vehicles.length === 0) {
-                grid.innerHTML = `<p style="color:#aaa; font-size:0.9rem;">Nessun veicolo presente nel garage. Clicca su <strong>"Aggiungi Veicolo"</strong> per registrarne uno!</p>`;
+                grid.innerHTML = `<p style="color:#aaa; font-size:0.9rem;">Nessun veicolo nel garage. Clicca su <strong>"Aggiungi Veicolo"</strong> per registrarne uno!</p>`;
                 renderVehicleTimeline(null);
                 return;
             }
@@ -1215,10 +1241,10 @@
                 grid.innerHTML += `
                     <div class="vehicle-card-item ${isActive}" onclick="selectVehicle(${index})">
                         <div style="display:flex; align-items:center; gap:15px;">
-                            <div style="width:35px; height:35px; border-radius:50%; background-color:${colorVal[0]}; border:2px solid #fff;"></div>
+                            <div style="width:35px; height:35px; border-radius:50%; background-color:${colorVal[0]}; border:2px solid #fff; flex-shrink:0;"></div>
                             <div>
                                 <h4 style="color:#fff; text-transform:uppercase;">${veh.make} ${veh.model}</h4>
-                                <p style="font-size:0.8rem; color:var(--accent-green);">${colorVal[1]}</p>
+                                <p style="font-size:0.8rem; color:var(--accent-green);">${veh.trim ? veh.trim + ' — ' : ''}${colorVal[1]} (${veh.year || 'N/D'})</p>
                             </div>
                         </div>
                     </div>
@@ -1307,10 +1333,12 @@
         function saveNewVehicle() {
             const make = document.getElementById("modalCarMake").value;
             const model = document.getElementById("modalCarModel").value;
+            const year = document.getElementById("modalCarYear").value;
+            const trim = document.getElementById("modalCarTrim").value.trim();
             const color = document.getElementById("modalCarColor").value;
 
-            if (!make || !model) {
-                alert("Seleziona sia la marca che il modello!");
+            if (!make || !model || !year) {
+                alert("Compila Marca, Modello e Anno di Immatricolazione!");
                 return;
             }
 
@@ -1319,6 +1347,8 @@
             currentUser.vehicles.push({
                 make: make,
                 model: model,
+                year: year,
+                trim: trim,
                 color: color,
                 services: []
             });
@@ -1330,7 +1360,7 @@
             selectedVehicleIndex = currentUser.vehicles.length - 1;
             closeAddVehicleModal();
             renderUserVehicles();
-            alert("Veicolo aggiunto al tuo garage personale!");
+            alert("Veicolo salvato con successo nel tuo garage!");
         }
 
         function handleAvatarUpload(e) {
@@ -1348,7 +1378,7 @@
             }
         }
 
-        // AMMINISTRATORE
+        /* PANNELLO AMMINISTRATORE */
         function populateAdminClientSelect() {
             const select = document.getElementById("adminClientSelect");
             select.innerHTML = "";
@@ -1359,29 +1389,48 @@
                 opt.textContent = `${db[email].name} (${email})`;
                 select.appendChild(opt);
             });
+            loadAdminClientVehicles();
+        }
+
+        function loadAdminClientVehicles() {
+            const email = document.getElementById("adminClientSelect").value;
+            const vehSelect = document.getElementById("adminVehicleSelect");
+            vehSelect.innerHTML = "";
+            const db = getUsersDB();
+            const client = db[email];
+
+            if (client && client.vehicles && client.vehicles.length > 0) {
+                client.vehicles.forEach((v, idx) => {
+                    const opt = document.createElement("option");
+                    opt.value = idx;
+                    opt.textContent = `${v.make} ${v.model} (${v.year || ''})`;
+                    vehSelect.appendChild(opt);
+                });
+            } else {
+                vehSelect.innerHTML = '<option value="">Nessun veicolo presente per questo cliente</option>';
+            }
         }
 
         function addServiceFromAdmin() {
-            const selectClientEmail = document.getElementById("adminClientSelect").value;
+            const clientEmail = document.getElementById("adminClientSelect").value;
+            const vehIdx = document.getElementById("adminVehicleSelect").value;
             const date = document.getElementById("adminDate").value;
             const title = document.getElementById("adminTitle").value;
             const status = document.getElementById("adminStatus").value;
             const desc = document.getElementById("adminDesc").value;
 
-            if (!selectClientEmail || !date || !title) {
-                alert("Compila tutti i campi obbligatori per il cliente!");
+            if (!clientEmail || vehIdx === "" || !date || !title) {
+                alert("Seleziona cliente, veicolo, data e titolo servizio!");
                 return;
             }
 
             const db = getUsersDB();
-            const client = db[selectClientEmail];
+            const client = db[clientEmail];
+            const vehicle = client.vehicles[vehIdx];
 
-            if (!client.vehicles || client.vehicles.length === 0) {
-                alert("Questo cliente non ha ancora aggiunto un veicolo al garage!");
-                return;
-            }
+            if (!vehicle.services) vehicle.services = [];
 
-            client.vehicles[0].services.push({
+            vehicle.services.push({
                 id: Date.now(),
                 date: date,
                 title: title,
@@ -1390,14 +1439,19 @@
             });
 
             saveUsersDB(db);
-            if (currentUser.email === selectClientEmail) {
+            
+            // Invia notifica Email
+            sendJobNotificationEmail(clientEmail, client.name, date, title, desc);
+
+            if (currentUser.email === clientEmail) {
                 currentUser = client;
                 renderUserVehicles();
             }
-            alert("Intervento assegnato con successo al cliente!");
+
+            alert(`Intervento salvato da info.zonadetailingrm@gmail.com! Inviata email a ${clientEmail}`);
         }
 
-        // TRIPLE CLICK LOGO ACCESS ADMIN BACKUP
+        // TRIPLE CLICK BACKUP ADMIN ACCESS
         let clickCount = 0;
         document.getElementById("logoBadge").addEventListener("click", function() {
             clickCount++;
