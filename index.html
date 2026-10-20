@@ -116,7 +116,7 @@
         :root { --bg-color: #0a0a0a; --card-bg: #141414; --text-color: #ffffff; --accent-green: #a6f700; --accent-green-hover: #8ce000; --border-color: #222222; }
         body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
 
-        /* NAVBAR MOBILE RESPONSIVE FIX PERFETTO */
+        /* NAVBAR MOBILE RESPONSIVE FIX */
         nav { 
             position: fixed; top: 0; left: 0; width: 100%; 
             background-color: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); 
@@ -143,7 +143,6 @@
         .user-dropdown a { padding: 12px 16px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .user-dropdown a:hover { background-color: rgba(166, 247, 0, 0.15); color: var(--accent-green); }
 
-        /* NASCONDE I LINK DI TESTO SU SMARTPHONE PER DARE SPAZIO AL PULSANTE PROFILO */
         @media (max-width: 600px) {
             .nav-link-item { display: none; }
         }
@@ -275,6 +274,12 @@
 
         .admin-client-avatar { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-green); background: #000; }
         .admin-client-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
+
+        /* PULSANTI AZIONI ADMIN */
+        .admin-action-btn-danger { background: #331010; color: #ff5555; border: 1px solid #ff5555; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
+        .admin-action-btn-danger:hover { background: #ff5555; color: #fff; }
+        .admin-action-btn-warning { background: #332610; color: #ffb700; border: 1px solid #ffb700; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
+        .admin-action-btn-warning:hover { background: #ffb700; color: #000; }
     </style>
 </head>
 <body>
@@ -546,6 +551,7 @@
 
             <div id="adminSearchResults" style="max-height:150px; overflow-y:auto; margin-bottom:15px;"></div>
 
+            <!-- SCHEDA COMPLETA CLIENTE SELEZIONATO CON AVATAR E AZIONI -->
             <div id="adminClientCardDetails" style="display:none; background:#0e110e; border:1px solid var(--accent-green); padding:15px; border-radius:10px; margin-bottom:20px;">
                 <div class="admin-client-header">
                     <img id="cardClientAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" class="admin-client-avatar" alt="Avatar Cliente">
@@ -555,9 +561,17 @@
                         <p style="font-size:0.85rem;">Punti Detailing: <span id="cardClientPoints" style="color:#ffd700; font-weight:bold;">0</span></p>
                     </div>
                 </div>
+                
                 <div id="cardClientVehiclesSummary" style="margin-top:10px; font-size:0.85rem; color:#ccc; border-top:1px solid #222; padding-top:8px;"></div>
+
+                <!-- NUOVA SEZIONE AZIONI ACCOUNT ADMIN -->
+                <div style="margin-top:15px; padding-top:10px; border-top:1px solid #222; display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="admin-action-btn-warning" onclick="resetSelectedClientData()"><i class="fa-solid fa-rotate-left"></i> Azzera Punti & Garage</button>
+                    <button class="admin-action-btn-danger" onclick="deleteSelectedClientAccount()"><i class="fa-solid fa-user-xmark"></i> Elimina Account Definitivamente</button>
+                </div>
             </div>
 
+            <!-- FORM AGGIUNGI LAVORI CON ANTEPRIMA ED ELIMINAZIONE FOTO -->
             <div id="adminJobForm" style="display:none; border-top:1px solid #333; padding-top:15px;">
                 <h4 style="color:#fff; margin-bottom:10px; font-size:0.95rem;">Aggiungi Intervento per <span id="adminSelectedClientName" style="color:var(--accent-green);"></span></h4>
                 <div class="form-group">
@@ -772,10 +786,21 @@
               const reader = new FileReader();
               reader.onload = function(e) {
                   document.getElementById('reviewPhotoUrl').value = e.target.result;
-                  document.getElementById('reviewPhotoPreview').innerHTML = `<img src="${e.target.result}" style="width:70px; height:70px; object-fit:cover; border-radius:6px; border:1px solid var(--accent-green);">`;
+                  document.getElementById('reviewPhotoPreview').innerHTML = `
+                      <div style="display:inline-block; position:relative; margin-top:5px;">
+                          <img src="${e.target.result}" style="width:70px; height:70px; object-fit:cover; border-radius:6px; border:1px solid var(--accent-green);">
+                          <button onclick="removeReviewPhoto()" style="position:absolute; top:-5px; right:-5px; background:#ff5555; color:#fff; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer; font-weight:bold; font-size:10px;">×</button>
+                      </div>
+                  `;
               };
               reader.readAsDataURL(file);
           }
+      }
+
+      function removeReviewPhoto() {
+          document.getElementById('reviewPhotoUrl').value = "";
+          document.getElementById('reviewPhotoFile').value = "";
+          document.getElementById('reviewPhotoPreview').innerHTML = "";
       }
 
       async function submitClientReview() {
@@ -800,8 +825,7 @@
               await db.collection('reviews').add(reviewData);
               alert("Grazie! La tua recensione è stata pubblicata con successo.");
               document.getElementById('reviewTextInput').value = "";
-              document.getElementById('reviewPhotoUrl').value = "";
-              document.getElementById('reviewPhotoPreview').innerHTML = "";
+              removeReviewPhoto();
               closeProfileOverlay();
               loadPublicReviews();
           } catch(e) {
@@ -957,7 +981,7 @@
           `;
       }
 
-      /* SCHEDA COMPLETA PANNELLO ADMIN CON AVATAR CLIENTE */
+      /* SCHEDA COMPLETA PANNELLO ADMIN STAFF */
       let selectedAdminUserDoc = null;
 
       async function openAdminModal() {
@@ -1050,16 +1074,62 @@
           });
       }
 
+      // AZZERAMENTO PUNTI E GARAGE CLIENTE
+      async function resetSelectedClientData() {
+          if (!selectedAdminUserDoc) return;
+          if (!confirm(`Sei sicuro di voler azzerare punti e rimuovere tutti i veicoli per ${selectedAdminUserDoc.name}?`)) return;
+
+          try {
+              await db.collection('users').doc(selectedAdminUserDoc.id).update({
+                  points: 0,
+                  vehicles: []
+              });
+              alert("Dati cliente resettati con successo!");
+              selectClientAdmin(selectedAdminUserDoc.id);
+          } catch(e) {
+              alert("Errore durante il reset: " + e.message);
+          }
+      }
+
+      // ELIMINAZIONE ACCOUNT CLIENTE
+      async function deleteSelectedClientAccount() {
+          if (!selectedAdminUserDoc) return;
+          if (!confirm(`ATTENZIONE: Eliminare definitivamente l'account di ${selectedAdminUserDoc.name}? L'azione non potrà essere annullata.`)) return;
+
+          try {
+              await db.collection('users').doc(selectedAdminUserDoc.id).delete();
+              alert("Account cliente eliminato con successo!");
+              document.getElementById('adminClientCardDetails').style.display = 'none';
+              document.getElementById('adminJobForm').style.display = 'none';
+              selectedAdminUserDoc = null;
+              populateAdminClientDropdown();
+          } catch(e) {
+              alert("Errore durante l'eliminazione: " + e.message);
+          }
+      }
+
+      // CARICAMENTO E CANCELLAZIONE FOTO ADMIN
       function handleAdminPhotoUpload(event) {
           const file = event.target.files[0];
           if (file) {
               const reader = new FileReader();
               reader.onload = function(e) {
                   document.getElementById('adminJobPhotoUrl').value = e.target.result;
-                  document.getElementById('adminPhotoPreview').innerHTML = `<img src="${e.target.result}" style="width:70px; height:70px; object-fit:cover; border-radius:6px; border:1px solid var(--accent-green);">`;
+                  document.getElementById('adminPhotoPreview').innerHTML = `
+                      <div style="display:inline-block; position:relative; margin-top:5px;">
+                          <img src="${e.target.result}" style="width:70px; height:70px; object-fit:cover; border-radius:6px; border:1px solid var(--accent-green);">
+                          <button onclick="removeAdminPhoto()" style="position:absolute; top:-5px; right:-5px; background:#ff5555; color:#fff; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer; font-weight:bold; font-size:10px;" title="Rimuovi foto">×</button>
+                      </div>
+                  `;
               };
               reader.readAsDataURL(file);
           }
+      }
+
+      function removeAdminPhoto() {
+          document.getElementById('adminJobPhotoUrl').value = "";
+          document.getElementById('adminJobPhotoFile').value = "";
+          document.getElementById('adminPhotoPreview').innerHTML = "";
       }
 
       async function saveAdminJob() {
@@ -1092,10 +1162,12 @@
           }).then(
               function(response) {
                   alert("Intervento salvato e email inviata al cliente con successo!");
+                  removeAdminPhoto();
                   closeAdminModal();
               },
               function(error) {
                   alert("Intervento salvato, ma errore nell'invio dell'email.");
+                  removeAdminPhoto();
                   closeAdminModal();
               }
           );
