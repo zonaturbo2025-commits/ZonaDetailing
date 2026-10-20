@@ -88,11 +88,12 @@
         .nav-home-badge { text-decoration: none; background-color: #000; border: 2px solid var(--border-color); border-radius: 8px; padding: 4px 10px; font-weight: 900; font-size: 1rem; }
         .nav-home-badge .z-letter { color: #fff; } .nav-home-badge .d-letter { color: var(--accent-green); }
         
-        .nav-links { display: flex; list-style: none; gap: 15px; align-items: center; }
+        .nav-links { display: flex; list-style: none; gap: 12px; align-items: center; }
         .nav-links a { color: var(--text-color); text-decoration: none; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
         .nav-links a:hover { color: var(--accent-green); }
 
-        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+        .btn-admin-nav { background: var(--accent-green); border: 2px solid var(--accent-green); color: #000; padding: 6px 12px; border-radius: 20px; font-weight: 900; font-size: 0.75rem; cursor: pointer; display: none; align-items: center; gap: 5px; white-space: nowrap; }
         
         @media (max-width: 768px) {
             .nav-link-item { display: none; }
@@ -167,6 +168,14 @@
             <li class="nav-link-item"><a href="#dimostrazioni">Lavori</a></li>
             <li class="nav-link-item"><a href="#ticket">Assistenza</a></li>
             
+            <!-- PULSANTE ADMIN DEDICATO (APPARE PER L'ADMIN) -->
+            <li>
+                <button class="btn-admin-nav" id="btnOpenAdmin" onclick="openAdminModal()">
+                    <i class="fa-solid fa-user-shield"></i> Pannello Admin
+                </button>
+            </li>
+
+            <!-- PULSANTE ACCEDI / PROFILO -->
             <li>
                 <button class="btn-auth-nav" id="btnAuth" onclick="openAuthModal()">
                     <i class="fa-solid fa-user"></i> <span id="btnAuthText">Accedi / Profilo</span>
@@ -419,14 +428,18 @@
       }
 
       function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
+      
+      function openAdminModal() {
+          document.getElementById('adminModal').style.display = 'flex';
+          populateAdminClientDropdown();
+          loadAdminReport();
+      }
       function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
       function handleGarageCTA() {
           if (currentUser) {
               if (currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-                  document.getElementById('adminModal').style.display = 'flex';
-                  populateAdminClientDropdown();
-                  loadAdminReport();
+                  openAdminModal();
               } else {
                   alert("Benvenuto nel tuo account Zona Detailing!");
               }
@@ -438,15 +451,19 @@
       auth.onAuthStateChanged(async (user) => {
           currentUser = user;
           const btnAuthText = document.getElementById('btnAuthText');
+          const btnOpenAdmin = document.getElementById('btnOpenAdmin');
 
           if (user) {
               if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   btnAuthText.innerText = "Admin Staff";
+                  btnOpenAdmin.style.display = "flex"; // Mostra il pulsante admin nella barra in alto
               } else {
                   btnAuthText.innerText = "Mio Profilo";
+                  btnOpenAdmin.style.display = "none";
               }
           } else {
               btnAuthText.innerText = "Accedi / Profilo";
+              btnOpenAdmin.style.display = "none";
           }
       });
 
@@ -469,9 +486,7 @@
 
               closeAuthModal();
               if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-                  document.getElementById('adminModal').style.display = 'flex';
-                  populateAdminClientDropdown();
-                  loadAdminReport();
+                  openAdminModal();
               } else {
                   alert("Accesso effettuato con Google!");
               }
@@ -488,9 +503,7 @@
               const res = await auth.signInWithEmailAndPassword(email, pass);
               closeAuthModal();
               if (res.user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-                  document.getElementById('adminModal').style.display = 'flex';
-                  populateAdminClientDropdown();
-                  loadAdminReport();
+                  openAdminModal();
               } else {
                   alert("Accesso effettuato con successo!");
               }
