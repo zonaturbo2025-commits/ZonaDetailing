@@ -131,7 +131,7 @@
 
         /* MODALI & OVERLAYS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 15px; }
-        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 550px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 600px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
         .modal-close { position: absolute; top: 12px; right: 15px; color: #aaa; font-size: 1.4rem; cursor: pointer; }
 
         .form-group { display: flex; flex-direction: column; gap: 6px; text-align: left; margin-bottom: 15px; }
@@ -142,6 +142,9 @@
         .btn-primary-app { background: var(--accent-green); color: #000; }
         .btn-warning-app { background: #ffb700; color: #000; }
         .btn-danger-app { background: #ff4444; color: #fff; }
+
+        .client-avatar-large { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent-green); object-fit: cover; background: #000; }
+        .client-profile-box { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 
         /* PREVIEW FOTO ADMIN CON TASTO ELIMINA */
         .photo-preview-wrapper { position: relative; display: inline-block; margin-top: 8px; }
@@ -280,7 +283,7 @@
         </div>
     </div>
 
-    <!-- MODALE PANNELLO GESTIONALE ADMIN STAFF (3 RIQUADRI) -->
+    <!-- MODALE PANNELLO GESTIONALE ADMIN STAFF (3 RIQUADRI CON DATA, ORA, VIA, DOPPIA FOTO E STATO COMPLETATO) -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-box" style="max-width:700px; text-align:left;">
             <span class="modal-close" onclick="closeAdminModal()">&times;</span>
@@ -293,31 +296,50 @@
                 </select>
             </div>
 
-            <!-- 📦 RIQUADRO 1: GARAGE CLIENTE -->
+            <!-- 📦 RIQUADRO 1: FOTO PROFILO, GARAGE & VEICOLI -->
             <div style="background:#0e110e; border:1px solid #333; padding:15px; border-radius:10px; margin-bottom:15px;">
                 <h4 style="color:var(--accent-green); font-size:0.9rem; text-transform:uppercase;"><i class="fa-solid fa-car"></i> 1. Garage & Veicoli Cliente</h4>
                 <div id="adminClientGarageInfo" style="font-size:0.82rem; color:#aaa; margin-top:8px;">Seleziona un cliente.</div>
             </div>
 
-            <!-- 📸 RIQUADRO 2: REGISTRA LAVORO E FOTO -->
+            <!-- 📸 RIQUADRO 2: REGISTRA LAVORO, DATA, ORA, VIA, DOPPIA FOTO E STATO COMPLETATO -->
             <div id="adminJobContainer" style="background:#0e110e; border:1px solid #333; padding:15px; border-radius:10px; margin-bottom:15px; opacity:0.5; pointer-events:none;">
-                <h4 style="color:var(--accent-green); font-size:0.9rem; text-transform:uppercase; margin-bottom:10px;"><i class="fa-solid fa-camera"></i> 2. Registra Intervento & Foto</h4>
+                <h4 style="color:var(--accent-green); font-size:0.9rem; text-transform:uppercase; margin-bottom:10px;"><i class="fa-solid fa-calendar-check"></i> 2. Assegna Lavoro & Appuntamento</h4>
                 <div class="form-group"><label>Auto</label><select id="adminCarSelect" class="form-control"></select></div>
                 <div class="form-group">
-                    <label>Stato</label>
+                    <label>Stato Intervento</label>
                     <select id="adminJobStatus" class="form-control">
-                        <option value="prog">⏳ Programmato</option>
-                        <option value="done">✅ Eseguito (+Punti)</option>
+                        <option value="prog">⏳ Lavoro Programmato (In Attesa)</option>
+                        <option value="done">✅ Lavoro Eseguito (Assegna Punti)</option>
+                        <option value="completed">🏁 Lavoro Completato (Sposta a Eseguito & Data Odierna)</option>
                     </select>
                 </div>
-                <div class="form-group"><label>Servizio</label><input type="text" id="adminJobDesc" class="form-control" placeholder="Es. Trattamento Ceramico"></div>
-                <div class="form-group"><label>Punti</label><input type="number" id="adminJobPoints" class="form-control" value="100"></div>
-                <div class="form-group">
-                    <label>Foto Intervento</label>
-                    <input type="file" id="adminJobPhotoFile" class="form-control" accept="image/*" capture="environment" onchange="handleAdminPhotoUpload(event)">
-                    <input type="hidden" id="adminJobPhotoUrl">
-                    <div id="adminPhotoPreview"></div>
+                <div class="form-group"><label>Servizio</label><input type="text" id="adminJobDesc" class="form-control" placeholder="Es. Igienizzazione Vapore + Ceramica"></div>
+                
+                <div style="display:flex; gap:10px;">
+                    <div class="form-group" style="flex:1;"><label>Data</label><input type="date" id="adminJobDate" class="form-control"></div>
+                    <div class="form-group" style="flex:1;"><label>Ora</label><input type="time" id="adminJobTime" class="form-control"></div>
                 </div>
+                <div class="form-group"><label>Indirizzo / Via del Servizio</label><input type="text" id="adminJobAddress" class="form-control" placeholder="Es. Via Appia Nuova 123, Roma"></div>
+
+                <div class="form-group"><label>Punti</label><input type="number" id="adminJobPoints" class="form-control" value="100"></div>
+                
+                <!-- FOTO PRIMA DEL LAVORO -->
+                <div class="form-group">
+                    <label style="color:#ffb700;"><i class="fa-solid fa-camera"></i> 1. Foto "PRIMA" dell'Intervento</label>
+                    <input type="file" id="adminBeforePhotoFile" class="form-control" accept="image/*" capture="environment" onchange="handlePhotoUpload(event, 'before')">
+                    <input type="hidden" id="adminBeforePhotoUrl">
+                    <div id="adminBeforePreview"></div>
+                </div>
+
+                <!-- FOTO DOPO IL LAVORO -->
+                <div class="form-group">
+                    <label style="color:var(--accent-green);"><i class="fa-solid fa-camera-retro"></i> 2. Foto "DOPO" (Risultato Finale)</label>
+                    <input type="file" id="adminAfterPhotoFile" class="form-control" accept="image/*" capture="environment" onchange="handlePhotoUpload(event, 'after')">
+                    <input type="hidden" id="adminAfterPhotoUrl">
+                    <div id="adminAfterPreview"></div>
+                </div>
+
                 <button class="btn-app btn-primary-app" onclick="saveAdminJob()">Salva Intervento</button>
             </div>
 
@@ -341,7 +363,7 @@
               if(currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   document.getElementById('adminModal').style.display = 'flex';
               } else {
-                  alert("Sei già connesso al tuo Garage!");
+                  alert("Sei già connesso al tuo account!");
               }
           } else {
               openAuthModal();
@@ -426,12 +448,27 @@
           const doc = await db.collection('users').doc(userId).get();
           selectedAdminUserDoc = { id: userId, ...doc.data() };
 
-          let vHtml = `<strong>${selectedAdminUserDoc.name}</strong> (${selectedAdminUserDoc.email})<br>Punti: <span style="color:#ffd700; font-weight:bold;">${selectedAdminUserDoc.points || 0}</span><br><br>`;
+          const avatarSrc = selectedAdminUserDoc.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
+          
+          let vHtml = `
+              <div class="client-profile-box">
+                  <img src="${avatarSrc}" class="client-avatar-large">
+                  <div>
+                      <strong style="font-size:0.95rem; color:#fff;">${selectedAdminUserDoc.name || 'Cliente'}</strong><br>
+                      <span style="font-size:0.75rem; color:#aaa;">${selectedAdminUserDoc.email}</span><br>
+                      Punti: <span style="color:#ffd700; font-weight:bold;">${selectedAdminUserDoc.points || 0}</span>
+                  </div>
+              </div>
+              <div style="border-top:1px solid #222; padding-top:8px; margin-top:8px;">
+          `;
+
           if(selectedAdminUserDoc.vehicles && selectedAdminUserDoc.vehicles.length > 0) {
-              vHtml += selectedAdminUserDoc.vehicles.map((v, idx) => `🚗 [Box ${idx+1}] ${v.brand} ${v.model} (${v.plate || 'No Targa'})`).join('<br>');
+              vHtml += selectedAdminUserDoc.vehicles.map((v, idx) => `🚗 [Box ${idx+1}] <strong>${v.brand} ${v.model}</strong> (${v.plate || 'No Targa'})`).join('<br>');
           } else {
               vHtml += "Nessuna vettura registrata nel garage.";
           }
+          vHtml += `</div>`;
+
           document.getElementById('adminClientGarageInfo').innerHTML = vHtml;
 
           document.getElementById('adminJobContainer').style.opacity = "1";
@@ -446,48 +483,97 @@
           });
       }
 
-      function handleAdminPhotoUpload(event) {
+      function handlePhotoUpload(event, type) {
           const file = event.target.files[0];
           if (file) {
               const reader = new FileReader();
               reader.onload = function(e) {
-                  document.getElementById('adminJobPhotoUrl').value = e.target.result;
-                  document.getElementById('adminPhotoPreview').innerHTML = `
-                      <div class="photo-preview-wrapper">
-                          <img src="${e.target.result}" class="photo-preview-img">
-                          <button class="btn-remove-photo" onclick="removeAdminPhoto()">×</button>
-                      </div>`;
+                  if (type === 'before') {
+                      document.getElementById('adminBeforePhotoUrl').value = e.target.result;
+                      document.getElementById('adminBeforePreview').innerHTML = `
+                          <div class="photo-preview-wrapper">
+                              <img src="${e.target.result}" class="photo-preview-img">
+                              <button class="btn-remove-photo" onclick="removePhoto('before')">×</button>
+                          </div>`;
+                  } else {
+                      document.getElementById('adminAfterPhotoUrl').value = e.target.result;
+                      document.getElementById('adminAfterPreview').innerHTML = `
+                          <div class="photo-preview-wrapper">
+                              <img src="${e.target.result}" class="photo-preview-img">
+                              <button class="btn-remove-photo" onclick="removePhoto('after')">×</button>
+                          </div>`;
+                  }
               };
               reader.readAsDataURL(file);
           }
       }
 
-      function removeAdminPhoto() {
-          document.getElementById('adminJobPhotoUrl').value = "";
-          document.getElementById('adminJobPhotoFile').value = "";
-          document.getElementById('adminPhotoPreview').innerHTML = "";
+      function removePhoto(type) {
+          if (type === 'before') {
+              document.getElementById('adminBeforePhotoUrl').value = "";
+              document.getElementById('adminBeforePhotoFile').value = "";
+              document.getElementById('adminBeforePreview').innerHTML = "";
+          } else {
+              document.getElementById('adminAfterPhotoUrl').value = "";
+              document.getElementById('adminAfterPhotoFile').value = "";
+              document.getElementById('adminAfterPreview').innerHTML = "";
+          }
       }
 
       async function saveAdminJob() {
           if (!selectedAdminUserDoc) return;
           const carIdx = document.getElementById('adminCarSelect').value;
-          const status = document.getElementById('adminJobStatus').value;
+          let status = document.getElementById('adminJobStatus').value;
           const desc = document.getElementById('adminJobDesc').value;
+          let jobDate = document.getElementById('adminJobDate').value;
+          const jobTime = document.getElementById('adminJobTime').value;
+          const address = document.getElementById('adminJobAddress').value;
           const pts = parseInt(document.getElementById('adminJobPoints').value) || 0;
-          const photoUrl = document.getElementById('adminJobPhotoUrl').value;
+          
+          const beforePhotoUrl = document.getElementById('adminBeforePhotoUrl').value;
+          const afterPhotoUrl = document.getElementById('adminAfterPhotoUrl').value;
+
+          if (status === 'completed') {
+              status = 'done';
+              const today = new Date();
+              jobDate = today.toISOString().split('T')[0];
+          }
 
           const vehicles = selectedAdminUserDoc.vehicles || [];
           if (!vehicles[carIdx]) return alert("Seleziona un'auto valida!");
           if (!vehicles[carIdx].jobs) vehicles[carIdx].jobs = [];
 
-          vehicles[carIdx].jobs.push({ status, desc, photoUrl, date: new Date().toISOString() });
+          vehicles[carIdx].jobs.push({ 
+              status, 
+              desc, 
+              jobDate, 
+              jobTime, 
+              address, 
+              beforePhotoUrl, 
+              afterPhotoUrl, 
+              date: new Date().toISOString() 
+          });
+
           let newPoints = (selectedAdminUserDoc.points || 0);
           if (status === 'done') newPoints += pts;
 
           await db.collection('users').doc(selectedAdminUserDoc.id).update({ vehicles, points: newPoints });
-          alert("Intervento salvato con successo!");
-          removeAdminPhoto();
-          selectClientAdmin(selectedAdminUserDoc.id);
+
+          emailjs.send("service_zonadetailing", "YOUR_TEMPLATE_ID", {
+              to_email: selectedAdminUserDoc.email,
+              to_name: selectedAdminUserDoc.name,
+              message: `Intervento registrato: "${desc}" in data ${jobDate} ore ${jobTime} presso ${address}. (${status === 'done' ? '✅ Eseguito & Completato' : '⏳ Programmato'}).`
+          }).then(() => {
+              alert("Intervento salvato, punti accreditati e notifica inviata!");
+              removePhoto('before');
+              removePhoto('after');
+              selectClientAdmin(selectedAdminUserDoc.id);
+          }).catch(() => {
+              alert("Intervento salvato con successo!");
+              removePhoto('before');
+              removePhoto('after');
+              selectClientAdmin(selectedAdminUserDoc.id);
+          });
       }
 
       async function resetSelectedClientData() {
@@ -502,7 +588,7 @@
           if (confirm("Eliminare definitivamente l'account cliente?")) {
               await db.collection('users').doc(selectedAdminUserDoc.id).delete();
               alert("Account eliminato!");
-              closeAdminModal();
+              selectClientAdmin("");
               populateAdminClientDropdown();
           }
       }
