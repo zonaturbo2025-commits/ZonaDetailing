@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap" rel="stylesheet">
     <!-- Icone FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -1037,9 +1039,16 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- LOGICA JAVASCRIPT & INVIO EMAIL DIRETTO -->
+    <!-- LOGICA JAVASCRIPT & EMAILJS CONFIGURATO CON CHIAVI REALI -->
     <script>
+        (function(){
+            emailjs.init("8QQAsMRuc5YRcgWoG");
+        })();
+
         const ADMIN_EMAIL = "info.zonadetailingrm@gmail.com";
+        const EMAILJS_SERVICE_ID = "service_0p5xtu9";
+        const EMAILJS_TEMPLATE_ID = "template_6mb3lb8";
+
         let currentUser = null;
         let selectedVehicleIndex = 0;
 
@@ -1084,36 +1093,29 @@
             localStorage.setItem("zd_users_db", JSON.stringify(db));
         }
 
-        /* FUNZIONE INVIO EMAIL REALE VIA WEB API */
-        function sendRealEmail(toEmail, subject, messageText) {
-            fetch("https://formsubmit.co/ajax/" + encodeURIComponent(toEmail), {
-                method: "POST",
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    _subject: subject,
-                    _replyto: ADMIN_EMAIL,
-                    mittente: "Zona Detailing Roma",
-                    messaggio: messageText
-                })
-            })
-            .then(response => response.json())
-            .then(data => console.log("Email inviata con successo:", data))
-            .catch(error => console.error("Errore invio email:", error));
-        }
-
+        /* INVIO EMAIL DI BENVENUTO VIA EMAILJS */
         function sendWelcomeEmail(user) {
-            const subject = "Benvenuto in Zona Detailing - Garage Attivato!";
-            const text = `Ciao ${user.name},\n\nBenvenuto nel Garage Virtuale di Zona Detailing!\n\nDa questo momento puoi registrare i tuoi veicoli e consultare gli interventi di detailing eseguiti o programmati per la tua auto.\n\nPer qualsiasi informazione o prenotazione puoi contattarci direttamente su WhatsApp o via telefono al 351 900 0774.\n\nUn cordiale saluto,\nTeam Zona Detailing Roma`;
-            sendRealEmail(user.email, subject, text);
+            const templateParams = {
+                to_name: user.name,
+                to_email: user.email,
+                message: `Benvenuto ${user.name} in Zona Detailing! Il tuo profilo è stato attivato con successo.\n\nDa questo momento puoi registrare i tuoi veicoli e consultare gli interventi di detailing eseguiti o programmati direttamente dalla nostra web app.\n\nPer qualsiasi informazione o per prenotare un trattamento a domicilio a Roma puoi contattarci su WhatsApp al 351 900 0774.\n\nUn cordiale saluto,\nTeam Zona Detailing Roma`
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(response => console.log('Email di benvenuto inviata con successo!', response.status, response.text))
+                .catch(error => console.error('Errore invio email:', error));
         }
 
         function sendJobNotificationEmail(clientEmail, clientName, jobDate, jobTitle, jobDesc) {
-            const subject = "Zona Detailing - Nuovo Intervento Assegnato";
-            const text = `Ciao ${clientName},\n\nTi confermiamo che è stato registrato un nuovo intervento per il tuo veicolo:\n\nServizio: ${jobTitle}\nData: ${jobDate}\nDettagli: ${jobDesc}\n\nPuoi verificare lo stato dell'intervento accedendo al tuo Garage su Zona Detailing.\n\nUn cordiale saluto,\nTeam Zona Detailing Roma`;
-            sendRealEmail(clientEmail, subject, text);
+            const templateParams = {
+                to_name: clientName,
+                to_email: clientEmail,
+                message: `Ciao ${clientName},\n\nTi informiamo che è stato registrato un nuovo intervento per la tua auto:\n- Servizio: ${jobTitle}\n- Data: ${jobDate}\n- Dettagli: ${jobDesc}\n\nUn cordiale saluto,\nTeam Zona Detailing Roma`
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(response => console.log('Email notifica lavoro inviata!', response.status, response.text))
+                .catch(error => console.error('Errore invio email:', error));
         }
 
         function handleAuthButtonClick() {
@@ -1174,13 +1176,13 @@
             saveUsersDB(db);
             currentUser = db[email];
             
-            // Invio email reale di benvenuto
+            // Invio email di benvenuto reale da info.zonadetailingrm@gmail.com
             sendWelcomeEmail(currentUser);
 
             closeAuthModal();
             updateUIState();
             openProfileOverlay();
-            alert(`Registrazione completata! Un'email di benvenuto è stata inviata a: ${email}`);
+            alert(`Registrazione completata! Email di benvenuto inviata da ${ADMIN_EMAIL} a ${email}`);
         }
 
         function handleLogin() {
@@ -1433,7 +1435,7 @@
             const clientEmail = document.getElementById("adminClientSelect").value;
             const vehIdx = document.getElementById("adminVehicleSelect").value;
             const date = document.getElementById("adminDate").value;
-            const title = document.getElementById("adminTitle").value;
+            const title = document.getElementById("adminTitle", "").value;
             const status = document.getElementById("adminStatus").value;
             const desc = document.getElementById("adminDesc").value;
 
@@ -1458,7 +1460,7 @@
 
             saveUsersDB(db);
             
-            // Invio notifica Email reale
+            // Invio notifica Email da info.zonadetailingrm@gmail.com
             sendJobNotificationEmail(clientEmail, client.name, date, title, desc);
 
             if (currentUser.email === clientEmail) {
@@ -1466,7 +1468,7 @@
                 renderUserVehicles();
             }
 
-            alert(`Intervento registrato! Email di notifica inviata a: ${clientEmail}`);
+            alert(`Intervento registrato! Email di notifica inviata da ${ADMIN_EMAIL} a ${clientEmail}`);
         }
 
         // TRIPLE CLICK BACKUP ADMIN ACCESS
