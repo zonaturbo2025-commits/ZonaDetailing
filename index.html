@@ -149,34 +149,26 @@
         .user-dropdown a { padding: 12px 16px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .user-dropdown a:hover { background-color: rgba(166, 247, 0, 0.15); color: var(--accent-green); }
 
-        /* HERO & ANIMAZIONI LOGO IN ALTA DEFINIZIONE */
+        /* HERO & LOGO OTTIMIZZATO FLUIDO 60FPS (NO LAG) */
         .hero { padding: 120px 15px 60px 15px; text-align: center; background: radial-gradient(circle at center, #142000 0%, var(--bg-color) 75%); display: flex; flex-direction: column; align-items: center; }
-        .hero-logo-container { position: relative; margin: 0 auto 20px auto; width: 100%; max-width: 320px; }
-        .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background: radial-gradient(circle, rgba(166, 247, 0, 0.45) 0%, rgba(166, 247, 0, 0) 70%); border-radius: 50%; filter: blur(30px); animation: pulseGlow 4s infinite alternate; }
+        .hero-logo-container { position: relative; margin: 0 auto 20px auto; width: 100%; max-width: 280px; }
+        .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; background: rgba(166, 247, 0, 0.25); border-radius: 50%; z-index: 1; }
         
-        /* Regole per la massima qualità e nitidezza del logo (HiDPI / Retina ready) */
         .hero-logo { 
             width: 100%; 
-            max-width: 300px; 
+            max-width: 260px; 
             height: auto; 
             position: relative; 
             z-index: 2; 
-            animation: floatLogo 3s ease-in-out infinite; 
-            image-rendering: -webkit-optimize-contrast; 
-            image-rendering: crisp-edges;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            transform: translateZ(0);
+            will-change: transform;
+            animation: floatLogo 3.5s ease-in-out infinite; 
+            -webkit-font-smoothing: antialiased;
         }
         
         @keyframes floatLogo {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
-        @keyframes pulseGlow {
-            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+            0% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(0, -10px, 0); }
+            100% { transform: translate3d(0, 0, 0); }
         }
 
         .hero-subtitle-main { font-size: 1.15rem; font-weight: 800; text-transform: uppercase; color: var(--accent-green); margin-bottom: 6px; z-index: 2; }
@@ -288,7 +280,8 @@
     <section id="home" class="hero">
         <div class="hero-logo-container">
             <div class="hero-glow"></div>
-            <img src="logo.png?v=2" alt="Zona Detailing Logo" class="hero-logo">
+            <!-- Logo fluido, nitido e ottimizzato senza lag -->
+            <img src="https://zonadetailing.it/logo.png" alt="Zona Detailing Logo" class="hero-logo">
         </div>
         
         <p class="hero-subtitle-main">Car Detailing a domicilio a Roma.</p>
@@ -895,14 +888,21 @@
               points: newPoints
           });
 
+          // Invio email automatica tramite EmailJS
           emailjs.send("service_zonadetailing", "YOUR_TEMPLATE_ID", {
-              to_name: selectedAdminUserDoc.name,
               to_email: selectedAdminUserDoc.email,
-              message: `Il tuo intervento "${desc} (${status === 'done' ? 'Eseguito' : 'Programmato'})" è stato aggiornato nel tuo garage!`
-          }).catch(err => console.log("Errore invio email:", err));
-
-          alert("Intervento salvato e notifica inviata con successo!");
-          closeAdminModal();
+              to_name: selectedAdminUserDoc.name,
+              message: `Intervento registrato: "${desc}" (${status === 'done' ? '✅ Eseguito - Punti assegnati: ' + pts : '⏳ Programmato'}).`
+          }).then(
+              function(response) {
+                  alert("Intervento salvato e email inviata al cliente con successo!");
+                  closeAdminModal();
+              },
+              function(error) {
+                  alert("Intervento salvato, ma errore nell'invio dell'email.");
+                  closeAdminModal();
+              }
+          );
       }
     </script>
 </body>
