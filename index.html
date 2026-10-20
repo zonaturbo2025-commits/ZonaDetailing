@@ -18,7 +18,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            emailjs.init("YOUR_PUBLIC_KEY"); // Sostituisci con la tua Public Key di EmailJS se non l'hai già fatto
+            emailjs.init("YOUR_PUBLIC_KEY");
         })();
     </script>
     
@@ -158,7 +158,8 @@
         .btn-whatsapp { background-color: var(--accent-green); color: #000; }
         .btn-instagram { background-color: transparent; color: #fff; border: 2px solid #fff; }
 
-        .btn-google-icon-only { background-color: #fff; color: #000; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; cursor: pointer; border: none; font-size: 1.3rem; }
+        .btn-google-icon-only { background-color: #fff; color: #000; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; font-size: 1.3rem; }
+        .btn-apple-icon-only { background-color: #000; color: #fff; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid #444; font-size: 1.3rem; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 60px 15px; }
         .section-title { font-size: 1.8rem; font-weight: 800; text-transform: uppercase; text-align: center; margin-bottom: 30px; }
@@ -328,7 +329,10 @@
             <span class="modal-close" onclick="closeAuthModal()">&times;</span>
             <div id="loginFormBox">
                 <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 8px;">Accedi</h3>
-                <button class="btn-google-icon-only" onclick="handleGoogleAuth()" title="Accedi con Google"><i class="fa-brands fa-google" style="color:#db4437;"></i></button>
+                <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 15px;">
+                    <button class="btn-google-icon-only" onclick="handleGoogleAuth()" title="Accedi con Google"><i class="fa-brands fa-google" style="color:#db4437;"></i></button>
+                    <button class="btn-apple-icon-only" onclick="handleAppleAuth()" title="Accedi con Apple"><i class="fa-brands fa-apple" style="color:#fff;"></i></button>
+                </div>
                 <div class="auth-divider"><span>oppure email</span></div>
                 <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control" placeholder="nome@gmail.com"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" placeholder="••••••••"></div>
@@ -337,7 +341,10 @@
             </div>
             <div id="signupFormBox" style="display: none;">
                 <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 8px;">Crea Account</h3>
-                <button class="btn-google-icon-only" onclick="handleGoogleAuth()" title="Registrati con Google"><i class="fa-brands fa-google" style="color:#db4437;"></i></button>
+                <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 15px;">
+                    <button class="btn-google-icon-only" onclick="handleGoogleAuth()" title="Registrati con Google"><i class="fa-brands fa-google" style="color:#db4437;"></i></button>
+                    <button class="btn-apple-icon-only" onclick="handleAppleAuth()" title="Registrati con Apple"><i class="fa-brands fa-apple" style="color:#fff;"></i></button>
+                </div>
                 <div class="auth-divider"><span>oppure email</span></div>
                 <div class="form-group"><label>Nome e Cognome</label><input type="text" id="signupName" class="form-control" placeholder="Giulio Rossi"></div>
                 <div class="form-group"><label>Email</label><input type="email" id="signupEmail" class="form-control" placeholder="nome@gmail.com"></div>
@@ -529,6 +536,29 @@
           } catch (error) { alert("Errore Google Auth: " + error.message); }
       }
 
+      async function handleAppleAuth() {
+          const provider = new firebase.auth.OAuthProvider('apple.com');
+          provider.addScope('email');
+          provider.addScope('name');
+          try {
+              const result = await auth.signInWithPopup(provider);
+              const user = result.user;
+              const userRef = db.collection('users').doc(user.uid);
+              const doc = await userRef.get();
+              if (!doc.exists) {
+                  await userRef.set({ 
+                      name: user.displayName || "Cliente Apple", 
+                      email: user.email || "", 
+                      points: 0, 
+                      vehicles: [] 
+                  });
+              }
+              closeAuthModal();
+          } catch (error) { 
+              alert("Errore Apple Auth: " + error.message); 
+          }
+      }
+
       async function handleEmailLogin() {
           const email = document.getElementById('loginEmail').value;
           const pass = document.getElementById('loginPassword').value;
@@ -560,7 +590,7 @@
               userData = doc.exists ? doc.data() : { points: 0, vehicles: [] };
               btnText.innerText = (userData.name || "Cliente").split(' ')[0];
 
-              if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+              if (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   if (adminLinkNav) adminLinkNav.style.display = 'flex';
                   if (adminFooterContainer) adminFooterContainer.style.display = 'block';
               } else {
@@ -738,7 +768,7 @@
       let selectedAdminUserDoc = null;
 
       function openAdminModal() {
-          if (!currentUser || currentUser.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+          if (!currentUser || !currentUser.email || currentUser.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
               return alert("Accesso negato.");
           }
           document.getElementById('adminModal').style.display = 'flex';
@@ -816,7 +846,6 @@
               points: newPoints
           });
 
-          // Invio email automatica tramite EmailJS con il servizio Aruba
           emailjs.send("service_zonadetailing", "YOUR_TEMPLATE_ID", {
               to_name: selectedAdminUserDoc.name,
               to_email: selectedAdminUserDoc.email,
