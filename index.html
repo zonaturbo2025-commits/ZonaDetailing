@@ -83,7 +83,6 @@
         "Volvo": ["XC40", "XC60", "XC90", "EX30", "C40", "S60", "V60"]
       };
 
-      // Loghi Vettoriali e ad Alta Definizione
       function getBrandLogoUrl(brand) {
           const b = brand.toLowerCase();
           if (b.includes('ferrari')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/ferrari.svg';
@@ -101,7 +100,6 @@
           if (b.includes('jeep')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/jeep.svg';
           if (b.includes('cupra')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/cupra.svg';
           if (b.includes('maserati')) return 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/maserati.svg';
-          
           return `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(brand)}`;
       }
 
@@ -118,54 +116,64 @@
         :root { --bg-color: #0a0a0a; --card-bg: #141414; --text-color: #ffffff; --accent-green: #a6f700; --accent-green-hover: #8ce000; --border-color: #222222; }
         body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
 
-        /* NAVBAR */
-        nav { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; padding: 12px 5%; z-index: 1000; }
-        .nav-home-badge { text-decoration: none; background-color: #000; border: 2px solid var(--border-color); border-radius: 8px; padding: 5px 12px; font-weight: 900; font-size: 1.1rem; }
+        /* NAVBAR MOBILE RESPONSIVE FIX */
+        nav { 
+            position: fixed; top: 0; left: 0; width: 100%; 
+            background-color: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 10px 4%; z-index: 1000; 
+        }
+        .nav-home-badge { text-decoration: none; background-color: #000; border: 2px solid var(--border-color); border-radius: 8px; padding: 4px 10px; font-weight: 900; font-size: 1rem; }
         .nav-home-badge .z-letter { color: #fff; } .nav-home-badge .d-letter { color: var(--accent-green); }
-        .nav-links { display: flex; list-style: none; gap: 20px; align-items: center; }
-        .nav-links a { color: var(--text-color); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
-        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 7px 16px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         
-        .user-dropdown { position: absolute; top: 45px; right: 0; background-color: #141414; border: 1px solid var(--accent-green); border-radius: 8px; width: 220px; display: none; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.8); z-index: 1001; }
+        .nav-links { display: flex; list-style: none; gap: 12px; align-items: center; }
+        .nav-links a { color: var(--text-color); text-decoration: none; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
+        .nav-links a:hover { color: var(--accent-green); }
+
+        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 5px 12px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        
+        .user-dropdown { position: absolute; top: 45px; right: 10px; background-color: #141414; border: 1px solid var(--accent-green); border-radius: 8px; width: 210px; display: none; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.8); z-index: 1001; }
         .user-dropdown a { padding: 12px 16px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .user-dropdown a:hover { background-color: rgba(166, 247, 0, 0.15); color: var(--accent-green); }
 
-        /* HERO */
-        .hero { padding: 140px 20px 80px 20px; text-align: center; background: radial-gradient(circle at center, #142000 0%, var(--bg-color) 75%); display: flex; flex-direction: column; align-items: center; }
-        .hero-logo-container { position: relative; margin: 0 auto 25px auto; max-width: 380px; }
-        .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 80%; background: radial-gradient(circle, rgba(166, 247, 0, 0.45) 0%, rgba(166, 247, 0, 0) 70%); border-radius: 50%; filter: blur(35px); }
-        .hero-logo { width: 100%; max-width: 380px; position: relative; z-index: 2; }
-        .hero-subtitle-main { font-size: 1.35rem; font-weight: 800; text-transform: uppercase; color: var(--accent-green); margin-bottom: 8px; }
-        .hero-subtitle-sub { font-size: 1.15rem; font-weight: 300; font-style: italic; color: #dddddd; margin-bottom: 35px; }
+        /* HERO MOBILE FIX */
+        .hero { padding: 120px 15px 60px 15px; text-align: center; background: radial-gradient(circle at center, #142000 0%, var(--bg-color) 75%); display: flex; flex-direction: column; align-items: center; }
+        .hero-logo-container { position: relative; margin: 0 auto 20px auto; width: 100%; max-width: 320px; }
+        .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background: radial-gradient(circle, rgba(166, 247, 0, 0.45) 0%, rgba(166, 247, 0, 0) 70%); border-radius: 50%; filter: blur(30px); }
+        .hero-logo { width: 100%; max-width: 300px; height: auto; position: relative; z-index: 2; }
+        .hero-subtitle-main { font-size: 1.15rem; font-weight: 800; text-transform: uppercase; color: var(--accent-green); margin-bottom: 6px; z-index: 2; }
+        .hero-subtitle-sub { font-size: 0.95rem; font-weight: 300; font-style: italic; color: #dddddd; margin-bottom: 25px; z-index: 2; padding: 0 10px; }
 
-        .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 6px; font-weight: 700; text-decoration: none; text-transform: uppercase; font-size: 0.9rem; cursor: pointer; border: none; }
+        .btn-container { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; z-index: 2; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 6px; font-weight: 700; text-decoration: none; text-transform: uppercase; font-size: 0.85rem; cursor: pointer; border: none; }
         .btn-whatsapp { background-color: var(--accent-green); color: #000; }
         .btn-instagram { background-color: transparent; color: #fff; border: 2px solid #fff; }
 
         .btn-google-icon-only { background-color: #fff; color: #000; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; cursor: pointer; border: none; font-size: 1.3rem; }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
-        .section-title { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; text-align: center; margin-bottom: 40px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 60px 15px; }
+        .section-title { font-size: 1.8rem; font-weight: 800; text-transform: uppercase; text-align: center; margin-bottom: 30px; }
         .section-title span { color: var(--accent-green); }
 
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .service-card { background-color: var(--card-bg); padding: 30px 25px; border-radius: 8px; border: 1px solid var(--border-color); }
-        .service-card h3 { color: var(--accent-green); margin-bottom: 12px; text-transform: uppercase; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
+        .service-card { background-color: var(--card-bg); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .service-card h3 { color: var(--accent-green); margin-bottom: 10px; text-transform: uppercase; font-size: 1.05rem; }
 
         /* REELS INSTAGRAM */
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .video-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; text-align: center; }
-        .instagram-embed-wrapper { position: relative; width: 100%; height: 480px; overflow: hidden; border-radius: 8px; background: #000; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .video-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: center; }
+        .instagram-embed-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 8px; background: #000; }
         .instagram-embed-wrapper iframe { position: absolute; top: -50px; left: 0; width: 100%; height: calc(100% + 150px); }
 
         /* MODALI & OVERLAY */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; }
-        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 35px 25px; width: 90%; max-width: 480px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 15px; }
+        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 520px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
         .modal-close { position: absolute; top: 12px; right: 15px; color: #aaa; font-size: 1.4rem; cursor: pointer; }
 
         .form-group { display: flex; flex-direction: column; gap: 6px; text-align: left; margin-bottom: 15px; }
         .form-group label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--accent-green); }
-        .form-control { background-color: #0d0d0d; border: 1px solid var(--border-color); color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 0.9rem; outline: none; }
+        .form-control { background-color: #0d0d0d; border: 1px solid var(--border-color); color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 0.9rem; outline: none; width: 100%; }
 
         .auth-divider { display: flex; align-items: center; text-align: center; color: #666; margin: 15px 0; font-size: 0.8rem; }
         .auth-divider::before, .auth-divider::after { content: ''; flex: 1; border-bottom: 1px solid #333; }
@@ -175,42 +183,39 @@
         .auth-switch span { color: var(--accent-green); cursor: pointer; font-weight: 700; text-decoration: underline; }
 
         /* 🏎️ SHOWROOM VIRTUAL GARAGE OVERLAY 🏎️ */
-        .profile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050705; z-index: 3000; display: none; overflow-y: auto; padding: 30px 5%; }
-        .garage-title-banner { text-align: center; margin-bottom: 30px; padding: 20px; background: rgba(20, 20, 20, 0.8); border: 1px solid var(--accent-green); border-radius: 12px; }
+        .profile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050705; z-index: 3000; display: none; overflow-y: auto; padding: 20px 4%; }
+        .garage-title-banner { text-align: center; margin-bottom: 25px; padding: 15px; background: rgba(20, 20, 20, 0.8); border: 1px solid var(--accent-green); border-radius: 12px; }
 
-        .garage-bay-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .garage-bay-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
 
-        .parking-spot { background: #0e110e; border: 2px solid #222; border-radius: 15px; padding: 20px; position: relative; display: flex; flex-direction: column; align-items: center; }
+        .parking-spot { background: #0e110e; border: 2px solid #222; border-radius: 15px; padding: 18px; position: relative; display: flex; flex-direction: column; align-items: center; }
         .parking-spot:hover { border-color: var(--accent-green); }
 
-        .spot-number-badge { position: absolute; top: 15px; left: 15px; background: #000; border: 1px solid var(--accent-green); color: var(--accent-green); font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; }
-        .btn-delete-car { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: #ff5555; font-size: 1.1rem; cursor: pointer; }
+        .spot-number-badge { position: absolute; top: 12px; left: 12px; background: #000; border: 1px solid var(--accent-green); color: var(--accent-green); font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 20px; }
+        .btn-delete-car { position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: #ff5555; font-size: 1.1rem; cursor: pointer; }
 
-        /* PODIO LOGO MARCHIO SVG */
-        .brand-podium { width: 100%; height: 110px; margin: 30px 0 15px 0; display: flex; align-items: center; justify-content: center; position: relative; background: radial-gradient(ellipse at bottom, rgba(166, 247, 0, 0.15) 0%, transparent 70%); }
-        .brand-logo-img { max-height: 70px; max-width: 120px; object-fit: contain; filter: invert(1) drop-shadow(0 0 8px rgba(166,247,0,0.5)); }
+        .brand-podium { width: 100%; height: 100px; margin: 25px 0 10px 0; display: flex; align-items: center; justify-content: center; position: relative; background: radial-gradient(ellipse at bottom, rgba(166, 247, 0, 0.15) 0%, transparent 70%); }
+        .brand-logo-img { max-height: 65px; max-width: 110px; object-fit: contain; filter: invert(1) drop-shadow(0 0 8px rgba(166,247,0,0.5)); }
 
-        .car-neon-plate { background: #000; border: 1px solid #333; border-bottom: 3px solid var(--accent-green); border-radius: 8px; padding: 12px; width: 100%; text-align: center; }
+        .car-neon-plate { background: #000; border: 1px solid #333; border-bottom: 3px solid var(--accent-green); border-radius: 8px; padding: 10px; width: 100%; text-align: center; }
 
-        /* SEZIONE LAVORI DENTRO LA SCHEDA AUTO */
-        .car-jobs-section { margin-top: 15px; width: 100%; text-align: left; background: #141414; border-radius: 8px; padding: 12px; font-size: 0.85rem; border: 1px solid #222; }
+        .car-jobs-section { margin-top: 12px; width: 100%; text-align: left; background: #141414; border-radius: 8px; padding: 10px; font-size: 0.8rem; border: 1px solid #222; }
         .job-tag-prog { color: #ffb700; font-weight: bold; background: rgba(255, 183, 0, 0.1); padding: 2px 6px; border-radius: 4px; }
         .job-tag-done { color: var(--accent-green); font-weight: bold; background: rgba(166, 247, 0, 0.1); padding: 2px 6px; border-radius: 4px; }
-        .job-photo-thumb { width: 60px; height: 60px; border-radius: 6px; object-fit: cover; margin-top: 6px; border: 1px solid var(--accent-green); }
+        .job-photo-thumb { width: 50px; height: 50px; border-radius: 6px; object-fit: cover; margin-top: 5px; border: 1px solid var(--accent-green); }
 
-        .add-parking-spot { border: 2px dashed #333; border-radius: 15px; min-height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); }
+        .add-parking-spot { border: 2px dashed #333; border-radius: 15px; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); }
         .add-parking-spot:hover { border-color: var(--accent-green); }
 
-        /* AVATAR CHOOSER */
-        .avatar-picker { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
-        .avatar-option { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #333; cursor: pointer; }
+        .avatar-picker { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
+        .avatar-option { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #333; cursor: pointer; }
         .avatar-option:hover { border-color: var(--accent-green); }
 
-        footer { border-top: 1px solid var(--border-color); padding: 30px 20px; text-align: center; background-color: #050505; color: #777; font-size: 0.85rem; }
-        .social-footer { margin-bottom: 15px; display: flex; justify-content: center; gap: 20px; }
-        .social-footer a { color: var(--text-color); font-size: 1.5rem; }
+        footer { border-top: 1px solid var(--border-color); padding: 30px 15px; text-align: center; background-color: #050505; color: #777; font-size: 0.8rem; }
+        .social-footer { margin-bottom: 12px; display: flex; justify-content: center; gap: 20px; }
+        .social-footer a { color: var(--text-color); font-size: 1.4rem; }
 
-        .float-whatsapp { position: fixed; width: 60px; height: 60px; bottom: 25px; right: 25px; background-color: #25d366; color: #fff; border-radius: 50px; text-align: center; font-size: 30px; display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 1000; }
+        .float-whatsapp { position: fixed; width: 55px; height: 55px; bottom: 20px; right: 20px; background-color: #25d366; color: #fff; border-radius: 50px; text-align: center; font-size: 26px; display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
         
         .admin-link-btn { color: var(--accent-green); font-weight: bold; cursor: pointer; }
     </style>
@@ -225,11 +230,11 @@
         <ul class="nav-links">
             <li><a href="#chi-siamo">Chi Siamo</a></li>
             <li><a href="#servizi">Servizi</a></li>
-            <li><a href="#dimostrazioni">I Nostri Lavori</a></li>
+            <li><a href="#dimostrazioni">Lavori</a></li>
             
             <li class="auth-container">
                 <button class="btn-auth-nav" id="btnAuth" onclick="handleAuthButtonClick()">
-                    <i class="fa-solid fa-user"></i> <span id="btnAuthText">Accedi / Iscriviti</span>
+                    <i class="fa-solid fa-user"></i> <span id="btnAuthText">Profilo</span>
                 </button>
 
                 <div class="user-dropdown" id="userDropdown">
@@ -263,7 +268,7 @@
     <!-- CHI SIAMO -->
     <section id="chi-siamo" class="container">
         <h2 class="section-title">Chi <span>Siamo</span></h2>
-        <p style="text-align: center; color: #bbbbbb; max-width: 850px; margin: 0 auto; line-height: 1.8;">
+        <p style="text-align: center; color: #bbbbbb; max-width: 850px; margin: 0 auto; line-height: 1.8; font-size: 0.95rem;">
             Zona Detailing offre un servizio esclusivo di Car Detailing a domicilio su tutta Roma e provincia. Ci occupiamo di rigenerare, proteggere e valorizzare ogni superficie della tua auto direttamente a casa tua.
         </p>
     </section>
@@ -274,15 +279,15 @@
         <div class="services-grid">
             <div class="service-card">
                 <h3>Igienizzazione Interni</h3>
-                <p>Lavaggio a vapore profondo di sedili, moquette e cielo. Eliminazione completa di macchie e odori.</p>
+                <p style="color:#aaa; font-size:0.85rem;">Lavaggio a vapore profondo di sedili, moquette e cielo. Eliminazione completa di macchie e odori.</p>
             </div>
             <div class="service-card">
                 <h3>Decontaminazione</h3>
-                <p>Eliminazione chimica di residui ferrosi e contaminanti stradali per una carrozzeria liscia come il vetro.</p>
+                <p style="color:#aaa; font-size:0.85rem;">Eliminazione chimica di residui ferrosi e contaminanti stradali per una carrozzeria liscia come il vetro.</p>
             </div>
             <div class="service-card">
                 <h3>Protezione Ceramica</h3>
-                <p>Trattamento protettivo nanotecnologico ad altissimo effetto idrofobico e brillantezza profonda.</p>
+                <p style="color:#aaa; font-size:0.85rem;">Trattamento protettivo nanotecnologico ad altissimo effetto idrofobico e brillantezza profonda.</p>
             </div>
         </div>
     </section>
@@ -338,30 +343,30 @@
     <!-- 🏎️ SHOWROOM VIRTUAL GARAGE OVERLAY 🏎️ -->
     <div class="profile-overlay" id="profileOverlay">
         <div class="garage-title-banner">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
-                <div style="display:flex; align-items:center; gap:15px; text-align:left;">
-                    <img id="profileUserAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" style="width:65px; height:65px; border-radius:50%; border:2px solid var(--accent-green); background:#000; object-fit:cover;" alt="Avatar">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                <div style="display:flex; align-items:center; gap:12px; text-align:left;">
+                    <img id="profileUserAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" style="width:55px; height:55px; border-radius:50%; border:2px solid var(--accent-green); background:#000; object-fit:cover;" alt="Avatar">
                     <div>
-                        <h2 id="profileUserName" style="color: var(--accent-green); text-transform:uppercase;">Garage Showroom</h2>
-                        <p id="tierTitle" style="color:#ffd700; font-weight:bold; font-size:0.9rem;">Bronze Detailer 🥉</p>
+                        <h2 id="profileUserName" style="color: var(--accent-green); text-transform:uppercase; font-size:1.1rem;">Garage Showroom</h2>
+                        <p id="tierTitle" style="color:#ffd700; font-weight:bold; font-size:0.8rem;">Bronze Detailer 🥉</p>
                     </div>
                 </div>
-                <div style="display:flex; gap:10px;">
-                    <button class="btn btn-instagram" onclick="toggleCustomProfileModal(true)"><i class="fa-solid fa-user-gear"></i> Profilo</button>
-                    <button class="btn btn-whatsapp" onclick="closeProfileOverlay()">Esci dal Garage</button>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-instagram" onclick="toggleCustomProfileModal(true)" style="padding: 10px 14px; font-size:0.75rem;"><i class="fa-solid fa-user-gear"></i> Profilo</button>
+                    <button class="btn btn-whatsapp" onclick="closeProfileOverlay()" style="padding: 10px 14px; font-size:0.75rem;">Esci</button>
                 </div>
             </div>
         </div>
 
-        <h3 style="margin-bottom:20px; color:var(--accent-green); text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:10px;">
+        <h3 style="margin-bottom:15px; color:var(--accent-green); text-transform:uppercase; font-size:1rem; display:flex; align-items:center; gap:8px;">
             <i class="fa-solid fa-warehouse"></i> I Miei Veicoli & Storico Lavori
         </h3>
 
         <div class="garage-bay-grid" id="vehiclesList"></div>
 
         <!-- FORM PARCHEGGIO NUOVA AUTO -->
-        <div id="addCarSection" style="background:#0e110e; border:1px solid var(--accent-green); padding:25px; border-radius:15px; max-width:600px; margin: 0 auto; display:none;">
-            <h4 style="color:var(--accent-green); margin-bottom:15px; text-transform:uppercase;"><i class="fa-solid fa-car"></i> Parcheggia una Nuova Auto</h4>
+        <div id="addCarSection" style="background:#0e110e; border:1px solid var(--accent-green); padding:20px; border-radius:15px; max-width:600px; margin: 0 auto; display:none;">
+            <h4 style="color:var(--accent-green); margin-bottom:12px; text-transform:uppercase; font-size:0.95rem;"><i class="fa-solid fa-car"></i> Parcheggia una Nuova Auto</h4>
             <div class="form-group">
                 <label>Marca</label>
                 <select id="carBrand" class="form-control" onchange="updateCarModels()"><option value="">Seleziona Marca</option></select>
@@ -379,35 +384,31 @@
                 <input type="text" id="carPlate" class="form-control" placeholder="Es. AA123BB">
             </div>
             <div style="display:flex; gap:10px; margin-top:10px;">
-                <button class="btn btn-whatsapp" onclick="addVehicleToUser()" style="flex:1; justify-content:center;">Incolla nel Box</button>
-                <button class="btn btn-instagram" onclick="toggleAddCarForm(false)" style="flex:0.5; justify-content:center;">Annulla</button>
+                <button class="btn btn-whatsapp" onclick="addVehicleToUser()" style="flex:1; justify-content:center; font-size:0.8rem;">Conferma Box</button>
+                <button class="btn btn-instagram" onclick="toggleAddCarForm(false)" style="flex:0.5; justify-content:center; font-size:0.8rem;">Annulla</button>
             </div>
         </div>
     </div>
 
-    <!-- MODALE PERSONALIZZA PROFILO UTENTE -->
+    <!-- MODALE PERSONALIZZA PROFILO -->
     <div class="modal-overlay" id="customProfileModal">
         <div class="modal-box">
             <span class="modal-close" onclick="toggleCustomProfileModal(false)">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;">Personalizza Profilo</h3>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px; font-size:1.1rem;">Personalizza Profilo</h3>
             <div class="form-group">
                 <label>Nickname / Nome</label>
                 <input type="text" id="editNicknameInput" class="form-control" placeholder="Il tuo nome">
             </div>
-            
-            <!-- CARICAMENTO FOTO DA DISPOSITIVO -->
             <div class="form-group">
-                <label>Carica Foto da Dispositivo (PC / Smartphone)</label>
+                <label>Carica Foto da Dispositivo</label>
                 <input type="file" id="editAvatarFileInput" class="form-control" accept="image/*" onchange="handleProfileImageUpload(event)">
             </div>
-
             <div class="form-group">
-                <label>Oppure inserisci URL immagine online</label>
+                <label>Oppure inserisci URL immagine</label>
                 <input type="url" id="editAvatarUrlInput" class="form-control" placeholder="https://sito.it/foto.jpg">
             </div>
-
             <div class="form-group">
-                <label>Oppure sceglila tra gli avatar predefiniti:</label>
+                <label>Oppure scegli un avatar:</label>
                 <div class="avatar-picker">
                     <img src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" class="avatar-option" onclick="setAvatarPreset(this.src)">
                     <img src="https://api.dicebear.com/7.x/bottts/svg?seed=racer" class="avatar-option" onclick="setAvatarPreset(this.src)">
@@ -418,21 +419,32 @@
         </div>
     </div>
 
-    <!-- 👑 PANNELLO AMMINISTRATORE (ADMIN) RISERVATO 👑 -->
+    <!-- 👑 SCHEDA COMPLETA PANNELLO ADMIN STAFF 👑 -->
     <div class="modal-overlay" id="adminModal">
-        <div class="modal-box" style="max-width:650px;">
+        <div class="modal-box" style="max-width:700px; text-align:left;">
             <span class="modal-close" onclick="closeAdminModal()">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;"><i class="fa-solid fa-user-shield"></i> Pannello Gestione Staff Admin</h3>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px; font-size:1.1rem; text-align:center;"><i class="fa-solid fa-user-shield"></i> Pannello Gestione Admin Staff</h3>
             
             <div class="form-group">
                 <label>Cerca Cliente (Nome, Email o Targa)</label>
                 <input type="text" id="adminSearchInput" class="form-control" placeholder="Es. Mario o AA123BB" onkeyup="searchClientsAdmin()">
             </div>
 
-            <div id="adminSearchResults" style="max-height:180px; overflow-y:auto; margin-bottom:15px;"></div>
+            <!-- RISULTATI RICERCA -->
+            <div id="adminSearchResults" style="max-height:150px; overflow-y:auto; margin-bottom:15px;"></div>
 
+            <!-- SCHEDA COMPLETA CLIENTE SELEZIONATO -->
+            <div id="adminClientCardDetails" style="display:none; background:#0e110e; border:1px solid var(--accent-green); padding:15px; border-radius:10px; margin-bottom:20px;">
+                <h4 style="color:var(--accent-green); margin-bottom:8px; font-size:0.95rem;"><i class="fa-solid fa-address-card"></i> Scheda Cliente</h4>
+                <p><strong>Nome:</strong> <span id="cardClientName">-</span></p>
+                <p><strong>Email:</strong> <span id="cardClientEmail">-</span></p>
+                <p><strong>Punti Detailing:</strong> <span id="cardClientPoints" style="color:#ffd700; font-weight:bold;">0</span></p>
+                <div id="cardClientVehiclesSummary" style="margin-top:10px; font-size:0.85rem; color:#ccc;"></div>
+            </div>
+
+            <!-- FORM AGGIUNGI LAVORI / INTERVENTI -->
             <div id="adminJobForm" style="display:none; border-top:1px solid #333; padding-top:15px;">
-                <h4 style="color:#fff; margin-bottom:10px;">Aggiungi Intervento per <span id="adminSelectedClientName" style="color:var(--accent-green);"></span></h4>
+                <h4 style="color:#fff; margin-bottom:10px; font-size:0.95rem;">Aggiungi Intervento per <span id="adminSelectedClientName" style="color:var(--accent-green);"></span></h4>
                 <div class="form-group">
                     <label>Seleziona Auto del Cliente</label>
                     <select id="adminCarSelect" class="form-control"></select>
@@ -456,7 +468,7 @@
                     <label>Link Foto del Lavoro Finito (URL)</label>
                     <input type="url" id="adminJobPhotoUrl" class="form-control" placeholder="https://sito.it/foto-lavoro.jpg">
                 </div>
-                <button class="btn btn-whatsapp" onclick="saveAdminJob()" style="width:100%; justify-content:center; margin-top:10px;">Salva Intervento nel Garage Cliente</button>
+                <button class="btn btn-whatsapp" onclick="saveAdminJob()" style="width:100%; justify-content:center; margin-top:10px; font-size:0.85rem;">Salva Intervento nel Garage Cliente</button>
             </div>
         </div>
     </div>
@@ -548,7 +560,7 @@
                   if (adminFooterContainer) adminFooterContainer.style.display = 'none';
               }
           } else {
-              btnText.innerText = "Accedi / Iscriviti";
+              btnText.innerText = "Profilo";
               document.getElementById('userDropdown').style.display = 'none';
               if (adminLinkNav) adminLinkNav.style.display = 'none';
               if (adminFooterContainer) adminFooterContainer.style.display = 'none';
@@ -587,7 +599,6 @@
           document.getElementById('editAvatarUrlInput').value = url;
       }
 
-      // Converti foto caricata dal dispositivo in base64
       function handleProfileImageUpload(event) {
           const file = event.target.files[0];
           if (file) {
@@ -608,7 +619,7 @@
           document.getElementById('profileUserName').innerText = newName;
           if(newAvatar) document.getElementById('profileUserAvatar').src = newAvatar;
           toggleCustomProfileModal(false);
-          alert("Profilo aggiornato con successo!");
+          alert("Profilo aggiornato!");
       }
 
       function populateBrands() {
@@ -676,13 +687,13 @@
                       const isDone = job.status === 'done';
                       const tagClass = isDone ? 'job-tag-done' : 'job-tag-prog';
                       const tagText = isDone ? 'Eseguito ✅' : 'In Programma ⏳';
-                      const photoHtml = job.photoUrl ? `<br><a href="${job.photoUrl}" target="_blank"><img src="${job.photoUrl}" class="job-photo-thumb" alt="Foto Lavoro"></a>` : '';
-                      jobsHtml += `<div style="margin-bottom:8px; border-bottom:1px solid #222; padding-bottom:5px;">
+                      const photoHtml = job.photoUrl ? `<br><a href="${job.photoUrl}" target="_blank"><img src="${job.photoUrl}" class="job-photo-thumb" alt="Foto"></a>` : '';
+                      jobsHtml += `<div style="margin-bottom:6px; border-bottom:1px solid #222; padding-bottom:4px;">
                           <span class="${tagClass}">[${tagText}]</span> <strong>${job.desc}</strong>${photoHtml}
                       </div>`;
                   });
               } else {
-                  jobsHtml = "<p style='color:#666;'>Nessun lavoro registrato per questo veicolo.</p>";
+                  jobsHtml = "<p style='color:#666; font-size:0.75rem;'>Nessun lavoro registrato.</p>";
               }
 
               grid.innerHTML += `
@@ -690,18 +701,17 @@
                       <span class="spot-number-badge">BOX ${spotNumber}</span>
                       <button class="btn-delete-car" onclick="deleteCar(${idx})" title="Rimuovi"><i class="fa-solid fa-trash"></i></button>
                       
-                      <!-- Podio con Logo SVG -->
                       <div class="brand-podium">
                           <img src="${logoUrl}" class="brand-logo-img" alt="${car.brand}">
                       </div>
 
                       <div class="car-neon-plate" style="border-bottom-color: ${car.color};">
-                          <h4>${car.brand} ${car.model}</h4>
-                          <p><i class="fa-solid fa-id-card"></i> Targa: ${car.plate || 'In Attesa'}</p>
+                          <h4 style="font-size:0.95rem;">${car.brand} ${car.model}</h4>
+                          <p style="font-size:0.75rem; color:#aaa;"><i class="fa-solid fa-id-card"></i> Targa: ${car.plate || 'In Attesa'}</p>
                       </div>
 
                       <div class="car-jobs-section">
-                          <h5 style="color:var(--accent-green); margin-bottom:8px; text-transform:uppercase;"><i class="fa-solid fa-list-check"></i> Storico Interventi</h5>
+                          <h5 style="color:var(--accent-green); margin-bottom:6px; text-transform:uppercase; font-size:0.75rem;"><i class="fa-solid fa-list-check"></i> Interventi</h5>
                           ${jobsHtml}
                       </div>
                   </div>
@@ -710,18 +720,18 @@
 
           grid.innerHTML += `
               <div class="add-parking-spot" onclick="toggleAddCarForm(true)">
-                  <i class="fa-solid fa-circle-plus" style="font-size:2.5rem; color:var(--accent-green); margin-bottom:10px;"></i>
-                  <h4 style="color:#fff; text-transform:uppercase;">Parcheggia un'altra Auto</h4>
+                  <i class="fa-solid fa-circle-plus" style="font-size:2.2rem; color:var(--accent-green); margin-bottom:8px;"></i>
+                  <h4 style="color:#fff; text-transform:uppercase; font-size:0.85rem;">Parcheggia Auto</h4>
               </div>
           `;
       }
 
-      /* 👑 PANNELLO ADMIN STAFF 👑 */
+      /* 👑 SCHEDA COMPLETA PANNELLO ADMIN 👑 */
       let selectedAdminUserDoc = null;
 
       function openAdminModal() {
           if (!currentUser || currentUser.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
-              return alert("Accesso negato: Permessi riservati esclusivamente all'amministratore.");
+              return alert("Accesso negato.");
           }
           document.getElementById('adminModal').style.display = 'flex';
       }
@@ -742,8 +752,8 @@
               const emailMatch = u.email && u.email.toLowerCase().includes(q);
               if (nameMatch || emailMatch) {
                   resultsDiv.innerHTML += `
-                      <div style="background:#222; padding:10px; border-radius:6px; margin-bottom:6px; cursor:pointer;" onclick="selectClientAdmin('${doc.id}')">
-                          <strong>${u.name}</strong> (${u.email}) - Punti: ${u.points || 0}
+                      <div style="background:#1a1a1a; padding:10px; border-radius:6px; margin-bottom:6px; cursor:pointer; border:1px solid #333;" onclick="selectClientAdmin('${doc.id}')">
+                          <strong>${u.name}</strong> (${u.email})
                       </div>
                   `;
               }
@@ -754,6 +764,21 @@
           const doc = await db.collection('users').doc(userId).get();
           selectedAdminUserDoc = { id: userId, ...doc.data() };
 
+          // Mostra Scheda Cliente Completa
+          document.getElementById('adminClientCardDetails').style.display = 'block';
+          document.getElementById('cardClientName').innerText = selectedAdminUserDoc.name || 'N/D';
+          document.getElementById('cardClientEmail').innerText = selectedAdminUserDoc.email || 'N/D';
+          document.getElementById('cardClientPoints').innerText = selectedAdminUserDoc.points || 0;
+
+          let vSummary = "<strong>Auto nel Garage:</strong> ";
+          if(selectedAdminUserDoc.vehicles && selectedAdminUserDoc.vehicles.length > 0) {
+              vSummary += selectedAdminUserDoc.vehicles.map(v => `${v.brand} ${v.model} (${v.plate || 'No Targa'})`).join(', ');
+          } else {
+              vSummary += "Nessuna vettura registrata.";
+          }
+          document.getElementById('cardClientVehiclesSummary').innerHTML = vSummary;
+
+          // Prepara Form Inserimento Lavoro
           document.getElementById('adminSelectedClientName').innerText = selectedAdminUserDoc.name;
           document.getElementById('adminJobForm').style.display = 'block';
 
@@ -785,7 +810,7 @@
               points: newPoints
           });
 
-          alert("Lavoro salvato con successo per il cliente!");
+          alert("Intervento salvato con successo per il cliente!");
           closeAdminModal();
       }
     </script>
