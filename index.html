@@ -149,35 +149,45 @@
         .user-dropdown a { padding: 12px 16px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .user-dropdown a:hover { background-color: rgba(166, 247, 0, 0.15); color: var(--accent-green); }
 
-        /* HERO & EFFETTO NEON LAMPEGGIANTE E SOFFUSO SULLO SFONDO */
-        .hero { padding: 120px 15px 60px 15px; text-align: center; background: radial-gradient(circle at center, #142000 0%, var(--bg-color) 75%); display: flex; flex-direction: column; align-items: center; }
-        .hero-logo-container { position: relative; margin: 0 auto 20px auto; width: 100%; max-width: 300px; }
+        /* HERO & LOGO PNG OTTIMIZZATO (PIÙ GRANDE E RESPONSIVE PER TELEFONI) */
+        .hero { padding: 130px 15px 60px 15px; text-align: center; background: radial-gradient(circle at center, #0f170a 0%, var(--bg-color) 80%); display: flex; flex-direction: column; align-items: center; }
+        .hero-logo-container { position: relative; margin: 0 auto 15px auto; width: 100%; max-width: 400px; padding: 10px; }
         
+        /* Effetto neon soffuso e pulsante sullo sfondo dietro il logo */
         .hero-glow { 
             position: absolute; 
             top: 50%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
-            width: 80%; 
-            height: 80%; 
-            background: radial-gradient(circle, rgba(166, 247, 0, 0.5) 0%, rgba(166, 247, 0, 0) 70%); 
+            width: 75%; 
+            height: 75%; 
+            background: radial-gradient(circle, rgba(166, 247, 0, 0.35) 0%, rgba(166, 247, 0, 0) 70%); 
             border-radius: 50%; 
-            filter: blur(25px); 
+            filter: blur(35px); 
             z-index: 1; 
-            animation: pulseGlow 3.5s ease-in-out infinite alternate; 
+            animation: pulseGlow 4s ease-in-out infinite alternate; 
         }
         
         .hero-logo { 
             width: 100%; 
-            max-width: 280px; 
+            max-width: 360px; 
             height: auto; 
             position: relative; 
             z-index: 2; 
+            display: block; 
+            margin: 0 auto;
+            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.7));
+        }
+
+        /* Adattamento perfetto e sicuro per smartphone */
+        @media (max-width: 480px) {
+            .hero-logo-container { max-width: 300px; }
+            .hero-logo { max-width: 270px; }
         }
         
         @keyframes pulseGlow {
-            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.9); }
-            100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.1); }
+            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.85); }
+            100% { opacity: 0.75; transform: translate(-50%, -50%) scale(1.15); }
         }
 
         .hero-subtitle-main { font-size: 1.15rem; font-weight: 800; text-transform: uppercase; color: var(--accent-green); margin-bottom: 6px; z-index: 2; }
@@ -288,9 +298,9 @@
     <!-- HERO SECTION -->
     <section id="home" class="hero">
         <div class="hero-logo-container">
-            <!-- Effetto neon lampeggiante e soffuso sullo sfondo del logo -->
+            <!-- Effetto neon soffuso e pulsante sullo sfondo dietro il logo -->
             <div class="hero-glow"></div>
-            <!-- Logo originale locale -->
+            <!-- Logo PNG originale ingrandito e ottimizzato per tutti i telefoni -->
             <img src="logo.png" alt="Zona Detailing Logo" class="hero-logo">
         </div>
         
@@ -557,14 +567,7 @@
       async function handleGoogleAuth() {
           const provider = new firebase.auth.GoogleAuthProvider();
           try {
-              const result = await auth.signInWithPopup(provider);
-              const user = result.user;
-              const userRef = db.collection('users').doc(user.uid);
-              const doc = await userRef.get();
-              if (!doc.exists) {
-                  await userRef.set({ name: user.displayName || "Cliente", email: user.email, points: 0, vehicles: [] });
-              }
-              closeAuthModal();
+              await auth.signInWithRedirect(provider);
           } catch (error) { alert("Errore Google Auth: " + error.message); }
       }
 
@@ -573,22 +576,8 @@
           provider.addScope('email');
           provider.addScope('name');
           try {
-              const result = await auth.signInWithPopup(provider);
-              const user = result.user;
-              const userRef = db.collection('users').doc(user.uid);
-              const doc = await userRef.get();
-              if (!doc.exists) {
-                  await userRef.set({ 
-                      name: user.displayName || "Cliente Apple", 
-                      email: user.email || "", 
-                      points: 0, 
-                      vehicles: [] 
-                  });
-              }
-              closeAuthModal();
-          } catch (error) { 
-              alert("Errore Apple Auth: " + error.message); 
-          }
+              await auth.signInWithRedirect(provider);
+          } catch (error) { alert("Errore Apple Auth: " + error.message); }
       }
 
       async function handleEmailLogin() {
@@ -617,8 +606,14 @@
           const adminFooterContainer = document.getElementById('adminFooterContainer');
 
           if (user) {
-              const doc = await db.collection('users').doc(user.uid).get();
-              userData = doc.exists ? doc.data() : { points: 0, vehicles: [] };
+              const userRef = db.collection('users').doc(user.uid);
+              const doc = await userRef.get();
+              if (!doc.exists) {
+                  await userRef.set({ name: user.displayName || "Cliente", email: user.email, points: 0, vehicles: [] });
+                  userData = { name: user.displayName || "Cliente", email: user.email, points: 0, vehicles: [] };
+              } else {
+                  userData = doc.data();
+              }
               
               const userAvatarImg = userData.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=driver1";
 
