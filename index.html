@@ -131,7 +131,7 @@
 
         /* MODALI & OVERLAYS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 15px; }
-        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 600px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 720px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
         .modal-close { position: absolute; top: 12px; right: 15px; color: #aaa; font-size: 1.4rem; cursor: pointer; }
 
         .form-group { display: flex; flex-direction: column; gap: 6px; text-align: left; margin-bottom: 15px; }
@@ -270,21 +270,19 @@
         <p>&copy; 2026 Zona Detailing - Car Detailing a Domicilio Roma. Tutti i diritti riservati.</p>
     </footer>
 
-    <!-- MODALE AUTH / ACCESSO (GOOGLE + EMAIL/PASSWORD) -->
+    <!-- MODALE AUTH / ACCESSO -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeAuthModal()">&times;</span>
             <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;">Area Riservata / Garage</h3>
             
             <div id="modalLoginForm">
-                <!-- ACCESSO RAPIDO GOOGLE -->
                 <button class="btn-app btn-google" onclick="loginWithGoogle()">
                     <i class="fa-brands fa-google" style="color:#db4437;"></i> Accedi con Google
                 </button>
                 
                 <div style="margin: 15px 0; color: #777; font-size: 0.75rem; text-transform: uppercase;">oppure con email e password</div>
 
-                <!-- FORM CLASSICO EMAIL & PASSWORD -->
                 <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control" placeholder="La tua email"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" placeholder="••••••••"></div>
                 
@@ -301,10 +299,48 @@
 
     <!-- MODALE PANNELLO GESTIONALE ADMIN STAFF -->
     <div class="modal-overlay" id="adminModal">
-        <div class="modal-box" style="max-width:700px; text-align:left;">
+        <div class="modal-box" style="max-width:720px; text-align:left;">
             <span class="modal-close" onclick="closeAdminModal()">&times;</span>
             <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px; text-align:center;"><i class="fa-solid fa-user-shield"></i> Dashboard Gestionale Staff</h3>
             
+            <!-- RESOCONTO AGENDA MENSILE E ANNUALE -->
+            <div style="background:#0e110e; border:1px solid var(--accent-green); padding:15px; border-radius:10px; margin-bottom:20px;">
+                <h4 style="color:var(--accent-green); font-size:0.9rem; text-transform:uppercase; margin-bottom:10px;"><i class="fa-solid fa-calendar-days"></i> Resoconto Agenda & Lavori (Mensile / Annuale)</h4>
+                
+                <div style="display:flex; gap:10px; margin-bottom:12px;">
+                    <div class="form-group" style="flex:1; margin-bottom:0;">
+                        <label>Filtra Anno</label>
+                        <select id="reportYear" class="form-control" onchange="loadAdminReport()">
+                            <option value="2026">2026</option>
+                            <option value="2025">2025</option>
+                            <option value="ALL">Tutti gli Anni</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:1; margin-bottom:0;">
+                        <label>Filtra Mese</label>
+                        <select id="reportMonth" class="form-control" onchange="loadAdminReport()">
+                            <option value="ALL">Tutti i Mesi (Annuale)</option>
+                            <option value="01">Gennaio</option>
+                            <option value="02">Febbraio</option>
+                            <option value="03">Marzo</option>
+                            <option value="04">Aprile</option>
+                            <option value="05">Maggio</option>
+                            <option value="06">Giugno</option>
+                            <option value="07">Luglio</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Settembre</option>
+                            <option value="10">Ottobre</option>
+                            <option value="11">Novembre</option>
+                            <option value="12">Dicembre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="adminReportResults" style="background:#080a08; border:1px solid #222; padding:10px; border-radius:8px; max-height:220px; overflow-y:auto; font-size:0.8rem; color:#ccc;">
+                    Seleziona i filtri per visualizzare il resoconto dei lavori.
+                </div>
+            </div>
+
             <div class="form-group">
                 <label style="color:var(--accent-green);">Seleziona Cliente Attivo</label>
                 <select id="adminClientDropdown" class="form-control" onchange="selectClientAdmin(this.value)">
@@ -312,13 +348,13 @@
                 </select>
             </div>
 
-            <!-- 📦 RIQUADRO 1: FOTO PROFILO, GARAGE & VEICOLI -->
+            <!-- RIQUADRO 1: FOTO PROFILO, GARAGE & VEICOLI -->
             <div style="background:#0e110e; border:1px solid #333; padding:15px; border-radius:10px; margin-bottom:15px;">
                 <h4 style="color:var(--accent-green); font-size:0.9rem; text-transform:uppercase;"><i class="fa-solid fa-car"></i> 1. Garage & Veicoli Cliente</h4>
                 <div id="adminClientGarageInfo" style="font-size:0.82rem; color:#aaa; margin-top:8px;">Seleziona un cliente.</div>
             </div>
 
-            <!-- 📸 RIQUADRO 2: REGISTRA LAVORO, DATA, ORA, VIA, DOPPIA FOTO E STATO COMPLETATO -->
+            <!-- RIQUADRO 2: REGISTRA LAVORO, DATA, ORA, VIA, DOPPIA FOTO E STATO COMPLETATO -->
             <div id="adminJobContainer" style="background:#0e110e; border:1px solid #333; padding:15px; border-radius:10px; margin-bottom:15px; opacity:0.5; pointer-events:none;">
                 <h4 style="color:var(--accent-green); font-size:0.9rem; text-transform:uppercase; margin-bottom:10px;"><i class="fa-solid fa-calendar-check"></i> 2. Assegna Lavoro & Appuntamento</h4>
                 <div class="form-group"><label>Auto</label><select id="adminCarSelect" class="form-control"></select></div>
@@ -359,7 +395,7 @@
                 <button class="btn-app btn-primary-app" onclick="saveAdminJob()">Salva Intervento</button>
             </div>
 
-            <!-- ⚙️ RIQUADRO 3: AZIONI & RESET ACCOUNT -->
+            <!-- RIQUADRO 3: AZIONI & RESET ACCOUNT -->
             <div id="adminAccountActions" style="background:#0e110e; border:1px solid #333; padding:15px; border-radius:10px; opacity:0.5; pointer-events:none; display:flex; gap:10px;">
                 <button class="btn-app btn-warning-app" style="font-size:0.75rem;" onclick="resetSelectedClientData()"><i class="fa-solid fa-rotate-left"></i> Azzera Punti</button>
                 <button class="btn-app btn-danger-app" style="font-size:0.75rem;" onclick="deleteSelectedClientAccount()"><i class="fa-solid fa-user-xmark"></i> Elimina Account</button>
@@ -390,6 +426,7 @@
               if (currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   document.getElementById('adminModal').style.display = 'flex';
                   populateAdminClientDropdown();
+                  loadAdminReport();
               } else {
                   alert("Benvenuto nel tuo account Zona Detailing!");
               }
@@ -434,8 +471,9 @@
               if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   document.getElementById('adminModal').style.display = 'flex';
                   populateAdminClientDropdown();
+                  loadAdminReport();
               } else {
-                  alert("Accesso effettuato con Google[cite: 2]!");
+                  alert("Accesso effettuato con Google!");
               }
           } catch(e) {
               alert("Errore login Google: " + e.message);
@@ -452,6 +490,7 @@
               if (res.user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   document.getElementById('adminModal').style.display = 'flex';
                   populateAdminClientDropdown();
+                  loadAdminReport();
               } else {
                   alert("Accesso effettuato con successo!");
               }
@@ -509,7 +548,7 @@
           });
       }
 
-      /* ADMIN GESTIONALE LOGIC */
+      /* ADMIN GESTIONALE & RESOCONTO AGENDA LOGIC */
       async function populateAdminClientDropdown() {
           const dropdown = document.getElementById('adminClientDropdown');
           dropdown.innerHTML = '<option value="">-- Scegli cliente dalla lista --</option>';
@@ -518,6 +557,75 @@
               const u = doc.data();
               dropdown.innerHTML += `<option value="${doc.id}">${u.name || u.email} (${u.points || 0} pt)</option>`;
           });
+      }
+
+      async function loadAdminReport() {
+          const selectedYear = document.getElementById('reportYear').value;
+          const selectedMonth = document.getElementById('reportMonth').value;
+          const reportContainer = document.getElementById('adminReportResults');
+          
+          reportContainer.innerHTML = "Caricamento resoconto...";
+
+          const snapshot = await db.collection('users').get();
+          let allJobs = [];
+
+          snapshot.forEach(doc => {
+              const client = doc.data();
+              if (client.vehicles && Array.isArray(client.vehicles)) {
+                  client.vehicles.forEach(vehicle => {
+                      if (vehicle.jobs && Array.isArray(vehicle.jobs)) {
+                          vehicle.jobs.forEach(job => {
+                              if (job.jobDate) {
+                                  const [year, month, day] = job.jobDate.split('-');
+                                  
+                                  let matchYear = (selectedYear === 'ALL' || year === selectedYear);
+                                  let matchMonth = (selectedMonth === 'ALL' || month === selectedMonth);
+
+                                  if (matchYear && matchMonth) {
+                                      allJobs.push({
+                                          date: job.jobDate,
+                                          time: job.jobTime || 'Orario non specificato',
+                                          status: job.status,
+                                          desc: job.desc || 'Intervento Detailing',
+                                          address: job.address || 'Indirizzo non specificato',
+                                          clientName: client.name || client.email,
+                                          clientAvatar: client.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1',
+                                          carName: `${vehicle.brand} ${vehicle.model} (${vehicle.plate || 'No Targa'})`
+                                      });
+                                  }
+                              }
+                          });
+                      }
+                  });
+              }
+          });
+
+          allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          if (allJobs.length === 0) {
+              reportContainer.innerHTML = "<span style='color:#777;'>Nessun lavoro trovato per il periodo selezionato.</span>";
+              return;
+          }
+
+          let html = "";
+          allJobs.forEach(j => {
+              const statusBadge = j.status === 'done' 
+                  ? '<span style="color:#a6f700; font-weight:bold;">[ESEGUITO]</span>' 
+                  : '<span style="color:#ffb700; font-weight:bold;">[PROGRAMMATO]</span>';
+
+              html += `
+                  <div style="border-bottom:1px solid #1a1a1a; padding:8px 0; display:flex; align-items:center; gap:10px;">
+                      <img src="${j.clientAvatar}" style="width:35px; height:35px; border-radius:50%; border:1px solid var(--accent-green); object-fit:cover;">
+                      <div style="flex:1;">
+                          <strong>${j.clientName}</strong> — 🚗 <em>${j.carName}</em><br>
+                          📅 <strong>${j.date}</strong> ore ${j.time} | 📍 ${j.address}<br>
+                          🔧 ${statusBadge} ${j.desc}
+                      </div>
+                  </div>
+              `;
+          });
+
+          reportContainer.innerHTML = html;
       }
 
       async function selectClientAdmin(userId) {
@@ -645,11 +753,13 @@
               removePhoto('before');
               removePhoto('after');
               selectClientAdmin(selectedAdminUserDoc.id);
+              loadAdminReport();
           }).catch(() => {
               alert("Intervento salvato con successo!");
               removePhoto('before');
               removePhoto('after');
               selectClientAdmin(selectedAdminUserDoc.id);
+              loadAdminReport();
           });
       }
 
@@ -658,6 +768,7 @@
               await db.collection('users').doc(selectedAdminUserDoc.id).update({ points: 0, vehicles: [] });
               alert("Dati azzerati!");
               selectClientAdmin(selectedAdminUserDoc.id);
+              loadAdminReport();
           }
       }
 
@@ -667,6 +778,7 @@
               alert("Account eliminato!");
               selectClientAdmin("");
               populateAdminClientDropdown();
+              loadAdminReport();
           }
       }
     </script>
