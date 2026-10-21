@@ -182,6 +182,21 @@
         .instagram-embed-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 8px; background: #000; }
         .instagram-embed-wrapper iframe { position: absolute; top: -50px; left: 0; width: 100%; height: calc(100% + 150px); }
 
+        /* SEZIONE RECENSIONI PUBBLICHE */
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .review-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
+        .review-stars { color: #ffd700; margin-bottom: 8px; font-size: 0.85rem; }
+        .review-text { font-size: 0.85rem; color: #ccc; margin-bottom: 15px; font-style: italic; }
+        .review-author { display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; padding-top: 12px; }
+        .review-author img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1px solid var(--accent-green); background: #000; }
+        .review-car-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; border: 1px solid #333; }
+
+        /* SELETTORE COLORI A CERCHIO */
+        .color-picker-grid { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+        .color-dot { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid #333; transition: transform 0.2s, border-color 0.2s; }
+        .color-dot:hover { transform: scale(1.15); }
+        .color-dot.selected { border-color: var(--accent-green); transform: scale(1.2); box-shadow: 0 0 10px var(--accent-green); }
+
         /* MODALI & OVERLAY */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 15px; }
         .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 520px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
@@ -214,7 +229,6 @@
         .add-parking-spot { border: 2px dashed #333; border-radius: 15px; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); }
         .add-parking-spot:hover { border-color: var(--accent-green); }
 
-        /* FOTO PRIMA / DOPO NEL MODALE DETTAGLIO LAVORO */
         .job-photo-container { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
         .job-photo-box { text-align: center; flex: 1; }
         .job-photo-box img { width: 100%; height: 130px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-green); background: #000; }
@@ -240,6 +254,7 @@
             <li><a href="#chi-siamo">Chi Siamo</a></li>
             <li><a href="#servizi">Servizi</a></li>
             <li><a href="#dimostrazioni">Lavori</a></li>
+            <li><a href="#recensioni">Recensioni</a></li>
             <li><a href="#ticket">Assistenza</a></li>
             
             <li class="auth-container">
@@ -319,6 +334,12 @@
         </div>
     </section>
 
+    <!-- ⭐ SEZIONE RECENSIONI DEI CLIENTI ⭐ -->
+    <section id="recensioni" class="container">
+        <h2 class="section-title">Dicono di <span>Noi</span></h2>
+        <div class="reviews-grid" id="publicReviewsGrid"></div>
+    </section>
+
     <!-- 📩 SEZIONE ASSISTENZA & TICKET IN FONDO -->
     <section id="ticket" class="container">
         <div style="background:#121212; border:1px solid var(--accent-green); padding:30px 20px; border-radius:15px; max-width:650px; margin:0 auto; text-align:left;">
@@ -387,16 +408,55 @@
         </h3>
 
         <div class="garage-bay-grid" id="vehiclesList"></div>
+
+        <!-- 🌟 LASCIA UNA RECENSIONE NEL GARAGE 🌟 -->
+        <div style="background:#0e110e; border:1px solid var(--accent-green); padding:20px; border-radius:15px; max-width:600px; margin: 30px auto; text-align:left;">
+            <h4 style="color:var(--accent-green); margin-bottom:12px; text-transform:uppercase; font-size:0.95rem;"><i class="fa-solid fa-star"></i> Lascia una Recensione sul Lavoro Svolto</h4>
+            <div class="form-group">
+                <label>Valutazione (Stelle)</label>
+                <select id="reviewStarsInput" class="form-control">
+                    <option value="5">⭐⭐⭐⭐⭐ (5/5 - Eccezionale)</option>
+                    <option value="4">⭐⭐⭐⭐ (4/5 - Ottimo)</option>
+                    <option value="3">⭐⭐⭐ (3/5 - Buono)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>La tua recensione</label>
+                <textarea id="reviewTextInput" class="form-control" rows="3" placeholder="Racconta la tua esperienza con Zona Detailing..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Foto della tua Auto Trattata (Opzionale)</label>
+                <input type="file" id="reviewPhotoFile" class="form-control" accept="image/*" onchange="handleReviewPhotoUpload(event)">
+                <input type="hidden" id="reviewPhotoUrl">
+                <div id="reviewPhotoPreview" style="margin-top:6px;"></div>
+            </div>
+            <button class="btn btn-whatsapp" style="width:100%; justify-content:center; margin-top:5px;" onclick="submitClientReview()">Pubblica Recensione</button>
+        </div>
     </div>
 
-    <!-- MODALE AGGIUNGI AUTO AVANZATO -->
+    <!-- MODALE AGGIUNGI AUTO CON SELETTORE COLORI A CERCHIO -->
     <div class="modal-overlay" id="addCarModal">
         <div class="modal-box">
             <span class="modal-close" onclick="toggleAddCarModal(false)">&times;</span>
             <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 15px;">Aggiungi Auto al Garage</h3>
             <div class="form-group"><label>Marca</label><select id="carBrandSelect" class="form-control" onchange="populateModels(this.value)"><option value="">Seleziona Marca</option></select></div>
             <div class="form-group"><label>Modello</label><select id="carModelSelect" class="form-control"><option value="">Prima seleziona la marca</option></select></div>
-            <div class="form-group"><label>Colore Carrozzeria</label><input type="text" id="carColorInput" class="form-control" placeholder="Es. Nero Lucido, Grigio Nardò, Blu Met."></div>
+            
+            <div class="form-group">
+                <label>Colore Carrozzeria</label>
+                <input type="hidden" id="selectedCarColor" value="Nero Lucido">
+                <div class="color-picker-grid">
+                    <div class="color-dot selected" style="background:#000000;" onclick="selectCarColor('#000000', 'Nero Lucido', this)" title="Nero Lucido"></div>
+                    <div class="color-dot" style="background:#ffffff;" onclick="selectCarColor('#ffffff', 'Bianco Perla', this)" title="Bianco Perla"></div>
+                    <div class="color-dot" style="background:#808080;" onclick="selectCarColor('#808080', 'Grigio Nardò', this)" title="Grigio Nardò"></div>
+                    <div class="color-dot" style="background:#cc0000;" onclick="selectCarColor('#cc0000', 'Rosso Ferrari', this)" title="Rosso Ferrari"></div>
+                    <div class="color-dot" style="background:#0033cc;" onclick="selectCarColor('#0033cc', 'Blu Elettrico', this)" title="Blu Elettrico"></div>
+                    <div class="color-dot" style="background:#c0c0c0;" onclick="selectCarColor('#c0c0c0', 'Argento Met.', this)" title="Argento Metallizzato"></div>
+                    <div class="color-dot" style="background:#1b4d3e;" onclick="selectCarColor('#1b4d3e', 'Verde Inglese', this)" title="Verde Inglese"></div>
+                    <div class="color-dot" style="background:#ffcc00;" onclick="selectCarColor('#ffcc00', 'Giallo Modena', this)" title="Giallo Modena"></div>
+                </div>
+            </div>
+
             <div class="form-group"><label>Targa o Anno</label><input type="text" id="carPlateInput" class="form-control" placeholder="Es. AB123CD o 2024"></div>
             <div class="form-group"><label>Dettagli / Note Extra</label><textarea id="carDetailsInput" class="form-control" rows="2" placeholder="Es. Interni in pelle bianca, cerchi da 20 pollici..."></textarea></div>
             <button class="btn btn-whatsapp" onclick="saveUserVehicle()" style="width: 100%; justify-content: center;">Salva nel Box</button>
@@ -418,7 +478,6 @@
             <span class="modal-close" onclick="closeAdminModal()">&times;</span>
             <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:12px; text-align:center; font-size:1.1rem;"><i class="fa-solid fa-user-shield"></i> Dashboard Gestionale Staff</h3>
             
-            <!-- RESOCONTO AGENDA MENSILE E ANNUALE -->
             <div style="background:#0e110e; border:1px solid var(--accent-green); padding:12px; border-radius:8px; margin-bottom:15px;">
                 <h4 style="color:var(--accent-green); font-size:0.85rem; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-calendar-days"></i> Resoconto Agenda & Lavori</h4>
                 <div style="display:flex; gap:8px; margin-bottom:10px;">
@@ -488,6 +547,7 @@
               btnAuth.innerHTML = `<i class="fa-solid fa-user"></i> <span id="btnAuthText">Profilo</span>`;
               adminDropdownLink.style.display = "none";
           }
+          loadPublicReviews();
       });
 
       function handleAuthButtonClick() {
@@ -588,7 +648,7 @@
                       <div class="brand-podium"><img src="${getBrandLogoUrl(v.brand)}" class="brand-logo-img"></div>
                       <div class="car-neon-plate">
                           <strong style="font-size:0.9rem; color:#fff;">${v.brand} ${v.model}</strong><br>
-                          <span style="font-size:0.75rem; color:var(--accent-green);">${v.color ? 'Colore: ' + v.color + ' | ' : ''} ${v.plate || 'No Targa'}</span>
+                          <span style="font-size:0.75rem; color:var(--accent-green);">${v.colorName ? 'Colore: ' + v.colorName + ' | ' : ''} ${v.plate || 'No Targa'}</span>
                           ${v.details ? '<br><span style="font-size:0.7rem; color:#aaa;">' + v.details + '</span>' : ''}
                       </div>
                       <div class="car-jobs-section">
@@ -641,17 +701,23 @@
           if (carDatabase[brand]) carDatabase[brand].forEach(m => modelSelect.innerHTML += `<option value="${m}">${m}</option>`);
       }
 
+      function selectCarColor(hexCode, colorName, element) {
+          document.querySelectorAll('.color-dot').forEach(dot => dot.classList.remove('selected'));
+          element.classList.add('selected');
+          document.getElementById('selectedCarColor').value = colorName;
+      }
+
       async function saveUserVehicle() {
           const brand = document.getElementById('carBrandSelect').value;
           const model = document.getElementById('carModelSelect').value;
-          const color = document.getElementById('carColorInput').value;
+          const colorName = document.getElementById('selectedCarColor').value;
           const plate = document.getElementById('carPlateInput').value;
           const details = document.getElementById('carDetailsInput').value;
 
           if(!brand || !model) return alert("Seleziona marca e modello!");
 
           currentUserData.vehicles = currentUserData.vehicles || [];
-          currentUserData.vehicles.push({ brand, model, color, plate, details, jobs: [] });
+          currentUserData.vehicles.push({ brand, model, colorName, plate, details, jobs: [] });
 
           await db.collection('users').doc(currentUser.uid).update({ vehicles: currentUserData.vehicles });
           toggleAddCarModal(false);
@@ -663,6 +729,105 @@
               currentUserData.vehicles.splice(idx, 1);
               await db.collection('users').doc(currentUser.uid).update({ vehicles: currentUserData.vehicles });
               renderUserVehicles();
+          }
+      }
+
+      function handleReviewPhotoUpload(event) {
+          const file = event.target.files[0];
+          if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                  document.getElementById('reviewPhotoUrl').value = e.target.result;
+                  document.getElementById('reviewPhotoPreview').innerHTML = `<div class="photo-preview-wrapper"><img src="${e.target.result}" class="photo-preview-img"><button class="btn-remove-photo" onclick="removeReviewPhoto()">×</button></div>`;
+              };
+              reader.readAsDataURL(file);
+          }
+      }
+
+      function removeReviewPhoto() {
+          document.getElementById('reviewPhotoUrl').value = "";
+          document.getElementById('reviewPhotoFile').value = "";
+          document.getElementById('reviewPhotoPreview').innerHTML = "";
+      }
+
+      async function submitClientReview() {
+          if (!currentUser) return alert("Devi effettuare l'accesso per lasciare una recensione!");
+          const stars = parseInt(document.getElementById('reviewStarsInput').value) || 5;
+          const text = document.getElementById('reviewTextInput').value;
+          const photoUrl = document.getElementById('reviewPhotoUrl').value;
+
+          if (!text) return alert("Scrivi il testo della tua recensione!");
+
+          const reviewObj = {
+              authorName: currentUserData.name || currentUser.email.split('@')[0],
+              authorAvatar: currentUserData.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1',
+              stars: stars,
+              text: text,
+              photoUrl: photoUrl,
+              carInfo: currentUserData.vehicles && currentUserData.vehicles.length > 0 ? `${currentUserData.vehicles[0].brand} ${currentUserData.vehicles[0].model}` : 'Cliente Zona Detailing',
+              date: new Date().toISOString()
+          };
+
+          await db.collection('reviews').add(reviewObj);
+          alert("Grazie! La tua recensione è stata pubblicata con successo.");
+          document.getElementById('reviewTextInput').value = "";
+          removeReviewPhoto();
+          closeProfileOverlay();
+          loadPublicReviews();
+      }
+
+      async function loadPublicReviews() {
+          const grid = document.getElementById('publicReviewsGrid');
+          if (!grid) return;
+          
+          try {
+              const snapshot = await db.collection('reviews').orderBy('date', 'desc').get();
+              if (snapshot.empty) {
+                  grid.innerHTML = `
+                      <div class="review-card">
+                          <div>
+                              <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                              <p class="review-text">"Servizio impeccabile a domicilio. Hanno riportato la mia auto a nuovo con una cura dei dettagli incredibile!"</p>
+                          </div>
+                          <div class="review-author">
+                              <img src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" alt="Avatar">
+                              <div>
+                                  <h4 style="font-size:0.85rem; color:#fff;">Marco R.</h4>
+                                  <span style="font-size:0.75rem; color:var(--accent-green);">Audi RS3</span>
+                              </div>
+                          </div>
+                      </div>
+                  `;
+                  return;
+              }
+
+              grid.innerHTML = "";
+              snapshot.forEach(doc => {
+                  const r = doc.data();
+                  let starsHtml = "";
+                  for(let i=0; i<r.stars; i++) starsHtml += '<i class="fa-solid fa-star"></i>';
+                  
+                  const carImgHtml = r.photoUrl ? `<img src="${r.photoUrl}" class="review-car-img" alt="Auto Trattata">` : '';
+
+                  grid.innerHTML += `
+                      <div class="review-card">
+                          <div>
+                              ${carImgHtml}
+                              <div class="review-stars">${starsHtml}</div>
+                              <p class="review-text">"${r.text}"</p>
+                          </div>
+                          <div class="review-author">
+                              <img src="${r.authorAvatar}" alt="Avatar">
+                              <div>
+                                  <h4 style="font-size:0.85rem; color:#fff;">${r.authorName}</h4>
+                                  <span style="font-size:0.75rem; color:var(--accent-green);">${r.carInfo}</span>
+                              </div>
+                          </div>
+                      </div>
+                  `;
+              });
+          } catch(e) {
+              console.log("Errore caricamento recensioni: ", e);
           }
       }
 
