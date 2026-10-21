@@ -589,7 +589,6 @@
                           vehicle.jobs.forEach(job => {
                               if (job.jobDate) {
                                   const [year, month, day] = job.jobDate.split('-');
-                                  
                                   let matchYear = (selectedYear === 'ALL' || year === selectedYear);
                                   let matchMonth = (selectedMonth === 'ALL' || month === selectedMonth);
 
@@ -673,7 +672,7 @@
                           `;
                       });
                   } else {
-                      vHtml += `<span style="color:#666; font-size:0.75rem;">Nessun intervento registrato per questo veicolo.</span><br>`;
+                      vHtml += `<span style="color:#666; font-size:0.75rem;">Nessun intervento registrato.</span><br>`;
                   }
               });
           } else {
@@ -695,7 +694,6 @@
           });
       }
 
-      /* FUNZIONE POSTICIPA / CAMBIA DATA INTERVENTO */
       async function rescheduleJob(vIdx, jIdx) {
           const newDate = prompt("Inserisci la nuova data (Formato AAAA-MM-GG):", selectedAdminUserDoc.vehicles[vIdx].jobs[jIdx].jobDate || "");
           if (!newDate) return;
@@ -710,7 +708,6 @@
           loadAdminReport();
       }
 
-      /* FUNZIONE ANNULLA / ELIMINA INTERVENTO */
       async function cancelJob(vIdx, jIdx) {
           if (confirm("Sei sicuro di voler annullare ed eliminare questo intervento?")) {
               selectedAdminUserDoc.vehicles[vIdx].jobs.splice(jIdx, 1);
