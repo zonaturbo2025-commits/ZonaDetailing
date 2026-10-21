@@ -132,7 +132,7 @@
 
         /* MODALI & OVERLAYS - COMPATTI E PULITI */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 15px; }
-        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 20px 18px; width: 100%; max-width: 400px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 20px 18px; width: 100%; max-width: 420px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         .modal-close { position: absolute; top: 10px; right: 12px; color: #aaa; font-size: 1.2rem; cursor: pointer; }
 
         .form-group { display: flex; flex-direction: column; gap: 4px; text-align: left; margin-bottom: 10px; }
@@ -146,7 +146,7 @@
         .btn-danger-app { background: #ff4444; color: #fff; }
 
         .client-avatar-large { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent-green); object-fit: cover; background: #000; }
-        .client-profile-box { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .client-profile-box { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; text-align: left; }
 
         .photo-preview-wrapper { position: relative; display: inline-block; margin-top: 6px; }
         .photo-preview-img { width: 70px; height: 70px; border-radius: 6px; object-fit: cover; border: 1px solid var(--accent-green); }
@@ -279,7 +279,7 @@
         <p>&copy; 2026 Zona Detailing - Car Detailing a Domicilio Roma. Tutti i diritti riservati.</p>
     </footer>
 
-    <!-- MODALE AUTH / ACCESSO -->
+    <!-- MODALE AUTH / ACCESSO & GARAGE CLIENTE -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeAuthModal()">&times;</span>
@@ -299,10 +299,41 @@
                 <button class="btn-app btn-warning-app" onclick="handleEmailSignup()">Registrati con Email</button>
             </div>
 
-            <div id="modalLoggedInView" style="display:none; text-align:center;">
-                <p id="loggedInUserEmail" style="color:#ccc; margin-bottom:12px; font-size:0.85rem;"></p>
+            <!-- VISTA PROFILO & GARAGE CLIENTE -->
+            <div id="modalLoggedInView" style="display:none; text-align:left;">
+                <div id="clientProfileSummary" style="margin-bottom:12px; font-size:0.85rem; color:#ccc;"></div>
+                
+                <h4 style="color:var(--accent-green); font-size:0.82rem; text-transform:uppercase; margin-bottom:6px;"><i class="fa-solid fa-car"></i> Il Mio Garage</h4>
+                <div id="clientGarageList" style="max-height:180px; overflow-y:auto; margin-bottom:12px; font-size:0.78rem; color:#aaa;"></div>
+                
+                <button class="btn-app btn-primary-app" onclick="openAddVehicleModal()" style="margin-bottom:8px;"><i class="fa-solid fa-plus"></i> Aggiungi Vettura</button>
                 <button class="btn-app btn-danger-app" onclick="logoutUser()">Disconnetti</button>
             </div>
+        </div>
+    </div>
+
+    <!-- MODALE AGGIUNGI VETTURA CLIENTE -->
+    <div class="modal-overlay" id="addVehicleModal">
+        <div class="modal-box">
+            <span class="modal-close" onclick="closeAddVehicleModal()">&times;</span>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; font-size:1rem; margin-bottom:12px;">Aggiungi Auto al Garage</h3>
+            <div class="form-group">
+                <label>Marca</label>
+                <select id="carBrandSelect" class="form-control" onchange="populateModels(this.value)">
+                    <option value="">Seleziona Marca</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Modello</label>
+                <select id="carModelSelect" class="form-control">
+                    <option value="">Prima seleziona la marca</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Targa (Opzionale)</label>
+                <input type="text" id="carPlateInput" class="form-control" placeholder="Es. AB123CD">
+            </div>
+            <button class="btn-app btn-primary-app" onclick="saveUserVehicle()">Salva Vettura</button>
         </div>
     </div>
 
@@ -357,13 +388,13 @@
                 </select>
             </div>
 
-            <!-- RIQUADRO 1: FOTO PROFILO, GARAGE, VEICOLI & GESTIONE INTERVENTI (POSTICIPA / ANNULLA) -->
+            <!-- RIQUADRO 1: FOTO PROFILO, GARAGE, VEICOLI & GESTIONE INTERVENTI -->
             <div style="background:#0e110e; border:1px solid #333; padding:12px; border-radius:8px; margin-bottom:12px;">
                 <h4 style="color:var(--accent-green); font-size:0.85rem; text-transform:uppercase;"><i class="fa-solid fa-car"></i> 1. Garage & Interventi Cliente</h4>
                 <div id="adminClientGarageInfo" style="font-size:0.8rem; color:#aaa; margin-top:6px;">Seleziona un cliente.</div>
             </div>
 
-            <!-- RIQUADRO 2: REGISTRA NUOVO LAVORO, DATA, ORA, VIA, DOPPIA FOTO -->
+            <!-- RIQUADRO 2: REGISTRA NUOVO LAVORO -->
             <div id="adminJobContainer" style="background:#0e110e; border:1px solid #333; padding:12px; border-radius:8px; margin-bottom:12px; opacity:0.5; pointer-events:none;">
                 <h4 style="color:var(--accent-green); font-size:0.85rem; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-calendar-check"></i> 2. Assegna Nuovo Intervento</h4>
                 <div class="form-group"><label>Auto</label><select id="adminCarSelect" class="form-control"></select></div>
@@ -385,7 +416,7 @@
 
                 <div class="form-group"><label>Punti</label><input type="number" id="adminJobPoints" class="form-control" value="100"></div>
                 
-                <!-- FOTO PRIMA DEL LAVORO -->
+                <!-- FOTO PRIMA -->
                 <div class="form-group">
                     <label style="color:#ffb700;"><i class="fa-solid fa-camera"></i> 1. Foto "PRIMA" dell'Intervento</label>
                     <input type="file" id="adminBeforePhotoFile" class="form-control" accept="image/*" capture="environment" onchange="handlePhotoUpload(event, 'before')">
@@ -393,7 +424,7 @@
                     <div id="adminBeforePreview"></div>
                 </div>
 
-                <!-- FOTO DOPO IL LAVORO -->
+                <!-- FOTO DOPO -->
                 <div class="form-group">
                     <label style="color:var(--accent-green);"><i class="fa-solid fa-camera-retro"></i> 2. Foto "DOPO" (Risultato Finale)</label>
                     <input type="file" id="adminAfterPhotoFile" class="form-control" accept="image/*" capture="environment" onchange="handlePhotoUpload(event, 'after')">
@@ -420,7 +451,7 @@
           if(currentUser) {
               document.getElementById('modalLoginForm').style.display = 'none';
               document.getElementById('modalLoggedInView').style.display = 'block';
-              document.getElementById('loggedInUserEmail').innerText = "Connesso come: " + currentUser.email;
+              renderClientGarage();
           } else {
               document.getElementById('modalLoginForm').style.display = 'block';
               document.getElementById('modalLoggedInView').style.display = 'none';
@@ -429,6 +460,26 @@
 
       function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
       
+      function openAddVehicleModal() {
+          document.getElementById('addVehicleModal').style.display = 'flex';
+          const brandSel = document.getElementById('carBrandSelect');
+          brandSel.innerHTML = '<option value="">Seleziona Marca</option>';
+          Object.keys(carDatabase).sort().forEach(b => {
+              brandSel.innerHTML += `<option value="${b}">${b}</option>`;
+          });
+      }
+      function closeAddVehicleModal() { document.getElementById('addVehicleModal').style.display = 'none'; }
+
+      function populateModels(brand) {
+          const modSel = document.getElementById('carModelSelect');
+          modSel.innerHTML = '<option value="">Seleziona Modello</option>';
+          if(carDatabase[brand]) {
+              carDatabase[brand].forEach(m => {
+                  modSel.innerHTML += `<option value="${m}">${m}</option>`;
+              });
+          }
+      }
+
       function openAdminModal() {
           document.getElementById('adminModal').style.display = 'flex';
           populateAdminClientDropdown();
@@ -441,7 +492,7 @@
               if (currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   openAdminModal();
               } else {
-                  alert("Benvenuto nel tuo account Zona Detailing!");
+                  openAuthModal();
               }
           } else {
               openAuthModal();
@@ -488,7 +539,7 @@
               if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   openAdminModal();
               } else {
-                  alert("Accesso effettuato con Google!");
+                  openAuthModal();
               }
           } catch(e) {
               alert("Errore login Google: " + e.message);
@@ -505,7 +556,7 @@
               if (res.user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                   openAdminModal();
               } else {
-                  alert("Accesso effettuato con successo!");
+                  openAuthModal();
               }
           } catch(e) { alert("Errore login: " + e.message); }
       }
@@ -534,6 +585,66 @@
               alert("Disconnesso con successo.");
               window.location.reload();
           });
+      }
+
+      async function renderClientGarage() {
+          if (!currentUser) return;
+          const doc = await db.collection('users').doc(currentUser.uid).get();
+          if(!doc.exists) return;
+          const u = doc.data();
+          
+          const avatarSrc = u.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
+
+          document.getElementById('clientProfileSummary').innerHTML = `
+              <div class="client-profile-box">
+                  <img src="${avatarSrc}" class="client-avatar-large">
+                  <div>
+                      <strong style="font-size:0.9rem; color:#fff;">${u.name || 'Cliente'}</strong><br>
+                      <span style="font-size:0.7rem; color:#aaa;">${u.email}</span><br>
+                      Punti Fedeltà: <span style="color:#ffd700; font-weight:bold;">${u.points || 0} pt</span>
+                  </div>
+              </div>
+          `;
+
+          let garageHtml = "";
+          if(u.vehicles && u.vehicles.length > 0) {
+              u.vehicles.forEach((v, idx) => {
+                  garageHtml += `
+                      <div style="background:#0c0f0c; border:1px solid #222; padding:8px; border-radius:6px; margin-bottom:6px;">
+                          🚗 <strong>${v.brand} ${v.model}</strong> (${v.plate || 'No Targa'})<br>
+                  `;
+                  if(v.jobs && v.jobs.length > 0) {
+                      v.jobs.forEach(j => {
+                          garageHtml += `<div style="font-size:0.72rem; color:#a6f700; margin-top:3px;">🔧 ${j.desc} (${j.jobDate || 'Data da definire'})</div>`;
+                      });
+                  } else {
+                      garageHtml += `<div style="font-size:0.7rem; color:#777;">Nessun intervento registrato.</div>`;
+                  }
+                  garageHtml += `</div>`;
+              });
+          } else {
+              garageHtml = "Il tuo garage è vuoto. Aggiungi la tua vettura!";
+          }
+          document.getElementById('clientGarageList').innerHTML = garageHtml;
+      }
+
+      async function saveUserVehicle() {
+          const brand = document.getElementById('carBrandSelect').value;
+          const model = document.getElementById('carModelSelect').value;
+          const plate = document.getElementById('carPlateInput').value;
+
+          if(!brand || !model) return alert("Seleziona marca e modello!");
+
+          const userRef = db.collection('users').doc(currentUser.uid);
+          const doc = await userRef.get();
+          let vehicles = doc.data().vehicles || [];
+
+          vehicles.push({ brand, model, plate, jobs: [] });
+          await userRef.update({ vehicles });
+
+          closeAddVehicleModal();
+          alert("Vettura aggiunta al garage!");
+          openAuthModal();
       }
 
       async function sendSupportTicket() {
