@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zona Detailing | Car Detailing a Domicilio Roma</title>
 
-    <!-- Icona e Ottimizzazione App per iPhone (iOS PWA) -->
+    <!-- Icona e PWA iOS -->
     <link rel="apple-touch-icon" href="logo.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Zona Detailing">
 
-    <!-- Font Google: Montserrat -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap" rel="stylesheet">
-    <!-- Icone FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Embed Instagram -->
@@ -24,12 +23,10 @@
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
-        (function() {
-            emailjs.init("YOUR_PUBLIC_KEY");
-        })();
+        (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
     </script>
     
-    <!-- Firebase SDKs (v9 Compat) -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -106,7 +103,7 @@
         :root { --bg-color: #0a0a0a; --card-bg: #141414; --text-color: #ffffff; --accent-green: #a6f700; --accent-green-hover: #8ce000; --border-color: #222222; }
         body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
 
-        /* NAVBAR & MOBILE TOGGLE */
+        /* NAVBAR */
         nav { 
             position: fixed; top: 0; left: 0; width: 100%; 
             background-color: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); 
@@ -135,9 +132,6 @@
         }
 
         .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-        
-        .nav-avatar-btn { background: transparent; border: 2px solid var(--accent-green); border-radius: 50%; padding: 0; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .nav-avatar-img { width: 100%; height: 100%; object-fit: cover; }
 
         .user-dropdown { position: absolute; top: 55px; right: 15px; background-color: #141414; border: 1px solid var(--accent-green); border-radius: 8px; width: 220px; display: none; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.85); z-index: 1001; }
         .user-dropdown a { padding: 12px 16px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #1e1e1e; }
@@ -207,7 +201,7 @@
         .form-group label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--accent-green); }
         .form-control { background-color: #0d0d0d; border: 1px solid var(--border-color); color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 0.9rem; outline: none; width: 100%; }
 
-        /* 🏎️ VIRTUAL GARAGE OVERLAY & ANIMAZIONE SARACINESCA 🏎️ */
+        /* 🏎️ VIRTUAL GARAGE OVERLAY 🏎️ */
         .profile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050705; z-index: 3000; display: none; overflow-y: auto; padding: 20px 4%; }
         
         .garage-shutter-door {
@@ -238,7 +232,7 @@
         .car-neon-plate { background: #000; border: 1px solid #333; border-bottom: 3px solid var(--accent-green); border-radius: 8px; padding: 10px; width: 100%; text-align: center; }
 
         .car-jobs-section { margin-top: 12px; width: 100%; text-align: left; background: #141414; border-radius: 8px; padding: 10px; font-size: 0.8rem; border: 1px solid #222; }
-        .job-item-card { background: #0b0d0b; border: 1px solid #222; padding: 8px; border-radius: 6px; margin-top: 6px; cursor: pointer; transition: border-color 0.2s; }
+        .job-item-card { background: #0b0d0b; border: 1px solid #222; padding: 10px; border-radius: 8px; margin-top: 8px; cursor: pointer; transition: border-color 0.2s; }
         .job-item-card:hover { border-color: var(--accent-green); }
 
         .add-parking-spot { border: 2px dashed #333; border-radius: 15px; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); }
@@ -246,7 +240,7 @@
 
         .job-photo-container { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
         .job-photo-box { text-align: center; flex: 1; }
-        .job-photo-box img { width: 100%; height: 130px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-green); background: #000; }
+        .job-photo-box img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-green); background: #000; }
 
         footer { border-top: 1px solid var(--border-color); padding: 30px 15px; text-align: center; background-color: #050505; color: #777; font-size: 0.8rem; }
         .social-footer { margin-bottom: 12px; display: flex; justify-content: center; gap: 20px; }
@@ -259,7 +253,7 @@
 </head>
 <body>
 
-    <!-- NAVIGAZIONE CON TENDINA MOBILE RESPONSIVE -->
+    <!-- NAVIGAZIONE -->
     <nav>
         <a href="#home" class="nav-home-badge" id="logoBadge" title="Torna alla Home">
             <span class="z-letter">Z</span><span class="d-letter">D</span>
@@ -353,13 +347,13 @@
         </div>
     </section>
 
-    <!-- ⭐ SEZIONE RECENSIONI PUBBLICHE IN FONDO ALLA PAGINA ⭐ -->
+    <!-- ⭐ SEZIONE RECENSIONI PUBBLICHE ⭐ -->
     <section id="recensioni" class="container">
         <h2 class="section-title">Dicono di <span>Noi</span></h2>
         
         <div class="reviews-grid" id="publicReviewsGrid" style="margin-bottom:30px;"></div>
 
-        <!-- BOX PER PUBBLICARE RECENSIONE (CLIENTI AUTENTICATI) -->
+        <!-- BOX PER PUBBLICARE RECENSIONE -->
         <div style="background:#0e110e; border:1px solid var(--accent-green); padding:25px; border-radius:15px; max-width:650px; margin: 0 auto; text-align:left;">
             <h4 style="color:var(--accent-green); margin-bottom:12px; text-transform:uppercase; font-size:0.95rem; text-align:center;"><i class="fa-solid fa-star"></i> Lascia la Tua Recensione</h4>
             <div class="form-group">
@@ -384,7 +378,7 @@
         </div>
     </section>
 
-    <!-- 📩 SEZIONE ASSISTENZA & TICKET IN FONDO -->
+    <!-- 📩 SEZIONE ASSISTENZA & TICKET -->
     <section id="ticket" class="container">
         <div style="background:#121212; border:1px solid var(--accent-green); padding:30px 20px; border-radius:15px; max-width:650px; margin:0 auto; text-align:left;">
             <h2 class="section-title" style="margin-bottom:10px; font-size:1.4rem;"><i class="fa-solid fa-headset"></i> Assistenza & <span>Ticket Info</span></h2>
@@ -453,7 +447,7 @@
         </div>
 
         <div class="garage-bay-grid" id="garageBayGrid">
-            <!-- I Posti Auto del cliente vengono generati dinamicamente -->
+            <!-- Posti auto generati dinamicamente -->
         </div>
     </div>
 
@@ -478,7 +472,7 @@
             </div>
 
             <div class="form-group">
-                <label>Targa (Opzionale per identificazione)</label>
+                <label>Targa (Opzionale)</label>
                 <input type="text" id="carPlateInput" class="form-control" placeholder="Es. AA123BB">
             </div>
 
@@ -524,7 +518,6 @@
       let currentUser = null;
       let userData = null;
 
-      // Inizializzazione Tendina Marche Auto
       window.addEventListener('DOMContentLoaded', () => {
           const brandSelect = document.getElementById('carBrandSelect');
           if (brandSelect) {
@@ -547,7 +540,7 @@
           }
       }
 
-      /* GESTIONE AUTHENTICATION */
+      /* AUTHENTICATION */
       auth.onAuthStateChanged(async (user) => {
           currentUser = user;
           const btnAuthText = document.getElementById('btnAuthText');
@@ -555,13 +548,11 @@
           if (user) {
               btnAuthText.innerText = user.displayName ? user.displayName.split(' ')[0] : 'Profilo';
               
-              // Ascolta modifiche utente in tempo reale
               db.collection('users').doc(user.uid).onSnapshot(doc => {
                   if (doc.exists) {
                       userData = doc.data();
                       updateGarageUI(userData);
                   } else {
-                      // Crea nuovo profilo cliente se non esiste
                       userData = {
                           name: user.displayName || 'Cliente',
                           email: user.email,
@@ -611,7 +602,6 @@
               await auth.signInWithEmailAndPassword(email, pass);
               closeAuthModal();
           } catch(e) {
-              // Se l'utente non esiste, registra automaticamente
               try {
                   await auth.createUserWithEmailAndPassword(email, pass);
                   closeAuthModal();
@@ -627,7 +617,7 @@
 
       function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
 
-      /* 🏎️ SHOWROOM VIRTUAL GARAGE OVERLAY 🏎️ */
+      /* VIRTUAL GARAGE OVERLAY */
       function openProfileOverlay() {
           document.getElementById('userDropdown').style.display = 'none';
           const overlay = document.getElementById('profileOverlay');
@@ -649,7 +639,7 @@
           }, 600);
       }
 
-      /* AGGIORNAMENTO GRAFICO GARAGE CLIENTE CON STATO LAVORAZIONE UNICO */
+      /* AGGIORNAMENTO GARAGE CLIENTE CON MOSTRA FOTO PRIMA/DOPO DIRETTAMENTE */
       function updateGarageUI(data) {
           if (!data) return;
 
@@ -682,15 +672,32 @@
                           statusBadge = '<span style="color:var(--accent-green); font-weight:bold;"><i class="fa-solid fa-circle-check"></i> Eseguito</span>';
                       }
 
+                      // Trova gli URL delle foto leggendo entrambe le forme del campo
+                      const beforeImg = j.beforePhotoUrl || j.beforePhoto || '';
+                      const afterImg = j.afterPhotoUrl || j.afterPhoto || '';
+
+                      let photosPreviewHtml = "";
+                      if (beforeImg || afterImg) {
+                          photosPreviewHtml = `<div class="job-photo-container" style="margin-top:6px;">`;
+                          if (beforeImg) {
+                              photosPreviewHtml += `<div class="job-photo-box"><span style="font-size:0.65rem; color:#ffb700; font-weight:bold;">PRIMA</span><br><img src="${beforeImg}"></div>`;
+                          }
+                          if (afterImg) {
+                              photosPreviewHtml += `<div class="job-photo-box"><span style="font-size:0.65rem; color:var(--accent-green); font-weight:bold;">DOPO</span><br><img src="${afterImg}"></div>`;
+                          }
+                          photosPreviewHtml += `</div>`;
+                      }
+
                       jobsHtml += `
                           <div class="job-item-card" onclick="openJobDetailModal(${vIdx}, ${jIdx})">
                               <div style="display:flex; justify-content:space-between; align-items:center;">
-                                  <strong>${j.desc || 'Intervento Detailing'}</strong>
+                                  <strong style="color:#fff;">${j.desc || 'Intervento Detailing'}</strong>
                                   <span style="font-size:0.7rem;">${statusBadge}</span>
                               </div>
                               <div style="font-size:0.72rem; color:#aaa; margin-top:3px;">
                                   📅 ${j.jobDate || 'Data n/d'} ore ${j.jobTime || '--:--'}
                               </div>
+                              ${photosPreviewHtml}
                           </div>
                       `;
                   });
@@ -732,35 +739,38 @@
           `;
       }
 
-      /* DETTAGLIO LAVORO E FOTO PRIMA / DOPO PER IL CLIENTE */
+      /* DETTAGLIO LAVORO E FOTO PRIMA / DOPO IN MODALE */
       function openJobDetailModal(vIdx, jIdx) {
           if (!userData || !userData.vehicles[vIdx] || !userData.vehicles[vIdx].jobs[jIdx]) return;
           const job = userData.vehicles[vIdx].jobs[jIdx];
 
           let statusTxt = '⏳ Programmato (In attesa dello staff)';
-          if (job.status === 'working') statusTxt = '🛠️ IN LAVORAZIONE (I dettagli e le foto verranno aggiornati in tempo reale)';
+          if (job.status === 'working') statusTxt = '🛠️ IN LAVORAZIONE (Foto aggiornate in tempo reale dallo staff)';
           if (job.status === 'done') statusTxt = '✅ ESEGUITO (Punti fedeltà accreditati!)';
+
+          const beforeImg = job.beforePhotoUrl || job.beforePhoto || '';
+          const afterImg = job.afterPhotoUrl || job.afterPhoto || '';
 
           let html = `
               <div style="margin-bottom:10px;">
-                  <strong>Servizio:</strong> ${job.desc}<br>
+                  <strong>Servizio:</strong> ${job.desc || 'Intervento Detailing'}<br>
                   <strong>Data & Ora:</strong> ${job.jobDate || 'n/d'} alle ${job.jobTime || '--:--'}<br>
                   <strong>Indirizzo:</strong> ${job.address || 'Presso domicilio'}<br>
                   <strong>Stato Attuale:</strong> <span style="color:var(--accent-green); font-weight:bold;">${statusTxt}</span>
               </div>
           `;
 
-          if (job.beforePhotoUrl || job.afterPhotoUrl) {
+          if (beforeImg || afterImg) {
               html += `<div class="job-photo-container">`;
-              if (job.beforePhotoUrl) {
-                  html += `<div class="job-photo-box"><span style="font-size:0.7rem; color:#ffb700; font-weight:bold;">PRIMA</span><br><img src="${job.beforePhotoUrl}"></div>`;
+              if (beforeImg) {
+                  html += `<div class="job-photo-box"><span style="font-size:0.7rem; color:#ffb700; font-weight:bold;">PRIMA</span><br><img src="${beforeImg}"></div>`;
               }
-              if (job.afterPhotoUrl) {
-                  html += `<div class="job-photo-box"><span style="font-size:0.7rem; color:var(--accent-green); font-weight:bold;">DOPO</span><br><img src="${job.afterPhotoUrl}"></div>`;
+              if (afterImg) {
+                  html += `<div class="job-photo-box"><span style="font-size:0.7rem; color:var(--accent-green); font-weight:bold;">DOPO</span><br><img src="${afterImg}"></div>`;
               }
               html += `</div>`;
           } else {
-              html += `<div style="font-size:0.75rem; color:#777; text-align:center; margin-top:10px; font-style:italic;">Le foto "Prima e Dopo" saranno visibili qui durante e al termine del trattamento.</div>`;
+              html += `<div style="font-size:0.75rem; color:#777; text-align:center; margin-top:10px; font-style:italic;">Le foto "Prima e Dopo" saranno visibili qui non appena caricate dallo staff.</div>`;
           }
 
           document.getElementById('jobDetailContent').innerHTML = html;
@@ -769,7 +779,6 @@
 
       function closeJobDetailModal() { document.getElementById('jobDetailModal').style.display = 'none'; }
 
-      /* MODALE AGGIUNGI AUTO */
       function openAddCarModal() { document.getElementById('addCarModal').style.display = 'flex'; }
       function closeAddCarModal() { document.getElementById('addCarModal').style.display = 'none'; }
 
@@ -802,7 +811,6 @@
           }
       }
 
-      /* AGGIORNAMENTO PROFILO ED AVATAR CLIENTE */
       function openUserProfileModal() {
           if (!userData) return;
           document.getElementById('editUserName').value = userData.name || '';
@@ -856,7 +864,7 @@
           document.getElementById('ticket').scrollIntoView({ behavior: 'smooth' });
       }
 
-      /* 🌟 GESTIONE RECENSIONI E TICKET 🌟 */
+      /* RECENSIONI E TICKET */
       function handleReviewPhotoUpload(event) {
           const file = event.target.files[0];
           if (file) {
