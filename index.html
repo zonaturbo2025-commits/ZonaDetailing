@@ -718,7 +718,17 @@
 
               if (v.jobs && v.jobs.length > 0) {
                   v.jobs.forEach((j, jIdx) => {
-                      let status = j.status ? j.status.toLowerCase().trim() : 'prog';
+                      let status = j.status ? j.status.toLowerCase().trim() : '';
+                      const hasAfterPhoto = (j.afterPhotos && j.afterPhotos.length > 0) || j.afterPhotoUrl;
+
+                      // Se ha foto dopo o lo status è esplicitamente completato/chiuso, va blindato in "Eseguito"
+                      if (status === 'done' || status === 'closed' || hasAfterPhoto) {
+                          status = 'done';
+                      } else if (status === 'working') {
+                          status = 'working';
+                      } else {
+                          status = 'prog';
+                      }
 
                       let statusBadge = '';
                       let cardClass = 'job-item-card';
@@ -726,7 +736,7 @@
                       if (status === 'working') {
                           statusBadge = '<span style="color:#3399ff; font-weight:bold;"><i class="fa-solid fa-gears"></i> IN LAVORAZIONE</span>';
                           cardClass += ' working-neon';
-                      } else if (status === 'done' || status === 'closed') {
+                      } else if (status === 'done') {
                           statusBadge = '<span style="color:var(--accent-green); font-weight:bold;"><i class="fa-solid fa-circle-check"></i> Eseguito</span>';
                       } else {
                           statusBadge = '<span style="color:#ffb700; font-weight:bold;"><i class="fa-solid fa-clock"></i> Programmato</span>';
@@ -742,7 +752,7 @@
                           </div>
                       `;
 
-                      if (status === 'done' || status === 'closed') closedJobsHtml += jobItemCardHtml;
+                      if (status === 'done') closedJobsHtml += jobItemCardHtml;
                       else activeJobsHtml += jobItemCardHtml;
                   });
               }
