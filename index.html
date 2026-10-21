@@ -233,15 +233,28 @@
         .car-neon-plate { background: #000; border: 1px solid #333; border-bottom: 3px solid var(--accent-green); border-radius: 8px; padding: 10px; width: 100%; text-align: center; }
 
         .car-jobs-section { margin-top: 12px; width: 100%; text-align: left; background: #141414; border-radius: 8px; padding: 10px; font-size: 0.8rem; border: 1px solid #222; }
+        
+        /* SCHEDA LAVORO & ANIMAZIONE NEON VERDE PER STATO WORKING */
         .job-item-card { background: #0b0d0b; border: 1px solid #222; padding: 10px; border-radius: 8px; margin-top: 8px; cursor: pointer; transition: border-color 0.2s; }
         .job-item-card:hover { border-color: var(--accent-green); }
+        
+        @keyframes neonPulseGreen {
+            0% { border-color: #222; box-shadow: inset 0 0 5px rgba(166,247,0,0), 0 0 2px rgba(166,247,0,0); }
+            50% { border-color: var(--accent-green); box-shadow: inset 0 0 15px rgba(166,247,0,0.4), 0 0 12px rgba(166,247,0,0.8); }
+            100% { border-color: #222; box-shadow: inset 0 0 5px rgba(166,247,0,0), 0 0 2px rgba(166,247,0,0); }
+        }
+        .job-item-card.working-neon {
+            animation: neonPulseGreen 1.5s infinite ease-in-out;
+            border-color: var(--accent-green);
+        }
 
         .add-parking-spot { border: 2px dashed #333; border-radius: 15px; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); }
         .add-parking-spot:hover { border-color: var(--accent-green); }
 
-        .job-photo-container { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
-        .job-photo-box { text-align: center; flex: 1; }
-        .job-photo-box img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-green); background: #000; }
+        /* FOTO VERTICALI ORIGINALI NELLA MODALE DI DETTAGLIO */
+        .job-photo-container { display: flex; gap: 15px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+        .job-photo-box { text-align: center; width: 45%; min-width: 140px; }
+        .job-photo-box img { width: 100%; height: 280px; object-fit: contain; border-radius: 8px; border: 1px solid var(--accent-green); background: #000; }
 
         footer { border-top: 1px solid var(--border-color); padding: 30px 15px; text-align: center; background-color: #050505; color: #777; font-size: 0.8rem; }
         .social-footer { margin-bottom: 12px; display: flex; justify-content: center; gap: 20px; }
@@ -579,7 +592,6 @@
                   if (doc.exists) {
                       userData = doc.data();
                       
-                      // Aggiorna foto profilo in alto a destra nella navbar
                       if (userData.avatarUrl) {
                           avatarContainer.innerHTML = `<img src="${userData.avatarUrl}" class="nav-user-avatar-img">`;
                       } else {
@@ -654,7 +666,6 @@
 
       function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
 
-      /* RECUPERO PASSWORD RAPIDO DALLA MODALE LOGIN */
       async function sendPasswordResetEmailInline() {
           const email = document.getElementById('loginEmail').value;
           if (!email) {
@@ -669,7 +680,6 @@
           }
       }
 
-      /* VIRTUAL GARAGE OVERLAY */
       function openProfileOverlay() {
           document.getElementById('userDropdown').style.display = 'none';
           const overlay = document.getElementById('profileOverlay');
@@ -691,7 +701,7 @@
           }, 600);
       }
 
-      /* AGGIORNAMENTO GARAGE CLIENTE CON MOSTRA FOTO PRIMA/DOPO */
+      /* AGGIORNAMENTO GARAGE CON APPLICAZIONE CLASSE NEON PULSE PER STATO WORKING */
       function updateGarageUI(data) {
           if (!data) return;
 
@@ -718,30 +728,17 @@
               if (v.jobs && v.jobs.length > 0) {
                   v.jobs.forEach((j, jIdx) => {
                       let statusBadge = '<span style="color:#ffb700; font-weight:bold;"><i class="fa-solid fa-clock"></i> Programmato</span>';
+                      let cardClass = 'job-item-card';
+
                       if (j.status === 'working') {
                           statusBadge = '<span style="color:#3399ff; font-weight:bold;"><i class="fa-solid fa-gears"></i> IN LAVORAZIONE</span>';
+                          cardClass += ' working-neon'; // Attiva l'effetto neon lampeggiante verde
                       } else if (j.status === 'done') {
                           statusBadge = '<span style="color:var(--accent-green); font-weight:bold;"><i class="fa-solid fa-circle-check"></i> Eseguito</span>';
                       }
 
-                      // Trova gli URL delle foto leggendo sia beforePhotoUrl che beforePhoto
-                      const beforeImg = j.beforePhotoUrl || j.beforePhoto || '';
-                      const afterImg = j.afterPhotoUrl || j.afterPhoto || '';
-
-                      let photosPreviewHtml = "";
-                      if (beforeImg || afterImg) {
-                          photosPreviewHtml = `<div class="job-photo-container" style="margin-top:6px;">`;
-                          if (beforeImg) {
-                              photosPreviewHtml += `<div class="job-photo-box"><span style="font-size:0.65rem; color:#ffb700; font-weight:bold;">PRIMA</span><br><img src="${beforeImg}"></div>`;
-                          }
-                          if (afterImg) {
-                              photosPreviewHtml += `<div class="job-photo-box"><span style="font-size:0.65rem; color:var(--accent-green); font-weight:bold;">DOPO</span><br><img src="${afterImg}"></div>`;
-                          }
-                          photosPreviewHtml += `</div>`;
-                      }
-
                       jobsHtml += `
-                          <div class="job-item-card" onclick="openJobDetailModal(${vIdx}, ${jIdx})">
+                          <div class="${cardClass}" onclick="openJobDetailModal(${vIdx}, ${jIdx})">
                               <div style="display:flex; justify-content:space-between; align-items:center;">
                                   <strong style="color:#fff;">${j.desc || 'Intervento Detailing'}</strong>
                                   <span style="font-size:0.7rem;">${statusBadge}</span>
@@ -749,7 +746,9 @@
                               <div style="font-size:0.72rem; color:#aaa; margin-top:3px;">
                                   📅 ${j.jobDate || 'Data n/d'} ore ${j.jobTime || '--:--'}
                               </div>
-                              ${photosPreviewHtml}
+                              <div style="font-size:0.68rem; color:var(--accent-green); margin-top:4px; font-style:italic;">
+                                  <i class="fa-solid fa-camera"></i> Clicca per vedere dettagli e foto
+                              </div>
                           </div>
                       `;
                   });
@@ -782,7 +781,6 @@
               `;
           });
 
-          // Scheda Aggiungi Nuova Auto
           grid.innerHTML += `
               <div class="add-parking-spot" onclick="openAddCarModal()">
                   <i class="fa-solid fa-circle-plus" style="font-size:2.5rem; color:var(--accent-green); margin-bottom:10px;"></i>
@@ -791,7 +789,7 @@
           `;
       }
 
-      /* DETTAGLIO LAVORO E FOTO PRIMA / DOPO IN MODALE */
+      /* DETTAGLIO LAVORO E FOTO VERTICALI ORIGINALI NELLA MODALE */
       function openJobDetailModal(vIdx, jIdx) {
           if (!userData || !userData.vehicles[vIdx] || !userData.vehicles[vIdx].jobs[jIdx]) return;
           const job = userData.vehicles[vIdx].jobs[jIdx];
@@ -804,7 +802,7 @@
           const afterImg = job.afterPhotoUrl || job.afterPhoto || '';
 
           let html = `
-              <div style="margin-bottom:10px;">
+              <div style="margin-bottom:15px; border-bottom:1px solid #222; padding-bottom:10px;">
                   <strong>Servizio:</strong> ${job.desc || 'Intervento Detailing'}<br>
                   <strong>Data & Ora:</strong> ${job.jobDate || 'n/d'} alle ${job.jobTime || '--:--'}<br>
                   <strong>Indirizzo:</strong> ${job.address || 'Presso domicilio'}<br>
@@ -815,14 +813,14 @@
           if (beforeImg || afterImg) {
               html += `<div class="job-photo-container">`;
               if (beforeImg) {
-                  html += `<div class="job-photo-box"><span style="font-size:0.7rem; color:#ffb700; font-weight:bold;">PRIMA</span><br><img src="${beforeImg}"></div>`;
+                  html += `<div class="job-photo-box"><span style="font-size:0.75rem; color:#ffb700; font-weight:bold; text-transform:uppercase;">📸 Foto Prima</span><br><img src="${beforeImg}"></div>`;
               }
               if (afterImg) {
-                  html += `<div class="job-photo-box"><span style="font-size:0.7rem; color:var(--accent-green); font-weight:bold;">DOPO</span><br><img src="${afterImg}"></div>`;
+                  html += `<div class="job-photo-box"><span style="font-size:0.75rem; color:var(--accent-green); font-weight:bold; text-transform:uppercase;">📸 Foto Dopo</span><br><img src="${afterImg}"></div>`;
               }
               html += `</div>`;
           } else {
-              html += `<div style="font-size:0.75rem; color:#777; text-align:center; margin-top:10px; font-style:italic;">Le foto "Prima e Dopo" saranno visibili qui non appena caricate dallo staff.</div>`;
+              html += `<div style="font-size:0.8rem; color:#777; text-align:center; margin-top:15px; font-style:italic;">Le foto "Prima e Dopo" saranno visibili qui non appena caricate dallo staff.</div>`;
           }
 
           document.getElementById('jobDetailContent').innerHTML = html;
@@ -908,7 +906,6 @@
           }
       }
 
-      /* FUNZIONALITÀ DI SICUREZZA, CAMBIO PASSWORD E VERIFICA EMAIL */
       function openSecurityInfoModal() { document.getElementById('securityInfoModal').style.display = 'flex'; }
       function closeSecurityInfoModal() { document.getElementById('securityInfoModal').style.display = 'none'; }
 
@@ -955,7 +952,6 @@
           document.getElementById('ticket').scrollIntoView({ behavior: 'smooth' });
       }
 
-      /* RECENSIONI E TICKET */
       function handleReviewPhotoUpload(event) {
           const file = event.target.files[0];
           if (file) {
