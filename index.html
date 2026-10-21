@@ -719,10 +719,6 @@
               if (v.jobs && v.jobs.length > 0) {
                   v.jobs.forEach((j, jIdx) => {
                       let status = j.status ? j.status.toLowerCase().trim() : 'prog';
-                      const hasAfterPhoto = (j.afterPhotos && j.afterPhotos.length > 0) || j.afterPhotoUrl || '';
-                      if (status === 'done' || status === 'closed' || hasAfterPhoto) {
-                          if (status === 'prog' || status === 'working') status = 'done';
-                      }
 
                       let statusBadge = '';
                       let cardClass = 'job-item-card';
