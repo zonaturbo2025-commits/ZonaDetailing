@@ -338,7 +338,7 @@
     <section id="chi-siamo" class="container">
         <h2 class="section-title">Chi <span>Siamo</span></h2>
         <p style="text-align: center; color: #bbbbbb; max-width: 850px; margin: 0 auto; line-height: 1.8; font-size: 0.95rem;">
-            Zona Detailing offre un servizio esclusivo di Car Detailing a domicilio su toute Roma e provincia. Ci occupiamo di rigenerare, proteggere e valorizzare ogni superficie della tua auto direttamente a casa tua.
+            Zona Detailing offre un servizio esclusivo di Car Detailing a domicilio su tutta Roma e provincia. Ci occupiamo di rigenerare, proteggere e valorizzare ogni superficie della tua auto direttamente a casa tua.
         </p>
     </section>
 
@@ -800,7 +800,7 @@
           }, 600);
       }
 
-      /* AGGIORNAMENTO GARAGE CON DUE TABELLE DISTINTE: SINISTRA (PROGRAMMATI/IN LAVORAZIONE) E DESTRA (ESEGUITI) */
+      /* AGGIORNAMENTO GARAGE CON METODO ROBUSTO DI CONTROLLO STATO / FOTO */
       function updateGarageUI(data) {
           if (!data) return;
 
@@ -828,7 +828,13 @@
 
               if (v.jobs && v.jobs.length > 0) {
                   v.jobs.forEach((j, jIdx) => {
-                      let status = j.status ? j.status.toLowerCase().trim() : 'programmato';
+                      let status = j.status ? j.status.toLowerCase().trim() : '';
+                      const hasAfterPhoto = j.afterPhotoUrl || j.afterPhoto || '';
+
+                      // Metodo robusto: se lo stato è vuoto ma c'è la foto "dopo", consideralo eseguito/chiuso automaticamente
+                      if (!status && hasAfterPhoto) {
+                          status = 'done';
+                      }
 
                       let statusBadge = '';
                       let cardClass = 'job-item-card';
@@ -922,7 +928,7 @@
 
           let statusTxt = '⏳ Programmato (In attesa dello staff)';
           if (job.status === 'working') statusTxt = '🛠️ IN LAVORAZIONE (Foto aggiornate in tempo reale dallo staff)';
-          if (job.status === 'done' || job.status === 'closed') statusTxt = '✅ ESEGUITO (Punti fedeltà accreditati!)';
+          if (job.status === 'done' || job.status === 'closed' || job.afterPhotoUrl || job.afterPhoto) statusTxt = '✅ ESEGUITO (Punti fedeltà accreditati!)';
 
           const beforeImg = job.beforePhotoUrl || job.beforePhoto || '';
           const afterImg = job.afterPhotoUrl || job.afterPhoto || '';
