@@ -17,9 +17,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Embed Instagram -->
-    <script async src="https://www.instagram.com/embed.js"></script>
-    
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
@@ -178,11 +175,9 @@
         .service-card { background-color: var(--card-bg); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); }
         .service-card h3 { color: var(--accent-green); margin-bottom: 10px; text-transform: uppercase; font-size: 1.05rem; }
 
-        /* REELS INSTAGRAM & VIDEO NATIVO */
+        /* VIDEO NATIVI MP4 IN GRIGLIA */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
         .video-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: center; }
-        .instagram-embed-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 8px; background: #000; }
-        .instagram-embed-wrapper iframe { position: absolute; top: -50px; left: 0; width: 100%; height: calc(100% + 150px); }
         .native-video-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 8px; background: #000; display: flex; align-items: center; justify-content: center; border: 1px solid var(--accent-green); }
         .native-video-wrapper video { width: 100%; height: 100%; object-fit: cover; }
 
@@ -270,10 +265,13 @@
         .add-parking-spot { border: 2px dashed #333; border-radius: 15px; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); }
         .add-parking-spot:hover { border-color: var(--accent-green); }
 
-        /* FOTO VERTICALI ORIGINALI NELLA MODALE DI DETTAGLIO CON PULSANTE SALVA/APRI */
-        .job-photo-container { display: flex; gap: 15px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
-        .job-photo-box { text-align: center; width: 45%; min-width: 140px; }
-        .job-photo-box img { width: 100%; height: 260px; object-fit: contain; border-radius: 8px; border: 1px solid var(--accent-green); background: #000; margin-bottom: 6px; }
+        /* SCHEDA DEDICATA GALLERIA FOTO MULTIPLE (SCORREVOLE E PULITA) */
+        .gallery-section-box { margin-top: 15px; background: #0e110e; border: 1px solid #222; border-radius: 10px; padding: 12px; text-align: left; }
+        .gallery-grid-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; margin-top: 8px; }
+        .gallery-grid-scroll::-webkit-scrollbar { height: 6px; }
+        .gallery-grid-scroll::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 3px; }
+        .gallery-photo-card { flex: 0 0 130px; background: #000; border: 1px solid var(--accent-green); border-radius: 8px; padding: 6px; text-align: center; }
+        .gallery-photo-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; margin-bottom: 6px; }
 
         footer { border-top: 1px solid var(--border-color); padding: 30px 15px; text-align: center; background-color: #050505; color: #777; font-size: 0.8rem; }
         .social-footer { margin-bottom: 12px; display: flex; justify-content: center; gap: 20px; }
@@ -380,17 +378,10 @@
         </div>
     </section>
 
-    <!-- DIMOSTRAZIONI VIDEO (REELS INSTAGRAM & VIDEO AGGIUNTIVO) -->
+    <!-- DIMOSTRAZIONI VIDEO MP4 -->
     <section id="dimostrazioni" class="container">
         <h2 class="section-title">I Nostri <span>Lavori</span></h2>
         <div class="video-grid">
-            <div class="video-card">
-                <div class="instagram-embed-wrapper">
-                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdCD8mMAloT/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
-                </div>
-            </div>
-            
-            <!-- VIDEO AGGIUNTIVO IN AUTOPLAY TRA I DUE REEL -->
             <div class="video-card">
                 <div class="native-video-wrapper">
                     <video autoplay muted loop playsinline>
@@ -399,10 +390,20 @@
                     </video>
                 </div>
             </div>
-
             <div class="video-card">
-                <div class="instagram-embed-wrapper">
-                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdmD2H5AZi4/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
+                <div class="native-video-wrapper">
+                    <video autoplay muted loop playsinline>
+                        <source src="secondo-video.mp4" type="video/mp4">
+                        Il tuo browser non supporta il tag video.
+                    </video>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="native-video-wrapper">
+                    <video autoplay muted loop playsinline>
+                        <source src="terzo-video.mp4" type="video/mp4">
+                        Il tuo browser non supporta il tag video.
+                    </video>
                 </div>
             </div>
         </div>
@@ -565,7 +566,7 @@
         </div>
     </div>
 
-    <!-- MODALE DETTAGLI E FOTO LAVORO CLIENTE -->
+    <!-- MODALE DETTAGLI E FOTO MULTIPLE (SCHEDA DEDICATA) -->
     <div class="modal-overlay" id="jobDetailModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeJobDetailModal()">&times;</span>
@@ -688,7 +689,7 @@
                       }
 
                       updateGarageUI(userData);
-                      listenToLeaderboard(); // Aggiorna classifica per mostrare la posizione esatta dell'utente loggato
+                      listenToLeaderboard();
                   }
               });
           } else {
@@ -809,7 +810,7 @@
           }, 600);
       }
 
-      /* AGGIORNAMENTO GARAGE CON SISTEMA TAB A PROVA DI TELEFONO */
+      /* AGGIORNAMENTO GARAGE CON SISTEMA TAB */
       function updateGarageUI(data) {
           if (!data) return;
 
@@ -832,13 +833,13 @@
           const vehicles = data.vehicles || [];
 
           vehicles.forEach((v, vIdx) => {
-              let activeJobsHtml = ""; // Programmato & In lavorazione
-              let closedJobsHtml = ""; // Eseguito / Chiuso
+              let activeJobsHtml = ""; 
+              let closedJobsHtml = ""; 
 
               if (v.jobs && v.jobs.length > 0) {
                   v.jobs.forEach((j, jIdx) => {
                       let status = j.status ? j.status.toLowerCase().trim() : '';
-                      const hasAfterPhoto = j.afterPhotoUrl || j.afterPhoto || '';
+                      const hasAfterPhoto = (j.afterPhotos && j.afterPhotos.length > 0) || j.afterPhotoUrl || j.afterPhoto || '';
 
                       if (!status && hasAfterPhoto) {
                           status = 'done';
@@ -866,7 +867,7 @@
                                   📅 ${j.jobDate || 'Data n/d'} ore ${j.jobTime || '--:--'}
                               </div>
                               <div style="font-size:0.68rem; color:var(--accent-green); margin-top:4px; font-style:italic;">
-                                  <i class="fa-solid fa-camera"></i> Clicca per vedere dettagli e foto
+                                  <i class="fa-solid fa-camera"></i> Clicca per vedere galleria foto
                               </div>
                           </div>
                       `;
@@ -939,52 +940,76 @@
           document.getElementById(tabContentId).classList.add('active');
       }
 
-      /* DETTAGLIO LAVORO E FOTO CON LINK PER APRIRE E SALVARE */
+      /* SCHEDA DEDICATA PER LA VISUALIZZAZIONE DI FOTO MULTIPLE (PRIMA / DOPO) */
       function openJobDetailModal(vIdx, jIdx) {
           if (!userData || !userData.vehicles[vIdx] || !userData.vehicles[vIdx].jobs[jIdx]) return;
           const job = userData.vehicles[vIdx].jobs[jIdx];
 
           let statusTxt = '⏳ Programmato (In attesa dello staff)';
-          if (job.status === 'working') statusTxt = '🛠️ IN LAVORAZIONE (Foto aggiornate in tempo reale dallo staff)';
-          if (job.status === 'done' || job.status === 'closed' || job.afterPhotoUrl || job.afterPhoto) statusTxt = '✅ ESEGUITO (Punti fedeltà accreditati!)';
-
-          const beforeImg = job.beforePhotoUrl || job.beforePhoto || '';
-          const afterImg = job.afterPhotoUrl || job.afterPhoto || '';
+          if (job.status === 'working') statusTxt = '🛠️ IN LAVORAZIONE (Aggiornato in tempo reale)';
+          if (job.status === 'done' || job.status === 'closed' || (job.afterPhotos && job.afterPhotos.length > 0)) statusTxt = '✅ ESEGUITO (Punti fedeltà accreditati!)';
 
           let html = `
-              <div style="margin-bottom:15px; border-bottom:1px solid #222; padding-bottom:10px;">
+              <div style="margin-bottom:12px; border-bottom:1px solid #222; padding-bottom:8px;">
                   <strong>Servizio:</strong> ${job.desc || 'Intervento Detailing'}<br>
                   <strong>Data & Ora:</strong> ${job.jobDate || 'n/d'} alle ${job.jobTime || '--:--'}<br>
                   <strong>Indirizzo:</strong> ${job.address || 'Presso domicilio'}<br>
-                  <strong>Stato Attuale:</strong> <span style="color:var(--accent-green); font-weight:bold;">${statusTxt}</span>
+                  <strong>Stato:</strong> <span style="color:var(--accent-green); font-weight:bold;">${statusTxt}</span>
               </div>
           `;
 
-          if (beforeImg || afterImg) {
-              html += `<div class="job-photo-container">`;
-              if (beforeImg) {
+          // Gestione Foto "Prima"
+          let beforeList = [];
+          if (job.beforePhotos && Array.isArray(job.beforePhotos)) beforeList = job.beforePhotos;
+          else if (job.beforePhotoUrl) beforeList = [job.beforePhotoUrl];
+          else if (job.beforePhoto) beforeList = [job.beforePhoto];
+
+          if (beforeList.length > 0) {
+              html += `
+                  <div class="gallery-section-box">
+                      <div style="font-size:0.75rem; color:#ffb700; font-weight:bold; text-transform:uppercase;"><i class="fa-solid fa-camera"></i> Foto Prima (${beforeList.length})</div>
+                      <div class="gallery-grid-scroll">
+              `;
+              beforeList.forEach(url => {
                   html += `
-                      <div class="job-photo-box">
-                          <span style="font-size:0.75rem; color:#ffb700; font-weight:bold; text-transform:uppercase;">📸 Foto Prima</span><br>
-                          <img src="${beforeImg}">
-                          <a href="${beforeImg}" target="_blank" download="foto_prima.jpg" class="btn" style="background:var(--accent-green); color:#000; font-size:0.65rem; padding:4px 8px; margin-top:4px; text-decoration:none; display:inline-block;">
-                              <i class="fa-solid fa-download"></i> Apri / Salva
+                      <div class="gallery-photo-card">
+                          <img src="${url}">
+                          <a href="${url}" target="_blank" download="foto_prima.jpg" class="btn" style="background:var(--accent-green); color:#000; font-size:0.6rem; padding:3px 6px; width:100%; justify-content:center; text-decoration:none; margin-top:2px;">
+                              <i class="fa-solid fa-download"></i> Apri
                           </a>
-                      </div>`;
-              }
-              if (afterImg) {
+                      </div>
+                  `;
+              });
+              html += `</div></div>`;
+          }
+
+          // Gestione Foto "Dopo"
+          let afterList = [];
+          if (job.afterPhotos && Array.isArray(job.afterPhotos)) afterList = job.afterPhotos;
+          else if (job.afterPhotoUrl) afterList = [job.afterPhotoUrl];
+          else if (job.afterPhoto) afterList = [job.afterPhoto];
+
+          if (afterList.length > 0) {
+              html += `
+                  <div class="gallery-section-box">
+                      <div style="font-size:0.75rem; color:var(--accent-green); font-weight:bold; text-transform:uppercase;"><i class="fa-solid fa-camera"></i> Foto Dopo (${afterList.length})</div>
+                      <div class="gallery-grid-scroll">
+              `;
+              afterList.forEach(url => {
                   html += `
-                      <div class="job-photo-box">
-                          <span style="font-size:0.75rem; color:var(--accent-green); font-weight:bold; text-transform:uppercase;">📸 Foto Dopo</span><br>
-                          <img src="${afterImg}">
-                          <a href="${afterImg}" target="_blank" download="foto_dopo.jpg" class="btn" style="background:var(--accent-green); color:#000; font-size:0.65rem; padding:4px 8px; margin-top:4px; text-decoration:none; display:inline-block;">
-                              <i class="fa-solid fa-download"></i> Apri / Salva
+                      <div class="gallery-photo-card">
+                          <img src="${url}">
+                          <a href="${url}" target="_blank" download="foto_dopo.jpg" class="btn" style="background:var(--accent-green); color:#000; font-size:0.6rem; padding:3px 6px; width:100%; justify-content:center; text-decoration:none; margin-top:2px;">
+                              <i class="fa-solid fa-download"></i> Apri
                           </a>
-                      </div>`;
-              }
-              html += `</div>`;
-          } else {
-              html += `<div style="font-size:0.8rem; color:#777; text-align:center; margin-top:15px; font-style:italic;">Le foto "Prima e Dopo" saranno visibili qui non appena caricate dallo staff.</div>`;
+                      </div>
+                  `;
+              });
+              html += `</div></div>`;
+          }
+
+          if (beforeList.length === 0 && afterList.length === 0) {
+              html += `<div style="font-size:0.8rem; color:#777; text-align:center; margin-top:15px; font-style:italic;">Le foto "Prima e Dopo" saranno disponibili qui non appena caricate dallo staff.</div>`;
           }
 
           document.getElementById('jobDetailContent').innerHTML = html;
@@ -1215,7 +1240,7 @@
           });
       }
 
-      /* CLASSIFICA LIVE DEI CLIENTI CON TOP 3 E POSIZIONE ESATTA DELL'UTENTE */
+      /* CLASSIFICA LIVE TOP 3 + POSIZIONE PERSONALE */
       function listenToLeaderboard() {
           db.collection('users').orderBy('points', 'desc').onSnapshot(snapshot => {
               const listEl = document.getElementById('leaderboardList');
@@ -1233,7 +1258,6 @@
                   allUsers.push({ id: doc.id, ...doc.data() });
               });
 
-              // Mostra i primi 3 in cima alla lista
               let rank = 1;
               allUsers.slice(0, 3).forEach(u => {
                   const displayName = u.nickname ? `@${u.nickname}` : (u.name || 'Cliente');
@@ -1261,7 +1285,6 @@
                   rank++;
               });
 
-              // Se l'utente è loggato, calcola la sua posizione esatta nella classifica completa
               if (currentUser) {
                   const userIndex = allUsers.findIndex(u => u.id === currentUser.uid);
                   if (userIndex !== -1) {
