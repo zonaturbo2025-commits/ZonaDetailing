@@ -131,7 +131,8 @@
             .auth-container { width: 100%; display: flex; justify-content: center; }
         }
 
-        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+        .nav-user-avatar-img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--accent-green); background: #000; }
 
         .user-dropdown { position: absolute; top: 55px; right: 15px; background-color: #141414; border: 1px solid var(--accent-green); border-radius: 8px; width: 220px; display: none; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.85); z-index: 1001; }
         .user-dropdown a { padding: 12px 16px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #1e1e1e; }
@@ -270,7 +271,8 @@
             
             <li class="auth-container">
                 <button class="btn-auth-nav" id="btnAuth" onclick="handleAuthButtonClick()">
-                    <i class="fa-solid fa-user"></i> <span id="btnAuthText">Profilo</span>
+                    <span id="navAvatarContainer"><i class="fa-solid fa-user"></i></span> 
+                    <span id="btnAuthText">Profilo</span>
                 </button>
 
                 <div class="user-dropdown" id="userDropdown">
@@ -330,7 +332,7 @@
         </div>
     </section>
 
-    <!-- DIMOSTRAZIONI VIDEO -->
+    <!-- DIMOSTRAZIONI VIDEO (REELS INSTAGRAM) -->
     <section id="dimostrazioni" class="container">
         <h2 class="section-title">I Nostri <span>Lavori</span></h2>
         <div class="video-grid">
@@ -417,6 +419,9 @@
             <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control" placeholder="nome@gmail.com"></div>
             <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" placeholder="••••••••"></div>
             <button class="btn btn-whatsapp" onclick="handleEmailLogin()" style="width: 100%; justify-content: center;">Accedi al Garage</button>
+            <div style="margin-top:12px; text-align:center;">
+                <a href="javascript:void(0)" onclick="sendPasswordResetEmailInline()" style="color:#aaa; font-size:0.75rem; text-decoration:underline;">Password dimenticata? Recuperala qui</a>
+            </div>
         </div>
     </div>
 
@@ -502,15 +507,36 @@
         </div>
     </div>
 
-    <!-- MODALE SICUREZZA -->
+    <!-- MODALE SICUREZZA E PRIVACY COMPLETA -->
     <div class="modal-overlay" id="securityInfoModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeSecurityInfoModal()">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:12px;"><i class="fa-solid fa-shield-halved"></i> Sicurezza & Privacy</h3>
-            <p style="font-size:0.82rem; color:#aaa; text-align:left; line-height:1.6;">
-                I tuoi dati personali e le informazioni sui veicoli salvati nel tuo Garage Virtuale sono protetti con crittografia nativa su Firebase Firestore.<br><br>
-                Solo lo staff autorizzato di Zona Detailing ha accesso alla scheda dell'intervento per aggiornare lo stato dei lavori in tempo reale.
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:12px;"><i class="fa-solid fa-shield-halved"></i> Sicurezza & Gestione Account</h3>
+            
+            <p style="font-size:0.82rem; color:#aaa; text-align:left; line-height:1.6; margin-bottom:15px;">
+                🔒 <strong>Protezione Firestore:</strong> I tuoi dati personali ed il garage sono protetti da crittografia Cloud nativa su Firebase Firestore.<br>
+                Solo lo staff autorizzato di Zona Detailing ha accesso alla gestione degli interventi.
             </p>
+
+            <div style="border-top:1px solid #222; padding-top:12px; text-align:left;">
+                <h4 style="color:#fff; font-size:0.85rem; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-key"></i> Password & Recupero</h4>
+                <div class="form-group">
+                    <label>Invia Link di Ripristino Password via Email</label>
+                    <button class="btn btn-whatsapp" style="font-size:0.75rem; padding:8px 12px;" onclick="sendSecurityPasswordReset()"><i class="fa-solid fa-envelope-open-text"></i> Invia Email di Ripristino</button>
+                </div>
+
+                <div class="form-group" style="margin-top:10px;">
+                    <label>Cambia Password Direttamente</label>
+                    <input type="password" id="newSecPassword" class="form-control" placeholder="Nuova password (min. 6 caratteri)">
+                    <button class="btn btn-whatsapp" style="font-size:0.75rem; padding:8px 12px; margin-top:6px;" onclick="changeUserPasswordDirect()"><i class="fa-solid fa-lock"></i> Aggiorna Password</button>
+                </div>
+            </div>
+
+            <div style="border-top:1px solid #222; padding-top:12px; margin-top:12px; text-align:left;">
+                <h4 style="color:#fff; font-size:0.85rem; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-envelope-circle-check"></i> Codice di Verifica Email</h4>
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom:8px;">Verifica il tuo indirizzo email per attivare le notifiche di sicurezza.</p>
+                <button class="btn btn-whatsapp" style="font-size:0.75rem; padding:8px 12px;" onclick="sendEmailVerificationCode()"><i class="fa-solid fa-paper-plane"></i> Invia Email di Verifica Account</button>
+            </div>
         </div>
     </div>
 
@@ -540,10 +566,11 @@
           }
       }
 
-      /* AUTHENTICATION */
+      /* AUTHENTICATION E SINCRONIZZAZIONE AVATAR NAVBAR */
       auth.onAuthStateChanged(async (user) => {
           currentUser = user;
           const btnAuthText = document.getElementById('btnAuthText');
+          const avatarContainer = document.getElementById('navAvatarContainer');
           
           if (user) {
               btnAuthText.innerText = user.displayName ? user.displayName.split(' ')[0] : 'Profilo';
@@ -551,6 +578,15 @@
               db.collection('users').doc(user.uid).onSnapshot(doc => {
                   if (doc.exists) {
                       userData = doc.data();
+                      
+                      // Aggiorna foto profilo in alto a destra nella navbar
+                      if (userData.avatarUrl) {
+                          avatarContainer.innerHTML = `<img src="${userData.avatarUrl}" class="nav-user-avatar-img">`;
+                      } else {
+                          const defAvatar = user.photoURL || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
+                          avatarContainer.innerHTML = `<img src="${defAvatar}" class="nav-user-avatar-img">`;
+                      }
+
                       updateGarageUI(userData);
                   } else {
                       userData = {
@@ -566,6 +602,7 @@
               });
           } else {
               btnAuthText.innerText = "Accedi";
+              avatarContainer.innerHTML = `<i class="fa-solid fa-user"></i>`;
               userData = null;
           }
       });
@@ -617,6 +654,21 @@
 
       function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
 
+      /* RECUPERO PASSWORD RAPIDO DALLA MODALE LOGIN */
+      async function sendPasswordResetEmailInline() {
+          const email = document.getElementById('loginEmail').value;
+          if (!email) {
+              alert("Inserisci il tuo indirizzo email nel campo soprastante per ricevere il link di ripristino!");
+              return;
+          }
+          try {
+              await auth.sendPasswordResetEmail(email);
+              alert("Email di ripristino inviata a " + email + ". Controlla la tua casella di posta.");
+          } catch(e) {
+              alert("Errore invio email: " + e.message);
+          }
+      }
+
       /* VIRTUAL GARAGE OVERLAY */
       function openProfileOverlay() {
           document.getElementById('userDropdown').style.display = 'none';
@@ -639,7 +691,7 @@
           }, 600);
       }
 
-      /* AGGIORNAMENTO GARAGE CLIENTE CON MOSTRA FOTO PRIMA/DOPO DIRETTAMENTE */
+      /* AGGIORNAMENTO GARAGE CLIENTE CON MOSTRA FOTO PRIMA/DOPO */
       function updateGarageUI(data) {
           if (!data) return;
 
@@ -672,7 +724,7 @@
                           statusBadge = '<span style="color:var(--accent-green); font-weight:bold;"><i class="fa-solid fa-circle-check"></i> Eseguito</span>';
                       }
 
-                      // Trova gli URL delle foto leggendo entrambe le forme del campo
+                      // Trova gli URL delle foto leggendo sia beforePhotoUrl che beforePhoto
                       const beforeImg = j.beforePhotoUrl || j.beforePhoto || '';
                       const afterImg = j.afterPhotoUrl || j.afterPhoto || '';
 
@@ -856,8 +908,47 @@
           }
       }
 
+      /* FUNZIONALITÀ DI SICUREZZA, CAMBIO PASSWORD E VERIFICA EMAIL */
       function openSecurityInfoModal() { document.getElementById('securityInfoModal').style.display = 'flex'; }
       function closeSecurityInfoModal() { document.getElementById('securityInfoModal').style.display = 'none'; }
+
+      async function sendSecurityPasswordReset() {
+          if (!currentUser || !currentUser.email) {
+              alert("Devi essere autenticato per richiedere il reset!");
+              return;
+          }
+          try {
+              await auth.sendPasswordResetEmail(currentUser.email);
+              alert("Email di ripristino password inviata a " + currentUser.email);
+          } catch(e) {
+              alert("Errore invio email: " + e.message);
+          }
+      }
+
+      async function changeUserPasswordDirect() {
+          const newPass = document.getElementById('newSecPassword').value;
+          if (!newPass || newPass.length < 6) {
+              alert("Inserisci una password valida di almeno 6 caratteri!");
+              return;
+          }
+          try {
+              await currentUser.updatePassword(newPass);
+              alert("Password aggiornata con successo!");
+              document.getElementById('newSecPassword').value = "";
+          } catch(e) {
+              alert("Errore cambio password (potrebbe essere necessario rieffettuare il login): " + e.message);
+          }
+      }
+
+      async function sendEmailVerificationCode() {
+          if (!currentUser) return;
+          try {
+              await currentUser.sendEmailVerification();
+              alert("Email di verifica inviata all'indirizzo " + currentUser.email + ". Controlla la tua posta!");
+          } catch(e) {
+              alert("Errore invio verifica: " + e.message);
+          }
+      }
 
       function scrollToTicketSection() {
           document.getElementById('userDropdown').style.display = 'none';
