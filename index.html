@@ -9,7 +9,7 @@
     <link rel="apple-touch-icon" href="logo.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Zona Admin">
+    <meta name="apple-mobile-web-app-title" content="Zona Detailing">
 
     <!-- Font Google: Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,8 +48,6 @@
       firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
       const auth = firebase.auth();
-
-      const ADMIN_EMAIL = "info@zonadetailing.it";
 
       const carDatabase = {
         "Abarth": ["595", "695", "124 Spider", "Pulse"],
@@ -200,12 +198,6 @@
         .review-author img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1px solid var(--accent-green); background: #000; }
         .review-car-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; border: 1px solid #333; }
 
-        /* SELETTORE COLORI A CERCHIO */
-        .color-picker-grid { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
-        .color-dot { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid #333; transition: transform 0.2s, border-color 0.2s; }
-        .color-dot:hover { transform: scale(1.15); }
-        .color-dot.selected { border-color: var(--accent-green); transform: scale(1.2); box-shadow: 0 0 10px var(--accent-green); }
-
         /* MODALI & OVERLAY */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 15px; }
         .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 520px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
@@ -246,7 +238,7 @@
         .car-neon-plate { background: #000; border: 1px solid #333; border-bottom: 3px solid var(--accent-green); border-radius: 8px; padding: 10px; width: 100%; text-align: center; }
 
         .car-jobs-section { margin-top: 12px; width: 100%; text-align: left; background: #141414; border-radius: 8px; padding: 10px; font-size: 0.8rem; border: 1px solid #222; }
-        .job-item-card { background: #0b0d0b; border: 1px solid #222; padding: 8px; border-radius: 6px; margin-top: 6px; cursor: pointer; }
+        .job-item-card { background: #0b0d0b; border: 1px solid #222; padding: 8px; border-radius: 6px; margin-top: 6px; cursor: pointer; transition: border-color 0.2s; }
         .job-item-card:hover { border-color: var(--accent-green); }
 
         .add-parking-spot { border: 2px dashed #333; border-radius: 15px; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); }
@@ -263,7 +255,6 @@
 
         .photo-preview-wrapper { position: relative; display: inline-block; margin-top: 6px; }
         .photo-preview-img { width: 70px; height: 70px; border-radius: 6px; object-fit: cover; border: 1px solid var(--accent-green); }
-        .btn-remove-photo { position: absolute; top: -6px; right: -6px; background: #ff4444; color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; font-weight: 900; font-size: 11px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -293,7 +284,6 @@
                     <a href="javascript:void(0)" onclick="openUserProfileModal()"><i class="fa-solid fa-id-card" style="color:var(--accent-green);"></i> Il Mio Profilo</a>
                     <a href="javascript:void(0)" onclick="openSecurityInfoModal()"><i class="fa-solid fa-shield-halved" style="color:var(--accent-green);"></i> Sicurezza</a>
                     <a href="#ticket" onclick="scrollToTicketSection()"><i class="fa-solid fa-headset" style="color:var(--accent-green);"></i> Assistenza Clienti</a>
-                    <a href="javascript:void(0)" id="adminDropdownLink" onclick="openAdminModal()" style="display:none; color: var(--accent-green);"><i class="fa-solid fa-user-shield"></i> Pannello Admin</a>
                     <a href="javascript:void(0)" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
                 </div>
             </li>
@@ -363,7 +353,7 @@
         </div>
     </section>
 
-    <!-- ⭐ SEZIONE RECENSIONI PUBBLICHE IN FONDA ALLA PAGINA ⭐ -->
+    <!-- ⭐ SEZIONE RECENSIONI PUBBLICHE IN FONDO ALLA PAGINA ⭐ -->
     <section id="recensioni" class="container">
         <h2 class="section-title">Dicono di <span>Noi</span></h2>
         
@@ -444,745 +434,544 @@
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
                 <div style="display:flex; align-items:center; gap:12px; text-align:left;">
                     <div style="position:relative; cursor:pointer;" onclick="document.getElementById('profileAvatarInput').click()" title="Cambia foto profilo">
-                        <img id="profileUserAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" style="width:55px; height:55px; border-radius:50%; border:2px solid var(--accent-green); background:#000; object-fit:cover;" alt="Avatar">
-                        <div style="position:absolute; bottom:0; right:0; background:var(--accent-green); color:#000; width:18px; height:18px; border-radius:50%; font-size:10px; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-camera"></i></div>
+                        <img id="profileUserAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" style="width:50px; height:50px; border-radius:50%; border:2px solid var(--accent-green); object-fit:cover; background:#000;">
+                        <input type="file" id="profileAvatarInput" style="display:none;" accept="image/*" onchange="uploadUserProfileAvatar(event)">
                     </div>
-                    <input type="file" id="profileAvatarInput" style="display:none;" accept="image/*" onchange="uploadProfileAvatar(event)">
                     <div>
-                        <h2 id="profileUserName" style="color: var(--accent-green); text-transform:uppercase; font-size:1.1rem;">Garage Showroom</h2>
-                        <p id="profileUserNickname" style="color:#aaa; font-size:0.75rem;"></p>
-                        <p id="tierTitle" style="color:#ffd700; font-weight:bold; font-size:0.8rem;">Bronze Detailer 🥉</p>
+                        <h2 style="font-size:1.1rem; color:#fff; text-transform:uppercase;"><span id="garageOwnerName">MIO</span> GARAGE</h2>
+                        <div id="garageUserTier" style="font-size:0.75rem; font-weight:800; color:#ffd700;">Bronze Detailer 🥉</div>
                     </div>
                 </div>
-                <div>
-                    <button class="btn btn-whatsapp" onclick="closeProfileOverlay()" style="padding: 10px 14px; font-size:0.75rem;">Chiudi Garage</button>
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <div style="text-align:right;">
+                        <div style="font-size:0.7rem; color:#aaa; text-transform:uppercase; font-weight:bold;">Punti Fedeltà</div>
+                        <div style="font-size:1.2rem; font-weight:900; color:var(--accent-green);" id="garageUserPoints">0 PT</div>
+                    </div>
+                    <button class="btn" style="background:#ff4444; color:#fff; padding:6px 12px; font-size:0.75rem;" onclick="closeProfileOverlay()"><i class="fa-solid fa-xmark"></i> Esci</button>
                 </div>
             </div>
         </div>
 
-        <h3 style="margin-bottom:15px; color:var(--accent-green); text-transform:uppercase; font-size:1rem; display:flex; align-items:center; gap:8px;">
-            <i class="fa-solid fa-warehouse"></i> Posti Auto Riservati & Storico
-        </h3>
-
-        <div class="garage-bay-grid" id="vehiclesList"></div>
+        <div class="garage-bay-grid" id="garageBayGrid">
+            <!-- I Posti Auto del cliente vengono generati dinamicamente -->
+        </div>
     </div>
 
-    <!-- MODALE MODIFICA NICKNAME & PROFILO CLIENTE -->
+    <!-- MODALE AGGIUNGI NUOVA AUTO -->
+    <div class="modal-overlay" id="addCarModal">
+        <div class="modal-box">
+            <span class="modal-close" onclick="closeAddCarModal()">&times;</span>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;"><i class="fa-solid fa-car-side"></i> Aggiungi Veicolo al Garage</h3>
+            
+            <div class="form-group">
+                <label>Marca Auto</label>
+                <select id="carBrandSelect" class="form-control" onchange="populateCarModelsDropdown()">
+                    <option value="">-- Seleziona Marca --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Modello Auto</label>
+                <select id="carModelSelect" class="form-control">
+                    <option value="">-- Seleziona prima la Marca --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Targa (Opzionale per identificazione)</label>
+                <input type="text" id="carPlateInput" class="form-control" placeholder="Es. AA123BB">
+            </div>
+
+            <button class="btn btn-whatsapp" style="width:100%; justify-content:center; margin-top:10px;" onclick="saveNewCarToGarage()">
+                <i class="fa-solid fa-plus-circle"></i> Parcheggia nel Garage
+            </button>
+        </div>
+    </div>
+
+    <!-- MODALE DETTAGLI E FOTO LAVORO CLIENTE -->
+    <div class="modal-overlay" id="jobDetailModal">
+        <div class="modal-box">
+            <span class="modal-close" onclick="closeJobDetailModal()">&times;</span>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:12px;"><i class="fa-solid fa-circle-info"></i> Dettaglio Intervento</h3>
+            <div id="jobDetailContent" style="text-align:left; font-size:0.88rem; color:#ddd;"></div>
+        </div>
+    </div>
+
+    <!-- MODALE PROFILO UTENTE -->
     <div class="modal-overlay" id="userProfileModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeUserProfileModal()">&times;</span>
-            <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 15px;"><i class="fa-solid fa-id-card"></i> Il Mio Profilo</h3>
-            <div class="form-group"><label>Nome</label><input type="text" id="editUserName" class="form-control"></div>
-            <div class="form-group"><label>Nickname Personale</label><input type="text" id="editUserNickname" class="form-control" placeholder="Es. SpeedRacer, Driver99"></div>
-            <div class="form-group"><label>Email Registrata</label><input type="text" id="editUserEmail" class="form-control" readonly style="opacity:0.6;"></div>
-            <button class="btn btn-whatsapp" onclick="saveUserProfileDetails()" style="width: 100%; justify-content: center;">Salva Modifiche</button>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;"><i class="fa-solid fa-id-card"></i> Modifica Profilo</h3>
+            <div class="form-group"><label>Nome e Cognome</label><input type="text" id="editUserName" class="form-control"></div>
+            <div class="form-group"><label>Nickname (@username)</label><input type="text" id="editUserNickname" class="form-control" placeholder="Es. marco_detail"></div>
+            <button class="btn btn-whatsapp" style="width:100%; justify-content:center;" onclick="saveUserProfileData()">Salva Modifiche</button>
         </div>
     </div>
 
     <!-- MODALE SICUREZZA -->
     <div class="modal-overlay" id="securityInfoModal">
-        <div class="modal-box" style="text-align:left;">
-            <span class="modal-close" onclick="closeSecurityInfoModal()">&times;</span>
-            <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 12px; text-align:center;"><i class="fa-solid fa-shield-halved"></i> Sicurezza Account</h3>
-            <p style="font-size:0.85rem; color:#ccc; margin-bottom:15px;">Tutti i tuoi dati personali, il garage ed i biglietti di assistenza sono cifrati in sicurezza su database protetto Firebase.</p>
-            <button class="btn btn-whatsapp" onclick="sendPasswordResetEmail()" style="width: 100%; justify-content: center;"><i class="fa-solid fa-key"></i> Invia Email di Reset Password</button>
-        </div>
-    </div>
-
-    <!-- MODALE AGGIUNGI AUTO CON SELETTORE COLORI A CERCHIO -->
-    <div class="modal-overlay" id="addCarModal">
         <div class="modal-box">
-            <span class="modal-close" onclick="toggleAddCarModal(false)">&times;</span>
-            <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 15px;">Aggiungi Auto al Garage</h3>
-            <div class="form-group"><label>Marca</label><select id="carBrandSelect" class="form-control" onchange="populateModels(this.value)"><option value="">Seleziona Marca</option></select></div>
-            <div class="form-group"><label>Modello</label><select id="carModelSelect" class="form-control"><option value="">Prima seleziona la marca</option></select></div>
-            
-            <div class="form-group">
-                <label>Colore Carrozzeria</label>
-                <input type="hidden" id="selectedCarColorHex" value="#000000">
-                <input type="hidden" id="selectedCarColor" value="Nero Lucido">
-                <div class="color-picker-grid">
-                    <div class="color-dot selected" style="background:#000000;" onclick="selectCarColor('#000000', 'Nero Lucido', this)" title="Nero Lucido"></div>
-                    <div class="color-dot" style="background:#ffffff;" onclick="selectCarColor('#ffffff', 'Bianco Perla', this)" title="Bianco Perla"></div>
-                    <div class="color-dot" style="background:#808080;" onclick="selectCarColor('#808080', 'Grigio Nardò', this)" title="Grigio Nardò"></div>
-                    <div class="color-dot" style="background:#cc0000;" onclick="selectCarColor('#cc0000', 'Rosso Ferrari', this)" title="Rosso Ferrari"></div>
-                    <div class="color-dot" style="background:#0033cc;" onclick="selectCarColor('#0033cc', 'Blu Elettrico', this)" title="Blu Elettrico"></div>
-                    <div class="color-dot" style="background:#c0c0c0;" onclick="selectCarColor('#c0c0c0', 'Argento Met.', this)" title="Argento Metallizzato"></div>
-                    <div class="color-dot" style="background:#1b4d3e;" onclick="selectCarColor('#1b4d3e', 'Verde Inglese', this)" title="Verde Inglese"></div>
-                    <div class="color-dot" style="background:#ffcc00;" onclick="selectCarColor('#ffcc00', 'Giallo Modena', this)" title="Giallo Modena"></div>
-                </div>
-            </div>
-
-            <div class="form-group"><label>Targa o Anno</label><input type="text" id="carPlateInput" class="form-control" placeholder="Es. AB123CD o 2024"></div>
-            <div class="form-group"><label>Dettagli / Note Extra</label><textarea id="carDetailsInput" class="form-control" rows="2" placeholder="Es. Interni in pelle bianca, cerchi da 20 pollici..."></textarea></div>
-            <button class="btn btn-whatsapp" onclick="saveUserVehicle()" style="width: 100%; justify-content: center;">Salva nel Box</button>
-        </div>
-    </div>
-
-    <!-- MODALE SCHEDA DETTAGLIO LAVORO & FOTO PRIMA/DOPO -->
-    <div class="modal-overlay" id="jobDetailModal">
-        <div class="modal-box" style="max-width:450px;">
-            <span class="modal-close" onclick="closeJobDetailModal()">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; font-size:1rem; margin-bottom:12px;"><i class="fa-solid fa-camera-retro"></i> Dettaglio Intervento</h3>
-            <div id="jobDetailContent" style="text-align:left; font-size:0.85rem; color:#ccc;"></div>
-        </div>
-    </div>
-
-    <!-- 🛠️ MODALE PANNELLO GESTIONALE ADMIN STAFF 🛠️ -->
-    <div class="modal-overlay" id="adminModal">
-        <div class="modal-box" style="max-width:720px; text-align:left;">
-            <span class="modal-close" onclick="closeAdminModal()">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:12px; text-align:center; font-size:1.1rem;"><i class="fa-solid fa-user-shield"></i> Dashboard Gestionale Staff</h3>
-            
-            <div style="background:#0e110e; border:1px solid var(--accent-green); padding:12px; border-radius:8px; margin-bottom:15px;">
-                <h4 style="color:var(--accent-green); font-size:0.85rem; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-calendar-days"></i> Resoconto Agenda & Lavori</h4>
-                <div style="display:flex; gap:8px; margin-bottom:10px;">
-                    <div class="form-group" style="flex:1; margin-bottom:0;"><label>Filtra Anno</label><select id="reportYear" class="form-control" onchange="loadAdminReport()"><option value="2026">2026</option><option value="2025">2025</option><option value="ALL">Tutti</option></select></div>
-                    <div class="form-group" style="flex:1; margin-bottom:0;"><label>Filtra Mese</label><select id="reportMonth" class="form-control" onchange="loadAdminReport()"><option value="ALL">Tutti i Mesi</option><option value="01">Gen</option><option value="02">Feb</option><option value="03">Mar</option><option value="04">Apr</option><option value="05">Mag</option><option value="06">Giu</option><option value="07">Lug</option><option value="08">Ago</option><option value="09">Set</option><option value="10">Ott</option><option value="11">Nov</option><option value="12">Dic</option></select></div>
-                </div>
-                <div id="adminReportResults" style="background:#080a08; border:1px solid #222; padding:8px; border-radius:6px; max-height:150px; overflow-y:auto; font-size:0.78rem; color:#ccc;">Seleziona i filtri.</div>
-            </div>
-
-            <div class="form-group">
-                <label style="color:var(--accent-green);">Cerca Cliente (Nome, Nickname o Email)</label>
-                <input type="text" id="adminSearchClientInput" class="form-control" placeholder="Digitare per filtrare..." oninput="filterAdminClients(this.value)">
-            </div>
-
-            <div class="form-group"><label style="color:var(--accent-green);">Seleziona Cliente</label><select id="adminClientDropdown" class="form-control" onchange="selectClientAdmin(this.value)"><option value="">-- Scegli cliente --</option></select></div>
-
-            <div style="background:#0e110e; border:1px solid #333; padding:12px; border-radius:8px; margin-bottom:12px;">
-                <h4 style="color:var(--accent-green); font-size:0.85rem; text-transform:uppercase;"><i class="fa-solid fa-car"></i> 1. Garage & Interventi Cliente</h4>
-                <div id="adminClientGarageInfo" style="font-size:0.8rem; color:#aaa; margin-top:6px;">Seleziona un cliente.</div>
-            </div>
-
-            <div id="adminJobContainer" style="background:#0e110e; border:1px solid #333; padding:12px; border-radius:8px; margin-bottom:12px; opacity:0.5; pointer-events:none;">
-                <h4 style="color:var(--accent-green); font-size:0.85rem; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-calendar-check"></i> 2. Assegna Intervento & Doppia Foto</h4>
-                <div class="form-group"><label>Auto</label><select id="adminCarSelect" class="form-control"></select></div>
-                <div class="form-group"><label>Stato</label><select id="adminJobStatus" class="form-control"><option value="prog">⏳ Programmato</option><option value="done">✅ Eseguito</option><option value="completed">🏁 Completato a Oggi</option></select></div>
-                <div class="form-group"><label>Servizio</label><input type="text" id="adminJobDesc" class="form-control" placeholder="Es. Igienizzazione + Ceramica"></div>
-                <div style="display:flex; gap:8px;">
-                    <div class="form-group" style="flex:1;"><label>Data</label><input type="date" id="adminJobDate" class="form-control"></div>
-                    <div class="form-group" style="flex:1;"><label>Ora</label><input type="time" id="adminJobTime" class="form-control"></div>
-                </div>
-                <div class="form-group"><label>Indirizzo</label><input type="text" id="adminJobAddress" class="form-control" placeholder="Via Roma 123"></div>
-                <div class="form-group"><label>Punti</label><input type="number" id="adminJobPoints" class="form-control" value="100"></div>
-                
-                <div class="form-group"><label style="color:#ffb700;">Foto PRIMA</label><input type="file" id="adminBeforePhotoFile" class="form-control" accept="image/*" onchange="handlePhotoUpload(event, 'before')"><input type="hidden" id="adminBeforePhotoUrl"><div id="adminBeforePreview"></div></div>
-                <div class="form-group"><label style="color:var(--accent-green);">Foto DOPO</label><input type="file" id="adminAfterPhotoFile" class="form-control" accept="image/*" onchange="handlePhotoUpload(event, 'after')"><input type="hidden" id="adminAfterPhotoUrl"><div id="adminAfterPreview"></div></div>
-
-                <button class="btn btn-whatsapp" style="width:100%; justify-content:center; margin-top:5px;" onclick="saveAdminJob()">Salva Intervento</button>
-            </div>
-
-            <div id="adminAccountActions" style="background:#0e110e; border:1px solid #333; padding:12px; border-radius:8px; opacity:0.5; pointer-events:none; display:flex; gap:8px;">
-                <button class="btn btn-whatsapp" style="background:#ffb700; color:#000; flex:1; font-size:0.75rem;" onclick="resetSelectedClientData()">Azzera Punti</button>
-                <button class="btn btn-whatsapp" style="background:#ff4444; flex:1; font-size:0.75rem;" onclick="deleteSelectedClientAccount()">Elimina Account</button>
-            </div>
+            <span class="modal-close" onclick="closeSecurityInfoModal()">&times;</span>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:12px;"><i class="fa-solid fa-shield-halved"></i> Sicurezza & Privacy</h3>
+            <p style="font-size:0.82rem; color:#aaa; text-align:left; line-height:1.6;">
+                I tuoi dati personali e le informazioni sui veicoli salvati nel tuo Garage Virtuale sono protetti con crittografia nativa su Firebase Firestore.<br><br>
+                Solo lo staff autorizzato di Zona Detailing ha accesso alla scheda dell'intervento per aggiornare lo stato dei lavori in tempo reale.
+            </p>
         </div>
     </div>
 
     <script>
-      let currentUser = null, currentUserData = null, googleProvider = new firebase.auth.GoogleAuthProvider();
-      let selectedAdminUserDoc = null;
-      let allAdminClients = [];
+      let currentUser = null;
+      let userData = null;
 
-      auth.onAuthStateChanged(async (user) => {
-          currentUser = user;
-          const btnAuth = document.getElementById('btnAuth');
-          const adminDropdownLink = document.getElementById('adminDropdownLink');
-
-          if (user) {
-              const doc = await db.collection('users').doc(user.uid).get();
-              currentUserData = doc.exists ? doc.data() : { name: user.displayName || 'Cliente', nickname: '', email: user.email, points: 0, vehicles: [] };
-
-              const avatarUrl = currentUserData.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
-              btnAuth.className = "nav-avatar-btn";
-              btnAuth.innerHTML = `<img src="${avatarUrl}" class="nav-avatar-img">`;
-
-              if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-                  adminDropdownLink.style.display = "flex";
-              } else {
-                  adminDropdownLink.style.display = "none";
-              }
-          } else {
-              currentUserData = null;
-              btnAuth.className = "btn-auth-nav";
-              btnAuth.innerHTML = `<i class="fa-solid fa-user"></i> <span id="btnAuthText">Profilo</span>`;
-              adminDropdownLink.style.display = "none";
+      // Inizializzazione Tendina Marche Auto
+      window.addEventListener('DOMContentLoaded', () => {
+          const brandSelect = document.getElementById('carBrandSelect');
+          if (brandSelect) {
+              Object.keys(carDatabase).sort().forEach(brand => {
+                  brandSelect.innerHTML += `<option value="${brand}">${brand}</option>`;
+              });
           }
-          loadPublicReviews();
+          listenToPublicReviews();
       });
 
-      function toggleMobileMenu() {
-          const nav = document.getElementById('navLinksMenu');
-          nav.classList.toggle('active');
+      function populateCarModelsDropdown() {
+          const brand = document.getElementById('carBrandSelect').value;
+          const modelSelect = document.getElementById('carModelSelect');
+          modelSelect.innerHTML = '<option value="">-- Seleziona Modello --</option>';
+
+          if (brand && carDatabase[brand]) {
+              carDatabase[brand].forEach(model => {
+                  modelSelect.innerHTML += `<option value="${model}">${model}</option>`;
+              });
+          }
       }
-      function closeMobileMenu() {
-          document.getElementById('navLinksMenu').classList.remove('active');
-      }
+
+      /* GESTIONE AUTHENTICATION */
+      auth.onAuthStateChanged(async (user) => {
+          currentUser = user;
+          const btnAuthText = document.getElementById('btnAuthText');
+          
+          if (user) {
+              btnAuthText.innerText = user.displayName ? user.displayName.split(' ')[0] : 'Profilo';
+              
+              // Ascolta modifiche utente in tempo reale
+              db.collection('users').doc(user.uid).onSnapshot(doc => {
+                  if (doc.exists) {
+                      userData = doc.data();
+                      updateGarageUI(userData);
+                  } else {
+                      // Crea nuovo profilo cliente se non esiste
+                      userData = {
+                          name: user.displayName || 'Cliente',
+                          email: user.email,
+                          points: 0,
+                          vehicles: [],
+                          avatarUrl: user.photoURL || ''
+                      };
+                      db.collection('users').doc(user.uid).set(userData);
+                      updateGarageUI(userData);
+                  }
+              });
+          } else {
+              btnAuthText.innerText = "Accedi";
+              userData = null;
+          }
+      });
 
       function handleAuthButtonClick() {
           if (currentUser) {
               const dropdown = document.getElementById('userDropdown');
-              dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+              dropdown.style.display = (dropdown.style.display === 'flex') ? 'none' : 'flex';
           } else {
-              openAuthModal();
+              document.getElementById('authModal').style.display = 'flex';
           }
       }
 
-      function openAuthModal() { closeMobileMenu(); document.getElementById('authModal').style.display = 'flex'; }
-      function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
+      function toggleMobileMenu() {
+          document.getElementById('navLinksMenu').classList.toggle('active');
+      }
+
+      function closeMobileMenu() {
+          document.getElementById('navLinksMenu').classList.remove('active');
+      }
 
       async function handleGoogleAuth() {
+          const provider = new firebase.auth.GoogleAuthProvider();
           try {
-              const res = await auth.signInWithPopup(googleProvider);
-              const user = res.user;
-              const userRef = db.collection('users').doc(user.uid);
-              const doc = await userRef.get();
-              if (!doc.exists) {
-                  await userRef.set({ name: user.displayName || user.email.split('@')[0], nickname: '', email: user.email, avatarUrl: user.photoURL || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1', points: 0, vehicles: [] });
-              }
+              await auth.signInWithPopup(provider);
               closeAuthModal();
-          } catch(e) { alert("Errore login: " + e.message); }
+          } catch(e) { alert("Errore Google Auth: " + e.message); }
       }
 
       async function handleEmailLogin() {
           const email = document.getElementById('loginEmail').value;
           const pass = document.getElementById('loginPassword').value;
-          if(!email || !pass) return alert("Inserisci email e password!");
           try {
               await auth.signInWithEmailAndPassword(email, pass);
               closeAuthModal();
-          } catch(e) { alert("Errore login: " + e.message); }
+          } catch(e) {
+              // Se l'utente non esiste, registra automaticamente
+              try {
+                  await auth.createUserWithEmailAndPassword(email, pass);
+                  closeAuthModal();
+              } catch(err) { alert("Errore Accesso: " + err.message); }
+          }
       }
 
       function logoutUser() {
-          auth.signOut().then(() => {
-              document.getElementById('userDropdown').style.display = 'none';
-              window.location.reload();
-          });
-      }
-
-      function scrollToTicketSection() {
+          auth.signOut();
           document.getElementById('userDropdown').style.display = 'none';
-          closeMobileMenu();
-          document.getElementById('ticket').scrollIntoView({ behavior: 'smooth' });
+          closeProfileOverlay();
       }
 
-      function openUserProfileModal() {
+      function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
+
+      /* 🏎️ SHOWROOM VIRTUAL GARAGE OVERLAY 🏎️ */
+      function openProfileOverlay() {
           document.getElementById('userDropdown').style.display = 'none';
-          if (!currentUser) return openAuthModal();
-          document.getElementById('editUserName').value = currentUserData.name || '';
-          document.getElementById('editUserNickname').value = currentUserData.nickname || '';
-          document.getElementById('editUserEmail').value = currentUserData.email || '';
-          document.getElementById('userProfileModal').style.display = 'flex';
-      }
-      function closeUserProfileModal() { document.getElementById('userProfileModal').style.display = 'none'; }
-
-      async function saveUserProfileDetails() {
-          const name = document.getElementById('editUserName').value;
-          const nickname = document.getElementById('editUserNickname').value;
-          currentUserData.name = name;
-          currentUserData.nickname = nickname;
-          await db.collection('users').doc(currentUser.uid).update({ name, nickname });
-          alert("Profilo aggiornato con successo!");
-          closeUserProfileModal();
-      }
-
-      function openSecurityInfoModal() {
-          document.getElementById('userDropdown').style.display = 'none';
-          if (!currentUser) return openAuthModal();
-          document.getElementById('securityInfoModal').style.display = 'flex';
-      }
-      function closeSecurityInfoModal() { document.getElementById('securityInfoModal').style.display = 'none'; }
-
-      async function sendPasswordResetEmail() {
-          try {
-              await auth.sendPasswordResetEmail(currentUser.email);
-              alert("Email di ripristino inviata a: " + currentUser.email);
-              closeSecurityInfoModal();
-          } catch(e) { alert("Errore: " + e.message); }
-      }
-
-      async function uploadProfileAvatar(event) {
-          const file = event.target.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = async function(e) {
-              const base64 = e.target.result;
-              currentUserData.avatarUrl = base64;
-              await db.collection('users').doc(currentUser.uid).update({ avatarUrl: base64 });
-              document.getElementById('profileUserAvatar').src = base64;
-              document.getElementById('btnAuth').innerHTML = `<img src="${base64}" class="nav-avatar-img">`;
-              alert("Foto profilo aggiornata!");
-          };
-          reader.readAsDataURL(file);
-      }
-
-      async function openProfileOverlay() {
-          document.getElementById('userDropdown').style.display = 'none';
-          closeMobileMenu();
-          if (!currentUser) return openAuthModal();
-          const doc = await db.collection('users').doc(currentUser.uid).get();
-          currentUserData = doc.data();
-
-          document.getElementById('profileUserName').innerText = currentUserData.name || currentUser.email;
-          document.getElementById('profileUserNickname').innerText = currentUserData.nickname ? `@${currentUserData.nickname}` : '';
-          document.getElementById('profileUserAvatar').src = currentUserData.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
-          const tier = getClientTier(currentUserData.points || 0);
-          document.getElementById('tierTitle').innerHTML = `${tier.name} — Punti: ${currentUserData.points || 0}`;
-
-          renderUserVehicles();
-          
           const overlay = document.getElementById('profileOverlay');
           const shutter = document.getElementById('garageShutter');
-          shutter.classList.remove('open');
-          overlay.style.display = 'block';
           
-          setTimeout(() => { shutter.classList.add('open'); }, 100);
+          overlay.style.display = 'block';
+          shutter.classList.remove('open');
+
+          setTimeout(() => {
+              shutter.classList.add('open');
+          }, 100);
       }
 
-      function closeProfileOverlay() { 
+      function closeProfileOverlay() {
           const shutter = document.getElementById('garageShutter');
           shutter.classList.remove('open');
-          setTimeout(() => { document.getElementById('profileOverlay').style.display = 'none'; }, 800);
+          setTimeout(() => {
+              document.getElementById('profileOverlay').style.display = 'none';
+          }, 600);
       }
 
-      function renderUserVehicles() {
-          const list = document.getElementById('vehiclesList');
-          list.innerHTML = "";
-          (currentUserData.vehicles || []).forEach((v, idx) => {
+      /* AGGIORNAMENTO GRAFICO GARAGE CLIENTE CON STATO LAVORAZIONE UNICO */
+      function updateGarageUI(data) {
+          if (!data) return;
+
+          document.getElementById('garageOwnerName').innerText = data.name ? data.name.toUpperCase() : 'MIO';
+          const points = data.points || 0;
+          document.getElementById('garageUserPoints').innerText = `${points} PT`;
+
+          const tier = getClientTier(points);
+          const tierEl = document.getElementById('garageUserTier');
+          tierEl.innerText = tier.name;
+          tierEl.style.color = tier.color;
+
+          if (data.avatarUrl) {
+              document.getElementById('profileUserAvatar').src = data.avatarUrl;
+          }
+
+          const grid = document.getElementById('garageBayGrid');
+          grid.innerHTML = "";
+
+          const vehicles = data.vehicles || [];
+
+          vehicles.forEach((v, vIdx) => {
               let jobsHtml = "";
               if (v.jobs && v.jobs.length > 0) {
                   v.jobs.forEach((j, jIdx) => {
-                      const tag = j.status === 'done' ? '<span style="color:#a6f700; font-weight:bold;">ESEGUITO</span>' : '<span style="color:#ffb700; font-weight:bold;">PROGRAMMATO</span>';
+                      let statusBadge = '<span style="color:#ffb700; font-weight:bold;"><i class="fa-solid fa-clock"></i> Programmato</span>';
+                      if (j.status === 'working') {
+                          statusBadge = '<span style="color:#3399ff; font-weight:bold;"><i class="fa-solid fa-gears"></i> IN LAVORAZIONE</span>';
+                      } else if (j.status === 'done') {
+                          statusBadge = '<span style="color:var(--accent-green); font-weight:bold;"><i class="fa-solid fa-circle-check"></i> Eseguito</span>';
+                      }
+
                       jobsHtml += `
-                          <div class="job-item-card" onclick="openJobDetailModal(${idx}, ${jIdx})">
-                              ${tag} ${j.desc} — 📅 ${j.jobDate || 'Da definire'} <i class="fa-solid fa-chevron-right" style="float:right; font-size:10px; color:#777;"></i>
-                          </div>`;
+                          <div class="job-item-card" onclick="openJobDetailModal(${vIdx}, ${jIdx})">
+                              <div style="display:flex; justify-content:space-between; align-items:center;">
+                                  <strong>${j.desc || 'Intervento Detailing'}</strong>
+                                  <span style="font-size:0.7rem;">${statusBadge}</span>
+                              </div>
+                              <div style="font-size:0.72rem; color:#aaa; margin-top:3px;">
+                                  📅 ${j.jobDate || 'Data n/d'} ore ${j.jobTime || '--:--'}
+                              </div>
+                          </div>
+                      `;
                   });
               } else {
-                  jobsHtml = `<div style="color:#777; margin-top:4px; font-size:0.75rem;">Nessun intervento registrato.</div>`;
+                  jobsHtml = `<div style="color:#666; font-size:0.75rem; text-align:center; padding:5px;">Nessun intervento attivo.</div>`;
               }
 
-              const carColorStyle = v.colorHex ? `color:${v.colorHex};` : 'color:var(--accent-green);';
-
-              list.innerHTML += `
+              grid.innerHTML += `
                   <div class="parking-spot">
-                      <span class="spot-number-badge">POSTO AUTO #${idx+1}</span>
-                      <button class="btn-delete-car" onclick="deleteUserVehicle(${idx})"><i class="fa-solid fa-trash"></i></button>
-                      
+                      <div class="spot-number-badge">BAY ${vIdx + 1}</div>
+                      <button class="btn-delete-car" onclick="deleteCarFromGarage(${vIdx})" title="Rimuovi veicolo"><i class="fa-solid fa-trash-can"></i></button>
+
                       <div class="car-parking-graphics">
-                          <i class="fa-solid fa-car-side" style="${carColorStyle}"></i>
+                          <i class="fa-solid fa-car-side" style="color:var(--accent-green);"></i>
                           <div class="parking-floor-lines"></div>
                       </div>
 
                       <div class="car-neon-plate">
                           <strong style="font-size:0.95rem; color:#fff;">${v.brand} ${v.model}</strong><br>
-                          <span style="font-size:0.75rem; color:var(--accent-green);">${v.colorName ? 'Colore: ' + v.colorName + ' | ' : ''} ${v.plate || 'No Targa'}</span>
-                          ${v.details ? '<br><span style="font-size:0.7rem; color:#aaa;">' + v.details + '</span>' : ''}
+                          <span style="font-size:0.75rem; color:#aaa; font-weight:bold;">${v.plate || 'Nessuna Targa'}</span>
                       </div>
+
                       <div class="car-jobs-section">
-                          <strong>Storico Lavori:</strong>
+                          <div style="font-size:0.7rem; font-weight:bold; color:var(--accent-green); text-transform:uppercase; margin-bottom:4px;">
+                              <i class="fa-solid fa-list-check"></i> Stato Lavorazioni
+                          </div>
                           ${jobsHtml}
                       </div>
                   </div>
               `;
           });
 
-          list.innerHTML += `
-              <div class="parking-spot add-parking-spot" onclick="toggleAddCarModal(true)">
-                  <i class="fa-solid fa-plus-circle" style="font-size: 2.2rem; color: var(--accent-green); margin-bottom: 8px;"></i>
-                  <span style="font-weight: 700; text-transform: uppercase; font-size: 0.8rem;">Aggiungi Vettura</span>
+          // Scheda Aggiungi Nuova Auto
+          grid.innerHTML += `
+              <div class="add-parking-spot" onclick="openAddCarModal()">
+                  <i class="fa-solid fa-circle-plus" style="font-size:2.5rem; color:var(--accent-green); margin-bottom:10px;"></i>
+                  <span style="font-weight:800; font-size:0.85rem; text-transform:uppercase; color:#ccc;">Aggiungi Auto</span>
               </div>
           `;
       }
 
+      /* DETTAGLIO LAVORO E FOTO PRIMA / DOPO PER IL CLIENTE */
       function openJobDetailModal(vIdx, jIdx) {
-          const job = currentUserData.vehicles[vIdx].jobs[jIdx];
-          const beforeImg = job.beforePhotoUrl ? `<div class="job-photo-box"><span style="color:#ffb700; font-size:0.7rem; font-weight:bold;">PRIMA</span><img src="${job.beforePhotoUrl}"></div>` : '';
-          const afterImg = job.afterPhotoUrl ? `<div class="job-photo-box"><span style="color:var(--accent-green); font-size:0.7rem; font-weight:bold;">DOPO</span><img src="${job.afterPhotoUrl}"></div>` : '';
+          if (!userData || !userData.vehicles[vIdx] || !userData.vehicles[vIdx].jobs[jIdx]) return;
+          const job = userData.vehicles[vIdx].jobs[jIdx];
 
-          document.getElementById('jobDetailContent').innerHTML = `
-              <p><strong>Servizio:</strong> ${job.desc}</p>
-              <p><strong>Data:</strong> ${job.jobDate || 'Non impostata'} ore ${job.jobTime || '--:--'}</p>
-              <p><strong>Indirizzo:</strong> ${job.address || 'Non specificato'}</p>
-              <p style="margin-top:6px;"><strong>Stato:</strong> ${job.status === 'done' ? '✅ Eseguito' : '⏳ Programmato'}</p>
-              <div class="job-photo-container">
-                  ${beforeImg}
-                  ${afterImg}
+          let statusTxt = '⏳ Programmato (In attesa dello staff)';
+          if (job.status === 'working') statusTxt = '🛠️ IN LAVORAZIONE (I dettagli e le foto verranno aggiornati in tempo reale)';
+          if (job.status === 'done') statusTxt = '✅ ESEGUITO (Punti fedeltà accreditati!)';
+
+          let html = `
+              <div style="margin-bottom:10px;">
+                  <strong>Servizio:</strong> ${job.desc}<br>
+                  <strong>Data & Ora:</strong> ${job.jobDate || 'n/d'} alle ${job.jobTime || '--:--'}<br>
+                  <strong>Indirizzo:</strong> ${job.address || 'Presso domicilio'}<br>
+                  <strong>Stato Attuale:</strong> <span style="color:var(--accent-green); font-weight:bold;">${statusTxt}</span>
               </div>
           `;
+
+          if (job.beforePhotoUrl || job.afterPhotoUrl) {
+              html += `<div class="job-photo-container">`;
+              if (job.beforePhotoUrl) {
+                  html += `<div class="job-photo-box"><span style="font-size:0.7rem; color:#ffb700; font-weight:bold;">PRIMA</span><br><img src="${job.beforePhotoUrl}"></div>`;
+              }
+              if (job.afterPhotoUrl) {
+                  html += `<div class="job-photo-box"><span style="font-size:0.7rem; color:var(--accent-green); font-weight:bold;">DOPO</span><br><img src="${job.afterPhotoUrl}"></div>`;
+              }
+              html += `</div>`;
+          } else {
+              html += `<div style="font-size:0.75rem; color:#777; text-align:center; margin-top:10px; font-style:italic;">Le foto "Prima e Dopo" saranno visibili qui durante e al termine del trattamento.</div>`;
+          }
+
+          document.getElementById('jobDetailContent').innerHTML = html;
           document.getElementById('jobDetailModal').style.display = 'flex';
       }
+
       function closeJobDetailModal() { document.getElementById('jobDetailModal').style.display = 'none'; }
 
-      function toggleAddCarModal(open) {
-          document.getElementById('addCarModal').style.display = open ? 'flex' : 'none';
-          if(open) {
-              const brandSelect = document.getElementById('carBrandSelect');
-              brandSelect.innerHTML = '<option value="">Seleziona Marca</option>';
-              Object.keys(carDatabase).sort().forEach(b => brandSelect.innerHTML += `<option value="${b}">${b}</option>`);
-          }
-      }
+      /* MODALE AGGIUNGI AUTO */
+      function openAddCarModal() { document.getElementById('addCarModal').style.display = 'flex'; }
+      function closeAddCarModal() { document.getElementById('addCarModal').style.display = 'none'; }
 
-      function populateModels(brand) {
-          const modelSelect = document.getElementById('carModelSelect');
-          modelSelect.innerHTML = '<option value="">Seleziona Modello</option>';
-          if (carDatabase[brand]) carDatabase[brand].forEach(m => modelSelect.innerHTML += `<option value="${m}">${m}</option>`);
-      }
-
-      function selectCarColor(hexCode, colorName, element) {
-          document.querySelectorAll('.color-dot').forEach(dot => dot.classList.remove('selected'));
-          element.classList.add('selected');
-          document.getElementById('selectedCarColorHex').value = hexCode;
-          document.getElementById('selectedCarColor').value = colorName;
-      }
-
-      async function saveUserVehicle() {
+      async function saveNewCarToGarage() {
           const brand = document.getElementById('carBrandSelect').value;
           const model = document.getElementById('carModelSelect').value;
-          const colorHex = document.getElementById('selectedCarColorHex').value;
-          const colorName = document.getElementById('selectedCarColor').value;
-          const plate = document.getElementById('carPlateInput').value;
-          const details = document.getElementById('carDetailsInput').value;
+          const plate = document.getElementById('carPlateInput').value.toUpperCase();
 
-          if(!brand || !model) return alert("Seleziona marca e modello!");
+          if (!brand || !model) {
+              alert("Seleziona sia la marca che il modello dell'auto!");
+              return;
+          }
 
-          currentUserData.vehicles = currentUserData.vehicles || [];
-          currentUserData.vehicles.push({ brand, model, colorHex, colorName, plate, details, jobs: [] });
+          const vehicles = userData.vehicles || [];
+          vehicles.push({
+              brand,
+              model,
+              plate: plate || 'NO TARGA',
+              jobs: []
+          });
 
-          await db.collection('users').doc(currentUser.uid).update({ vehicles: currentUserData.vehicles });
-          toggleAddCarModal(false);
-          renderUserVehicles();
+          await db.collection('users').doc(currentUser.uid).update({ vehicles });
+          closeAddCarModal();
       }
 
-      async function deleteUserVehicle(idx) {
-          if (confirm("Rimuovere questa vettura dal garage?")) {
-              currentUserData.vehicles.splice(idx, 1);
-              await db.collection('users').doc(currentUser.uid).update({ vehicles: currentUserData.vehicles });
-              renderUserVehicles();
+      async function deleteCarFromGarage(vIdx) {
+          if (confirm("Sei sicuro di voler rimuovere questo veicolo dal garage?")) {
+              userData.vehicles.splice(vIdx, 1);
+              await db.collection('users').doc(currentUser.uid).update({ vehicles: userData.vehicles });
           }
       }
 
+      /* AGGIORNAMENTO PROFILO ED AVATAR CLIENTE */
+      function openUserProfileModal() {
+          if (!userData) return;
+          document.getElementById('editUserName').value = userData.name || '';
+          document.getElementById('editUserNickname').value = userData.nickname || '';
+          document.getElementById('userProfileModal').style.display = 'flex';
+      }
+
+      function closeUserProfileModal() { document.getElementById('userProfileModal').style.display = 'none'; }
+
+      async function saveUserProfileData() {
+          const name = document.getElementById('editUserName').value;
+          const nickname = document.getElementById('editUserNickname').value;
+
+          await db.collection('users').doc(currentUser.uid).update({
+              name,
+              nickname
+          });
+          closeUserProfileModal();
+      }
+
+      function uploadUserProfileAvatar(event) {
+          const file = event.target.files[0];
+          if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                  const img = new Image();
+                  img.src = e.target.result;
+                  img.onload = async function() {
+                      const canvas = document.createElement('canvas');
+                      const MAX_WIDTH = 300;
+                      const scaleSize = MAX_WIDTH / img.width;
+                      canvas.width = MAX_WIDTH;
+                      canvas.height = img.height * scaleSize;
+
+                      const ctx = canvas.getContext('2d');
+                      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                      const base64 = canvas.toDataURL('image/jpeg', 0.8);
+
+                      await db.collection('users').doc(currentUser.uid).update({ avatarUrl: base64 });
+                  };
+              };
+              reader.readAsDataURL(file);
+          }
+      }
+
+      function openSecurityInfoModal() { document.getElementById('securityInfoModal').style.display = 'flex'; }
+      function closeSecurityInfoModal() { document.getElementById('securityInfoModal').style.display = 'none'; }
+
+      function scrollToTicketSection() {
+          document.getElementById('userDropdown').style.display = 'none';
+          document.getElementById('ticket').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      /* 🌟 GESTIONE RECENSIONI E TICKET 🌟 */
       function handleReviewPhotoUpload(event) {
           const file = event.target.files[0];
           if (file) {
               const reader = new FileReader();
               reader.onload = function(e) {
-                  document.getElementById('reviewPhotoUrl').value = e.target.result;
-                  document.getElementById('reviewPhotoPreview').innerHTML = `<div class="photo-preview-wrapper"><img src="${e.target.result}" class="photo-preview-img"><button class="btn-remove-photo" onclick="removeReviewPhoto()">×</button></div>`;
+                  const img = new Image();
+                  img.src = e.target.result;
+                  img.onload = function() {
+                      const canvas = document.createElement('canvas');
+                      const MAX_WIDTH = 600;
+                      const scaleSize = MAX_WIDTH / img.width;
+                      canvas.width = MAX_WIDTH;
+                      canvas.height = img.height * scaleSize;
+                      const ctx = canvas.getContext('2d');
+                      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                      const base64 = canvas.toDataURL('image/jpeg', 0.7);
+
+                      document.getElementById('reviewPhotoUrl').value = base64;
+                      document.getElementById('reviewPhotoPreview').innerHTML = `<div class="photo-preview-wrapper"><img src="${base64}" class="photo-preview-img"></div>`;
+                  };
               };
               reader.readAsDataURL(file);
           }
       }
 
-      function removeReviewPhoto() {
+      async function submitClientReview() {
+          if (!currentUser) {
+              alert("Accedi per pubblicare la tua recensione!");
+              openAuthModal();
+              return;
+          }
+
+          const stars = parseInt(document.getElementById('reviewStarsInput').value);
+          const text = document.getElementById('reviewTextInput').value;
+          const photoUrl = document.getElementById('reviewPhotoUrl').value || '';
+
+          if (!text) {
+              alert("Inserisci un testo per la tua recensione!");
+              return;
+          }
+
+          await db.collection('reviews').add({
+              userId: currentUser.uid,
+              userName: userData.name || 'Cliente Zona Detailing',
+              userAvatar: userData.avatarUrl || '',
+              stars,
+              text,
+              photoUrl,
+              createdAt: new Date().toISOString()
+          });
+
+          alert("Grazie! La tua recensione è stata pubblicata.");
+          document.getElementById('reviewTextInput').value = "";
           document.getElementById('reviewPhotoUrl').value = "";
-          document.getElementById('reviewPhotoFile').value = "";
           document.getElementById('reviewPhotoPreview').innerHTML = "";
       }
 
-      async function submitClientReview() {
-          if (!currentUser) return alert("Devi effettuare l'accesso per pubblicare una recensione!");
-          const stars = parseInt(document.getElementById('reviewStarsInput').value) || 5;
-          const text = document.getElementById('reviewTextInput').value;
-          const photoUrl = document.getElementById('reviewPhotoUrl').value;
+      function listenToPublicReviews() {
+          db.collection('reviews').orderBy('createdAt', 'desc').limit(6).onSnapshot(snapshot => {
+              const grid = document.getElementById('publicReviewsGrid');
+              grid.innerHTML = "";
 
-          if (!text) return alert("Scrivi il testo della tua recensione!");
-
-          const reviewObj = {
-              authorName: currentUserData.nickname ? `@${currentUserData.nickname}` : (currentUserData.name || currentUser.email.split('@')[0]),
-              authorAvatar: currentUserData.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1',
-              stars: stars,
-              text: text,
-              photoUrl: photoUrl,
-              carInfo: currentUserData.vehicles && currentUserData.vehicles.length > 0 ? `${currentUserData.vehicles[0].brand} ${currentUserData.vehicles[0].model}` : 'Cliente Zona Detailing',
-              date: new Date().toISOString()
-          };
-
-          await db.collection('reviews').add(reviewObj);
-          alert("Grazie! La tua recensione è stata pubblicata con successo.");
-          document.getElementById('reviewTextInput').value = "";
-          removeReviewPhoto();
-          loadPublicReviews();
-      }
-
-      async function loadPublicReviews() {
-          const grid = document.getElementById('publicReviewsGrid');
-          if (!grid) return;
-          
-          try {
-              const snapshot = await db.collection('reviews').orderBy('date', 'desc').get();
               if (snapshot.empty) {
-                  grid.innerHTML = `
-                      <div class="review-card">
-                          <div>
-                              <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                              <p class="review-text">"Servizio impeccabile a domicilio. Hanno riportato la mia auto a nuovo con una cura dei dettagli incredibile!"</p>
-                          </div>
-                          <div class="review-author">
-                              <img src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" alt="Avatar">
-                              <div>
-                                  <h4 style="font-size:0.85rem; color:#fff;">Marco R.</h4>
-                                  <span style="font-size:0.75rem; color:var(--accent-green);">Audi RS3</span>
-                              </div>
-                          </div>
-                      </div>
-                  `;
+                  grid.innerHTML = "<p style='color:#777; text-align:center; grid-column: 1/-1;'>Ancora nessuna recensione. Sii il primo a lasciarne una!</p>";
                   return;
               }
 
-              grid.innerHTML = "";
               snapshot.forEach(doc => {
                   const r = doc.data();
-                  let starsHtml = "";
-                  for(let i=0; i<r.stars; i++) starsHtml += '<i class="fa-solid fa-star"></i>';
-                  
-                  const carImgHtml = r.photoUrl ? `<img src="${r.photoUrl}" class="review-car-img" alt="Auto Trattata">` : '';
+                  let starsHtml = "★".repeat(r.stars) + "☆".repeat(5 - r.stars);
+                  const avatar = r.userAvatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
 
                   grid.innerHTML += `
                       <div class="review-card">
                           <div>
-                              ${carImgHtml}
+                              ${r.photoUrl ? `<img src="${r.photoUrl}" class="review-car-img">` : ''}
                               <div class="review-stars">${starsHtml}</div>
                               <p class="review-text">"${r.text}"</p>
                           </div>
                           <div class="review-author">
-                              <img src="${r.authorAvatar}" alt="Avatar">
+                              <img src="${avatar}">
                               <div>
-                                  <h4 style="font-size:0.85rem; color:#fff;">${r.authorName}</h4>
-                                  <span style="font-size:0.75rem; color:var(--accent-green);">${r.carInfo}</span>
+                                  <strong style="font-size:0.85rem; color:#fff;">${r.userName}</strong><br>
+                                  <span style="font-size:0.7rem; color:var(--accent-green);">Cliente Verificato</span>
                               </div>
                           </div>
                       </div>
                   `;
               });
-          } catch(e) { console.log("Errore recensioni: ", e); }
+          });
       }
 
       async function sendSupportTicket() {
           const name = document.getElementById('ticketName').value;
           const contact = document.getElementById('ticketContact').value;
-          const msg = document.getElementById('ticketMessage').value;
-          if(!name || !contact || !msg) return alert("Compila tutti i campi del ticket!");
+          const message = document.getElementById('ticketMessage').value;
 
-          emailjs.send("service_zonadetailing", "YOUR_TEMPLATE_ID", { to_email: ADMIN_EMAIL, from_name: name, contact_info: contact, message: msg }).then(() => {
-              alert("Ticket inviato con successo!");
-              document.getElementById('ticketName').value = ""; document.getElementById('ticketContact').value = ""; document.getElementById('ticketMessage').value = "";
-          }).catch(() => {
-              alert("Richiesta inviata con successo!");
-              document.getElementById('ticketName').value = ""; document.getElementById('ticketContact').value = ""; document.getElementById('ticketMessage').value = "";
-          });
-      }
-
-      /* ADMIN LOGIC */
-      function openAdminModal() {
-          document.getElementById('userDropdown').style.display = 'none';
-          document.getElementById('adminModal').style.display = 'flex';
-          populateAdminClientDropdown();
-          loadAdminReport();
-      }
-      function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
-
-      async function populateAdminClientDropdown() {
-          const dropdown = document.getElementById('adminClientDropdown');
-          dropdown.innerHTML = '<option value="">-- Scegli cliente dalla lista --</option>';
-          allAdminClients = [];
-          const snapshot = await db.collection('users').get();
-          snapshot.forEach(doc => {
-              const u = doc.data();
-              allAdminClients.push({ id: doc.id, ...u });
-          });
-          renderAdminClientDropdown(allAdminClients);
-      }
-
-      function renderAdminClientDropdown(clients) {
-          const dropdown = document.getElementById('adminClientDropdown');
-          dropdown.innerHTML = '<option value="">-- Scegli cliente --</option>';
-          clients.forEach(u => {
-              const nickLabel = u.nickname ? ` (@${u.nickname})` : '';
-              dropdown.innerHTML += `<option value="${u.id}">${u.name || u.email}${nickLabel} [${u.points || 0} pt]</option>`;
-          });
-      }
-
-      function filterAdminClients(query) {
-          const q = query.toLowerCase();
-          const filtered = allAdminClients.filter(c => 
-              (c.name && c.name.toLowerCase().includes(q)) ||
-              (c.nickname && c.nickname.toLowerCase().includes(q)) ||
-              (c.email && c.email.toLowerCase().includes(q))
-          );
-          renderAdminClientDropdown(filtered);
-      }
-
-      async function loadAdminReport() {
-          const selectedYear = document.getElementById('reportYear').value;
-          const selectedMonth = document.getElementById('reportMonth').value;
-          const reportContainer = document.getElementById('adminReportResults');
-          reportContainer.innerHTML = "Caricamento...";
-          const snapshot = await db.collection('users').get();
-          let allJobs = [];
-
-          snapshot.forEach(doc => {
-              const client = doc.data();
-              if (client.vehicles && Array.isArray(client.vehicles)) {
-                  client.vehicles.forEach(vehicle => {
-                      if (vehicle.jobs && Array.isArray(vehicle.jobs)) {
-                          vehicle.jobs.forEach(job => {
-                              if (job.jobDate) {
-                                  const [year, month] = job.jobDate.split('-');
-                                  if ((selectedYear === 'ALL' || year === selectedYear) && (selectedMonth === 'ALL' || month === selectedMonth)) {
-                                      allJobs.push({ date: job.jobDate, time: job.jobTime || '--:--', status: job.status, desc: job.desc, clientName: client.name || client.email, carName: `${vehicle.brand} ${vehicle.model}` });
-                                  }
-                              }
-                          });
-                      }
-                  });
-              }
-          });
-
-          allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
-          if (allJobs.length === 0) return reportContainer.innerHTML = "<span style='color:#777;'>Nessun lavoro trovato.</span>";
-
-          let html = "";
-          allJobs.forEach(j => {
-              const badge = j.status === 'done' ? '<span style="color:#a6f700;">[ESEGUITO]</span>' : '<span style="color:#ffb700;">[PROGRAMMATO]</span>';
-              html += `<div style="border-bottom:1px solid #1a1a1a; padding:4px 0;"><strong>${j.clientName}</strong> (${j.carName}) - 📅 ${j.date} ore ${j.time} | ${badge} ${j.desc}</div>`;
-          });
-          reportContainer.innerHTML = html;
-      }
-
-      async function selectClientAdmin(userId) {
-          if(!userId) return;
-          const doc = await db.collection('users').doc(userId).get();
-          selectedAdminUserDoc = { id: userId, ...doc.data() };
-          
-          let vHtml = `<strong>${selectedAdminUserDoc.name}</strong> ${selectedAdminUserDoc.nickname ? '(@'+selectedAdminUserDoc.nickname+')' : ''} - ${selectedAdminUserDoc.email}<br>Punti: <span style="color:#ffd700; font-weight:bold;">${selectedAdminUserDoc.points || 0}</span><br><br>`;
-          if(selectedAdminUserDoc.vehicles && selectedAdminUserDoc.vehicles.length > 0) {
-              selectedAdminUserDoc.vehicles.forEach((v, vIdx) => {
-                  vHtml += `🚗 [Veicolo ${vIdx+1}] <strong>${v.brand} ${v.model}</strong> (${v.plate || 'No Targa'})<br>`;
-                  if (v.jobs && v.jobs.length > 0) {
-                      v.jobs.forEach((j, jIdx) => {
-                          vHtml += `<div style="background:#080a08; border:1px solid #222; padding:4px; border-radius:4px; margin:2px 0; font-size:0.73rem;">🔧 ${j.desc} — 📅 ${j.jobDate || 'Data n/d'} [${j.status}] <button onclick="cancelJob(${vIdx}, ${jIdx})" style="background:#ff4444; color:#fff; border:none; padding:2px 5px; border-radius:3px; float:right; cursor:pointer;">Elimina</button></div>`;
-                      });
-                  }
-              });
-          } else { vHtml += "Nessuna vettura registrata."; }
-          
-          document.getElementById('adminClientGarageInfo').innerHTML = vHtml;
-          document.getElementById('adminJobContainer').style.opacity = "1";
-          document.getElementById('adminJobContainer').style.pointerEvents = "auto";
-          document.getElementById('adminAccountActions').style.opacity = "1";
-          document.getElementById('adminAccountActions').style.pointerEvents = "auto";
-
-          const carSelect = document.getElementById('adminCarSelect');
-          carSelect.innerHTML = "";
-          (selectedAdminUserDoc.vehicles || []).forEach((v, i) => { carSelect.innerHTML += `<option value="${i}">${v.brand} ${v.model} (${v.plate || 'No Targa'})</option>`; });
-      }
-
-      async function cancelJob(vIdx, jIdx) {
-          if (confirm("Eliminare questo intervento?")) {
-              selectedAdminUserDoc.vehicles[vIdx].jobs.splice(jIdx, 1);
-              await db.collection('users').doc(selectedAdminUserDoc.id).update({ vehicles: selectedAdminUserDoc.vehicles });
-              selectClientAdmin(selectedAdminUserDoc.id);
-              loadAdminReport();
-          }
-      }
-
-      function handlePhotoUpload(event, type) {
-          const file = event.target.files[0];
-          if (file) {
-              const reader = new FileReader();
-              reader.onload = function(e) {
-                  if (type === 'before') {
-                      document.getElementById('adminBeforePhotoUrl').value = e.target.result;
-                      document.getElementById('adminBeforePreview').innerHTML = `<div class="photo-preview-wrapper"><img src="${e.target.result}" class="photo-preview-img"><button class="btn-remove-photo" onclick="removePhoto('before')">×</button></div>`;
-                  } else {
-                      document.getElementById('adminAfterPhotoUrl').value = e.target.result;
-                      document.getElementById('adminAfterPreview').innerHTML = `<div class="photo-preview-wrapper"><img src="${e.target.result}" class="photo-preview-img"><button class="btn-remove-photo" onclick="removePhoto('after')">×</button></div>`;
-                  }
-              };
-              reader.readAsDataURL(file);
-          }
-      }
-
-      function removePhoto(type) {
-          if (type === 'before') { document.getElementById('adminBeforePhotoUrl').value = ""; document.getElementById('adminBeforePhotoFile').value = ""; document.getElementById('adminBeforePreview').innerHTML = ""; }
-          else { document.getElementById('adminAfterPhotoUrl').value = ""; document.getElementById('adminAfterPhotoFile').value = ""; document.getElementById('adminAfterPreview').innerHTML = ""; }
-      }
-
-      async function saveAdminJob() {
-          if (!selectedAdminUserDoc) {
-              alert("Attenzione: Seleziona prima un cliente dal menu a tendina!");
+          if (!name || !contact || !message) {
+              alert("Compila tutti i campi per inviare il ticket!");
               return;
           }
-
-          const carIdx = document.getElementById('adminCarSelect').value;
-          let status = document.getElementById('adminJobStatus').value;
-          const desc = document.getElementById('adminJobDesc').value;
-          let jobDate = document.getElementById('adminJobDate').value || new Date().toISOString().split('T')[0];
-          const jobTime = document.getElementById('adminJobTime').value || '10:00';
-          const address = document.getElementById('adminJobAddress').value || '';
-          const pts = parseInt(document.getElementById('adminJobPoints').value) || 0;
-          const beforePhotoUrl = document.getElementById('adminBeforePhotoUrl').value || '';
-          const afterPhotoUrl = document.getElementById('adminAfterPhotoUrl').value || '';
-
-          if (status === 'completed') { 
-              status = 'done'; 
-              jobDate = new Date().toISOString().split('T')[0]; 
-          }
-
-          const vehicles = selectedAdminUserDoc.vehicles || [];
-          if (carIdx === "" || !vehicles[carIdx]) {
-              alert("Errore: Il cliente selezionato non ha un'auto valida o non è stata selezionata alcuna vettura nel box!");
-              return;
-          }
-
-          if (!vehicles[carIdx].jobs) vehicles[carIdx].jobs = [];
-
-          vehicles[carIdx].jobs.push({ 
-              status, 
-              desc: desc || 'Servizio Detailing', 
-              jobDate, 
-              jobTime, 
-              address, 
-              beforePhotoUrl, 
-              afterPhotoUrl, 
-              date: new Date().toISOString() 
-          });
-
-          let newPoints = (selectedAdminUserDoc.points || 0);
-          if (status === 'done') newPoints += pts;
 
           try {
-              await db.collection('users').doc(selectedAdminUserDoc.id).update({ 
-                  vehicles: vehicles, 
-                  points: newPoints 
+              await db.collection('tickets').add({
+                  name,
+                  contact,
+                  message,
+                  date: new Date().toISOString()
               });
-              alert("Intervento salvato con successo!");
-              removePhoto('before'); 
-              removePhoto('after');
-              document.getElementById('adminJobDesc').value = "";
-              selectClientAdmin(selectedAdminUserDoc.id);
-              loadAdminReport();
+              alert("Ticket inviato con successo! Il nostro staff ti risponderà al più presto.");
+              document.getElementById('ticketName').value = "";
+              document.getElementById('ticketContact').value = "";
+              document.getElementById('ticketMessage').value = "";
           } catch(e) {
-              alert("Errore di scrittura su Firebase: " + e.message);
-          }
-      }
-
-      async function resetSelectedClientData() {
-          if (confirm("Azzerare punti e garage del cliente?")) {
-              await db.collection('users').doc(selectedAdminUserDoc.id).update({ points: 0, vehicles: [] });
-              selectClientAdmin(selectedAdminUserDoc.id);
-              loadAdminReport();
-          }
-      }
-
-      async function deleteSelectedClientAccount() {
-          if (confirm("Eliminare definitivamente l'account?")) {
-              await db.collection('users').doc(selectedAdminUserDoc.id).delete();
-              closeAdminModal();
-              populateAdminClientDropdown();
+              alert("Errore invio ticket: " + e.message);
           }
       }
     </script>
