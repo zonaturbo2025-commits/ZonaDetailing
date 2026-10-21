@@ -194,6 +194,8 @@
         .leaderboard-user-info { display: flex; align-items: center; gap: 12px; flex: 1; margin-left: 10px; }
         .leaderboard-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-green); background: #000; }
         .leaderboard-points { font-size: 1rem; font-weight: 900; color: #ffd700; background: #000; padding: 5px 12px; border-radius: 20px; border: 1px solid #333; }
+        
+        .my-rank-banner { background: #0b140b; border: 2px dashed var(--accent-green); border-radius: 10px; padding: 12px 18px; margin-top: 15px; display: flex; align-items: center; justify-content: space-between; }
 
         /* SEZIONE RECENSIONI PUBBLICHE */
         .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
@@ -243,14 +245,16 @@
 
         .car-neon-plate { background: #000; border: 1px solid #333; border-bottom: 3px solid var(--accent-green); border-radius: 8px; padding: 10px; width: 100%; text-align: center; }
 
-        /* DOPPIA TABELLA PER LAVORI NEL GARAGE */
-        .car-jobs-container-double { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; width: 100%; }
-        @media (max-width: 600px) { .car-jobs-container-double { grid-template-columns: 1fr; } }
-
-        .job-column-box { background: #141414; border-radius: 8px; padding: 8px; font-size: 0.78rem; border: 1px solid #222; max-height: 180px; overflow-y: auto; }
+        /* SISTEMA TAB A PROVA DI TELEFONO PER I LAVORI */
+        .car-jobs-tabs-wrapper { margin-top: 12px; width: 100%; background: #141414; border-radius: 10px; border: 1px solid #222; overflow: hidden; }
+        .job-tabs-header { display: flex; background: #0c0e0c; border-bottom: 1px solid #222; }
+        .job-tab-btn { flex: 1; padding: 8px 4px; background: transparent; border: none; color: #888; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .job-tab-btn.active { color: var(--accent-green); background: rgba(166,247,0,0.08); border-bottom: 2px solid var(--accent-green); }
+        .job-tab-content { padding: 10px; max-height: 180px; overflow-y: auto; display: none; }
+        .job-tab-content.active { display: block; }
         
         /* SCHEDA LAVORO & ANIMAZIONE NEON VERDE PER STATO WORKING */
-        .job-item-card { background: #0b0d0b; border: 1px solid #222; padding: 8px; border-radius: 6px; margin-top: 6px; cursor: pointer; transition: border-color 0.2s; }
+        .job-item-card { background: #0b0d0b; border: 1px solid #222; padding: 8px; border-radius: 6px; margin-bottom: 6px; cursor: pointer; transition: border-color 0.2s; }
         .job-item-card:hover { border-color: var(--accent-green); }
         
         @keyframes neonPulseGreen {
@@ -368,7 +372,10 @@
         
         <div class="leaderboard-box">
             <div id="leaderboardList">
-                <!-- Generato dinamicamente via JS -->
+                <!-- Generato dinamicamente via JS (Top 3) -->
+            </div>
+            <div id="myRankContainer">
+                <!-- Box posizione utente loggato generato dinamicamente -->
             </div>
         </div>
     </section>
@@ -558,7 +565,7 @@
         </div>
     </div>
 
-    <!-- MODALE DETTAGLI E FOTO LAVORO CLIENTE CON OPZIONE APRI/SALVA -->
+    <!-- MODALE DETTAGLI E FOTO LAVORO CLIENTE -->
     <div class="modal-overlay" id="jobDetailModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeJobDetailModal()">&times;</span>
@@ -681,12 +688,14 @@
                       }
 
                       updateGarageUI(userData);
+                      listenToLeaderboard(); // Aggiorna classifica per mostrare la posizione esatta dell'utente loggato
                   }
               });
           } else {
               btnAuthText.innerText = "Accedi";
               avatarContainer.innerHTML = `<i class="fa-solid fa-user"></i>`;
               userData = null;
+              listenToLeaderboard();
           }
       });
 
@@ -800,7 +809,7 @@
           }, 600);
       }
 
-      /* AGGIORNAMENTO GARAGE CON METODO ROBUSTO DI CONTROLLO STATO / FOTO */
+      /* AGGIORNAMENTO GARAGE CON SISTEMA TAB A PROVA DI TELEFONO */
       function updateGarageUI(data) {
           if (!data) return;
 
@@ -823,15 +832,14 @@
           const vehicles = data.vehicles || [];
 
           vehicles.forEach((v, vIdx) => {
-              let leftJobsHtml = ""; // Da fare e in lavorazione
-              let rightJobsHtml = ""; // Eseguiti / Chiusi
+              let activeJobsHtml = ""; // Programmato & In lavorazione
+              let closedJobsHtml = ""; // Eseguito / Chiuso
 
               if (v.jobs && v.jobs.length > 0) {
                   v.jobs.forEach((j, jIdx) => {
                       let status = j.status ? j.status.toLowerCase().trim() : '';
                       const hasAfterPhoto = j.afterPhotoUrl || j.afterPhoto || '';
 
-                      // Metodo robusto: se lo stato è vuoto ma c'è la foto "dopo", consideralo eseguito/chiuso automaticamente
                       if (!status && hasAfterPhoto) {
                           status = 'done';
                       }
@@ -852,7 +860,7 @@
                           <div class="${cardClass}" onclick="openJobDetailModal(${vIdx}, ${jIdx})">
                               <div style="display:flex; justify-content:space-between; align-items:center;">
                                   <strong style="color:#fff;">${j.desc || 'Intervento Detailing'}</strong>
-                                  <span style="font-size:0.7rem;">${statusBadge}</span>
+                                  <span style="font-size:0.65rem;">${statusBadge}</span>
                               </div>
                               <div style="font-size:0.72rem; color:#aaa; margin-top:3px;">
                                   📅 ${j.jobDate || 'Data n/d'} ore ${j.jobTime || '--:--'}
@@ -864,18 +872,18 @@
                       `;
 
                       if (status === 'done' || status === 'closed') {
-                          rightJobsHtml += jobItemCardHtml;
+                          closedJobsHtml += jobItemCardHtml;
                       } else {
-                          leftJobsHtml += jobItemCardHtml;
+                          activeJobsHtml += jobItemCardHtml;
                       }
                   });
               }
 
-              if (!leftJobsHtml) {
-                  leftJobsHtml = `<div style="color:#666; font-size:0.75rem; text-align:center; padding:10px;">Nessun lavoro attivo.</div>`;
+              if (!activeJobsHtml) {
+                  activeJobsHtml = `<div style="color:#666; font-size:0.75rem; text-align:center; padding:15px;">Nessun lavoro programmato o in corso.</div>`;
               }
-              if (!rightJobsHtml) {
-                  rightJobsHtml = `<div style="color:#666; font-size:0.75rem; text-align:center; padding:10px;">Nessun lavoro eseguito.</div>`;
+              if (!closedJobsHtml) {
+                  closedJobsHtml = `<div style="color:#666; font-size:0.75rem; text-align:center; padding:15px;">Nessun lavoro eseguito finora.</div>`;
               }
 
               const carColor = v.color || '#a6f700';
@@ -895,18 +903,17 @@
                           <span style="font-size:0.75rem; color:#aaa; font-weight:bold;">${v.plate || 'Nessuna Targa'}</span>
                       </div>
 
-                      <div class="car-jobs-container-double">
-                          <div class="job-column-box">
-                              <div style="font-size:0.68rem; font-weight:bold; color:#ffb700; text-transform:uppercase; margin-bottom:4px; border-bottom:1px solid #222; padding-bottom:3px;">
-                                  <i class="fa-solid fa-clock"></i> Da Fare & In Lavorazione
-                              </div>
-                              ${leftJobsHtml}
+                      <!-- SISTEMA A TAB MOBILE-FRIENDLY -->
+                      <div class="car-jobs-tabs-wrapper">
+                          <div class="job-tabs-header">
+                              <button class="job-tab-btn active" onclick="switchJobTab(event, 'activeTab-${vIdx}')">Da Fare / In Corso</button>
+                              <button class="job-tab-btn" onclick="switchJobTab(event, 'closedTab-${vIdx}')">Eseguiti</button>
                           </div>
-                          <div class="job-column-box">
-                              <div style="font-size:0.68rem; font-weight:bold; color:var(--accent-green); text-transform:uppercase; margin-bottom:4px; border-bottom:1px solid #222; padding-bottom:3px;">
-                                  <i class="fa-solid fa-circle-check"></i> Lavori Eseguiti
-                              </div>
-                              ${rightJobsHtml}
+                          <div id="activeTab-${vIdx}" class="job-tab-content active">
+                              ${activeJobsHtml}
+                          </div>
+                          <div id="closedTab-${vIdx}" class="job-tab-content">
+                              ${closedJobsHtml}
                           </div>
                       </div>
                   </div>
@@ -919,6 +926,17 @@
                   <span style="font-weight:800; font-size:0.85rem; text-transform:uppercase; color:#ccc;">Aggiungi Auto</span>
               </div>
           `;
+      }
+
+      function switchJobTab(e, tabContentId) {
+          const header = e.currentTarget.parentElement;
+          const wrapper = header.parentElement;
+          
+          header.querySelectorAll('.job-tab-btn').forEach(btn => btn.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+
+          wrapper.querySelectorAll('.job-tab-content').forEach(content => content.classList.remove('active'));
+          document.getElementById(tabContentId).classList.add('active');
       }
 
       /* DETTAGLIO LAVORO E FOTO CON LINK PER APRIRE E SALVARE */
@@ -1197,27 +1215,33 @@
           });
       }
 
-      /* CLASSIFICA LIVE DEI CLIENTI CON VISUALIZZAZIONE NICKNAME PRIVATO */
+      /* CLASSIFICA LIVE DEI CLIENTI CON TOP 3 E POSIZIONE ESATTA DELL'UTENTE */
       function listenToLeaderboard() {
-          db.collection('users').orderBy('points', 'desc').limit(5).onSnapshot(snapshot => {
+          db.collection('users').orderBy('points', 'desc').onSnapshot(snapshot => {
               const listEl = document.getElementById('leaderboardList');
+              const myRankContainer = document.getElementById('myRankContainer');
               listEl.innerHTML = "";
+              myRankContainer.innerHTML = "";
 
               if (snapshot.empty) {
                   listEl.innerHTML = "<p style='color:#777; text-align:center; font-size:0.85rem;'>Classifica in fase di aggiornamento...</p>";
                   return;
               }
 
-              let rank = 1;
+              let allUsers = [];
               snapshot.forEach(doc => {
-                  const u = doc.data();
+                  allUsers.push({ id: doc.id, ...doc.data() });
+              });
+
+              // Mostra i primi 3 in cima alla lista
+              let rank = 1;
+              allUsers.slice(0, 3).forEach(u => {
                   const displayName = u.nickname ? `@${u.nickname}` : (u.name || 'Cliente');
                   const points = u.points || 0;
                   const avatar = u.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
                   const tier = getClientTier(points);
 
-                  let medalIcon = `#${rank}`;
-                  if (rank === 1) medalIcon = '🥇';
+                  let medalIcon = '🥇';
                   if (rank === 2) medalIcon = '🥈';
                   if (rank === 3) medalIcon = '🥉';
 
@@ -1236,6 +1260,29 @@
                   `;
                   rank++;
               });
+
+              // Se l'utente è loggato, calcola la sua posizione esatta nella classifica completa
+              if (currentUser) {
+                  const userIndex = allUsers.findIndex(u => u.id === currentUser.uid);
+                  if (userIndex !== -1) {
+                      const myRank = userIndex + 1;
+                      const myData = allUsers[userIndex];
+                      const myPoints = myData.points || 0;
+
+                      myRankContainer.innerHTML = `
+                          <div class="my-rank-banner">
+                              <div style="display:flex; align-items:center; gap:10px;">
+                                  <span style="font-size:1.3rem; font-weight:900; color:var(--accent-green);">#${myRank}</span>
+                                  <div>
+                                      <div style="font-size:0.75rem; color:#aaa; text-transform:uppercase;">La Tua Posizione Attuale</div>
+                                      <strong style="font-size:0.85rem; color:#fff;">${myData.nickname ? '@' + myData.nickname : (myData.name || 'Tu')}</strong>
+                                  </div>
+                              </div>
+                              <div class="leaderboard-points" style="font-size:0.9rem;">${myPoints} PT</div>
+                          </div>
+                      `;
+                  }
+              }
           });
       }
 
