@@ -178,11 +178,13 @@
         .service-card { background-color: var(--card-bg); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); }
         .service-card h3 { color: var(--accent-green); margin-bottom: 10px; text-transform: uppercase; font-size: 1.05rem; }
 
-        /* REELS INSTAGRAM */
+        /* REELS INSTAGRAM & VIDEO NATIVO */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
         .video-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: center; }
         .instagram-embed-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 8px; background: #000; }
         .instagram-embed-wrapper iframe { position: absolute; top: -50px; left: 0; width: 100%; height: calc(100% + 150px); }
+        .native-video-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 8px; background: #000; display: flex; align-items: center; justify-content: center; border: 1px solid var(--accent-green); }
+        .native-video-wrapper video { width: 100%; height: 100%; object-fit: cover; }
 
         /* SEZIONE RECENSIONI PUBBLICHE */
         .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
@@ -251,10 +253,10 @@
         .add-parking-spot { border: 2px dashed #333; border-radius: 15px; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); }
         .add-parking-spot:hover { border-color: var(--accent-green); }
 
-        /* FOTO VERTICALI ORIGINALI NELLA MODALE DI DETTAGLIO */
+        /* FOTO VERTICALI ORIGINALI NELLA MODALE DI DETTAGLIO CON PULSANTE SALVA/APRI */
         .job-photo-container { display: flex; gap: 15px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
         .job-photo-box { text-align: center; width: 45%; min-width: 140px; }
-        .job-photo-box img { width: 100%; height: 280px; object-fit: contain; border-radius: 8px; border: 1px solid var(--accent-green); background: #000; }
+        .job-photo-box img { width: 100%; height: 260px; object-fit: contain; border-radius: 8px; border: 1px solid var(--accent-green); background: #000; margin-bottom: 6px; }
 
         footer { border-top: 1px solid var(--border-color); padding: 30px 15px; text-align: center; background-color: #050505; color: #777; font-size: 0.8rem; }
         .social-footer { margin-bottom: 12px; display: flex; justify-content: center; gap: 20px; }
@@ -345,7 +347,7 @@
         </div>
     </section>
 
-    <!-- DIMOSTRAZIONI VIDEO (REELS INSTAGRAM) -->
+    <!-- DIMOSTRAZIONI VIDEO (REELS INSTAGRAM & VIDEO AGGIUNTIVO) -->
     <section id="dimostrazioni" class="container">
         <h2 class="section-title">I Nostri <span>Lavori</span></h2>
         <div class="video-grid">
@@ -354,6 +356,17 @@
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdCD8mMAloT/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
                 </div>
             </div>
+            
+            <!-- VIDEO AGGIUNTIVO IN AUTOPLAY TRA I DUE REEL -->
+            <div class="video-card">
+                <div class="native-video-wrapper">
+                    <video autoplay muted loop playsinline>
+                        <source src="tuo-video.mp4" type="video/mp4">
+                        Il tuo browser non supporta il tag video.
+                    </video>
+                </div>
+            </div>
+
             <div class="video-card">
                 <div class="instagram-embed-wrapper">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DdmD2H5AZi4/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#141414; border:0; border-radius:8px; margin: 0 auto; width:100%;"></blockquote>
@@ -500,7 +513,7 @@
         </div>
     </div>
 
-    <!-- MODALE DETTAGLI E FOTO LAVORO CLIENTE -->
+    <!-- MODALE DETTAGLI E FOTO LAVORO CLIENTE CON OPZIONE APRI/SALVA -->
     <div class="modal-overlay" id="jobDetailModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeJobDetailModal()">&times;</span>
@@ -701,7 +714,7 @@
           }, 600);
       }
 
-      /* AGGIORNAMENTO GARAGE CON APPLICAZIONE CLASSE NEON PULSE PER STATO WORKING */
+      /* AGGIORNAMENTO GARAGE CON NEON PULSE PER STATO WORKING */
       function updateGarageUI(data) {
           if (!data) return;
 
@@ -732,7 +745,7 @@
 
                       if (j.status === 'working') {
                           statusBadge = '<span style="color:#3399ff; font-weight:bold;"><i class="fa-solid fa-gears"></i> IN LAVORAZIONE</span>';
-                          cardClass += ' working-neon'; // Attiva l'effetto neon lampeggiante verde
+                          cardClass += ' working-neon';
                       } else if (j.status === 'done') {
                           statusBadge = '<span style="color:var(--accent-green); font-weight:bold;"><i class="fa-solid fa-circle-check"></i> Eseguito</span>';
                       }
@@ -789,7 +802,7 @@
           `;
       }
 
-      /* DETTAGLIO LAVORO E FOTO VERTICALI ORIGINALI NELLA MODALE */
+      /* DETTAGLIO LAVORO E FOTO CON LINK PER APRIRE E SALVARE */
       function openJobDetailModal(vIdx, jIdx) {
           if (!userData || !userData.vehicles[vIdx] || !userData.vehicles[vIdx].jobs[jIdx]) return;
           const job = userData.vehicles[vIdx].jobs[jIdx];
@@ -813,10 +826,24 @@
           if (beforeImg || afterImg) {
               html += `<div class="job-photo-container">`;
               if (beforeImg) {
-                  html += `<div class="job-photo-box"><span style="font-size:0.75rem; color:#ffb700; font-weight:bold; text-transform:uppercase;">📸 Foto Prima</span><br><img src="${beforeImg}"></div>`;
+                  html += `
+                      <div class="job-photo-box">
+                          <span style="font-size:0.75rem; color:#ffb700; font-weight:bold; text-transform:uppercase;">📸 Foto Prima</span><br>
+                          <img src="${beforeImg}">
+                          <a href="${beforeImg}" target="_blank" download="foto_prima.jpg" class="btn" style="background:var(--accent-green); color:#000; font-size:0.65rem; padding:4px 8px; margin-top:4px; text-decoration:none; display:inline-block;">
+                              <i class="fa-solid fa-download"></i> Apri / Salva
+                          </a>
+                      </div>`;
               }
               if (afterImg) {
-                  html += `<div class="job-photo-box"><span style="font-size:0.75rem; color:var(--accent-green); font-weight:bold; text-transform:uppercase;">📸 Foto Dopo</span><br><img src="${afterImg}"></div>`;
+                  html += `
+                      <div class="job-photo-box">
+                          <span style="font-size:0.75rem; color:var(--accent-green); font-weight:bold; text-transform:uppercase;">📸 Foto Dopo</span><br>
+                          <img src="${afterImg}">
+                          <a href="${afterImg}" target="_blank" download="foto_dopo.jpg" class="btn" style="background:var(--accent-green); color:#000; font-size:0.65rem; padding:4px 8px; margin-top:4px; text-decoration:none; display:inline-block;">
+                              <i class="fa-solid fa-download"></i> Apri / Salva
+                          </a>
+                      </div>`;
               }
               html += `</div>`;
           } else {
