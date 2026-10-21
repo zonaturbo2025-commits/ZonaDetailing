@@ -446,9 +446,9 @@
             <h2 class="section-title" style="margin-bottom:10px; font-size:1.4rem;"><i class="fa-solid fa-headset"></i> Assistenza & <span>Ticket Info</span></h2>
             <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:20px;">Hai domande sui trattamenti o desideri un preventivo? Invia una richiesta diretta al nostro staff:</p>
             
-            <div class="form-group"><label>Nome e Cognome</label><input type="text" id="ticketName" class="form-control" placeholder="Es. Mario Rossi"></div>
-            <div class="form-group"><label>Recapito (Email o Telefono)</label><input type="text" id="ticketContact" class="form-control" placeholder="Es. 333 1234567 o email@gmail.com"></div>
-            <div class="form-group"><label>Messaggio / Dettagli Richiesta</label><textarea id="ticketMessage" class="form-control" rows="3" placeholder="Descrivi il tipo di intervento o il modello dell'auto..."></textarea></div>
+            <div class="form-group"><label>Nome e Cognome *</label><input type="text" id="ticketName" class="form-control" placeholder="Es. Mario Rossi"></div>
+            <div class="form-group"><label>Recapito (Email o Telefono) *</label><input type="text" id="ticketContact" class="form-control" placeholder="Es. 333 1234567 o email@gmail.com"></div>
+            <div class="form-group"><label>Messaggio / Dettagli Richiesta *</label><textarea id="ticketMessage" class="form-control" rows="3" placeholder="Descrivi il tipo di intervento o il modello dell'auto..."></textarea></div>
             <button class="btn btn-whatsapp" style="width:100%; justify-content:center;" onclick="sendSupportTicket()"><i class="fa-solid fa-paper-plane"></i> Invia Ticket</button>
         </div>
     </section>
@@ -486,27 +486,23 @@
             <div class="form-group">
                 <label>Nickname (@username) *</label>
                 <input type="text" id="signupNickname" class="form-control" placeholder="Es. mario_detail" required>
-                <span style="font-size: 0.7rem; color: #888; font-style: italic; margin-top: 3px;">* Il nickname serve per nascondere il nome reale nelle classifiche pubbliche ed apparire in modo anonimo/personalizzato.</span>
             </div>
 
             <div style="display:flex; gap:10px; margin-top:5px;">
                 <button class="btn btn-whatsapp" onclick="handleEmailLogin()" style="flex:1; justify-content: center;">Accedi</button>
                 <button class="btn" onclick="handleEmailSignup()" style="flex:1; justify-content: center; background:#222; color:var(--accent-green); border:1px solid var(--accent-green);">Iscriviti</button>
             </div>
-            <div style="margin-top:12px; text-align:center;">
-                <a href="javascript:void(0)" onclick="sendPasswordResetEmailInline()" style="color:#aaa; font-size:0.75rem; text-decoration:underline;">Password dimenticata? Recuperala qui</a>
-            </div>
         </div>
     </div>
 
-    <!-- 🏎️ SHOWROOM VIRTUAL GARAGE OVERLAY 🏎️ -->
+    <!-- VIRTUAL GARAGE OVERLAY -->
     <div class="profile-overlay" id="profileOverlay">
         <div class="garage-shutter-door" id="garageShutter"></div>
 
         <div class="garage-title-banner">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
                 <div style="display:flex; align-items:center; gap:12px; text-align:left;">
-                    <div style="position:relative; cursor:pointer;" onclick="document.getElementById('profileAvatarInput').click()" title="Cambia foto profilo">
+                    <div style="position:relative; cursor:pointer;" onclick="document.getElementById('profileAvatarInput').click()">
                         <img id="profileUserAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" style="width:50px; height:50px; border-radius:50%; border:2px solid var(--accent-green); object-fit:cover; background:#000;">
                         <input type="file" id="profileAvatarInput" style="display:none;" accept="image/*" onchange="uploadUserProfileAvatar(event)">
                     </div>
@@ -525,48 +521,23 @@
             </div>
         </div>
 
-        <div class="garage-bay-grid" id="garageBayGrid">
-            <!-- Posti auto generati dinamicamente -->
-        </div>
+        <div class="garage-bay-grid" id="garageBayGrid"></div>
     </div>
 
-    <!-- MODALE AGGIUNGI NUOVA AUTO -->
+    <!-- MODALE AGGIUNGI AUTO -->
     <div class="modal-overlay" id="addCarModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeAddCarModal()">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;"><i class="fa-solid fa-car-side"></i> Aggiungi Veicolo al Garage</h3>
-            
-            <div class="form-group">
-                <label>Marca Auto</label>
-                <select id="carBrandSelect" class="form-control" onchange="populateCarModelsDropdown()">
-                    <option value="">-- Seleziona Marca --</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Modello Auto</label>
-                <select id="carModelSelect" class="form-control">
-                    <option value="">-- Seleziona prima la Marca --</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Colore Auto (per la grafica)</label>
-                <input type="color" id="carColorInput" class="form-control" value="#a6f700" style="height:40px; cursor:pointer;">
-            </div>
-
-            <div class="form-group">
-                <label>Targa (Opzionale)</label>
-                <input type="text" id="carPlateInput" class="form-control" placeholder="Es. AA123BB">
-            </div>
-
-            <button class="btn btn-whatsapp" style="width:100%; justify-content:center; margin-top:10px;" onclick="saveNewCarToGarage()">
-                <i class="fa-solid fa-plus-circle"></i> Parcheggia nel Garage
-            </button>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;"><i class="fa-solid fa-car-side"></i> Aggiungi Veicolo</h3>
+            <div class="form-group"><label>Marca</label><select id="carBrandSelect" class="form-control" onchange="populateCarModelsDropdown()"><option value="">-- Seleziona --</option></select></div>
+            <div class="form-group"><label>Modello</label><select id="carModelSelect" class="form-control"><option value="">-- Seleziona --</option></select></div>
+            <div class="form-group"><label>Colore</label><input type="color" id="carColorInput" class="form-control" value="#a6f700" style="height:40px; cursor:pointer;"></div>
+            <div class="form-group"><label>Targa</label><input type="text" id="carPlateInput" class="form-control" placeholder="Es. AA123BB"></div>
+            <button class="btn btn-whatsapp" style="width:100%; justify-content:center; margin-top:10px;" onclick="saveNewCarToGarage()">Parcheggia</button>
         </div>
     </div>
 
-    <!-- MODALE DETTAGLI E FOTO MULTIPLE (SCHEDA DEDICATA) -->
+    <!-- MODALE DETTAGLI LAVORO -->
     <div class="modal-overlay" id="jobDetailModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeJobDetailModal()">&times;</span>
@@ -575,54 +546,24 @@
         </div>
     </div>
 
-    <!-- MODALE PROFILO UTENTE -->
+    <!-- MODALE PROFILO -->
     <div class="modal-overlay" id="userProfileModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeUserProfileModal()">&times;</span>
             <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:15px;"><i class="fa-solid fa-id-card"></i> Modifica Profilo</h3>
-            <div class="form-group">
-                <label>Nome e Cognome *</label>
-                <input type="text" id="editUserName" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>Nickname (@username) *</label>
-                <input type="text" id="editUserNickname" class="form-control" placeholder="Es. marco_detail" required>
-                <span style="font-size: 0.7rem; color: #888; font-style: italic; margin-top: 3px;">* Il nickname serve per nascondere il nome reale nelle classifiche pubbliche ed apparire in modo anonimo/personalizzato.</span>
-            </div>
-            <button class="btn btn-whatsapp" style="width:100%; justify-content:center;" onclick="saveUserProfileData()">Salva Modifiche</button>
+            <div class="form-group"><label>Nome e Cognome *</label><input type="text" id="editUserName" class="form-control"></div>
+            <div class="form-group"><label>Nickname *</label><input type="text" id="editUserNickname" class="form-control"></div>
+            <button class="btn btn-whatsapp" style="width:100%; justify-content:center;" onclick="saveUserProfileData()">Salva</button>
         </div>
     </div>
 
-    <!-- MODALE SICUREZZA E PRIVACY COMPLETA -->
+    <!-- MODALE SICUREZZA -->
     <div class="modal-overlay" id="securityInfoModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeSecurityInfoModal()">&times;</span>
-            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:12px;"><i class="fa-solid fa-shield-halved"></i> Sicurezza & Gestione Account</h3>
-            
-            <p style="font-size:0.82rem; color:#aaa; text-align:left; line-height:1.6; margin-bottom:15px;">
-                🔒 <strong>Protezione Firestore:</strong> I tuoi dati personali ed il garage sono protetti da crittografia Cloud nativa su Firebase Firestore.<br>
-                Solo lo staff autorizzato di Zona Detailing ha accesso alla gestione degli interventi.
-            </p>
-
-            <div style="border-top:1px solid #222; padding-top:12px; text-align:left;">
-                <h4 style="color:#fff; font-size:0.85rem; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-key"></i> Password & Recupero</h4>
-                <div class="form-group">
-                    <label>Invia Link di Ripristino Password via Email</label>
-                    <button class="btn btn-whatsapp" style="font-size:0.75rem; padding:8px 12px;" onclick="sendSecurityPasswordReset()"><i class="fa-solid fa-envelope-open-text"></i> Invia Email di Ripristino</button>
-                </div>
-
-                <div class="form-group" style="margin-top:10px;">
-                    <label>Cambia Password Direttamente</label>
-                    <input type="password" id="newSecPassword" class="form-control" placeholder="Nuova password (min. 6 caratteri)">
-                    <button class="btn btn-whatsapp" style="font-size:0.75rem; padding:8px 12px; margin-top:6px;" onclick="changeUserPasswordDirect()"><i class="fa-solid fa-lock"></i> Aggiorna Password</button>
-                </div>
-            </div>
-
-            <div style="border-top:1px solid #222; padding-top:12px; margin-top:12px; text-align:left;">
-                <h4 style="color:#fff; font-size:0.85rem; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-envelope-circle-check"></i> Codice di Verifica Email</h4>
-                <p style="font-size:0.75rem; color:#aaa; margin-bottom:8px;">Verifica il tuo indirizzo email per attivare le notifiche di sicurezza.</p>
-                <button class="btn btn-whatsapp" style="font-size:0.75rem; padding:8px 12px;" onclick="sendEmailVerificationCode()"><i class="fa-solid fa-paper-plane"></i> Invia Email di Verifica Account</button>
-            </div>
+            <h3 style="color:var(--accent-green); text-transform:uppercase; margin-bottom:12px;"><i class="fa-solid fa-shield-halved"></i> Sicurezza</h3>
+            <div class="form-group"><button class="btn btn-whatsapp" style="font-size:0.75rem; padding:8px;" onclick="sendSecurityPasswordReset()">Invia Email Ripristino Password</button></div>
+            <div class="form-group"><label>Nuova Password</label><input type="password" id="newSecPassword" class="form-control"><button class="btn btn-whatsapp" style="font-size:0.75rem; padding:8px; margin-top:6px;" onclick="changeUserPasswordDirect()">Aggiorna Password</button></div>
         </div>
     </div>
 
@@ -645,7 +586,6 @@
           const brand = document.getElementById('carBrandSelect').value;
           const modelSelect = document.getElementById('carModelSelect');
           modelSelect.innerHTML = '<option value="">-- Seleziona Modello --</option>';
-
           if (brand && carDatabase[brand]) {
               carDatabase[brand].forEach(model => {
                   modelSelect.innerHTML += `<option value="${model}">${model}</option>`;
@@ -653,7 +593,6 @@
           }
       }
 
-      /* AUTHENTICATION E SINCRONIZZAZIONE AVATAR NAVBAR */
       auth.onAuthStateChanged(async (user) => {
           currentUser = user;
           const btnAuthText = document.getElementById('btnAuthText');
@@ -661,7 +600,6 @@
           
           if (user) {
               btnAuthText.innerText = user.displayName ? user.displayName.split(' ')[0] : 'Profilo';
-              
               const userRef = db.collection('users').doc(user.uid);
               const docSnap = await userRef.get();
 
@@ -680,16 +618,22 @@
               userRef.onSnapshot(doc => {
                   if (doc.exists) {
                       userData = doc.data();
-                      
-                      if (userData.avatarUrl) {
-                          avatarContainer.innerHTML = `<img src="${userData.avatarUrl}" class="nav-user-avatar-img">`;
-                      } else {
-                          const defAvatar = user.photoURL || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
-                          avatarContainer.innerHTML = `<img src="${defAvatar}" class="nav-user-avatar-img">`;
-                      }
-
+                      const defAvatar = userData.avatarUrl || user.photoURL || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
+                      avatarContainer.innerHTML = `<img src="${defAvatar}" class="nav-user-avatar-img">`;
                       updateGarageUI(userData);
                       listenToLeaderboard();
+                      
+                      // Auto-compilazione campi ticket se utente loggato
+                      const tName = document.getElementById('ticketName');
+                      const tContact = document.getElementById('ticketContact');
+                      if (tName && userData.name) {
+                          tName.value = userData.name;
+                          tName.disabled = true;
+                      }
+                      if (tContact && (userData.email || currentUser.email)) {
+                          tContact.value = userData.email || currentUser.email;
+                          tContact.disabled = true;
+                      }
                   }
               });
           } else {
@@ -697,6 +641,12 @@
               avatarContainer.innerHTML = `<i class="fa-solid fa-user"></i>`;
               userData = null;
               listenToLeaderboard();
+
+              // Riabilita campi ticket se ospite
+              const tName = document.getElementById('ticketName');
+              const tContact = document.getElementById('ticketContact');
+              if (tName) { tName.value = ""; tName.disabled = false; }
+              if (tContact) { tContact.value = ""; tContact.disabled = false; }
           }
       });
 
@@ -709,33 +659,18 @@
           }
       }
 
-      function toggleMobileMenu() {
-          document.getElementById('navLinksMenu').classList.toggle('active');
-      }
-
-      function closeMobileMenu() {
-          document.getElementById('navLinksMenu').classList.remove('active');
-      }
+      function toggleMobileMenu() { document.getElementById('navLinksMenu').classList.toggle('active'); }
+      function closeMobileMenu() { document.getElementById('navLinksMenu').classList.remove('active'); }
 
       async function handleGoogleAuth() {
           const provider = new firebase.auth.GoogleAuthProvider();
-          try {
-              await auth.signInWithPopup(provider);
-              closeAuthModal();
-          } catch(e) { alert("Errore Google Auth: " + e.message); }
+          try { await auth.signInWithPopup(provider); closeAuthModal(); } catch(e) { alert("Errore: " + e.message); }
       }
 
       async function handleEmailLogin() {
           const email = document.getElementById('loginEmail').value;
           const pass = document.getElementById('loginPassword').value;
-          if (!email || !pass) {
-              alert("Inserisci email e password!");
-              return;
-          }
-          try {
-              await auth.signInWithEmailAndPassword(email, pass);
-              closeAuthModal();
-          } catch(err) { alert("Errore Accesso: " + err.message); }
+          try { await auth.signInWithEmailAndPassword(email, pass); closeAuthModal(); } catch(err) { alert("Errore: " + err.message); }
       }
 
       async function handleEmailSignup() {
@@ -743,93 +678,46 @@
           const pass = document.getElementById('loginPassword').value;
           const fullName = document.getElementById('signupFullName').value.trim();
           const nickname = document.getElementById('signupNickname').value.trim();
-
-          if (!email || !pass) {
-              alert("Inserisci email e password per registrarti!");
-              return;
-          }
-          if (!fullName || !nickname) {
-              alert("Nome e Cognome e Nickname sono obbligatori per completare la registrazione!");
-              return;
-          }
-
+          if (!email || !pass || !fullName || !nickname) { alert("Compila tutti i campi obbligatori!"); return; }
           try {
               const res = await auth.createUserWithEmailAndPassword(email, pass);
-              await db.collection('users').doc(res.user.uid).set({
-                  name: fullName,
-                  email: email,
-                  nickname: nickname,
-                  points: 0,
-                  vehicles: [],
-                  avatarUrl: ''
-              });
+              await db.collection('users').doc(res.user.uid).set({ name: fullName, email, nickname, points: 0, vehicles: [], avatarUrl: '' });
               closeAuthModal();
-          } catch(err) { alert("Errore Registrazione: " + err.message); }
+          } catch(err) { alert("Errore: " + err.message); }
       }
 
-      function logoutUser() {
-          auth.signOut();
-          document.getElementById('userDropdown').style.display = 'none';
-          closeProfileOverlay();
-      }
-
+      function logoutUser() { auth.signOut(); document.getElementById('userDropdown').style.display = 'none'; closeProfileOverlay(); }
       function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
-
-      async function sendPasswordResetEmailInline() {
-          const email = document.getElementById('loginEmail').value;
-          if (!email) {
-              alert("Inserisci il tuo indirizzo email nel campo soprastante per ricevere il link di ripristino!");
-              return;
-          }
-          try {
-              await auth.sendPasswordResetEmail(email);
-              alert("Email di ripristino inviata a " + email + ". Controlla la tua casella di posta.");
-          } catch(e) {
-              alert("Errore invio email: " + e.message);
-          }
-      }
 
       function openProfileOverlay() {
           document.getElementById('userDropdown').style.display = 'none';
           const overlay = document.getElementById('profileOverlay');
           const shutter = document.getElementById('garageShutter');
-          
           overlay.style.display = 'block';
           shutter.classList.remove('open');
-
-          setTimeout(() => {
-              shutter.classList.add('open');
-          }, 100);
+          setTimeout(() => { shutter.classList.add('open'); }, 100);
       }
 
       function closeProfileOverlay() {
           const shutter = document.getElementById('garageShutter');
           shutter.classList.remove('open');
-          setTimeout(() => {
-              document.getElementById('profileOverlay').style.display = 'none';
-          }, 600);
+          setTimeout(() => { document.getElementById('profileOverlay').style.display = 'none'; }, 600);
       }
 
-      /* AGGIORNAMENTO GARAGE CON SISTEMA TAB */
       function updateGarageUI(data) {
           if (!data) return;
-
           document.getElementById('garageOwnerName').innerText = data.name ? data.name.toUpperCase() : 'MIO';
           const points = data.points || 0;
           document.getElementById('garageUserPoints').innerText = `${points} PT`;
-
           const tier = getClientTier(points);
           const tierEl = document.getElementById('garageUserTier');
           tierEl.innerText = tier.name;
           tierEl.style.color = tier.color;
 
-          if (data.avatarUrl) {
-              document.getElementById('profileUserAvatar').src = data.avatarUrl;
-          }
+          if (data.avatarUrl) document.getElementById('profileUserAvatar').src = data.avatarUrl;
 
           const grid = document.getElementById('garageBayGrid');
           grid.innerHTML = "";
-
           const vehicles = data.vehicles || [];
 
           vehicles.forEach((v, vIdx) => {
@@ -839,11 +727,8 @@
               if (v.jobs && v.jobs.length > 0) {
                   v.jobs.forEach((j, jIdx) => {
                       let status = j.status ? j.status.toLowerCase().trim() : '';
-                      const hasAfterPhoto = (j.afterPhotos && j.afterPhotos.length > 0) || j.afterPhotoUrl || j.afterPhoto || '';
-
-                      if (!status && hasAfterPhoto) {
-                          status = 'done';
-                      }
+                      const hasAfterPhoto = (j.afterPhotos && j.afterPhotos.length > 0) || j.afterPhotoUrl || '';
+                      if (!status && hasAfterPhoto) status = 'done';
 
                       let statusBadge = '';
                       let cardClass = 'job-item-card';
@@ -863,59 +748,37 @@
                                   <strong style="color:#fff;">${j.desc || 'Intervento Detailing'}</strong>
                                   <span style="font-size:0.65rem;">${statusBadge}</span>
                               </div>
-                              <div style="font-size:0.72rem; color:#aaa; margin-top:3px;">
-                                  📅 ${j.jobDate || 'Data n/d'} ore ${j.jobTime || '--:--'}
-                              </div>
-                              <div style="font-size:0.68rem; color:var(--accent-green); margin-top:4px; font-style:italic;">
-                                  <i class="fa-solid fa-camera"></i> Clicca per vedere galleria foto
-                              </div>
+                              <div style="font-size:0.72rem; color:#aaa; margin-top:3px;">📅 ${j.jobDate || 'n/d'} ore ${j.jobTime || '--:--'}</div>
                           </div>
                       `;
 
-                      if (status === 'done' || status === 'closed') {
-                          closedJobsHtml += jobItemCardHtml;
-                      } else {
-                          activeJobsHtml += jobItemCardHtml;
-                      }
+                      if (status === 'done' || status === 'closed') closedJobsHtml += jobItemCardHtml;
+                      else activeJobsHtml += jobItemCardHtml;
                   });
               }
 
-              if (!activeJobsHtml) {
-                  activeJobsHtml = `<div style="color:#666; font-size:0.75rem; text-align:center; padding:15px;">Nessun lavoro programmato o in corso.</div>`;
-              }
-              if (!closedJobsHtml) {
-                  closedJobsHtml = `<div style="color:#666; font-size:0.75rem; text-align:center; padding:15px;">Nessun lavoro eseguito finora.</div>`;
-              }
-
-              const carColor = v.color || '#a6f700';
+              if (!activeJobsHtml) activeJobsHtml = `<div style="color:#666; font-size:0.75rem; text-align:center; padding:15px;">Nessun lavoro programmato.</div>`;
+              if (!closedJobsHtml) closedJobsHtml = `<div style="color:#666; font-size:0.75rem; text-align:center; padding:15px;">Nessun lavoro eseguito.</div>`;
 
               grid.innerHTML += `
                   <div class="parking-spot">
                       <div class="spot-number-badge">BAY ${vIdx + 1}</div>
-                      <button class="btn-delete-car" onclick="deleteCarFromGarage(${vIdx})" title="Rimuovi veicolo"><i class="fa-solid fa-trash-can"></i></button>
-
+                      <button class="btn-delete-car" onclick="deleteCarFromGarage(${vIdx})"><i class="fa-solid fa-trash-can"></i></button>
                       <div class="car-parking-graphics">
-                          <i class="fa-solid fa-car-side" style="color:${carColor};"></i>
+                          <i class="fa-solid fa-car-side" style="color:${v.color || '#a6f700'};"></i>
                           <div class="parking-floor-lines"></div>
                       </div>
-
                       <div class="car-neon-plate">
                           <strong style="font-size:0.95rem; color:#fff;">${v.brand} ${v.model}</strong><br>
-                          <span style="font-size:0.75rem; color:#aaa; font-weight:bold;">${v.plate || 'Nessuna Targa'}</span>
+                          <span style="font-size:0.75rem; color:#aaa;">${v.plate || 'No Targa'}</span>
                       </div>
-
-                      <!-- SISTEMA A TAB MOBILE-FRIENDLY -->
                       <div class="car-jobs-tabs-wrapper">
                           <div class="job-tabs-header">
-                              <button class="job-tab-btn active" onclick="switchJobTab(event, 'activeTab-${vIdx}')">Da Fare / In Corso</button>
+                              <button class="job-tab-btn active" onclick="switchJobTab(event, 'activeTab-${vIdx}')">In Corso</button>
                               <button class="job-tab-btn" onclick="switchJobTab(event, 'closedTab-${vIdx}')">Eseguiti</button>
                           </div>
-                          <div id="activeTab-${vIdx}" class="job-tab-content active">
-                              ${activeJobsHtml}
-                          </div>
-                          <div id="closedTab-${vIdx}" class="job-tab-content">
-                              ${closedJobsHtml}
-                          </div>
+                          <div id="activeTab-${vIdx}" class="job-tab-content active">${activeJobsHtml}</div>
+                          <div id="closedTab-${vIdx}" class="job-tab-content">${closedJobsHtml}</div>
                       </div>
                   </div>
               `;
@@ -932,92 +795,21 @@
       function switchJobTab(e, tabContentId) {
           const header = e.currentTarget.parentElement;
           const wrapper = header.parentElement;
-          
           header.querySelectorAll('.job-tab-btn').forEach(btn => btn.classList.remove('active'));
           e.currentTarget.classList.add('active');
-
-          wrapper.querySelectorAll('.job-tab-content').forEach(content => content.classList.remove('active'));
+          wrapper.querySelectorAll('.job-tab-content').forEach(c => c.classList.remove('active'));
           document.getElementById(tabContentId).classList.add('active');
       }
 
-      /* SCHEDA DEDICATA PER LA VISUALIZZAZIONE DI FOTO MULTIPLE (PRIMA / DOPO) */
       function openJobDetailModal(vIdx, jIdx) {
           if (!userData || !userData.vehicles[vIdx] || !userData.vehicles[vIdx].jobs[jIdx]) return;
           const job = userData.vehicles[vIdx].jobs[jIdx];
-
-          let statusTxt = '⏳ Programmato (In attesa dello staff)';
-          if (job.status === 'working') statusTxt = '🛠️ IN LAVORAZIONE (Aggiornato in tempo reale)';
-          if (job.status === 'done' || job.status === 'closed' || (job.afterPhotos && job.afterPhotos.length > 0)) statusTxt = '✅ ESEGUITO (Punti fedeltà accreditati!)';
-
-          let html = `
-              <div style="margin-bottom:12px; border-bottom:1px solid #222; padding-bottom:8px;">
-                  <strong>Servizio:</strong> ${job.desc || 'Intervento Detailing'}<br>
-                  <strong>Data & Ora:</strong> ${job.jobDate || 'n/d'} alle ${job.jobTime || '--:--'}<br>
-                  <strong>Indirizzo:</strong> ${job.address || 'Presso domicilio'}<br>
-                  <strong>Stato:</strong> <span style="color:var(--accent-green); font-weight:bold;">${statusTxt}</span>
-              </div>
-          `;
-
-          // Gestione Foto "Prima"
-          let beforeList = [];
-          if (job.beforePhotos && Array.isArray(job.beforePhotos)) beforeList = job.beforePhotos;
-          else if (job.beforePhotoUrl) beforeList = [job.beforePhotoUrl];
-          else if (job.beforePhoto) beforeList = [job.beforePhoto];
-
-          if (beforeList.length > 0) {
-              html += `
-                  <div class="gallery-section-box">
-                      <div style="font-size:0.75rem; color:#ffb700; font-weight:bold; text-transform:uppercase;"><i class="fa-solid fa-camera"></i> Foto Prima (${beforeList.length})</div>
-                      <div class="gallery-grid-scroll">
-              `;
-              beforeList.forEach(url => {
-                  html += `
-                      <div class="gallery-photo-card">
-                          <img src="${url}">
-                          <a href="${url}" target="_blank" download="foto_prima.jpg" class="btn" style="background:var(--accent-green); color:#000; font-size:0.6rem; padding:3px 6px; width:100%; justify-content:center; text-decoration:none; margin-top:2px;">
-                              <i class="fa-solid fa-download"></i> Apri
-                          </a>
-                      </div>
-                  `;
-              });
-              html += `</div></div>`;
-          }
-
-          // Gestione Foto "Dopo"
-          let afterList = [];
-          if (job.afterPhotos && Array.isArray(job.afterPhotos)) afterList = job.afterPhotos;
-          else if (job.afterPhotoUrl) afterList = [job.afterPhotoUrl];
-          else if (job.afterPhoto) afterList = [job.afterPhoto];
-
-          if (afterList.length > 0) {
-              html += `
-                  <div class="gallery-section-box">
-                      <div style="font-size:0.75rem; color:var(--accent-green); font-weight:bold; text-transform:uppercase;"><i class="fa-solid fa-camera"></i> Foto Dopo (${afterList.length})</div>
-                      <div class="gallery-grid-scroll">
-              `;
-              afterList.forEach(url => {
-                  html += `
-                      <div class="gallery-photo-card">
-                          <img src="${url}">
-                          <a href="${url}" target="_blank" download="foto_dopo.jpg" class="btn" style="background:var(--accent-green); color:#000; font-size:0.6rem; padding:3px 6px; width:100%; justify-content:center; text-decoration:none; margin-top:2px;">
-                              <i class="fa-solid fa-download"></i> Apri
-                          </a>
-                      </div>
-                  `;
-              });
-              html += `</div></div>`;
-          }
-
-          if (beforeList.length === 0 && afterList.length === 0) {
-              html += `<div style="font-size:0.8rem; color:#777; text-align:center; margin-top:15px; font-style:italic;">Le foto "Prima e Dopo" saranno disponibili qui non appena caricate dallo staff.</div>`;
-          }
-
+          let html = `<strong>Servizio:</strong> ${job.desc}<br><strong>Data:</strong> ${job.jobDate} ore ${job.jobTime}<br>`;
           document.getElementById('jobDetailContent').innerHTML = html;
           document.getElementById('jobDetailModal').style.display = 'flex';
       }
 
       function closeJobDetailModal() { document.getElementById('jobDetailModal').style.display = 'none'; }
-
       function openAddCarModal() { document.getElementById('addCarModal').style.display = 'flex'; }
       function closeAddCarModal() { document.getElementById('addCarModal').style.display = 'none'; }
 
@@ -1026,27 +818,15 @@
           const model = document.getElementById('carModelSelect').value;
           const color = document.getElementById('carColorInput').value;
           const plate = document.getElementById('carPlateInput').value.toUpperCase();
-
-          if (!brand || !model) {
-              alert("Seleziona sia la marca che il modello dell'auto!");
-              return;
-          }
-
+          if (!brand || !model) { alert("Seleziona marca e modello!"); return; }
           const vehicles = userData.vehicles || [];
-          vehicles.push({
-              brand,
-              model,
-              color,
-              plate: plate || 'NO TARGA',
-              jobs: []
-          });
-
+          vehicles.push({ brand, model, color, plate: plate || 'NO TARGA', jobs: [] });
           await db.collection('users').doc(currentUser.uid).update({ vehicles });
           closeAddCarModal();
       }
 
       async function deleteCarFromGarage(vIdx) {
-          if (confirm("Sei sicuro di voler rimuovere questo veicolo dal garage?")) {
+          if (confirm("Rimuovere il veicolo?")) {
               userData.vehicles.splice(vIdx, 1);
               await db.collection('users').doc(currentUser.uid).update({ vehicles: userData.vehicles });
           }
@@ -1064,16 +844,8 @@
       async function saveUserProfileData() {
           const name = document.getElementById('editUserName').value.trim();
           const nickname = document.getElementById('editUserNickname').value.trim();
-
-          if (!name || !nickname) {
-              alert("Nome e Cognome e Nickname sono obbligatori!");
-              return;
-          }
-
-          await db.collection('users').doc(currentUser.uid).update({
-              name,
-              nickname
-          });
+          if (!name || !nickname) { alert("Compila i campi obbligatori!"); return; }
+          await db.collection('users').doc(currentUser.uid).update({ name, nickname });
           closeUserProfileModal();
       }
 
@@ -1087,14 +859,11 @@
                   img.onload = async function() {
                       const canvas = document.createElement('canvas');
                       const MAX_WIDTH = 300;
-                      const scaleSize = MAX_WIDTH / img.width;
                       canvas.width = MAX_WIDTH;
-                      canvas.height = img.height * scaleSize;
-
+                      canvas.height = img.height * (MAX_WIDTH / img.width);
                       const ctx = canvas.getContext('2d');
                       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                       const base64 = canvas.toDataURL('image/jpeg', 0.8);
-
                       await db.collection('users').doc(currentUser.uid).update({ avatarUrl: base64 });
                   };
               };
@@ -1106,41 +875,16 @@
       function closeSecurityInfoModal() { document.getElementById('securityInfoModal').style.display = 'none'; }
 
       async function sendSecurityPasswordReset() {
-          if (!currentUser || !currentUser.email) {
-              alert("Devi essere autenticato per richiedere il reset!");
-              return;
-          }
-          try {
-              await auth.sendPasswordResetEmail(currentUser.email);
-              alert("Email di ripristino password inviata a " + currentUser.email);
-          } catch(e) {
-              alert("Errore invio email: " + e.message);
-          }
+          if (!currentUser) return;
+          await auth.sendPasswordResetEmail(currentUser.email);
+          alert("Email di ripristino inviata.");
       }
 
       async function changeUserPasswordDirect() {
-          const newPass = document.getElementById('newSecPassword').value;
-          if (!newPass || newPass.length < 6) {
-              alert("Inserisci una password valida di almeno 6 caratteri!");
-              return;
-          }
-          try {
-              await currentUser.updatePassword(newPass);
-              alert("Password aggiornata con successo!");
-              document.getElementById('newSecPassword').value = "";
-          } catch(e) {
-              alert("Errore cambio password (potrebbe essere necessario rieffettuare il login): " + e.message);
-          }
-      }
-
-      async function sendEmailVerificationCode() {
-          if (!currentUser) return;
-          try {
-              await currentUser.sendEmailVerification();
-              alert("Email di verifica inviata all'indirizzo " + currentUser.email + ". Controlla la tua posta!");
-          } catch(e) {
-              alert("Errore invio verifica: " + e.message);
-          }
+          const p = document.getElementById('newSecPassword').value;
+          if (!p || p.length < 6) { alert("Password minima 6 caratteri"); return; }
+          await currentUser.updatePassword(p);
+          alert("Password aggiornata!");
       }
 
       function scrollToTicketSection() {
@@ -1157,14 +901,11 @@
                   img.src = e.target.result;
                   img.onload = function() {
                       const canvas = document.createElement('canvas');
-                      const MAX_WIDTH = 600;
-                      const scaleSize = MAX_WIDTH / img.width;
-                      canvas.width = MAX_WIDTH;
-                      canvas.height = img.height * scaleSize;
+                      canvas.width = 600;
+                      canvas.height = img.height * (600 / img.width);
                       const ctx = canvas.getContext('2d');
                       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                       const base64 = canvas.toDataURL('image/jpeg', 0.7);
-
                       document.getElementById('reviewPhotoUrl').value = base64;
                       document.getElementById('reviewPhotoPreview').innerHTML = `<div class="photo-preview-wrapper"><img src="${base64}" class="photo-preview-img"></div>`;
                   };
@@ -1174,65 +915,40 @@
       }
 
       async function submitClientReview() {
-          if (!currentUser) {
-              alert("Accedi per pubblicare la tua recensione!");
-              openAuthModal();
-              return;
-          }
-
+          if (!currentUser) { alert("Accedi per pubblicare!"); openAuthModal(); return; }
           const stars = parseInt(document.getElementById('reviewStarsInput').value);
           const text = document.getElementById('reviewTextInput').value;
           const photoUrl = document.getElementById('reviewPhotoUrl').value || '';
-
-          if (!text) {
-              alert("Inserisci un testo per la tua recensione!");
-              return;
-          }
+          if (!text) { alert("Scrivi una recensione!"); return; }
 
           await db.collection('reviews').add({
               userId: currentUser.uid,
-              userName: userData.name || 'Cliente Zona Detailing',
+              userName: userData.name || 'Cliente',
               userAvatar: userData.avatarUrl || '',
-              stars,
-              text,
-              photoUrl,
+              stars, text, photoUrl,
               createdAt: new Date().toISOString()
           });
-
-          alert("Grazie! La tua recensione è stata pubblicata.");
+          alert("Recensione pubblicata!");
           document.getElementById('reviewTextInput').value = "";
-          document.getElementById('reviewPhotoUrl').value = "";
-          document.getElementById('reviewPhotoPreview').innerHTML = "";
       }
 
       function listenToPublicReviews() {
           db.collection('reviews').orderBy('createdAt', 'desc').limit(6).onSnapshot(snapshot => {
               const grid = document.getElementById('publicReviewsGrid');
               grid.innerHTML = "";
-
-              if (snapshot.empty) {
-                  grid.innerHTML = "<p style='color:#777; text-align:center; grid-column: 1/-1;'>Ancora nessuna recensione. Sii il primo a lasciarne una!</p>";
-                  return;
-              }
-
+              if (snapshot.empty) { grid.innerHTML = "<p style='color:#777; text-align:center;'>Nessuna recensione.</p>"; return; }
               snapshot.forEach(doc => {
                   const r = doc.data();
-                  let starsHtml = "★".repeat(r.stars) + "☆".repeat(5 - r.stars);
-                  const avatar = r.userAvatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
-
                   grid.innerHTML += `
                       <div class="review-card">
                           <div>
                               ${r.photoUrl ? `<img src="${r.photoUrl}" class="review-car-img">` : ''}
-                              <div class="review-stars">${starsHtml}</div>
+                              <div class="review-stars">${"★".repeat(r.stars)}</div>
                               <p class="review-text">"${r.text}"</p>
                           </div>
                           <div class="review-author">
-                              <img src="${avatar}">
-                              <div>
-                                  <strong style="font-size:0.85rem; color:#fff;">${r.userName}</strong><br>
-                                  <span style="font-size:0.7rem; color:var(--accent-green);">Cliente Verificato</span>
-                              </div>
+                              <img src="${r.userAvatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1'}">
+                              <div><strong style="color:#fff;">${r.userName}</strong><br><span style="font-size:0.7rem; color:var(--accent-green);">Verificato</span></div>
                           </div>
                       </div>
                   `;
@@ -1240,68 +956,43 @@
           });
       }
 
-      /* CLASSIFICA LIVE TOP 3 + POSIZIONE PERSONALE */
       function listenToLeaderboard() {
           db.collection('users').orderBy('points', 'desc').onSnapshot(snapshot => {
               const listEl = document.getElementById('leaderboardList');
               const myRankContainer = document.getElementById('myRankContainer');
               listEl.innerHTML = "";
               myRankContainer.innerHTML = "";
-
-              if (snapshot.empty) {
-                  listEl.innerHTML = "<p style='color:#777; text-align:center; font-size:0.85rem;'>Classifica in fase di aggiornamento...</p>";
-                  return;
-              }
-
               let allUsers = [];
-              snapshot.forEach(doc => {
-                  allUsers.push({ id: doc.id, ...doc.data() });
-              });
+              snapshot.forEach(doc => allUsers.push({ id: doc.id, ...doc.data() }));
 
               let rank = 1;
               allUsers.slice(0, 3).forEach(u => {
-                  const displayName = u.nickname ? `@${u.nickname}` : (u.name || 'Cliente');
-                  const points = u.points || 0;
-                  const avatar = u.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
-                  const tier = getClientTier(points);
-
-                  let medalIcon = '🥇';
-                  if (rank === 2) medalIcon = '🥈';
-                  if (rank === 3) medalIcon = '🥉';
-
+                  const name = u.nickname ? `@${u.nickname}` : (u.name || 'Cliente');
+                  const pts = u.points || 0;
+                  const tier = getClientTier(pts);
                   listEl.innerHTML += `
                       <div class="leaderboard-item">
-                          <div class="leaderboard-rank">${medalIcon}</div>
+                          <div class="leaderboard-rank">${rank === 1 ? '🥇' : (rank === 2 ? '🥈' : '🥉')}</div>
                           <div class="leaderboard-user-info">
-                              <img src="${avatar}" class="leaderboard-avatar">
-                              <div>
-                                  <strong style="font-size:0.9rem; color:#fff;">${displayName}</strong><br>
-                                  <span style="font-size:0.72rem; font-weight:700; color:${tier.color};">${tier.name}</span>
-                              </div>
+                              <img src="${u.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1'}" class="leaderboard-avatar">
+                              <div><strong style="color:#fff;">${name}</strong><br><span style="font-size:0.7rem; color:${tier.color};">${tier.name}</span></div>
                           </div>
-                          <div class="leaderboard-points">${points} PT</div>
+                          <div class="leaderboard-points">${pts} PT</div>
                       </div>
                   `;
                   rank++;
               });
 
               if (currentUser) {
-                  const userIndex = allUsers.findIndex(u => u.id === currentUser.uid);
-                  if (userIndex !== -1) {
-                      const myRank = userIndex + 1;
-                      const myData = allUsers[userIndex];
-                      const myPoints = myData.points || 0;
-
+                  const idx = allUsers.findIndex(u => u.id === currentUser.uid);
+                  if (idx !== -1) {
                       myRankContainer.innerHTML = `
                           <div class="my-rank-banner">
                               <div style="display:flex; align-items:center; gap:10px;">
-                                  <span style="font-size:1.3rem; font-weight:900; color:var(--accent-green);">#${myRank}</span>
-                                  <div>
-                                      <div style="font-size:0.75rem; color:#aaa; text-transform:uppercase;">La Tua Posizione Attuale</div>
-                                      <strong style="font-size:0.85rem; color:#fff;">${myData.nickname ? '@' + myData.nickname : (myData.name || 'Tu')}</strong>
-                                  </div>
+                                  <span style="font-size:1.3rem; font-weight:900; color:var(--accent-green);">#${idx + 1}</span>
+                                  <div><div style="font-size:0.75rem; color:#aaa;">Tua Posizione</div><strong style="color:#fff;">${allUsers[idx].nickname ? '@'+allUsers[idx].nickname : 'Tu'}</strong></div>
                               </div>
-                              <div class="leaderboard-points" style="font-size:0.9rem;">${myPoints} PT</div>
+                              <div class="leaderboard-points">${allUsers[idx].points || 0} PT</div>
                           </div>
                       `;
                   }
@@ -1309,13 +1000,18 @@
           });
       }
 
+      /* INVIO TICKET CON SUPPORTO UTENTI LOGGATI O OSPITI */
       async function sendSupportTicket() {
-          const name = document.getElementById('ticketName').value;
-          const contact = document.getElementById('ticketContact').value;
-          const message = document.getElementById('ticketMessage').value;
+          const nameInput = document.getElementById('ticketName');
+          const contactInput = document.getElementById('ticketContact');
+          const messageInput = document.getElementById('ticketMessage');
+
+          const name = nameInput.value.trim();
+          const contact = contactInput.value.trim();
+          const message = messageInput.value.trim();
 
           if (!name || !contact || !message) {
-              alert("Compila tutti i campi per inviare il ticket!");
+              alert("Compila tutti i campi obbligatori per inviare il ticket!");
               return;
           }
 
@@ -1324,12 +1020,16 @@
                   name,
                   contact,
                   message,
+                  userId: currentUser ? currentUser.uid : 'guest',
                   date: new Date().toISOString()
               });
-              alert("Ticket inviato con successo! Il nostro staff ti risponderà al più presto.");
-              document.getElementById('ticketName').value = "";
-              document.getElementById('ticketContact').value = "";
-              document.getElementById('ticketMessage').value = "";
+              alert("Ticket inviato con successo! Ti risponderemo al più presto.");
+              
+              messageInput.value = "";
+              if (!currentUser) {
+                  nameInput.value = "";
+                  contactInput.value = "";
+              }
           } catch(e) {
               alert("Errore invio ticket: " + e.message);
           }
