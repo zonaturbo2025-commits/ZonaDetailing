@@ -239,7 +239,6 @@
         .spot-number-badge { position: absolute; top: 12px; left: 12px; background: #000; border: 1px solid var(--accent-green); color: var(--accent-green); font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 20px; }
         .btn-delete-car { position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: #ff5555; font-size: 1.1rem; cursor: pointer; }
 
-        /* POSTO AUTO ANIMATO CON SILHOUETTE */
         .car-parking-graphics { width: 100%; height: 100px; margin: 15px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .car-parking-graphics i { font-size: 3.5rem; filter: drop-shadow(0 0 10px rgba(166,247,0,0.4)); }
         .parking-floor-lines { width: 80%; height: 8px; border-bottom: 2px dashed var(--accent-green); margin-top: 5px; opacity: 0.6; }
@@ -1113,7 +1112,11 @@
       }
 
       async function saveAdminJob() {
-          if (!selectedAdminUserDoc) return alert("Seleziona prima un cliente!");
+          if (!selectedAdminUserDoc) {
+              alert("Attenzione: Seleziona prima un cliente dal menu a tendina!");
+              return;
+          }
+
           const carIdx = document.getElementById('adminCarSelect').value;
           let status = document.getElementById('adminJobStatus').value;
           const desc = document.getElementById('adminJobDesc').value;
@@ -1124,24 +1127,46 @@
           const beforePhotoUrl = document.getElementById('adminBeforePhotoUrl').value || '';
           const afterPhotoUrl = document.getElementById('adminAfterPhotoUrl').value || '';
 
-          if (status === 'completed') { status = 'done'; jobDate = new Date().toISOString().split('T')[0]; }
+          if (status === 'completed') { 
+              status = 'done'; 
+              jobDate = new Date().toISOString().split('T')[0]; 
+          }
 
           const vehicles = selectedAdminUserDoc.vehicles || [];
-          if (!vehicles[carIdx]) return alert("Seleziona un'auto per il cliente!");
+          if (carIdx === "" || !vehicles[carIdx]) {
+              alert("Errore: Il cliente selezionato non ha un'auto valida o non è stata selezionata alcuna vettura nel box!");
+              return;
+          }
+
           if (!vehicles[carIdx].jobs) vehicles[carIdx].jobs = [];
 
-          vehicles[carIdx].jobs.push({ status, desc: desc || 'Servizio Detailing', jobDate, jobTime, address, beforePhotoUrl, afterPhotoUrl, date: new Date().toISOString() });
+          vehicles[carIdx].jobs.push({ 
+              status, 
+              desc: desc || 'Servizio Detailing', 
+              jobDate, 
+              jobTime, 
+              address, 
+              beforePhotoUrl, 
+              afterPhotoUrl, 
+              date: new Date().toISOString() 
+          });
+
           let newPoints = (selectedAdminUserDoc.points || 0);
           if (status === 'done') newPoints += pts;
 
           try {
-              await db.collection('users').doc(selectedAdminUserDoc.id).update({ vehicles, points: newPoints });
+              await db.collection('users').doc(selectedAdminUserDoc.id).update({ 
+                  vehicles: vehicles, 
+                  points: newPoints 
+              });
               alert("Intervento salvato con successo!");
-              removePhoto('before'); removePhoto('after');
+              removePhoto('before'); 
+              removePhoto('after');
+              document.getElementById('adminJobDesc').value = "";
               selectClientAdmin(selectedAdminUserDoc.id);
               loadAdminReport();
           } catch(e) {
-              alert("Errore salvataggio intervento: " + e.message);
+              alert("Errore di scrittura su Firebase: " + e.message);
           }
       }
 
