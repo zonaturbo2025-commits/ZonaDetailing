@@ -266,12 +266,11 @@
         .add-parking-spot:hover { border-color: var(--accent-green); }
 
         /* SCHEDA DEDICATA GALLERIA FOTO MULTIPLE (SCORREVOLE E PULITA) */
-        .gallery-section-box { margin-top: 15px; background: #0e110e; border: 1px solid #222; border-radius: 10px; padding: 12px; text-align: left; }
-        .gallery-grid-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; margin-top: 8px; }
-        .gallery-grid-scroll::-webkit-scrollbar { height: 6px; }
-        .gallery-grid-scroll::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 3px; }
-        .gallery-photo-card { flex: 0 0 130px; background: #000; border: 1px solid var(--accent-green); border-radius: 8px; padding: 6px; text-align: center; }
-        .gallery-photo-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; margin-bottom: 6px; }
+        .client-gallery-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-top: 6px; }
+        .client-gallery-scroll::-webkit-scrollbar { height: 5px; }
+        .client-gallery-scroll::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 3px; }
+        .client-photo-thumb { flex: 0 0 75px; height: 75px; border-radius: 6px; overflow: hidden; border: 1px solid var(--accent-green); background: #000; cursor: pointer; }
+        .client-photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
         footer { border-top: 1px solid var(--border-color); padding: 30px 15px; text-align: center; background-color: #050505; color: #777; font-size: 0.8rem; }
         .social-footer { margin-bottom: 12px; display: flex; justify-content: center; gap: 20px; }
@@ -369,12 +368,8 @@
         <p style="text-align: center; color: #aaa; font-size: 0.85rem; margin-bottom: 25px;">Accumula punti con ogni intervento di detailing e scala la classifica dei migliori detailers!</p>
         
         <div class="leaderboard-box">
-            <div id="leaderboardList">
-                <!-- Generato dinamicamente via JS (Top 3) -->
-            </div>
-            <div id="myRankContainer">
-                <!-- Box posizione utente loggato generato dinamicamente -->
-            </div>
+            <div id="leaderboardList"></div>
+            <div id="myRankContainer"></div>
         </div>
     </section>
 
@@ -415,7 +410,6 @@
         
         <div class="reviews-grid" id="publicReviewsGrid" style="margin-bottom:30px;"></div>
 
-        <!-- BOX PER PUBBLICARE RECENSIONE -->
         <div style="background:#0e110e; border:1px solid var(--accent-green); padding:25px; border-radius:15px; max-width:650px; margin: 0 auto; text-align:left;">
             <h4 style="color:var(--accent-green); margin-bottom:12px; text-transform:uppercase; font-size:0.95rem; text-align:center;"><i class="fa-solid fa-star"></i> Lascia la Tua Recensione</h4>
             <div class="form-group">
@@ -537,7 +531,7 @@
         </div>
     </div>
 
-    <!-- MODALE DETTAGLI LAVORO -->
+    <!-- MODALE DETTAGLI LAVORO E FOTO -->
     <div class="modal-overlay" id="jobDetailModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeJobDetailModal()">&times;</span>
@@ -623,7 +617,6 @@
                       updateGarageUI(userData);
                       listenToLeaderboard();
                       
-                      // Auto-compilazione campi ticket se utente loggato
                       const tName = document.getElementById('ticketName');
                       const tContact = document.getElementById('ticketContact');
                       if (tName && userData.name) {
@@ -642,7 +635,6 @@
               userData = null;
               listenToLeaderboard();
 
-              // Riabilita campi ticket se ospite
               const tName = document.getElementById('ticketName');
               const tContact = document.getElementById('ticketContact');
               if (tName) { tName.value = ""; tName.disabled = false; }
@@ -726,9 +718,11 @@
 
               if (v.jobs && v.jobs.length > 0) {
                   v.jobs.forEach((j, jIdx) => {
-                      let status = j.status ? j.status.toLowerCase().trim() : '';
+                      let status = j.status ? j.status.toLowerCase().trim() : 'prog';
                       const hasAfterPhoto = (j.afterPhotos && j.afterPhotos.length > 0) || j.afterPhotoUrl || '';
-                      if (!status && hasAfterPhoto) status = 'done';
+                      if (status === 'done' || status === 'closed' || hasAfterPhoto) {
+                          if (status === 'prog' || status === 'working') status = 'done';
+                      }
 
                       let statusBadge = '';
                       let cardClass = 'job-item-card';
@@ -801,12 +795,52 @@
           document.getElementById(tabContentId).classList.add('active');
       }
 
+      /* APERTURA MODALE DETTAGLI LAVORO CON FOTO MULTIPLE SCORREVOLI CORRETTE */
       function openJobDetailModal(vIdx, jIdx) {
           if (!userData || !userData.vehicles[vIdx] || !userData.vehicles[vIdx].jobs[jIdx]) return;
           const job = userData.vehicles[vIdx].jobs[jIdx];
-          let html = `<strong>Servizio:</strong> ${job.desc}<br><strong>Data:</strong> ${job.jobDate} ore ${job.jobTime}<br>`;
+          
+          let beforeList = job.beforePhotos || (job.beforePhotoUrl ? [job.beforePhotoUrl] : []);
+          let afterList = job.afterPhotos || (job.afterPhotoUrl ? [job.afterPhotoUrl] : []);
+
+          let beforeHtml = "";
+          beforeList.forEach(url => {
+              beforeHtml += `<div class="client-photo-thumb" onclick="openFullscreenPhoto('${url}')"><img src="${url}"></div>`;
+          });
+
+          let afterHtml = "";
+          afterList.forEach(url => {
+              afterHtml += `<div class="client-photo-thumb" onclick="openFullscreenPhoto('${url}')"><img src="${url}"></div>`;
+          });
+
+          let html = `
+              <strong>Servizio:</strong> ${job.desc || 'Intervento Detailing'}<br>
+              <strong>Data:</strong> ${job.jobDate || 'n/d'} ore ${job.jobTime || '--:--'}<br>
+              <strong>Indirizzo:</strong> ${job.address || 'Presso domicilio'}<br><br>
+              
+              <div style="font-size:0.75rem; color:var(--accent-green); font-weight:bold;">📸 Foto Prima (${beforeList.length}):</div>
+              <div class="client-gallery-scroll">
+                  ${beforeHtml || '<span style="color:#666; font-size:0.75rem;">Nessuna foto prima</span>'}
+              </div>
+
+              <div style="font-size:0.75rem; color:var(--accent-green); font-weight:bold; margin-top:10px;">📸 Foto Dopo (${afterList.length}):</div>
+              <div class="client-gallery-scroll">
+                  ${afterHtml || '<span style="color:#666; font-size:0.75rem;">Nessuna foto dopo</span>'}
+              </div>
+          `;
+
           document.getElementById('jobDetailContent').innerHTML = html;
           document.getElementById('jobDetailModal').style.display = 'flex';
+      }
+
+      function openFullscreenPhoto(url) {
+          const content = document.getElementById('jobDetailContent');
+          content.innerHTML = `
+              <div style="text-align:center;">
+                  <img src="${url}" style="width:100%; max-height:65vh; object-fit:contain; border-radius:8px; margin-bottom:12px;">
+                  <button class="btn btn-whatsapp" style="width:100%; justify-content:center;" onclick="openJobDetailModal(${window.currentVIdx || 0}, ${window.currentJIdx || 0})"><i class="fa-solid fa-arrow-left"></i> Torna ai Dettagli</button>
+              </div>
+          `;
       }
 
       function closeJobDetailModal() { document.getElementById('jobDetailModal').style.display = 'none'; }
@@ -1000,7 +1034,6 @@
           });
       }
 
-      /* INVIO TICKET CON SUPPORTO UTENTI LOGGATI O OSPITI */
       async function sendSupportTicket() {
           const nameInput = document.getElementById('ticketName');
           const contactInput = document.getElementById('ticketContact');
