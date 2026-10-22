@@ -897,13 +897,13 @@
               img.onload = function() {
                   const canvas = document.createElement('canvas');
                   let width = img.width; let height = img.height;
-                  const MAX = 800;
+                  const MAX = 700; // Ottimizzato per velocità su mobile
                   if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
                   else { if (height > MAX) { width *= MAX / height; height = MAX; } }
                   canvas.width = width; canvas.height = height;
                   const ctx = canvas.getContext('2d');
                   ctx.drawImage(img, 0, 0, width, height);
-                  tempCarPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.65);
+                  tempCarPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.60); // Peso ridotto al minimo indispensabile
                   document.getElementById('carPhotoModalPreview').innerHTML = `<img src="${tempCarPhotoDataUrl}" class="photo-preview-img">`;
               };
               img.src = e.target.result;
@@ -943,13 +943,13 @@
               img.onload = async function() {
                   const canvas = document.createElement('canvas');
                   let width = img.width; let height = img.height;
-                  const MAX = 800;
+                  const MAX = 700; // Ottimizzato per velocità su mobile
                   if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
                   else { if (height > MAX) { width *= MAX / height; height = MAX; } }
                   canvas.width = width; canvas.height = height;
                   const ctx = canvas.getContext('2d');
                   ctx.drawImage(img, 0, 0, width, height);
-                  const compressed = canvas.toDataURL('image/jpeg', 0.65);
+                  const compressed = canvas.toDataURL('image/jpeg', 0.60); // Peso ridotto al minimo indispensabile
 
                   let vehicles = currentUserData.vehicles || [];
                   if (vehicles[vIdx]) {
@@ -1156,13 +1156,13 @@
               img.onload = function() {
                   const canvas = document.createElement('canvas');
                   let width = img.width; let height = img.height;
-                  const MAX = 800;
+                  const MAX = 700; // Ottimizzato per velocità su mobile
                   if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
                   else { if (height > MAX) { width *= MAX / height; height = MAX; } }
                   canvas.width = width; canvas.height = height;
                   const ctx = canvas.getContext('2d');
                   ctx.drawImage(img, 0, 0, width, height);
-                  tempReviewPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.65);
+                  tempReviewPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.60); // Peso ridotto al minimo indispensabile
                   document.getElementById('reviewPhotoPreview').innerHTML = `<img src="${tempReviewPhotoDataUrl}" class="photo-preview-img">`;
               };
               img.src = e.target.result;
