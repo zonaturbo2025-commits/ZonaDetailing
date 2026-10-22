@@ -181,7 +181,12 @@
         .native-video-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 8px; background: #000; display: flex; align-items: center; justify-content: center; border: 1px solid var(--accent-green); }
         .native-video-wrapper video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* CLASSIFICA CLIENTI FEDELI 🏆 */
+        /* STATS BADGE FIGO */
+        .stats-badge-box { background: linear-gradient(135deg, #141c0f 0%, #0d120a 100%); border: 1px solid var(--accent-green); border-radius: 12px; padding: 15px 20px; max-width: 700px; margin: 25px auto 0 auto; display: flex; justify-content: space-around; text-align: center; box-shadow: 0 5px 20px rgba(166,247,0,0.15); }
+        .stat-item h4 { color: var(--accent-green); font-size: 1.3rem; font-weight: 900; }
+        .stat-item p { color: #bbb; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; margin-top: 2px; }
+
+        /* CLASSIFICA TOP 3 🏆 */
         .leaderboard-box { background: linear-gradient(135deg, #121812 0%, #0d0e0d 100%); border: 1px solid var(--accent-green); border-radius: 15px; padding: 25px; max-width: 700px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         .leaderboard-item { display: flex; align-items: center; justify-content: space-between; background: #141414; border: 1px solid #222; border-radius: 10px; padding: 12px 18px; margin-bottom: 10px; transition: border-color 0.2s; }
         .leaderboard-item:hover { border-color: var(--accent-green); }
@@ -199,7 +204,7 @@
         .review-text { font-size: 0.85rem; color: #ccc; margin-bottom: 15px; font-style: italic; }
         .review-author { display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; padding-top: 12px; }
         .review-author img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1px solid var(--accent-green); background: #000; }
-        .review-car-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; border: 1px solid #333; }
+        .review-car-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; border: 1px solid #333; cursor: pointer; }
 
         /* MODALI & OVERLAY */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 15px; }
@@ -236,7 +241,7 @@
 
         /* STILE VERTICALE PER LA FOTO DELL'AUTO NEL GARAGE */
         .car-photo-vertical-container { width: 100%; margin: 15px 0 10px 0; display: flex; flex-direction: column; align-items: center; }
-        .car-uploaded-preview { width: 100%; max-height: 280px; object-fit: cover; border-radius: 10px; border: 2px solid var(--accent-green); background: #000; margin-bottom: 10px; }
+        .car-uploaded-preview { width: 100%; max-height: 280px; object-fit: cover; border-radius: 10px; border: 2px solid var(--accent-green); background: #000; margin-bottom: 10px; cursor: pointer; }
         .car-placeholder-icon { width: 100%; height: 180px; background: #111; border: 2px dashed #333; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #666; margin-bottom: 10px; }
         .car-placeholder-icon i { font-size: 3rem; color: var(--accent-green); margin-bottom: 8px; }
 
@@ -343,6 +348,22 @@
         <p style="text-align: center; color: #bbbbbb; max-width: 850px; margin: 0 auto; line-height: 1.8; font-size: 0.95rem;">
             Zona Detailing offre un servizio esclusivo di Car Detailing a domicilio su tutta Roma e provincia. Ci occupiamo di rigenerare, proteggere e valorizzare ogni superficie della tua auto direttamente a casa tua.
         </p>
+
+        <!-- STATISTICHE IN EVIDENZA -->
+        <div class="stats-badge-box">
+            <div class="stat-item">
+                <h4>+300</h4>
+                <p>Lavori Eseguiti</p>
+            </div>
+            <div class="stat-item" style="border-left:1px solid #222; border-right:1px solid #222; padding:0 30px;">
+                <h4>80+</h4>
+                <p>Clienti Fidelizzati</p>
+            </div>
+            <div class="stat-item">
+                <h4>100%</h4>
+                <p>A Domicilio</p>
+            </div>
+        </div>
     </section>
 
     <!-- SERVIZI -->
@@ -364,10 +385,10 @@
         </div>
     </section>
 
-    <!-- 🏆 CLASSIFICA CLIENTI FEDELI 🏆 -->
+    <!-- 🏆 CLASSIFICA TOP 3 🏆 -->
     <section id="classifica" class="container">
         <h2 class="section-title">Hall of Fame & <span>Classifica Punti</span></h2>
-        <p style="text-align: center; color: #aaa; font-size: 0.85rem; margin-bottom: 25px;">Accumula punti con ogni intervento di detailing e scala la classifica dei migliori detailers!</p>
+        <p style="text-align: center; color: #aaa; font-size: 0.85rem; margin-bottom: 25px;">Accumula punti con ogni intervento di detailing e scala la classifica dei migliori maniaci della cura dell'auto!</p>
         
         <div class="leaderboard-box">
             <div id="leaderboardList"></div>
@@ -574,6 +595,20 @@
         </div>
     </div>
 
+    <!-- 🔍 MODALE VISUALIZZAZIONE & DOWNLOAD FOTO SINGOLA (A PROVA DI IPHONE) -->
+    <div class="modal-overlay" id="imageViewerModal" style="z-index: 5000;">
+        <div class="modal-box" style="max-width: 450px; background: #000; border-color: var(--accent-green);">
+            <span class="modal-close" onclick="closeImageViewerModal()">&times;</span>
+            <h3 style="color: var(--accent-green); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 12px;"><i class="fa-solid fa-image"></i> Visualizza & Salva Foto</h3>
+            <div style="margin-bottom: 15px; display: flex; justify-content: center;">
+                <img id="viewerImageElement" src="" style="width: 100%; max-height: 60vh; object-fit: contain; border-radius: 8px; border: 1px solid #333;">
+            </div>
+            <a id="viewerDownloadBtn" href="#" download="foto-zona-detailing.jpg" class="btn btn-whatsapp" style="width: 100%; justify-content: center; text-decoration: none;" target="_blank" rel="noopener">
+                <i class="fa-solid fa-download"></i> Scarica Foto nel Rullino
+            </a>
+        </div>
+    </div>
+
     <script>
       let currentUser = null;
       let currentUserData = null;
@@ -628,12 +663,8 @@
           }
       }
 
-      function openAuthModal() {
-          document.getElementById('authModal').style.display = 'flex';
-      }
-      function closeAuthModal() {
-          document.getElementById('authModal').style.display = 'none';
-      }
+      function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
+      function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
 
       function toggleAuthMode() {
           isRegisterMode = !isRegisterMode;
@@ -738,7 +769,7 @@
               const carPhoto = v.carPhotoUrl || "";
               let carVisualHtml = "";
               if (carPhoto) {
-                  carVisualHtml = `<img src="${carPhoto}" class="car-uploaded-preview" title="Foto della tua auto">`;
+                  carVisualHtml = `<img src="${carPhoto}" class="car-uploaded-preview" onclick="openImageViewer('${carPhoto}')" title="Clicca per ingrandire o salvare">`;
               } else {
                   carVisualHtml = `
                       <div class="car-placeholder-icon">
@@ -831,9 +862,7 @@
           document.getElementById('addCarModal').style.display = 'flex';
           populateCarBrands();
       }
-      function closeAddCarModal() {
-          document.getElementById('addCarModal').style.display = 'none';
-      }
+      function closeAddCarModal() { document.getElementById('addCarModal').style.display = 'none'; }
 
       function populateCarBrands() {
           const brandSelect = document.getElementById('carBrandSelect');
@@ -862,8 +891,7 @@
               const img = new Image();
               img.onload = function() {
                   const canvas = document.createElement('canvas');
-                  let width = img.width;
-                  let height = img.height;
+                  let width = img.width; let height = img.height;
                   const MAX = 800;
                   if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
                   else { if (height > MAX) { width *= MAX / height; height = MAX; } }
@@ -951,8 +979,8 @@
           const beforePhotos = job.beforePhotos || (job.beforePhotoUrl ? [job.beforePhotoUrl] : []);
           const afterPhotos = job.afterPhotos || (job.afterPhotoUrl ? [job.afterPhotoUrl] : []);
 
-          let beforeHtml = beforePhotos.length > 0 ? beforePhotos.map(url => `<div class="client-photo-thumb"><a href="${url}" target="_blank"><img src="${url}"></a></div>`).join('') : '<span style="color:#777;">Nessuna foto prima</span>';
-          let afterHtml = afterPhotos.length > 0 ? afterPhotos.map(url => `<div class="client-photo-thumb"><a href="${url}" target="_blank"><img src="${url}"></a></div>`).join('') : '<span style="color:#777;">Nessuna foto dopo</span>';
+          let beforeHtml = beforePhotos.length > 0 ? beforePhotos.map(url => `<div class="client-photo-thumb" onclick="openImageViewer('${url}')"><img src="${url}"></div>`).join('') : '<span style="color:#777;">Nessuna foto prima</span>';
+          let afterHtml = afterPhotos.length > 0 ? afterPhotos.map(url => `<div class="client-photo-thumb" onclick="openImageViewer('${url}')"><img src="${url}"></div>`).join('') : '<span style="color:#777;">Nessuna foto dopo</span>';
 
           content.innerHTML = `
               <p><strong>Veicolo:</strong> ${vehicle.brand} ${vehicle.model} (${vehicle.plate || 'No Targa'})</p>
@@ -961,15 +989,23 @@
               <p><strong>Indirizzo:</strong> ${job.address || 'n/d'}</p>
               <p><strong>Punti Riconosciuti:</strong> ${job.points || 0} PT</p>
               <hr style="border:0; border-top:1px solid #333; margin:10px 0;">
-              <p style="color:#ffb700; font-weight:bold;">📸 Foto Prima:</p>
+              <p style="color:#ffb700; font-weight:bold;">📸 Foto Prima (Clicca per ingrandire):</p>
               <div class="client-gallery-scroll">${beforeHtml}</div>
-              <p style="color:var(--accent-green); font-weight:bold; margin-top:8px;">📸 Foto Dopo:</p>
+              <p style="color:var(--accent-green); font-weight:bold; margin-top:8px;">📸 Foto Dopo (Clicca per ingrandire):</p>
               <div class="client-gallery-scroll">${afterHtml}</div>
           `;
       }
 
-      function closeClientJobModal() {
-          document.getElementById('clientJobDetailModal').style.display = 'none';
+      function closeClientJobModal() { document.getElementById('clientJobDetailModal').style.display = 'none'; }
+
+      /* 🔍 VISUALIZZATORE E DOWNLOAD FOTO SICURO PER IPHONE */
+      function openImageViewer(url) {
+          document.getElementById('viewerImageElement').src = url;
+          document.getElementById('viewerDownloadBtn').href = url;
+          document.getElementById('imageViewerModal').style.display = 'flex';
+      }
+      function closeImageViewerModal() {
+          document.getElementById('imageViewerModal').style.display = 'none';
       }
 
       /* PROFILO E SICUREZZA */
@@ -1009,70 +1045,94 @@
           } catch(e) { alert("Errore: " + e.message + "\nNota: per sicurezza Google richiede di aver fatto il login di recente."); }
       }
 
-      /* CLASSIFICA PUBBLICA */
+      /* 🏆 CLASSIFICA PUBBLICA TOP 3 + UTENTE ATTUALE */
       async function loadPublicLeaderboard() {
           const listContainer = document.getElementById('leaderboardList');
           const myContainer = document.getElementById('myRankContainer');
           listContainer.innerHTML = "Caricamento classifica...";
 
           try {
-              const snapshot = await db.collection('users').orderBy('points', 'desc').limit(10).get();
+              const snapshot = await db.collection('users').orderBy('points', 'desc').get();
               if (snapshot.empty) {
                   listContainer.innerHTML = "<span style='color:#777;'>Nessun utente in classifica.</span>";
                   return;
               }
+
+              let allUsers = [];
+              snapshot.forEach(doc => {
+                  allUsers.push({ id: doc.id, ...doc.data() });
+              });
 
               let html = "";
               let rank = 1;
               let myRank = null;
               let myData = null;
 
-              snapshot.forEach(doc => {
-                  const u = doc.data();
-                  const uid = doc.id;
-                  const avatar = u.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
-                  const tier = getClientTier(u.points || 0);
+              allUsers.forEach((u, idx) => {
+                  const uid = u.id;
+                  const currentPos = idx + 1;
 
                   if (currentUser && currentUser.uid === uid) {
-                      myRank = rank;
+                      myRank = currentPos;
                       myData = u;
                   }
 
-                  let medalColor = "#888";
-                  if (rank === 1) medalColor = "#ffd700";
-                  if (rank === 2) medalColor = "#c0c0c0";
-                  if (rank === 3) medalColor = "#cd7f32";
+                  if (currentPos <= 3) {
+                      const avatar = u.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
+                      const tier = getClientTier(u.points || 0);
 
-                  html += `
-                      <div class="leaderboard-item">
-                          <div class="leaderboard-rank" style="color:${medalColor};">#${rank}</div>
-                          <div class="leaderboard-user-info">
-                              <img src="${avatar}" class="leaderboard-avatar">
-                              <div>
-                                  <strong style="font-size:0.9rem; color:#fff;">${u.nickname || u.name || 'Detailer'}</strong><br>
-                                  <span style="font-size:0.72rem; color:${tier.color};">${tier.name}</span>
+                      let medalColor = "#888";
+                      if (currentPos === 1) medalColor = "#ffd700";
+                      if (currentPos === 2) medalColor = "#c0c0c0";
+                      if (currentPos === 3) medalColor = "#cd7f32";
+
+                      html += `
+                          <div class="leaderboard-item">
+                              <div class="leaderboard-rank" style="color:${medalColor};">#${currentPos}</div>
+                              <div class="leaderboard-user-info">
+                                  <img src="${avatar}" class="leaderboard-avatar">
+                                  <div>
+                                      <strong style="font-size:0.9rem; color:#fff;">${u.nickname || u.name || 'Detailer'}</strong><br>
+                                      <span style="font-size:0.72rem; color:${tier.color};">${tier.name}</span>
+                                  </div>
                               </div>
+                              <div class="leaderboard-points">${u.points || 0} PT</div>
                           </div>
-                          <div class="leaderboard-points">${u.points || 0} PT</div>
-                      </div>
-                  `;
-                  rank++;
+                      `;
+                  }
               });
-              listContainer.innerHTML = html;
 
-              if (currentUser && myRank) {
-                  const tier = getClientTier(myData.points || 0);
-                  myContainer.innerHTML = `
-                      <div class="my-rank-banner">
-                          <div>
-                              <strong style="color:var(--accent-green); font-size:0.85rem;">La tua posizione in classifica:</strong><br>
-                              <span style="color:#fff; font-size:0.8rem;">#${myRank} - ${myData.nickname || 'Tu'} (${tier.name})</span>
+              listContainer.innerHTML = html || "<span style='color:#777;'>Nessun utente in classifica.</span>";
+
+              if (currentUser) {
+                  if (myRank) {
+                      const tier = getClientTier(myData.points || 0);
+                      myContainer.innerHTML = `
+                          <div class="my-rank-banner">
+                              <div>
+                                  <strong style="color:var(--accent-green); font-size:0.85rem;">La tua posizione:</strong><br>
+                                  <span style="color:#fff; font-size:0.8rem;">#${myRank} - ${myData.nickname || 'Tu'} (${tier.name})</span>
+                              </div>
+                              <div class="leaderboard-points">${myData.points || 0} PT</div>
                           </div>
-                          <div class="leaderboard-points">${myData.points || 0} PT</div>
+                      `;
+                  } else {
+                      myContainer.innerHTML = `
+                          <div class="my-rank-banner">
+                              <div>
+                                  <strong style="color:var(--accent-green); font-size:0.85rem;">Il tuo account:</strong><br>
+                                  <span style="color:#fff; font-size:0.8rem;">Non ancora in classifica</span>
+                              </div>
+                              <div class="leaderboard-points">0 PT</div>
+                          </div>
+                      `;
+                  }
+              } else {
+                  myContainer.innerHTML = `
+                      <div style="text-align:center; margin-top:12px; font-size:0.78rem; color:#888;">
+                          Accedi per visualizzare la tua posizione in classifica!
                       </div>
                   `;
-              } else {
-                  myContainer.innerHTML = "";
               }
           } catch(e) { listContainer.innerHTML = "<span style='color:#777;'>Classifica in aggiornamento...</span>"; }
       }
@@ -1137,7 +1197,7 @@
               snapshot.forEach(doc => {
                   const r = doc.data();
                   const starsStr = "⭐".repeat(r.stars || 5);
-                  let carImgHtml = r.carPhoto ? `<img src="${r.carPhoto}" class="review-car-img">` : '';
+                  let carImgHtml = r.carPhoto ? `<img src="${r.carPhoto}" class="review-car-img" onclick="openImageViewer('${r.carPhoto}')" title="Clicca per ingrandire">` : '';
                   html += `
                       <div class="review-card">
                           <div>
