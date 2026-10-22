@@ -616,6 +616,12 @@
       let tempCarPhotoDataUrl = "";
       let tempReviewPhotoDataUrl = "";
 
+      // Carica subito la classifica in modo indipendente all'avvio
+      document.addEventListener("DOMContentLoaded", () => {
+          loadPublicLeaderboard();
+          loadPublicReviews();
+      });
+
       auth.onAuthStateChanged(async (user) => {
           currentUser = user;
           const btnAuthText = document.getElementById('btnAuthText');
@@ -637,7 +643,6 @@
               navAvatarContainer.innerHTML = `<i class="fa-solid fa-user"></i>`;
           }
           loadPublicLeaderboard();
-          loadPublicReviews();
       });
 
       function toggleMobileMenu() {
@@ -1045,16 +1050,17 @@
           } catch(e) { alert("Errore: " + e.message + "\nNota: per sicurezza Google richiede di aver fatto il login di recente."); }
       }
 
-      /* 🏆 CLASSIFICA PUBBLICA TOP 3 + UTENTE ATTUALE */
+      /* 🏆 CLASSIFICA PUBBLICA TOP 3 + UTENTE ATTUALE (OTTIMIZZATA E VELOCE) */
       async function loadPublicLeaderboard() {
           const listContainer = document.getElementById('leaderboardList');
           const myContainer = document.getElementById('myRankContainer');
-          listContainer.innerHTML = "Caricamento classifica...";
+          if (!listContainer) return;
 
           try {
-              const snapshot = await db.collection('users').orderBy('points', 'desc').get();
+              const snapshot = await db.collection('users').orderBy('points', 'desc').limit(15).get();
               if (snapshot.empty) {
-                  listContainer.innerHTML = "<span style='color:#777;'>Nessun utente in classifica.</span>";
+                  listContainer.innerHTML = "<span style='color:#777; display:block; text-align:center; padding:15px;'>Nessun utente in classifica.</span>";
+                  myContainer.innerHTML = "";
                   return;
               }
 
@@ -1064,7 +1070,6 @@
               });
 
               let html = "";
-              let rank = 1;
               let myRank = null;
               let myData = null;
 
@@ -1102,10 +1107,20 @@
                   }
               });
 
-              listContainer.innerHTML = html || "<span style='color:#777;'>Nessun utente in classifica.</span>";
+              listContainer.innerHTML = html || "<span style='color:#777; display:block; text-align:center; padding:15px;'>Nessun utente in classifica.</span>";
 
               if (currentUser) {
-                  if (myRank) {
+                  if (!myRank) {
+                      try {
+                          const userDoc = await db.collection('users').doc(currentUser.uid).get();
+                          if (userDoc.exists) {
+                              myData = userDoc.data();
+                              myRank = ">15";
+                          }
+                      } catch(err) {}
+                  }
+
+                  if (myData) {
                       const tier = getClientTier(myData.points || 0);
                       myContainer.innerHTML = `
                           <div class="my-rank-banner">
@@ -1117,15 +1132,7 @@
                           </div>
                       `;
                   } else {
-                      myContainer.innerHTML = `
-                          <div class="my-rank-banner">
-                              <div>
-                                  <strong style="color:var(--accent-green); font-size:0.85rem;">Il tuo account:</strong><br>
-                                  <span style="color:#fff; font-size:0.8rem;">Non ancora in classifica</span>
-                              </div>
-                              <div class="leaderboard-points">0 PT</div>
-                          </div>
-                      `;
+                      myContainer.innerHTML = "";
                   }
               } else {
                   myContainer.innerHTML = `
@@ -1134,7 +1141,9 @@
                       </div>
                   `;
               }
-          } catch(e) { listContainer.innerHTML = "<span style='color:#777;'>Classifica in aggiornamento...</span>"; }
+          } catch(e) {
+              listContainer.innerHTML = "<span style='color:#777; display:block; text-align:center; padding:15px;'>Classifica pronta a breve...</span>";
+          }
       }
 
       /* RECENSIONI E TICKET */
@@ -1187,6 +1196,7 @@
 
       async function loadPublicReviews() {
           const container = document.getElementById('publicReviewsGrid');
+          if (!container) return;
           try {
               const snapshot = await db.collection('public_reviews').orderBy('createdAt', 'desc').limit(6).get();
               if (snapshot.empty) {
