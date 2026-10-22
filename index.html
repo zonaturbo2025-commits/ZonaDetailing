@@ -457,7 +457,7 @@
                 <input type="hidden" id="reviewPhotoUrl">
                 <div id="reviewPhotoPreview" style="margin-top:6px;"></div>
             </div>
-            <button class="btn btn-whatsapp" style="width:100%; justify-content:center; margin-top:5px;" onclick="submitClientReview()"><i class="fa-solid fa-paper-plane"></i> Pubblica Recensione</button>
+            <button id="btnSubmitReview" class="btn btn-whatsapp" style="width:100%; justify-content:center; margin-top:5px;" onclick="submitClientReview()"><i class="fa-solid fa-paper-plane"></i> Pubblica Recensione</button>
         </div>
     </section>
 
@@ -536,7 +536,7 @@
                 <input type="hidden" id="carPhotoUrlInput">
                 <div id="carPhotoModalPreview" style="margin-top:6px;"></div>
             </div>
-            <button class="btn btn-whatsapp" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="saveNewCarToGarage()">Conferma e Parcheggia</button>
+            <button id="btnSaveCarInfo" class="btn btn-whatsapp" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="saveNewCarToGarage()">Conferma e Parcheggia</button>
         </div>
     </div>
 
@@ -599,7 +599,7 @@
         </div>
     </div>
 
-    <!-- 🔍 MODALE VISUALIZZAZIONE & DOWNLOAD FOTO SINGOLA (A PROVA DI IPHONE) -->
+    <!-- 🔍 MODALE VISUALIZZAZIONE & DOWNLOAD FOTO SINGOLA -->
     <div class="modal-overlay" id="imageViewerModal" style="z-index: 5000;">
         <div class="modal-box" style="max-width: 450px; background: #000; border-color: var(--accent-green);">
             <span class="modal-close" onclick="closeImageViewerModal()">&times;</span>
@@ -620,9 +620,8 @@
       let tempCarPhotoDataUrl = "";
       let tempReviewPhotoDataUrl = "";
 
-      // Carica subito la classifica in modo indipendente all'avvio
+      /* OTTIMIZZAZIONE CLASSIFICA */
       document.addEventListener("DOMContentLoaded", () => {
-          loadPublicLeaderboard();
           loadPublicReviews();
       });
 
@@ -648,6 +647,32 @@
           }
           loadPublicLeaderboard();
       });
+
+      /* NUOVA FUNZIONE: Caricamento Immagini su ImgBB (Gratuito e Senza Carta) */
+      async function uploadToImgBB(base64Data) {
+          if (!base64Data || !base64Data.startsWith('data:image')) return base64Data;
+          
+          // Rimuove il prefisso 'data:image/jpeg;base64,'
+          const base64String = base64Data.split(',')[1];
+          
+          // API KEY DI IMGBB
+          const apiKey = "4893ee096ad8433c61cf63dc86393d11"; 
+          
+          const formData = new FormData();
+          formData.append("image", base64String);
+
+          const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+              method: 'POST',
+              body: formData
+          });
+          
+          const data = await response.json();
+          if (data.success) {
+              return data.data.url; // URL diretto dell'immagine leggera
+          } else {
+              throw new Error("Impossibile caricare l'immagine sui server.");
+          }
+      }
 
       function toggleMobileMenu() {
           document.getElementById('navLinksMenu').classList.toggle('active');
@@ -827,7 +852,6 @@
                       <div class="spot-number-badge">BOX #${idx + 1}</div>
                       <button class="btn-delete-car" onclick="deleteCarFromGarage(${idx})" title="Rimuovi auto"><i class="fa-solid fa-trash-can"></i></button>
                       
-                      <!-- CONTENITORE FOTO AUTO VERTICALE -->
                       <div class="car-photo-vertical-container">
                           ${carVisualHtml}
                           <label class="btn" style="background:#1e1e1e; color:var(--accent-green); border:1px solid var(--accent-green); font-size:0.7rem; padding:6px 12px; cursor:pointer; width:100%; justify-content:center;">
@@ -841,7 +865,6 @@
                           <span style="color:var(--accent-green); font-size:0.8rem; font-weight:800; letter-spacing:1px;"><i class="fa-solid fa-id-card"></i> ${v.plate || 'NO TARGA'}</span>
                       </div>
 
-                      <!-- TAB LAVORI A PROVA DI TELEFONO -->
                       <div class="car-jobs-tabs-wrapper">
                           <div class="job-tabs-header">
                               <button class="job-tab-btn active" onclick="switchJobTab(this, 'prog_${idx}')">Da Fare / In Corso</button>
@@ -907,7 +930,7 @@
                   canvas.width = width; canvas.height = height;
                   const ctx = canvas.getContext('2d');
                   ctx.drawImage(img, 0, 0, width, height);
-                  tempCarPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.60); // Peso ridotto al minimo indispensabile
+                  tempCarPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.60); 
                   document.getElementById('carPhotoModalPreview').innerHTML = `<img src="${tempCarPhotoDataUrl}" class="photo-preview-img">`;
               };
               img.src = e.target.result;
@@ -922,20 +945,37 @@
 
           if (!brand || !model) { alert("Seleziona marca e modello dell'auto!"); return; }
 
-          let vehicles = currentUserData.vehicles || [];
-          vehicles.push({
-              brand,
-              model,
-              plate: plate || 'NO TARGA',
-              carPhotoUrl: tempCarPhotoDataUrl || '',
-              jobs: []
-          });
+          const btnSave = document.getElementById('btnSaveCarInfo');
+          const originalBtnText = btnSave.innerHTML;
+          btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Parcheggio in corso...';
+          btnSave.disabled = true;
 
-          await db.collection('users').doc(currentUser.uid).update({ vehicles });
-          currentUserData.vehicles = vehicles;
-          closeAddCarModal();
-          renderVirtualGarage();
-          alert("Auto parcheggiata con successo nel tuo garage!");
+          try {
+              let finalPhotoUrl = "";
+              if (tempCarPhotoDataUrl) {
+                  finalPhotoUrl = await uploadToImgBB(tempCarPhotoDataUrl);
+              }
+
+              let vehicles = currentUserData.vehicles || [];
+              vehicles.push({
+                  brand,
+                  model,
+                  plate: plate || 'NO TARGA',
+                  carPhotoUrl: finalPhotoUrl, 
+                  jobs: []
+              });
+
+              await db.collection('users').doc(currentUser.uid).update({ vehicles });
+              currentUserData.vehicles = vehicles;
+              closeAddCarModal();
+              renderVirtualGarage();
+              alert("Auto parcheggiata con successo nel tuo garage!");
+          } catch(e) {
+              alert("Errore durante il salvataggio: " + e.message);
+          } finally {
+              btnSave.innerHTML = originalBtnText;
+              btnSave.disabled = false;
+          }
       }
 
       async function updateCarPhotoDirect(event, vIdx) {
@@ -947,20 +987,28 @@
               img.onload = async function() {
                   const canvas = document.createElement('canvas');
                   let width = img.width; let height = img.height;
-                  const MAX = 700; // Ottimizzato per velocità su mobile
+                  const MAX = 700;
                   if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
                   else { if (height > MAX) { width *= MAX / height; height = MAX; } }
                   canvas.width = width; canvas.height = height;
                   const ctx = canvas.getContext('2d');
                   ctx.drawImage(img, 0, 0, width, height);
-                  const compressed = canvas.toDataURL('image/jpeg', 0.60); // Peso ridotto al minimo indispensabile
+                  const compressed = canvas.toDataURL('image/jpeg', 0.60); 
 
-                  let vehicles = currentUserData.vehicles || [];
-                  if (vehicles[vIdx]) {
-                      vehicles[vIdx].carPhotoUrl = compressed;
-                      await db.collection('users').doc(currentUser.uid).update({ vehicles });
-                      currentUserData.vehicles = vehicles;
-                      renderVirtualGarage();
+                  alert("Caricamento della foto in corso, attendi qualche secondo...");
+
+                  try {
+                      const finalUrl = await uploadToImgBB(compressed);
+
+                      let vehicles = currentUserData.vehicles || [];
+                      if (vehicles[vIdx]) {
+                          vehicles[vIdx].carPhotoUrl = finalUrl;
+                          await db.collection('users').doc(currentUser.uid).update({ vehicles });
+                          currentUserData.vehicles = vehicles;
+                          renderVirtualGarage();
+                      }
+                  } catch (e) {
+                      alert("Errore durante il caricamento della foto: " + e.message);
                   }
               };
               img.src = e.target.result;
@@ -1007,7 +1055,6 @@
 
       function closeClientJobModal() { document.getElementById('clientJobDetailModal').style.display = 'none'; }
 
-      /* 🔍 VISUALIZZATORE E DOWNLOAD FOTO SICURO PER IPHONE */
       function openImageViewer(url) {
           document.getElementById('viewerImageElement').src = url;
           document.getElementById('viewerDownloadBtn').href = url;
@@ -1017,7 +1064,6 @@
           document.getElementById('imageViewerModal').style.display = 'none';
       }
 
-      /* PROFILO E SICUREZZA */
       async function openUserProfileModal() {
           if (!currentUser) return;
           const doc = await db.collection('users').doc(currentUser.uid).get();
@@ -1054,7 +1100,6 @@
           } catch(e) { alert("Errore: " + e.message + "\nNota: per sicurezza Google richiede di aver fatto il login di recente."); }
       }
 
-      /* 🏆 CLASSIFICA PUBBLICA TOP 3 + UTENTE ATTUALE (OTTIMIZZATA E VELOCE) */
       async function loadPublicLeaderboard() {
           const listContainer = document.getElementById('leaderboardList');
           const myContainer = document.getElementById('myRankContainer');
@@ -1150,7 +1195,6 @@
           }
       }
 
-      /* RECENSIONI E TICKET */
       function handleReviewPhotoUpload(event) {
           const file = event.target.files[0];
           if (!file) return;
@@ -1160,13 +1204,13 @@
               img.onload = function() {
                   const canvas = document.createElement('canvas');
                   let width = img.width; let height = img.height;
-                  const MAX = 700; // Ottimizzato per velocità su mobile
+                  const MAX = 700;
                   if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
                   else { if (height > MAX) { width *= MAX / height; height = MAX; } }
                   canvas.width = width; canvas.height = height;
                   const ctx = canvas.getContext('2d');
                   ctx.drawImage(img, 0, 0, width, height);
-                  tempReviewPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.60); // Peso ridotto al minimo indispensabile
+                  tempReviewPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.60);
                   document.getElementById('reviewPhotoPreview').innerHTML = `<img src="${tempReviewPhotoDataUrl}" class="photo-preview-img">`;
               };
               img.src = e.target.result;
@@ -1182,20 +1226,37 @@
           const authorName = currentUserData ? (currentUserData.nickname || currentUserData.name) : "Cliente Verificato";
           const authorAvatar = currentUserData ? currentUserData.avatarUrl : "https://api.dicebear.com/7.x/bottts/svg?seed=driver1";
 
-          await db.collection('public_reviews').add({
-              author: authorName,
-              avatar: authorAvatar,
-              stars: parseInt(stars),
-              text,
-              carPhoto: tempReviewPhotoDataUrl || '',
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
+          const btnSubmit = document.getElementById('btnSubmitReview');
+          const originalBtnText = btnSubmit.innerHTML;
+          btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Pubblicazione...';
+          btnSubmit.disabled = true;
 
-          alert("Grazie! Recensione pubblicata con successo.");
-          document.getElementById('reviewTextInput').value = "";
-          document.getElementById('reviewPhotoPreview').innerHTML = "";
-          tempReviewPhotoDataUrl = "";
-          loadPublicReviews();
+          try {
+              let finalPhotoUrl = "";
+              if (tempReviewPhotoDataUrl) {
+                  finalPhotoUrl = await uploadToImgBB(tempReviewPhotoDataUrl);
+              }
+
+              await db.collection('public_reviews').add({
+                  author: authorName,
+                  avatar: authorAvatar,
+                  stars: parseInt(stars),
+                  text,
+                  carPhoto: finalPhotoUrl, 
+                  createdAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+
+              alert("Grazie! Recensione pubblicata con successo.");
+              document.getElementById('reviewTextInput').value = "";
+              document.getElementById('reviewPhotoPreview').innerHTML = "";
+              tempReviewPhotoDataUrl = "";
+              loadPublicReviews();
+          } catch(e) {
+              alert("Errore durante la pubblicazione: " + e.message);
+          } finally {
+              btnSubmit.innerHTML = originalBtnText;
+              btnSubmit.disabled = false;
+          }
       }
 
       async function loadPublicReviews() {
