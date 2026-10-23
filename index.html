@@ -132,13 +132,34 @@
             .auth-container { width: 100%; display: flex; justify-content: center; }
         }
 
-        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: all 0.3s ease; }
+        .btn-auth-nav:hover { background: rgba(166, 247, 0, 0.1); }
         .nav-user-avatar-img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--accent-green); background: #000; }
 
-        .user-dropdown { position: absolute; top: 55px; right: 15px; background-color: #141414; border: 1px solid var(--accent-green); border-radius: 8px; width: 220px; display: none; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.85); z-index: 1001; }
-        .user-dropdown a { padding: 12px 16px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #1e1e1e; }
-        .user-dropdown a:last-child { border-bottom: none; }
-        .user-dropdown a:hover { background-color: rgba(166, 247, 0, 0.15); color: var(--accent-green); }
+        /* NUOVO DROPDOWN PROFILO (MIGLIORATO E PULITO) */
+        .user-dropdown { 
+            position: absolute; top: 55px; right: 15px; 
+            background-color: #121212; border: 1px solid var(--accent-green); border-radius: 12px; 
+            width: 240px; display: none; flex-direction: column; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.9); z-index: 1001; overflow: hidden;
+        }
+        .dropdown-main-btn {
+            padding: 16px; color: #fff; text-decoration: none; font-size: 0.95rem; font-weight: 800; 
+            display: flex; align-items: center; gap: 12px; text-transform: uppercase;
+            transition: background 0.2s;
+        }
+        .dropdown-main-btn:hover { background-color: rgba(166, 247, 0, 0.15); color: var(--accent-green); }
+        .dropdown-main-btn i { font-size: 1.2rem; }
+        
+        .dropdown-divider { height: 1px; background: #222; margin: 0; }
+        
+        .dropdown-sub-btn {
+            padding: 12px 16px; color: #aaa; text-decoration: none; font-size: 0.8rem; font-weight: 600; 
+            display: flex; align-items: center; gap: 10px;
+            transition: color 0.2s;
+        }
+        .dropdown-sub-btn:hover { color: #fff; background-color: #1a1a1a; }
+        .dropdown-sub-btn.text-danger:hover { color: #ff5555; }
 
         /* HERO SECTION */
         .hero { padding: 130px 15px 60px 15px; text-align: center; background: radial-gradient(circle at center, #0f170a 0%, var(--bg-color) 80%); display: flex; flex-direction: column; align-items: center; }
@@ -166,7 +187,8 @@
         .hero-subtitle-sub { font-size: 0.95rem; font-weight: 300; font-style: italic; color: #dddddd; margin-bottom: 25px; z-index: 2; padding: 0 10px; }
 
         .btn-container { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; z-index: 2; }
-        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 6px; font-weight: 700; text-decoration: none; text-transform: uppercase; font-size: 0.85rem; cursor: pointer; border: none; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 6px; font-weight: 700; text-decoration: none; text-transform: uppercase; font-size: 0.85rem; cursor: pointer; border: none; transition: transform 0.2s; }
+        .btn:active { transform: scale(0.96); }
         .btn-whatsapp { background-color: var(--accent-green); color: #000; }
         .btn-instagram { background-color: transparent; color: #fff; border: 2px solid #fff; }
         .btn-google-wide { background-color: #fff; color: #000; width: 100%; padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; border: none; font-weight: 700; font-size: 0.9rem; margin-bottom: 15px; }
@@ -213,13 +235,15 @@
         /* MODALI & OVERLAY */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 4000; padding: 15px; }
         .modal-box { background-color: #141414; border: 1px solid var(--accent-green); border-radius: 12px; padding: 25px 20px; width: 100%; max-width: 520px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
-        .modal-close { position: absolute; top: 12px; right: 15px; color: #aaa; font-size: 1.4rem; cursor: pointer; }
+        .modal-close { position: absolute; top: 12px; right: 15px; color: #aaa; font-size: 1.4rem; cursor: pointer; transition: color 0.2s; }
+        .modal-close:hover { color: #fff; }
 
         .form-group { display: flex; flex-direction: column; gap: 6px; text-align: left; margin-bottom: 15px; }
         .form-group label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--accent-green); }
         .form-control { background-color: #0d0d0d; border: 1px solid var(--border-color); color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 0.9rem; outline: none; width: 100%; }
+        .form-control:focus { border-color: var(--accent-green); }
 
-        /* 🏎️ VIRTUAL GARAGE OVERLAY (VERTICALE ED ELEGANTE) 🏎️ */
+        /* 🏎️ VIRTUAL GARAGE OVERLAY (EFFETTO 3D SHOWROOM) 🏎️ */
         .profile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050705; z-index: 3000; display: none; overflow-y: auto; padding: 20px 4%; }
         
         .garage-shutter-door {
@@ -232,35 +256,46 @@
 
         .garage-title-banner { text-align: center; margin-bottom: 25px; padding: 15px; background: rgba(20, 20, 20, 0.8); border: 1px solid var(--accent-green); border-radius: 12px; }
 
-        .garage-bay-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .garage-bay-grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        
+        /* DESIGN PARKING SPOT EFFETTO SHOWROOM */
         .parking-spot { 
-            background: radial-gradient(circle at top, #182216 0%, #080a08 100%); 
-            border: 2px solid #222; border-radius: 15px; padding: 20px; position: relative; 
-            display: flex; flex-direction: column; align-items: center; box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            background: linear-gradient(180deg, #111a11 0%, #050705 100%); 
+            border: 1px solid #222; border-bottom: 4px solid var(--accent-green); 
+            border-radius: 16px; padding: 25px 20px; position: relative; 
+            display: flex; flex-direction: column; align-items: center; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 -20px 40px rgba(166,247,0,0.05);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
         .parking-spot:hover { border-color: var(--accent-green); }
+        /* Effetto luce a terra / riflesso */
+        .parking-spot::after {
+            content: ''; position: absolute; bottom: -25px; left: 10%; width: 80%; height: 15px;
+            background: var(--accent-green); filter: blur(25px); opacity: 0.2; pointer-events: none;
+        }
 
-        .spot-number-badge { position: absolute; top: 12px; left: 12px; background: #000; border: 1px solid var(--accent-green); color: var(--accent-green); font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 20px; }
-        .btn-delete-car { position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: #ff5555; font-size: 1.1rem; cursor: pointer; }
+        .spot-number-badge { position: absolute; top: -12px; left: 20px; background: #000; border: 1px solid var(--accent-green); color: var(--accent-green); font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.8); }
+        .btn-delete-car { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: #ff5555; font-size: 1.2rem; cursor: pointer; transition: transform 0.2s; }
+        .btn-delete-car:active { transform: scale(0.9); }
 
-        /* STILE VERTICALE PER LA FOTO DELL'AUTO NEL GARAGE */
-        .car-photo-vertical-container { width: 100%; margin: 15px 0 10px 0; display: flex; flex-direction: column; align-items: center; }
-        .car-uploaded-preview { width: 100%; max-height: 280px; object-fit: cover; border-radius: 10px; border: 2px solid var(--accent-green); background: #000; margin-bottom: 10px; cursor: pointer; }
-        .car-placeholder-icon { width: 100%; height: 180px; background: #111; border: 2px dashed #333; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #666; margin-bottom: 10px; }
+        .car-photo-vertical-container { width: 100%; margin: 15px 0 15px 0; display: flex; flex-direction: column; align-items: center; }
+        .car-uploaded-preview { width: 100%; max-height: 280px; object-fit: cover; border-radius: 12px; border: 2px solid var(--accent-green); background: #000; margin-bottom: 12px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.6); }
+        .car-placeholder-icon { width: 100%; height: 180px; background: #0a0c0a; border: 2px dashed #333; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #666; margin-bottom: 12px; transition: border-color 0.2s; }
+        .car-placeholder-icon:hover { border-color: var(--accent-green); color: var(--accent-green); }
         .car-placeholder-icon i { font-size: 3rem; color: var(--accent-green); margin-bottom: 8px; }
 
-        .car-neon-plate { background: #000; border: 1px solid #333; border-bottom: 3px solid var(--accent-green); border-radius: 8px; padding: 12px; width: 100%; text-align: center; margin-bottom: 15px; }
+        .car-neon-plate { background: #000; border: 1px solid #333; border-bottom: 3px solid var(--accent-green); border-radius: 8px; padding: 12px; width: 100%; text-align: center; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
 
         /* SISTEMA TAB A PROVA DI TELEFONO PER I LAVORI */
         .car-jobs-tabs-wrapper { margin-top: 10px; width: 100%; background: #141414; border-radius: 10px; border: 1px solid #222; overflow: hidden; }
         .job-tabs-header { display: flex; background: #0c0e0c; border-bottom: 1px solid #222; }
-        .job-tab-btn { flex: 1; padding: 8px 4px; background: transparent; border: none; color: #888; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .job-tab-btn { flex: 1; padding: 10px 4px; background: transparent; border: none; color: #888; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; }
         .job-tab-btn.active { color: var(--accent-green); background: rgba(166,247,0,0.08); border-bottom: 2px solid var(--accent-green); }
-        .job-tab-content { padding: 10px; max-height: 180px; overflow-y: auto; display: none; }
+        .job-tab-content { padding: 12px; max-height: 200px; overflow-y: auto; display: none; }
         .job-tab-content.active { display: block; }
         
         /* SCHEDA LAVORO & ANIMAZIONE NEON VERDE PER STATO WORKING */
-        .job-item-card { background: #0b0d0b; border: 1px solid #222; padding: 8px; border-radius: 6px; margin-bottom: 6px; cursor: pointer; transition: border-color 0.2s; }
+        .job-item-card { background: #0b0d0b; border: 1px solid #222; padding: 10px; border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s; }
         .job-item-card:hover { border-color: var(--accent-green); }
         
         @keyframes neonPulseGreen {
@@ -273,8 +308,8 @@
             border-color: var(--accent-green);
         }
 
-        .add-parking-spot { border: 2px dashed #333; border-radius: 15px; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); max-width: 600px; margin: 0 auto; }
-        .add-parking-spot:hover { border-color: var(--accent-green); }
+        .add-parking-spot { border: 2px dashed #333; border-radius: 16px; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); max-width: 600px; margin: 0 auto; transition: all 0.3s; }
+        .add-parking-spot:hover { border-color: var(--accent-green); background: rgba(166,247,0,0.05); transform: translateY(-3px); }
 
         /* SCHEDA DEDICATA GALLERIA FOTO MULTIPLE (SCORREVOLE E PULITA) */
         .client-gallery-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-top: 6px; }
@@ -308,20 +343,21 @@
             <li><a href="#classifica" onclick="closeMobileMenu()">Classifica</a></li>
             <li><a href="#dimostrazioni" onclick="closeMobileMenu()">Lavori</a></li>
             <li><a href="#recensioni" onclick="closeMobileMenu()">Recensioni</a></li>
-            <li><a href="#ticket" onclick="closeMobileMenu()">Assistenza</a></li>
             
             <li class="auth-container">
                 <button class="btn-auth-nav" id="btnAuth" onclick="handleAuthButtonClick()">
                     <span id="navAvatarContainer"><i class="fa-solid fa-user"></i></span> 
-                    <span id="btnAuthText">Profilo</span>
+                    <span id="btnAuthText">Accedi</span>
                 </button>
 
+                <!-- NUOVO DROPDOWN PROFILO -->
                 <div class="user-dropdown" id="userDropdown">
-                    <a href="javascript:void(0)" onclick="openProfileOverlay()"><i class="fa-solid fa-warehouse" style="color:var(--accent-green);"></i> Il Mio Garage</a>
-                    <a href="javascript:void(0)" onclick="openUserProfileModal()"><i class="fa-solid fa-id-card" style="color:var(--accent-green);"></i> Il Mio Profilo</a>
-                    <a href="javascript:void(0)" onclick="openSecurityInfoModal()"><i class="fa-solid fa-shield-halved" style="color:var(--accent-green);"></i> Sicurezza</a>
-                    <a href="#ticket" onclick="scrollToTicketSection()"><i class="fa-solid fa-headset" style="color:var(--accent-green);"></i> Assistenza Clienti</a>
-                    <a href="javascript:void(0)" onclick="logoutUser()" style="color: #ff5555;"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
+                    <a href="javascript:void(0)" onclick="openProfileOverlay()" class="dropdown-main-btn"><i class="fa-solid fa-warehouse" style="color:var(--accent-green);"></i> Il Mio Garage</a>
+                    <a href="javascript:void(0)" onclick="openUserProfileModal()" class="dropdown-main-btn"><i class="fa-solid fa-user-astronaut" style="color:var(--accent-green);"></i> Il Mio Profilo</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="javascript:void(0)" onclick="openSecurityInfoModal()" class="dropdown-sub-btn"><i class="fa-solid fa-shield-halved"></i> Sicurezza / Password</a>
+                    <a href="#ticket" onclick="scrollToTicketSection()" class="dropdown-sub-btn"><i class="fa-solid fa-headset"></i> Assistenza Clienti</a>
+                    <a href="javascript:void(0)" onclick="logoutUser()" class="dropdown-sub-btn text-danger"><i class="fa-solid fa-right-from-bracket"></i> Disconnetti</a>
                 </div>
             </li>
         </ul>
@@ -488,12 +524,12 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- 🏎️ VIRTUAL GARAGE OVERLAY (VERTICALE CON FOTO AUTO) 🏎️ -->
+    <!-- 🏎️ VIRTUAL GARAGE OVERLAY (VERTICALE SHOWROOM) 🏎️ -->
     <div class="profile-overlay" id="profileOverlay">
         <div class="garage-shutter-door" id="garageShutterDoor"></div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: relative; z-index: 3200;">
             <h2 style="color: var(--accent-green); font-size: 1.3rem; text-transform: uppercase;"><i class="fa-solid fa-warehouse"></i> Il Mio Virtual Garage</h2>
-            <button onclick="closeProfileOverlay()" style="background: transparent; border: 1px solid #444; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold;">Chiudi</button>
+            <button onclick="closeProfileOverlay()" style="background: transparent; border: 1px solid #444; color: #fff; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s;">Chiudi</button>
         </div>
 
         <div class="garage-title-banner">
@@ -504,8 +540,8 @@
         <div id="garageBayGrid" class="garage-bay-grid"></div>
 
         <div class="add-parking-spot" onclick="openAddCarModal()">
-            <i class="fa-solid fa-circle-plus" style="font-size: 2.5rem; color: var(--accent-green); margin-bottom: 8px;"></i>
-            <span style="font-weight: 800; font-size: 0.9rem; text-transform: uppercase; color: #fff;">Parcheggia Nuova Auto</span>
+            <i class="fa-solid fa-circle-plus" style="font-size: 2.8rem; color: var(--accent-green); margin-bottom: 12px;"></i>
+            <span style="font-weight: 800; font-size: 0.95rem; text-transform: uppercase; color: #fff;">Parcheggia Nuova Auto</span>
         </div>
     </div>
 
@@ -568,15 +604,27 @@
         </div>
     </div>
 
-    <!-- MODALE PROFILO CLIENTE -->
+    <!-- MODALE PROFILO CLIENTE MIGLIORATO (UPLOAD FOTO) -->
     <div class="modal-overlay" id="userProfileModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeUserProfileModal()">&times;</span>
-            <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 15px; font-size: 1.1rem;"><i class="fa-solid fa-id-card"></i> Il Mio Profilo</h3>
+            <h3 style="color: var(--accent-green); text-transform: uppercase; margin-bottom: 15px; font-size: 1.1rem;"><i class="fa-solid fa-user-astronaut"></i> Il Mio Profilo</h3>
+            
+            <div class="form-group">
+                <label>Foto Profilo</label>
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+                    <img id="profileAvatarPreview" src="https://api.dicebear.com/7.x/bottts/svg?seed=driver1" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-green); background:#000;">
+                    <label class="btn btn-instagram" style="cursor: pointer; font-size: 0.75rem; padding: 8px 12px; margin:0;">
+                        <i class="fa-solid fa-camera"></i> Carica Foto
+                        <input type="file" accept="image/*" style="display: none;" onchange="handleProfilePhotoUpload(event)">
+                    </label>
+                </div>
+            </div>
+
             <div class="form-group"><label>Nome</label><input type="text" id="profileName" class="form-control"></div>
             <div class="form-group"><label>Nickname Pubblico</label><input type="text" id="profileNickname" class="form-control"></div>
-            <div class="form-group"><label>Avatar (URL o Scegli Stile)</label><input type="text" id="profileAvatar" class="form-control"></div>
-            <button class="btn btn-whatsapp" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="saveUserProfileData()">Salva Modifiche</button>
+            
+            <button id="btnSaveProfileInfo" class="btn btn-whatsapp" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="saveUserProfileData()">Salva Modifiche</button>
         </div>
     </div>
 
@@ -619,16 +667,20 @@
       let isRegisterMode = false;
       let tempCarPhotoDataUrl = "";
       let tempReviewPhotoDataUrl = "";
+      let tempProfilePhotoDataUrl = ""; // Aggiunta per il caricamento profilo
 
-      /* OTTIMIZZAZIONE CLASSIFICA */
       document.addEventListener("DOMContentLoaded", () => {
           loadPublicReviews();
+          loadPublicLeaderboard(); // Ora viene caricata a prescindere dal login
       });
 
       auth.onAuthStateChanged(async (user) => {
           currentUser = user;
           const btnAuthText = document.getElementById('btnAuthText');
           const navAvatarContainer = document.getElementById('navAvatarContainer');
+          const dropdown = document.getElementById('userDropdown');
+          
+          if (dropdown) dropdown.style.display = 'none';
 
           if (user) {
               const doc = await db.collection('users').doc(user.uid).get();
@@ -645,41 +697,26 @@
               btnAuthText.innerText = "Accedi";
               navAvatarContainer.innerHTML = `<i class="fa-solid fa-user"></i>`;
           }
-          loadPublicLeaderboard();
+          // Aggiorna anche la barra personale nella classifica se l'utente si è loggato
+          loadPublicLeaderboard(); 
       });
 
-      /* NUOVA FUNZIONE: Caricamento Immagini su ImgBB (Gratuito e Senza Carta) */
+      /* Caricamento Immagini su ImgBB */
       async function uploadToImgBB(base64Data) {
           if (!base64Data || !base64Data.startsWith('data:image')) return base64Data;
-          
-          // Rimuove il prefisso 'data:image/jpeg;base64,'
           const base64String = base64Data.split(',')[1];
-          
-          // API KEY DI IMGBB
           const apiKey = "4893ee096ad8433c61cf63dc86393d11"; 
-          
           const formData = new FormData();
           formData.append("image", base64String);
 
-          const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-              method: 'POST',
-              body: formData
-          });
-          
+          const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, { method: 'POST', body: formData });
           const data = await response.json();
-          if (data.success) {
-              return data.data.url; // URL diretto dell'immagine leggera
-          } else {
-              throw new Error("Impossibile caricare l'immagine sui server.");
-          }
+          if (data.success) return data.data.url;
+          else throw new Error("Impossibile caricare l'immagine sui server.");
       }
 
-      function toggleMobileMenu() {
-          document.getElementById('navLinksMenu').classList.toggle('active');
-      }
-      function closeMobileMenu() {
-          document.getElementById('navLinksMenu').classList.remove('active');
-      }
+      function toggleMobileMenu() { document.getElementById('navLinksMenu').classList.toggle('active'); }
+      function closeMobileMenu() { document.getElementById('navLinksMenu').classList.remove('active'); }
 
       function handleAuthButtonClick() {
           if (!currentUser) {
@@ -719,18 +756,12 @@
                   const nickname = document.getElementById('authNickname').value.trim() || name.split(' ')[0];
                   const res = await auth.createUserWithEmailAndPassword(email, pass);
                   await db.collection('users').doc(res.user.uid).set({
-                      name,
-                      nickname,
-                      email,
-                      points: 0,
-                      vehicles: [],
+                      name, nickname, email, points: 0, vehicles: [],
                       avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${res.user.uid}`,
                       createdAt: firebase.firestore.FieldValue.serverTimestamp()
                   });
-                  alert("Registrazione completata con successo!");
               } else {
                   await auth.signInWithEmailAndPassword(email, pass);
-                  alert("Accesso eseguito con successo!");
               }
               closeAuthModal();
               location.reload();
@@ -748,8 +779,7 @@
                       name: res.user.displayName || "Cliente Google",
                       nickname: (res.user.displayName || "Driver").split(' ')[0],
                       email: res.user.email,
-                      points: 0,
-                      vehicles: [],
+                      points: 0, vehicles: [],
                       avatarUrl: res.user.photoURL || `https://api.dicebear.com/7.x/bottts/svg?seed=${res.user.uid}`,
                       createdAt: firebase.firestore.FieldValue.serverTimestamp()
                   });
@@ -759,13 +789,14 @@
           } catch(e) { alert("Errore login Google: " + e.message); }
       }
 
-      function logoutUser() {
-          auth.signOut().then(() => { location.reload(); });
-      }
+      function logoutUser() { auth.signOut().then(() => { location.reload(); }); }
 
       /* 🏎️ GESTIONE VIRTUAL GARAGE VERTICALE & FOTO AUTO 🏎️ */
       async function openProfileOverlay() {
           if (!currentUser) { openAuthModal(); return; }
+          const dropdown = document.getElementById('userDropdown');
+          if (dropdown) dropdown.style.display = 'none';
+
           const overlay = document.getElementById('profileOverlay');
           const shutter = document.getElementById('garageShutterDoor');
           overlay.style.display = 'block';
@@ -803,7 +834,7 @@
               const carPhoto = v.carPhotoUrl || "";
               let carVisualHtml = "";
               if (carPhoto) {
-                  carVisualHtml = `<img src="${carPhoto}" class="car-uploaded-preview" onclick="openImageViewer('${carPhoto}')" title="Clicca per ingrandire o salvare">`;
+                  carVisualHtml = `<img src="${carPhoto}" class="car-uploaded-preview" onclick="openImageViewer('${carPhoto}')" title="Clicca per ingrandire">`;
               } else {
                   carVisualHtml = `
                       <div class="car-placeholder-icon">
@@ -836,11 +867,8 @@
                           </div>
                       `;
 
-                      if (isDone) {
-                          jobsDoneHtml += itemCard;
-                      } else {
-                          jobsProgHtml += itemCard;
-                      }
+                      if (isDone) jobsDoneHtml += itemCard;
+                      else jobsProgHtml += itemCard;
                   });
               }
 
@@ -854,7 +882,7 @@
                       
                       <div class="car-photo-vertical-container">
                           ${carVisualHtml}
-                          <label class="btn" style="background:#1e1e1e; color:var(--accent-green); border:1px solid var(--accent-green); font-size:0.7rem; padding:6px 12px; cursor:pointer; width:100%; justify-content:center;">
+                          <label class="btn" style="background:#1e1e1e; color:var(--accent-green); border:1px solid var(--accent-green); font-size:0.7rem; padding:8px 12px; cursor:pointer; width:100%; justify-content:center; transition: background 0.2s;">
                               <i class="fa-solid fa-camera"></i> Carica / Cambia Foto Auto
                               <input type="file" accept="image/*" style="display:none;" onchange="updateCarPhotoDirect(event, ${idx})">
                           </label>
@@ -909,9 +937,7 @@
           const modelSelect = document.getElementById('carModelSelect');
           modelSelect.innerHTML = '<option value="">-- Seleziona Modello --</option>';
           if (carDatabase[brand]) {
-              carDatabase[brand].forEach(model => {
-                  modelSelect.innerHTML += `<option value="${model}">${model}</option>`;
-              });
+              carDatabase[brand].forEach(model => { modelSelect.innerHTML += `<option value="${model}">${model}</option>`; });
           }
       }
 
@@ -924,7 +950,7 @@
               img.onload = function() {
                   const canvas = document.createElement('canvas');
                   let width = img.width; let height = img.height;
-                  const MAX = 700; // Ottimizzato per velocità su mobile
+                  const MAX = 700;
                   if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
                   else { if (height > MAX) { width *= MAX / height; height = MAX; } }
                   canvas.width = width; canvas.height = height;
@@ -942,40 +968,27 @@
           const brand = document.getElementById('carBrandSelect').value;
           const model = document.getElementById('carModelSelect').value;
           const plate = document.getElementById('carPlateInput').value.trim().toUpperCase();
-
           if (!brand || !model) { alert("Seleziona marca e modello dell'auto!"); return; }
 
           const btnSave = document.getElementById('btnSaveCarInfo');
           const originalBtnText = btnSave.innerHTML;
-          btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Parcheggio in corso...';
+          btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Parcheggio...';
           btnSave.disabled = true;
 
           try {
               let finalPhotoUrl = "";
-              if (tempCarPhotoDataUrl) {
-                  finalPhotoUrl = await uploadToImgBB(tempCarPhotoDataUrl);
-              }
+              if (tempCarPhotoDataUrl) finalPhotoUrl = await uploadToImgBB(tempCarPhotoDataUrl);
 
               let vehicles = currentUserData.vehicles || [];
-              vehicles.push({
-                  brand,
-                  model,
-                  plate: plate || 'NO TARGA',
-                  carPhotoUrl: finalPhotoUrl, 
-                  jobs: []
-              });
+              vehicles.push({ brand, model, plate: plate || 'NO TARGA', carPhotoUrl: finalPhotoUrl, jobs: [] });
 
               await db.collection('users').doc(currentUser.uid).update({ vehicles });
               currentUserData.vehicles = vehicles;
               closeAddCarModal();
               renderVirtualGarage();
-              alert("Auto parcheggiata con successo nel tuo garage!");
-          } catch(e) {
-              alert("Errore durante il salvataggio: " + e.message);
-          } finally {
-              btnSave.innerHTML = originalBtnText;
-              btnSave.disabled = false;
-          }
+              alert("Auto parcheggiata con successo!");
+          } catch(e) { alert("Errore: " + e.message); } 
+          finally { btnSave.innerHTML = originalBtnText; btnSave.disabled = false; }
       }
 
       async function updateCarPhotoDirect(event, vIdx) {
@@ -996,10 +1009,8 @@
                   const compressed = canvas.toDataURL('image/jpeg', 0.60); 
 
                   alert("Caricamento della foto in corso, attendi qualche secondo...");
-
                   try {
                       const finalUrl = await uploadToImgBB(compressed);
-
                       let vehicles = currentUserData.vehicles || [];
                       if (vehicles[vIdx]) {
                           vehicles[vIdx].carPhotoUrl = finalUrl;
@@ -1007,9 +1018,7 @@
                           currentUserData.vehicles = vehicles;
                           renderVirtualGarage();
                       }
-                  } catch (e) {
-                      alert("Errore durante il caricamento della foto: " + e.message);
-                  }
+                  } catch (e) { alert("Errore caricamento: " + e.message); }
               };
               img.src = e.target.result;
           };
@@ -1054,40 +1063,92 @@
       }
 
       function closeClientJobModal() { document.getElementById('clientJobDetailModal').style.display = 'none'; }
-
       function openImageViewer(url) {
           document.getElementById('viewerImageElement').src = url;
           document.getElementById('viewerDownloadBtn').href = url;
           document.getElementById('imageViewerModal').style.display = 'flex';
       }
-      function closeImageViewerModal() {
-          document.getElementById('imageViewerModal').style.display = 'none';
-      }
+      function closeImageViewerModal() { document.getElementById('imageViewerModal').style.display = 'none'; }
 
+      /* GESTIONE PROFILO E FOTO PROFILO MIGLIORATA */
       async function openUserProfileModal() {
           if (!currentUser) return;
+          const dropdown = document.getElementById('userDropdown');
+          if (dropdown) dropdown.style.display = 'none';
+          
+          tempProfilePhotoDataUrl = ""; // Reset
           const doc = await db.collection('users').doc(currentUser.uid).get();
           if (doc.exists) {
               const d = doc.data();
               document.getElementById('profileName').value = d.name || '';
               document.getElementById('profileNickname').value = d.nickname || '';
-              document.getElementById('profileAvatar').value = d.avatarUrl || '';
+              document.getElementById('profileAvatarPreview').src = d.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
           }
           document.getElementById('userProfileModal').style.display = 'flex';
       }
       function closeUserProfileModal() { document.getElementById('userProfileModal').style.display = 'none'; }
 
+      function handleProfilePhotoUpload(event) {
+          const file = event.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              const img = new Image();
+              img.onload = function() {
+                  const canvas = document.createElement('canvas');
+                  let width = img.width; let height = img.height;
+                  const MAX = 400; // Foto profilo più piccola
+                  if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
+                  else { if (height > MAX) { width *= MAX / height; height = MAX; } }
+                  canvas.width = width; canvas.height = height;
+                  const ctx = canvas.getContext('2d');
+                  ctx.drawImage(img, 0, 0, width, height);
+                  tempProfilePhotoDataUrl = canvas.toDataURL('image/jpeg', 0.70);
+                  document.getElementById('profileAvatarPreview').src = tempProfilePhotoDataUrl;
+              };
+              img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+      }
+
       async function saveUserProfileData() {
           const name = document.getElementById('profileName').value.trim();
           const nickname = document.getElementById('profileNickname').value.trim();
-          const avatarUrl = document.getElementById('profileAvatar').value.trim();
-          await db.collection('users').doc(currentUser.uid).update({ name, nickname, avatarUrl });
-          alert("Profilo aggiornato!");
-          closeUserProfileModal();
-          location.reload();
+          
+          const btnSave = document.getElementById('btnSaveProfileInfo');
+          const originalBtnText = btnSave.innerHTML;
+          btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvataggio...';
+          btnSave.disabled = true;
+
+          try {
+              let finalAvatarUrl = document.getElementById('profileAvatarPreview').src;
+              
+              // Se l'utente ha caricato una nuova foto dal suo telefono
+              if (tempProfilePhotoDataUrl) {
+                  finalAvatarUrl = await uploadToImgBB(tempProfilePhotoDataUrl);
+              }
+
+              await db.collection('users').doc(currentUser.uid).update({ 
+                  name, 
+                  nickname, 
+                  avatarUrl: finalAvatarUrl 
+              });
+              alert("Profilo aggiornato!");
+              closeUserProfileModal();
+              location.reload();
+          } catch (e) {
+              alert("Errore durante il salvataggio: " + e.message);
+          } finally {
+              btnSave.innerHTML = originalBtnText;
+              btnSave.disabled = false;
+          }
       }
 
-      function openSecurityInfoModal() { document.getElementById('securityInfoModal').style.display = 'flex'; }
+      function openSecurityInfoModal() { 
+          const dropdown = document.getElementById('userDropdown');
+          if (dropdown) dropdown.style.display = 'none';
+          document.getElementById('securityInfoModal').style.display = 'flex'; 
+      }
       function closeSecurityInfoModal() { document.getElementById('securityInfoModal').style.display = 'none'; }
 
       async function updateUserPasswordSecure() {
@@ -1095,38 +1156,38 @@
           if (!pass || pass.length < 6) { alert("La password deve essere di almeno 6 caratteri."); return; }
           try {
               await currentUser.updatePassword(pass);
-              alert("Password aggiornata con successo!");
+              alert("Password aggiornata!");
               closeSecurityInfoModal();
-          } catch(e) { alert("Errore: " + e.message + "\nNota: per sicurezza Google richiede di aver fatto il login di recente."); }
+          } catch(e) { alert("Errore: " + e.message + "\nNota: Google richiede di aver fatto il login di recente."); }
       }
 
+      /* FIX CLASSIFICA: ORA CARICA PER TUTTI I VISITATORI */
       async function loadPublicLeaderboard() {
           const listContainer = document.getElementById('leaderboardList');
           const myContainer = document.getElementById('myRankContainer');
           if (!listContainer) return;
 
           try {
+              // Carica la classifica pubblica, indipendentemente dal fatto che l'utente sia loggato
               const snapshot = await db.collection('users').orderBy('points', 'desc').limit(15).get();
+              
               if (snapshot.empty) {
                   listContainer.innerHTML = "<span style='color:#777; display:block; text-align:center; padding:15px;'>Nessun utente in classifica.</span>";
-                  myContainer.innerHTML = "";
+                  if(myContainer) myContainer.innerHTML = "";
                   return;
               }
 
               let allUsers = [];
-              snapshot.forEach(doc => {
-                  allUsers.push({ id: doc.id, ...doc.data() });
-              });
+              snapshot.forEach(doc => { allUsers.push({ id: doc.id, ...doc.data() }); });
 
               let html = "";
               let myRank = null;
               let myData = null;
 
               allUsers.forEach((u, idx) => {
-                  const uid = u.id;
                   const currentPos = idx + 1;
 
-                  if (currentUser && currentUser.uid === uid) {
+                  if (currentUser && currentUser.uid === u.id) {
                       myRank = currentPos;
                       myData = u;
                   }
@@ -1158,18 +1219,16 @@
 
               listContainer.innerHTML = html || "<span style='color:#777; display:block; text-align:center; padding:15px;'>Nessun utente in classifica.</span>";
 
+              // Gestione banner personale utente
               if (currentUser) {
                   if (!myRank) {
                       try {
                           const userDoc = await db.collection('users').doc(currentUser.uid).get();
-                          if (userDoc.exists) {
-                              myData = userDoc.data();
-                              myRank = ">15";
-                          }
+                          if (userDoc.exists) { myData = userDoc.data(); myRank = ">15"; }
                       } catch(err) {}
                   }
 
-                  if (myData) {
+                  if (myData && myContainer) {
                       const tier = getClientTier(myData.points || 0);
                       myContainer.innerHTML = `
                           <div class="my-rank-banner">
@@ -1180,10 +1239,8 @@
                               <div class="leaderboard-points">${myData.points || 0} PT</div>
                           </div>
                       `;
-                  } else {
-                      myContainer.innerHTML = "";
                   }
-              } else {
+              } else if (myContainer) {
                   myContainer.innerHTML = `
                       <div style="text-align:center; margin-top:12px; font-size:0.78rem; color:#888;">
                           Accedi per visualizzare la tua posizione in classifica!
@@ -1191,7 +1248,8 @@
                   `;
               }
           } catch(e) {
-              listContainer.innerHTML = "<span style='color:#777; display:block; text-align:center; padding:15px;'>Classifica pronta a breve...</span>";
+              console.error("Errore classifica:", e);
+              listContainer.innerHTML = "<span style='color:#ff5555; display:block; text-align:center; padding:15px;'>Impossibile caricare la classifica.</span>";
           }
       }
 
@@ -1233,30 +1291,18 @@
 
           try {
               let finalPhotoUrl = "";
-              if (tempReviewPhotoDataUrl) {
-                  finalPhotoUrl = await uploadToImgBB(tempReviewPhotoDataUrl);
-              }
+              if (tempReviewPhotoDataUrl) finalPhotoUrl = await uploadToImgBB(tempReviewPhotoDataUrl);
 
               await db.collection('public_reviews').add({
-                  author: authorName,
-                  avatar: authorAvatar,
-                  stars: parseInt(stars),
-                  text,
-                  carPhoto: finalPhotoUrl, 
+                  author: authorName, avatar: authorAvatar, stars: parseInt(stars), text, carPhoto: finalPhotoUrl, 
                   createdAt: firebase.firestore.FieldValue.serverTimestamp()
               });
 
-              alert("Grazie! Recensione pubblicata con successo.");
-              document.getElementById('reviewTextInput').value = "";
-              document.getElementById('reviewPhotoPreview').innerHTML = "";
-              tempReviewPhotoDataUrl = "";
+              alert("Grazie! Recensione pubblicata.");
+              document.getElementById('reviewTextInput').value = ""; document.getElementById('reviewPhotoPreview').innerHTML = ""; tempReviewPhotoDataUrl = "";
               loadPublicReviews();
-          } catch(e) {
-              alert("Errore durante la pubblicazione: " + e.message);
-          } finally {
-              btnSubmit.innerHTML = originalBtnText;
-              btnSubmit.disabled = false;
-          }
+          } catch(e) { alert("Errore: " + e.message); } 
+          finally { btnSubmit.innerHTML = originalBtnText; btnSubmit.disabled = false; }
       }
 
       async function loadPublicReviews() {
@@ -1264,15 +1310,11 @@
           if (!container) return;
           try {
               const snapshot = await db.collection('public_reviews').orderBy('createdAt', 'desc').limit(6).get();
-              if (snapshot.empty) {
-                  container.innerHTML = "<span style='color:#777; text-align:center; grid-column:1/-1;'>Ancora nessuna recensione. Lascia la prima!</span>";
-                  return;
-              }
+              if (snapshot.empty) { container.innerHTML = "<span style='color:#777; text-align:center; grid-column:1/-1;'>Nessuna recensione.</span>"; return; }
               let html = "";
               snapshot.forEach(doc => {
-                  const r = doc.data();
-                  const starsStr = "⭐".repeat(r.stars || 5);
-                  let carImgHtml = r.carPhoto ? `<img src="${r.carPhoto}" class="review-car-img" onclick="openImageViewer('${r.carPhoto}')" title="Clicca per ingrandire">` : '';
+                  const r = doc.data(); const starsStr = "⭐".repeat(r.stars || 5);
+                  let carImgHtml = r.carPhoto ? `<img src="${r.carPhoto}" class="review-car-img" onclick="openImageViewer('${r.carPhoto}')">` : '';
                   html += `
                       <div class="review-card">
                           <div>
@@ -1282,42 +1324,26 @@
                           </div>
                           <div class="review-author">
                               <img src="${r.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1'}">
-                              <div>
-                                  <strong style="font-size:0.85rem; color:#fff;">${r.author}</strong><br>
-                                  <span style="font-size:0.7rem; color:var(--accent-green);">Cliente Verificato</span>
-                              </div>
+                              <div><strong style="font-size:0.85rem; color:#fff;">${r.author}</strong><br><span style="font-size:0.7rem; color:var(--accent-green);">Cliente Verificato</span></div>
                           </div>
-                      </div>
-                  `;
+                      </div>`;
               });
               container.innerHTML = html;
-          } catch(e) { container.innerHTML = "<span style='color:#777;'>Caricamento recensioni...</span>"; }
+          } catch(e) { container.innerHTML = "<span style='color:#777;'>Errore caricamento recensioni.</span>"; }
       }
 
       async function sendSupportTicket() {
           const name = document.getElementById('ticketName').value.trim();
           const contact = document.getElementById('ticketContact').value.trim();
           const message = document.getElementById('ticketMessage').value.trim();
+          if (!name || !contact || !message) { alert("Compila i campi obbligatori."); return; }
 
-          if (!name || !contact || !message) { alert("Compila tutti i campi obbligatori per il ticket."); return; }
-
-          await db.collection('support_tickets').add({
-              name,
-              contact,
-              message,
-              status: 'open',
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-
-          alert("Ticket inviato con successo! Ti risponderemo al più presto.");
-          document.getElementById('ticketName').value = "";
-          document.getElementById('ticketContact').value = "";
-          document.getElementById('ticketMessage').value = "";
+          await db.collection('support_tickets').add({ name, contact, message, status: 'open', createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+          alert("Ticket inviato!");
+          document.getElementById('ticketName').value = ""; document.getElementById('ticketContact').value = ""; document.getElementById('ticketMessage').value = "";
       }
 
-      function scrollToTicketSection() {
-          document.getElementById('ticket').scrollIntoView({ behavior: 'smooth' });
-      }
+      function scrollToTicketSection() { document.getElementById('ticket').scrollIntoView({ behavior: 'smooth' }); }
     </script>
 </body>
 </html>
