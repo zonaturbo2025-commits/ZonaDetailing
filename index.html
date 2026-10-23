@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zona Detailing | Car Detailing a Domicilio Roma</title>
 
+    <!-- Meta Tags SEO per Google -->
+    <meta name="description" content="Zona Detailing offre un servizio esclusivo di Car Detailing a domicilio su tutta Roma e provincia. Rigenerazione, lavaggio interni e protezione ceramica a casa tua.">
+    <meta name="keywords" content="zona detailing, car detailing roma, detailing a domicilio roma, lavaggio auto roma, lucidatura auto, protezione ceramica">
+
     <!-- Favicon e Logo per Browser / Google -->
     <link rel="icon" type="image/png" href="logo-per-sito-web.png">
     <link rel="shortcut icon" href="logo-per-sito-web.png">
@@ -132,7 +136,7 @@
             .auth-container { width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px; }
         }
 
-        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: all 0.3s ease; }
+        .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: gap: 8px; white-space: nowrap; transition: all 0.3s ease; }
         .btn-auth-nav:hover { background: rgba(166, 247, 0, 0.1); }
         .nav-user-avatar-img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--accent-green); background: #000; }
 
@@ -724,6 +728,35 @@
 
                       // Gestione Campanellina Notifiche per Lavori in corso
                       checkGarageNotifications();
+                      
+                      // CONTROLLO NUOVE LAVORAZIONI PER INVIO EMAIL (EmailJS)
+                      let vehiclesUpdated = false;
+                      let currentVehicles = currentUserData.vehicles || [];
+
+                      currentVehicles.forEach((v, vIdx) => {
+                          if (v.jobs) {
+                              v.jobs.forEach((j, jIdx) => {
+                                  if (!j.emailSent && (!j.status || j.status === 'prog')) {
+                                      try {
+                                          emailjs.send("service_zonadetailing", "template_6101326", {
+                                              to_name: currentUserData.nickname || currentUserData.name || "Cliente",
+                                              to_email: currentUserData.email,
+                                              car_model: (v.brand || '') + ' ' + (v.model || ''),
+                                              job_desc: j.desc || 'Intervento',
+                                              job_date: j.jobDate || "Data da definire"
+                                          });
+                                      } catch(e) { console.error("Errore invio email", e); }
+                                      
+                                      j.emailSent = true;
+                                      vehiclesUpdated = true;
+                                  }
+                              });
+                          }
+                      });
+
+                      if (vehiclesUpdated) {
+                          db.collection('users').doc(user.uid).update({ vehicles: currentVehicles });
+                      }
 
                       // Se il garage è aperto, aggiornalo in tempo reale!
                       if (document.getElementById('profileOverlay').style.display === 'block') {
@@ -819,6 +852,15 @@
                       avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${res.user.uid}`,
                       createdAt: firebase.firestore.FieldValue.serverTimestamp()
                   });
+                  
+                  // INVIO EMAIL DI BENVENUTO (EmailJS)
+                  try {
+                      emailjs.send("service_zonadetailing", "template_6mb3lb8", {
+                          to_name: name,
+                          to_email: email
+                      });
+                  } catch(e) { console.error("Errore invio email benvenuto", e); }
+                  
               } else {
                   await auth.signInWithEmailAndPassword(email, pass);
               }
@@ -841,6 +883,13 @@
                       avatarUrl: res.user.photoURL || `https://api.dicebear.com/7.x/bottts/svg?seed=${res.user.uid}`,
                       createdAt: firebase.firestore.FieldValue.serverTimestamp()
                   });
+                  // EmailJS Google Welcome Optional:
+                  try {
+                      emailjs.send("service_zonadetailing", "template_6mb3lb8", {
+                          to_name: res.user.displayName || "Cliente",
+                          to_email: res.user.email
+                      });
+                  } catch(e) {}
               }
               closeAuthModal();
           } catch(e) { alert("Errore login Google: " + e.message); }
@@ -906,7 +955,6 @@
                       const hasAfterPhoto = (j.afterPhotos && j.afterPhotos.length > 0) || j.afterPhotoUrl;
                       const isWorking = status === 'working';
                       
-                      // Un lavoro è completo SOLO se è esplicitamente done/closed O se sono state caricate le foto del "Dopo"
                       const isDone = status === 'done' || status === 'closed' || hasAfterPhoto;
 
                       let badge = isWorking ? '<span style="color:#3399ff; font-weight:bold;">[IN LAVORAZIONE]</span>' : (isDone ? '<span style="color:var(--accent-green); font-weight:bold;">[COMPLETO]</span>' : '<span style="color:#ffb700; font-weight:bold;">[PROGRAMMATO]</span>');
@@ -922,7 +970,6 @@
                           </div>
                       `;
 
-                      // Lavori in corso (working) rimangono in Prog finché non sono chiusi!
                       if (isDone) jobsDoneHtml += itemCard;
                       else jobsProgHtml += itemCard;
                   });
@@ -1000,7 +1047,6 @@
           }
       }
 
-      // Algoritmo di Crop (Ritaglio) Intelligente in 16:9
       function compressAndSetCarPhoto(event) {
           const file = event.target.files[0];
           if (!file) return;
@@ -1011,27 +1057,22 @@
                   const canvas = document.createElement('canvas');
                   const ctx = canvas.getContext('2d');
                   
-                  // Fissiamo il canvas a proporzione 16:9 per evitare stretch e garantire il crop centrato
                   const targetRatio = 16 / 9;
                   const imgRatio = img.width / img.height;
                   
                   let cropX = 0, cropY = 0, cropW = img.width, cropH = img.height;
 
                   if (imgRatio > targetRatio) {
-                      // Immagine più larga del 16:9 -> taglia ai lati
                       cropW = img.height * targetRatio;
                       cropX = (img.width - cropW) / 2;
                   } else {
-                      // Immagine più alta del 16:9 -> taglia sopra e sotto
                       cropH = img.width / targetRatio;
                       cropY = (img.height - cropH) / 2;
                   }
 
-                  // Grandezza finale max 800px larghezza per qualità ottimale
                   canvas.width = 800; 
                   canvas.height = 800 / targetRatio; 
                   
-                  // Disegna solo la porzione ritagliata (Crop)
                   ctx.drawImage(img, cropX, cropY, cropW, cropH, 0, 0, canvas.width, canvas.height);
                   
                   tempCarPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.70); 
@@ -1062,13 +1103,11 @@
 
               await db.collection('users').doc(currentUser.uid).update({ vehicles });
               closeAddCarModal();
-              // L'interfaccia si aggiornerà da sola grazie all'onSnapshot!
               alert("Auto parcheggiata con successo!");
           } catch(e) { alert("Errore: " + e.message); } 
           finally { btnSave.innerHTML = originalBtnText; btnSave.disabled = false; }
       }
 
-      // Stesso Crop 16:9 per la sostituzione diretta della foto
       async function updateCarPhotoDirect(event, vIdx) {
           const file = event.target.files[0];
           if (!file) return;
