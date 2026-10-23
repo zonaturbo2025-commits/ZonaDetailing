@@ -129,12 +129,21 @@
                 padding: 15px 0; display: none; gap: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.9);
             }
             .nav-links.active { display: flex; }
-            .auth-container { width: 100%; display: flex; justify-content: center; }
+            .auth-container { width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px; }
         }
 
         .btn-auth-nav { background: transparent; border: 2px solid var(--accent-green); color: var(--accent-green); padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: all 0.3s ease; }
         .btn-auth-nav:hover { background: rgba(166, 247, 0, 0.1); }
         .nav-user-avatar-img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--accent-green); background: #000; }
+
+        /* CAMPANELLA NOTIFICHE */
+        .notification-bell { display: none; color: var(--accent-green); font-size: 1.3rem; margin-right: 15px; cursor: pointer; transition: transform 0.2s; }
+        .notification-bell.ringing { display: block; animation: ringBell 1.2s infinite ease-in-out; }
+        @keyframes ringBell {
+            0%, 100% { transform: rotate(0deg); }
+            20%, 60% { transform: rotate(20deg); }
+            40%, 80% { transform: rotate(-20deg); }
+        }
 
         /* NUOVO DROPDOWN PROFILO (MIGLIORATO E PULITO) */
         .user-dropdown { 
@@ -268,21 +277,34 @@
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
         .parking-spot:hover { border-color: var(--accent-green); }
-        /* Effetto luce a terra / riflesso */
         .parking-spot::after {
             content: ''; position: absolute; bottom: -25px; left: 10%; width: 80%; height: 15px;
             background: var(--accent-green); filter: blur(25px); opacity: 0.2; pointer-events: none;
         }
 
-        .spot-number-badge { position: absolute; top: -12px; left: 20px; background: #000; border: 1px solid var(--accent-green); color: var(--accent-green); font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.8); }
-        .btn-delete-car { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: #ff5555; font-size: 1.2rem; cursor: pointer; transition: transform 0.2s; }
+        .spot-number-badge { position: absolute; top: -12px; left: 20px; background: #000; border: 1px solid var(--accent-green); color: var(--accent-green); font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.8); z-index: 5; }
+        .btn-delete-car { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: #ff5555; font-size: 1.2rem; cursor: pointer; transition: transform 0.2s; z-index: 5; }
         .btn-delete-car:active { transform: scale(0.9); }
 
-        .car-photo-vertical-container { width: 100%; margin: 15px 0 15px 0; display: flex; flex-direction: column; align-items: center; }
+        .car-photo-vertical-container { width: 100%; margin: 15px 0; display: flex; flex-direction: column; align-items: center; position: relative; }
         .car-uploaded-preview { width: 100%; max-height: 280px; object-fit: cover; border-radius: 12px; border: 2px solid var(--accent-green); background: #000; margin-bottom: 12px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.6); }
         .car-placeholder-icon { width: 100%; height: 180px; background: #0a0c0a; border: 2px dashed #333; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #666; margin-bottom: 12px; transition: border-color 0.2s; }
         .car-placeholder-icon:hover { border-color: var(--accent-green); color: var(--accent-green); }
         .car-placeholder-icon i { font-size: 3rem; color: var(--accent-green); margin-bottom: 8px; }
+
+        /* TESTO MODELLO SOVRAPPOSTO ALLA FOTO */
+        .car-model-overlay {
+            position: absolute;
+            bottom: 45px; /* Lascia spazio al bottone di caricamento sotto */
+            left: 15px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 15px rgba(166,247,0,1);
+            pointer-events: none;
+            z-index: 10;
+        }
 
         .car-neon-plate { background: #000; border: 1px solid #333; border-bottom: 3px solid var(--accent-green); border-radius: 8px; padding: 12px; width: 100%; text-align: center; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
 
@@ -311,7 +333,6 @@
         .add-parking-spot { border: 2px dashed #333; border-radius: 16px; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(15,15,15,0.5); max-width: 600px; margin: 0 auto; transition: all 0.3s; }
         .add-parking-spot:hover { border-color: var(--accent-green); background: rgba(166,247,0,0.05); transform: translateY(-3px); }
 
-        /* SCHEDA DEDICATA GALLERIA FOTO MULTIPLE (SCORREVOLE E PULITA) */
         .client-gallery-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-top: 6px; }
         .client-gallery-scroll::-webkit-scrollbar { height: 5px; }
         .client-gallery-scroll::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 3px; }
@@ -345,6 +366,9 @@
             <li><a href="#recensioni" onclick="closeMobileMenu()">Recensioni</a></li>
             
             <li class="auth-container">
+                <!-- Campanellina Notifiche Real-Time -->
+                <i class="fa-solid fa-bell notification-bell" id="notifBell" onclick="openProfileOverlay()" title="Hai aggiornamenti nel Garage!"></i>
+
                 <button class="btn-auth-nav" id="btnAuth" onclick="handleAuthButtonClick()">
                     <span id="navAvatarContainer"><i class="fa-solid fa-user"></i></span> 
                     <span id="btnAuthText">Accedi</span>
@@ -567,7 +591,7 @@
                 <input type="text" id="carPlateInput" class="form-control" placeholder="Es. AB123CD">
             </div>
             <div class="form-group">
-                <label>Foto della Tua Auto (Opzionale)</label>
+                <label>Foto della Tua Auto (Verrà ritagliata in automatico in 16:9)</label>
                 <input type="file" accept="image/*" class="form-control" onchange="compressAndSetCarPhoto(event)">
                 <input type="hidden" id="carPhotoUrlInput">
                 <div id="carPhotoModalPreview" style="margin-top:6px;"></div>
@@ -604,7 +628,7 @@
         </div>
     </div>
 
-    <!-- MODALE PROFILO CLIENTE MIGLIORATO (UPLOAD FOTO) -->
+    <!-- MODALE PROFILO CLIENTE -->
     <div class="modal-overlay" id="userProfileModal">
         <div class="modal-box">
             <span class="modal-close" onclick="closeUserProfileModal()">&times;</span>
@@ -667,14 +691,15 @@
       let isRegisterMode = false;
       let tempCarPhotoDataUrl = "";
       let tempReviewPhotoDataUrl = "";
-      let tempProfilePhotoDataUrl = ""; // Aggiunta per il caricamento profilo
+      let tempProfilePhotoDataUrl = "";
+      let unsubscribeUserListener = null;
 
       document.addEventListener("DOMContentLoaded", () => {
           loadPublicReviews();
-          loadPublicLeaderboard(); // Ora viene caricata a prescindere dal login
+          loadPublicLeaderboard();
       });
 
-      auth.onAuthStateChanged(async (user) => {
+      auth.onAuthStateChanged((user) => {
           currentUser = user;
           const btnAuthText = document.getElementById('btnAuthText');
           const navAvatarContainer = document.getElementById('navAvatarContainer');
@@ -683,23 +708,58 @@
           if (dropdown) dropdown.style.display = 'none';
 
           if (user) {
-              const doc = await db.collection('users').doc(user.uid).get();
-              if (doc.exists) {
-                  currentUserData = doc.data();
-                  btnAuthText.innerText = currentUserData.nickname || currentUserData.name || "Profilo";
-                  const avatar = currentUserData.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
-                  navAvatarContainer.innerHTML = `<img src="${avatar}" class="nav-user-avatar-img">`;
-              } else {
-                  btnAuthText.innerText = "Profilo";
-              }
+              // LISTENER IN TEMPO REALE SULL'UTENTE LOGGATO
+              if (unsubscribeUserListener) unsubscribeUserListener();
+              
+              unsubscribeUserListener = db.collection('users').doc(user.uid).onSnapshot((doc) => {
+                  if (doc.exists) {
+                      currentUserData = doc.data();
+                      btnAuthText.innerText = currentUserData.nickname || currentUserData.name || "Profilo";
+                      const avatar = currentUserData.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
+                      navAvatarContainer.innerHTML = `<img src="${avatar}" class="nav-user-avatar-img">`;
+                      
+                      // Auto-compilazione Form Assistenza
+                      document.getElementById('ticketName').value = currentUserData.name || '';
+                      document.getElementById('ticketContact').value = currentUserData.email || '';
+
+                      // Gestione Campanellina Notifiche per Lavori in corso
+                      checkGarageNotifications();
+
+                      // Se il garage è aperto, aggiornalo in tempo reale!
+                      if (document.getElementById('profileOverlay').style.display === 'block') {
+                          renderVirtualGarage();
+                      }
+                  }
+              });
           } else {
+              if (unsubscribeUserListener) { unsubscribeUserListener(); unsubscribeUserListener = null; }
               currentUserData = null;
               btnAuthText.innerText = "Accedi";
               navAvatarContainer.innerHTML = `<i class="fa-solid fa-user"></i>`;
+              document.getElementById('notifBell').classList.remove('ringing');
+              // Svuota ticket se sloggato
+              document.getElementById('ticketName').value = '';
+              document.getElementById('ticketContact').value = '';
           }
-          // Aggiorna anche la barra personale nella classifica se l'utente si è loggato
           loadPublicLeaderboard(); 
       });
+
+      function checkGarageNotifications() {
+          let hasWorkingJob = false;
+          if (currentUserData && currentUserData.vehicles) {
+              currentUserData.vehicles.forEach(v => {
+                  if (v.jobs) {
+                      v.jobs.forEach(j => {
+                          const status = j.status ? j.status.toLowerCase().trim() : 'prog';
+                          if (status === 'working') hasWorkingJob = true;
+                      });
+                  }
+              });
+          }
+          const bell = document.getElementById('notifBell');
+          if (hasWorkingJob) bell.classList.add('ringing');
+          else bell.classList.remove('ringing');
+      }
 
       /* Caricamento Immagini su ImgBB */
       async function uploadToImgBB(base64Data) {
@@ -719,9 +779,8 @@
       function closeMobileMenu() { document.getElementById('navLinksMenu').classList.remove('active'); }
 
       function handleAuthButtonClick() {
-          if (!currentUser) {
-              openAuthModal();
-          } else {
+          if (!currentUser) { openAuthModal(); } 
+          else {
               const dropdown = document.getElementById('userDropdown');
               dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
           }
@@ -764,7 +823,6 @@
                   await auth.signInWithEmailAndPassword(email, pass);
               }
               closeAuthModal();
-              location.reload();
           } catch(e) { alert("Errore: " + e.message); }
       }
 
@@ -785,14 +843,13 @@
                   });
               }
               closeAuthModal();
-              location.reload();
           } catch(e) { alert("Errore login Google: " + e.message); }
       }
 
       function logoutUser() { auth.signOut().then(() => { location.reload(); }); }
 
       /* 🏎️ GESTIONE VIRTUAL GARAGE VERTICALE & FOTO AUTO 🏎️ */
-      async function openProfileOverlay() {
+      function openProfileOverlay() {
           if (!currentUser) { openAuthModal(); return; }
           const dropdown = document.getElementById('userDropdown');
           if (dropdown) dropdown.style.display = 'none';
@@ -802,11 +859,7 @@
           overlay.style.display = 'block';
           setTimeout(() => { shutter.classList.add('open'); }, 50);
 
-          const doc = await db.collection('users').doc(currentUser.uid).get();
-          if (doc.exists) {
-              currentUserData = doc.data();
-              renderVirtualGarage();
-          }
+          if (currentUserData) renderVirtualGarage();
       }
 
       function closeProfileOverlay() {
@@ -852,6 +905,8 @@
                       const status = j.status ? j.status.toLowerCase().trim() : 'prog';
                       const hasAfterPhoto = (j.afterPhotos && j.afterPhotos.length > 0) || j.afterPhotoUrl;
                       const isWorking = status === 'working';
+                      
+                      // Un lavoro è completo SOLO se è esplicitamente done/closed O se sono state caricate le foto del "Dopo"
                       const isDone = status === 'done' || status === 'closed' || hasAfterPhoto;
 
                       let badge = isWorking ? '<span style="color:#3399ff; font-weight:bold;">[IN LAVORAZIONE]</span>' : (isDone ? '<span style="color:var(--accent-green); font-weight:bold;">[COMPLETO]</span>' : '<span style="color:#ffb700; font-weight:bold;">[PROGRAMMATO]</span>');
@@ -867,6 +922,7 @@
                           </div>
                       `;
 
+                      // Lavori in corso (working) rimangono in Prog finché non sono chiusi!
                       if (isDone) jobsDoneHtml += itemCard;
                       else jobsProgHtml += itemCard;
                   });
@@ -882,6 +938,10 @@
                       
                       <div class="car-photo-vertical-container">
                           ${carVisualHtml}
+                          
+                          <!-- Testo Modello Auto sovrapposto all'immagine (Se la foto c'è) -->
+                          ${carPhoto ? `<div class="car-model-overlay">${v.brand} ${v.model}</div>` : ''}
+
                           <label class="btn" style="background:#1e1e1e; color:var(--accent-green); border:1px solid var(--accent-green); font-size:0.7rem; padding:8px 12px; cursor:pointer; width:100%; justify-content:center; transition: background 0.2s;">
                               <i class="fa-solid fa-camera"></i> Carica / Cambia Foto Auto
                               <input type="file" accept="image/*" style="display:none;" onchange="updateCarPhotoDirect(event, ${idx})">
@@ -889,8 +949,7 @@
                       </div>
 
                       <div class="car-neon-plate">
-                          <h4 style="color:#fff; font-size:0.95rem; text-transform:uppercase;">${v.brand} ${v.model}</h4>
-                          <span style="color:var(--accent-green); font-size:0.8rem; font-weight:800; letter-spacing:1px;"><i class="fa-solid fa-id-card"></i> ${v.plate || 'NO TARGA'}</span>
+                          <span style="color:var(--accent-green); font-size:0.9rem; font-weight:800; letter-spacing:1px;"><i class="fa-solid fa-id-card"></i> TARGA: ${v.plate || 'N/D'}</span>
                       </div>
 
                       <div class="car-jobs-tabs-wrapper">
@@ -941,6 +1000,7 @@
           }
       }
 
+      // Algoritmo di Crop (Ritaglio) Intelligente in 16:9
       function compressAndSetCarPhoto(event) {
           const file = event.target.files[0];
           if (!file) return;
@@ -949,15 +1009,33 @@
               const img = new Image();
               img.onload = function() {
                   const canvas = document.createElement('canvas');
-                  let width = img.width; let height = img.height;
-                  const MAX = 700;
-                  if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
-                  else { if (height > MAX) { width *= MAX / height; height = MAX; } }
-                  canvas.width = width; canvas.height = height;
                   const ctx = canvas.getContext('2d');
-                  ctx.drawImage(img, 0, 0, width, height);
-                  tempCarPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.60); 
-                  document.getElementById('carPhotoModalPreview').innerHTML = `<img src="${tempCarPhotoDataUrl}" class="photo-preview-img">`;
+                  
+                  // Fissiamo il canvas a proporzione 16:9 per evitare stretch e garantire il crop centrato
+                  const targetRatio = 16 / 9;
+                  const imgRatio = img.width / img.height;
+                  
+                  let cropX = 0, cropY = 0, cropW = img.width, cropH = img.height;
+
+                  if (imgRatio > targetRatio) {
+                      // Immagine più larga del 16:9 -> taglia ai lati
+                      cropW = img.height * targetRatio;
+                      cropX = (img.width - cropW) / 2;
+                  } else {
+                      // Immagine più alta del 16:9 -> taglia sopra e sotto
+                      cropH = img.width / targetRatio;
+                      cropY = (img.height - cropH) / 2;
+                  }
+
+                  // Grandezza finale max 800px larghezza per qualità ottimale
+                  canvas.width = 800; 
+                  canvas.height = 800 / targetRatio; 
+                  
+                  // Disegna solo la porzione ritagliata (Crop)
+                  ctx.drawImage(img, cropX, cropY, cropW, cropH, 0, 0, canvas.width, canvas.height);
+                  
+                  tempCarPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.70); 
+                  document.getElementById('carPhotoModalPreview').innerHTML = `<img src="${tempCarPhotoDataUrl}" class="photo-preview-img" style="width: 100%; height: auto;">`;
               };
               img.src = e.target.result;
           };
@@ -980,17 +1058,17 @@
               if (tempCarPhotoDataUrl) finalPhotoUrl = await uploadToImgBB(tempCarPhotoDataUrl);
 
               let vehicles = currentUserData.vehicles || [];
-              vehicles.push({ brand, model, plate: plate || 'NO TARGA', carPhotoUrl: finalPhotoUrl, jobs: [] });
+              vehicles.push({ brand, model, plate: plate || 'N/D', carPhotoUrl: finalPhotoUrl, jobs: [] });
 
               await db.collection('users').doc(currentUser.uid).update({ vehicles });
-              currentUserData.vehicles = vehicles;
               closeAddCarModal();
-              renderVirtualGarage();
+              // L'interfaccia si aggiornerà da sola grazie all'onSnapshot!
               alert("Auto parcheggiata con successo!");
           } catch(e) { alert("Errore: " + e.message); } 
           finally { btnSave.innerHTML = originalBtnText; btnSave.disabled = false; }
       }
 
+      // Stesso Crop 16:9 per la sostituzione diretta della foto
       async function updateCarPhotoDirect(event, vIdx) {
           const file = event.target.files[0];
           if (!file) return;
@@ -999,24 +1077,25 @@
               const img = new Image();
               img.onload = async function() {
                   const canvas = document.createElement('canvas');
-                  let width = img.width; let height = img.height;
-                  const MAX = 700;
-                  if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
-                  else { if (height > MAX) { width *= MAX / height; height = MAX; } }
-                  canvas.width = width; canvas.height = height;
                   const ctx = canvas.getContext('2d');
-                  ctx.drawImage(img, 0, 0, width, height);
-                  const compressed = canvas.toDataURL('image/jpeg', 0.60); 
+                  const targetRatio = 16 / 9;
+                  const imgRatio = img.width / img.height;
+                  let cropX = 0, cropY = 0, cropW = img.width, cropH = img.height;
 
-                  alert("Caricamento della foto in corso, attendi qualche secondo...");
+                  if (imgRatio > targetRatio) { cropW = img.height * targetRatio; cropX = (img.width - cropW) / 2; } 
+                  else { cropH = img.width / targetRatio; cropY = (img.height - cropH) / 2; }
+
+                  canvas.width = 800; canvas.height = 800 / targetRatio; 
+                  ctx.drawImage(img, cropX, cropY, cropW, cropH, 0, 0, canvas.width, canvas.height);
+                  const compressed = canvas.toDataURL('image/jpeg', 0.70); 
+
+                  alert("Ritagliando e caricando la foto, attendi qualche secondo...");
                   try {
                       const finalUrl = await uploadToImgBB(compressed);
                       let vehicles = currentUserData.vehicles || [];
                       if (vehicles[vIdx]) {
                           vehicles[vIdx].carPhotoUrl = finalUrl;
                           await db.collection('users').doc(currentUser.uid).update({ vehicles });
-                          currentUserData.vehicles = vehicles;
-                          renderVirtualGarage();
                       }
                   } catch (e) { alert("Errore caricamento: " + e.message); }
               };
@@ -1030,8 +1109,6 @@
               let vehicles = currentUserData.vehicles || [];
               vehicles.splice(vIdx, 1);
               await db.collection('users').doc(currentUser.uid).update({ vehicles });
-              currentUserData.vehicles = vehicles;
-              renderVirtualGarage();
           }
       }
 
@@ -1049,7 +1126,7 @@
           let afterHtml = afterPhotos.length > 0 ? afterPhotos.map(url => `<div class="client-photo-thumb" onclick="openImageViewer('${url}')"><img src="${url}"></div>`).join('') : '<span style="color:#777;">Nessuna foto dopo</span>';
 
           content.innerHTML = `
-              <p><strong>Veicolo:</strong> ${vehicle.brand} ${vehicle.model} (${vehicle.plate || 'No Targa'})</p>
+              <p><strong>Veicolo:</strong> ${vehicle.brand} ${vehicle.model} (${vehicle.plate || 'N/D'})</p>
               <p><strong>Intervento:</strong> ${job.desc}</p>
               <p><strong>Data:</strong> ${job.jobDate || 'n/d'} - ${job.jobTime || ''}</p>
               <p><strong>Indirizzo:</strong> ${job.address || 'n/d'}</p>
@@ -1071,18 +1148,16 @@
       function closeImageViewerModal() { document.getElementById('imageViewerModal').style.display = 'none'; }
 
       /* GESTIONE PROFILO E FOTO PROFILO MIGLIORATA */
-      async function openUserProfileModal() {
+      function openUserProfileModal() {
           if (!currentUser) return;
           const dropdown = document.getElementById('userDropdown');
           if (dropdown) dropdown.style.display = 'none';
           
           tempProfilePhotoDataUrl = ""; // Reset
-          const doc = await db.collection('users').doc(currentUser.uid).get();
-          if (doc.exists) {
-              const d = doc.data();
-              document.getElementById('profileName').value = d.name || '';
-              document.getElementById('profileNickname').value = d.nickname || '';
-              document.getElementById('profileAvatarPreview').src = d.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
+          if (currentUserData) {
+              document.getElementById('profileName').value = currentUserData.name || '';
+              document.getElementById('profileNickname').value = currentUserData.nickname || '';
+              document.getElementById('profileAvatarPreview').src = currentUserData.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
           }
           document.getElementById('userProfileModal').style.display = 'flex';
       }
@@ -1097,7 +1172,7 @@
               img.onload = function() {
                   const canvas = document.createElement('canvas');
                   let width = img.width; let height = img.height;
-                  const MAX = 400; // Foto profilo più piccola
+                  const MAX = 400; 
                   if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
                   else { if (height > MAX) { width *= MAX / height; height = MAX; } }
                   canvas.width = width; canvas.height = height;
@@ -1122,26 +1197,13 @@
 
           try {
               let finalAvatarUrl = document.getElementById('profileAvatarPreview').src;
-              
-              // Se l'utente ha caricato una nuova foto dal suo telefono
-              if (tempProfilePhotoDataUrl) {
-                  finalAvatarUrl = await uploadToImgBB(tempProfilePhotoDataUrl);
-              }
+              if (tempProfilePhotoDataUrl) finalAvatarUrl = await uploadToImgBB(tempProfilePhotoDataUrl);
 
-              await db.collection('users').doc(currentUser.uid).update({ 
-                  name, 
-                  nickname, 
-                  avatarUrl: finalAvatarUrl 
-              });
+              await db.collection('users').doc(currentUser.uid).update({ name, nickname, avatarUrl: finalAvatarUrl });
               alert("Profilo aggiornato!");
               closeUserProfileModal();
-              location.reload();
-          } catch (e) {
-              alert("Errore durante il salvataggio: " + e.message);
-          } finally {
-              btnSave.innerHTML = originalBtnText;
-              btnSave.disabled = false;
-          }
+          } catch (e) { alert("Errore: " + e.message); } 
+          finally { btnSave.innerHTML = originalBtnText; btnSave.disabled = false; }
       }
 
       function openSecurityInfoModal() { 
@@ -1161,49 +1223,34 @@
           } catch(e) { alert("Errore: " + e.message + "\nNota: Google richiede di aver fatto il login di recente."); }
       }
 
-      /* FIX CLASSIFICA: ORA CARICA PER TUTTI I VISITATORI */
+      /* CLASSIFICA PUBBLICA */
       async function loadPublicLeaderboard() {
           const listContainer = document.getElementById('leaderboardList');
           const myContainer = document.getElementById('myRankContainer');
           if (!listContainer) return;
 
           try {
-              // Carica la classifica pubblica, indipendentemente dal fatto che l'utente sia loggato
               const snapshot = await db.collection('users').orderBy('points', 'desc').limit(15).get();
-              
-              if (snapshot.empty) {
-                  listContainer.innerHTML = "<span style='color:#777; display:block; text-align:center; padding:15px;'>Nessun utente in classifica.</span>";
-                  if(myContainer) myContainer.innerHTML = "";
-                  return;
-              }
-
-              let allUsers = [];
-              snapshot.forEach(doc => { allUsers.push({ id: doc.id, ...doc.data() }); });
+              if (snapshot.empty) { listContainer.innerHTML = "<span style='color:#777; display:block; text-align:center; padding:15px;'>Nessun utente in classifica.</span>"; return; }
 
               let html = "";
               let myRank = null;
               let myData = null;
 
-              allUsers.forEach((u, idx) => {
-                  const currentPos = idx + 1;
+              let idx = 0;
+              snapshot.forEach(doc => {
+                  idx++;
+                  const u = { id: doc.id, ...doc.data() };
+                  if (currentUser && currentUser.uid === u.id) { myRank = idx; myData = u; }
 
-                  if (currentUser && currentUser.uid === u.id) {
-                      myRank = currentPos;
-                      myData = u;
-                  }
-
-                  if (currentPos <= 3) {
+                  if (idx <= 3) {
                       const avatar = u.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=driver1';
                       const tier = getClientTier(u.points || 0);
-
-                      let medalColor = "#888";
-                      if (currentPos === 1) medalColor = "#ffd700";
-                      if (currentPos === 2) medalColor = "#c0c0c0";
-                      if (currentPos === 3) medalColor = "#cd7f32";
+                      let medalColor = idx === 1 ? "#ffd700" : (idx === 2 ? "#c0c0c0" : "#cd7f32");
 
                       html += `
                           <div class="leaderboard-item">
-                              <div class="leaderboard-rank" style="color:${medalColor};">#${currentPos}</div>
+                              <div class="leaderboard-rank" style="color:${medalColor};">#${idx}</div>
                               <div class="leaderboard-user-info">
                                   <img src="${avatar}" class="leaderboard-avatar">
                                   <div>
@@ -1217,9 +1264,9 @@
                   }
               });
 
-              listContainer.innerHTML = html || "<span style='color:#777; display:block; text-align:center; padding:15px;'>Nessun utente in classifica.</span>";
+              listContainer.innerHTML = html;
 
-              // Gestione banner personale utente
+              // Banner Personale Utente
               if (currentUser) {
                   if (!myRank) {
                       try {
@@ -1241,16 +1288,9 @@
                       `;
                   }
               } else if (myContainer) {
-                  myContainer.innerHTML = `
-                      <div style="text-align:center; margin-top:12px; font-size:0.78rem; color:#888;">
-                          Accedi per visualizzare la tua posizione in classifica!
-                      </div>
-                  `;
+                  myContainer.innerHTML = `<div style="text-align:center; margin-top:12px; font-size:0.78rem; color:#888;">Accedi per visualizzare la tua posizione in classifica!</div>`;
               }
-          } catch(e) {
-              console.error("Errore classifica:", e);
-              listContainer.innerHTML = "<span style='color:#ff5555; display:block; text-align:center; padding:15px;'>Impossibile caricare la classifica.</span>";
-          }
+          } catch(e) { console.error("Errore classifica:", e); }
       }
 
       function handleReviewPhotoUpload(event) {
@@ -1340,7 +1380,9 @@
 
           await db.collection('support_tickets').add({ name, contact, message, status: 'open', createdAt: firebase.firestore.FieldValue.serverTimestamp() });
           alert("Ticket inviato!");
-          document.getElementById('ticketName').value = ""; document.getElementById('ticketContact').value = ""; document.getElementById('ticketMessage').value = "";
+          document.getElementById('ticketMessage').value = "";
+          // Mantiene nome e contatto se l'utente è loggato, altrimenti resetta
+          if (!currentUser) { document.getElementById('ticketName').value = ""; document.getElementById('ticketContact').value = ""; }
       }
 
       function scrollToTicketSection() { document.getElementById('ticket').scrollIntoView({ behavior: 'smooth' }); }
